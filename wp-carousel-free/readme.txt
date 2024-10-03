@@ -2,8 +2,8 @@
 Contributors: shapedplugin, khalilu, shamimmiashuhagh, rubel_miah
 Tags: slider, carousel, slideshow, gallery, video slider
 Requires at least: 5.0
-Tested up to: 6.6.1
-Stable tag: 2.6.8
+Tested up to: 6.6.2
+Stable tag: 2.6.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -325,6 +325,12 @@ Thank you!
 
 
 == Changelog ==
+
+= 2.6.9 – Oct 03, 2024 =
+* Improved: The plugin security has been improved.
+* Fix: The PHP 7.2 compatibility issue.
+* Tested: WordPress 6.6.2 compatibility.
+* Tested: WooCommerce 9.3.3 compatibility.
 
 = 2.6.8 – Aug 23, 2024 =
 * Fix: Some strings translation issue.

@@ -16,6 +16,9 @@ jQuery(document).ready(function ($) {
 			animationDuration: 366,
 			transitionDuration: 366,
 			hash: false,
+			caption: function (instance, item) {
+				return '';
+			},
 			beforeShow: function (instance, slide) {
 				$(".wpcf-fancybox-wrapper ~ .elementor-lightbox").css('display', 'none');
 			},

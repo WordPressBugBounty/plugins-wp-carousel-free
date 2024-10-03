@@ -277,7 +277,7 @@ SP_WPCF::createSection(
 					'<a href="https://wpcarousel.io/layout-types/" target="_blank"><b>',
 					'</b></a></a>',
 					'<b><a href="https://wpcarousel.io/pricing/?ref=1" target="_blank">',
-					'</b></a></br>',
+					'</b></a></br>'
 				),
 				'options'  => array(
 					'carousel'          => array(
@@ -325,7 +325,7 @@ SP_WPCF::createSection(
 					'</b>',
 					'</div><a class="sp_wpcp-open-docs" href="https://docs.shapedplugin.com/docs/wordpress-carousel-pro/configurations/how-to-configure-carousel-mode/" target="_blank">',
 					'</a><a class="sp_wpcp-open-live-demo" href="https://wpcarousel.io/carousel-modes/" target="_blank">',
-					'</a>',
+					'</a>'
 				),
 				'subtitle'   => __( 'Set a mode for the carousel.', 'wp-carousel-free' ),
 				'options'    => array(
@@ -402,7 +402,7 @@ SP_WPCF::createSection(
 					'<i class="fa fa-desktop"></i><b>',
 					'<i class="fa fa-laptop"></i><b>',
 					'<i class="fa fa-tablet"></i><b>',
-					'<i class="fa fa-mobile"></i><b>',
+					'<i class="fa fa-mobile"></i><b>'
 				),
 				'min'        => '0',
 			),
@@ -487,7 +487,7 @@ SP_WPCF::createSection(
 					'</div><div class="sp_wpcp-short-content">',
 					'</div><a class="sp_wpcp-open-docs" href="https://docs.shapedplugin.com/docs/wordpress-carousel-pro/configurations/how-to-configure-the-scheduling-feature/" target="_blank">',
 					'</a><a class="sp_wpcp-open-live-demo" href="https://wpcarousel.io/scheduled-carousel/" target="_blank">',
-					'</a>',
+					'</a>'
 				),
 				'default'    => false,
 				'text_on'    => __( 'Enabled', 'wp-carousel-free' ),
@@ -678,7 +678,7 @@ SP_WPCF::createSection(
 					/* translators: 1: start link and bold tag, 2: close bold and link tag. */
 					__( 'Want to unleash the power of Ajax Paginations and take your website UX to the next level? %1$sUpgrade To Pro!%2$s', 'wp-carousel-free' ),
 					'<a href="https://wpcarousel.io/pricing/?ref=1" target="_blank"><b>',
-					'</b></a>',
+					'</b></a>'
 				),
 				'dependency' => array( 'wpcp_layout|wpcp_source_pagination', '==|==', 'grid|true', true ),
 			),
@@ -718,7 +718,7 @@ SP_WPCF::createSection(
 					__( 'Want to unlock amazing %1$sItem Styles%2$s and unleash your creativity? %3$sUpgrade To Pro!%2$s', 'wp-carousel-free' ),
 					'<a href="https://wpcarousel.io/item-styles/" target="_blank"><b>',
 					'</b></a>',
-					'<a href="https://wpcarousel.io/pricing/?ref=1" target="_blank"><b>',
+					'<a href="https://wpcarousel.io/pricing/?ref=1" target="_blank"><b>'
 				),
 				'options'    => array(
 					'default'          => array(
@@ -1184,7 +1184,7 @@ SP_WPCF::createSection(
 					'<div class="sp_wpcp-info-label">',
 					'</div><div class="sp_wpcp-short-content">',
 					'</div><a class="sp_wpcp-open-live-demo" href="https://wpcarousel.io/post-carousel-zoom-image-modes/" target="_blank">',
-					'</a>',
+					'</a>'
 				),
 				'options'    => array(
 					''         => __( 'None', 'wp-carousel-free' ),
@@ -1255,7 +1255,7 @@ SP_WPCF::createSection(
 					__( 'Want to take your image editing experience to the next level with %1$sImage Variable Width, Watermark, Protection from Right-click, Grayscale, Custom Color, and Custom Size? %2$sUpgrade To Pro!%3$s', 'wp-carousel-free' ),
 					'<b>',
 					'</b><a href="https://wpcarousel.io/pricing/?ref=1" target="_blank"><b>',
-					'</b></a>',
+					'</b></a>'
 				),
 			),
 		),
@@ -1290,7 +1290,7 @@ SP_WPCF::createSection(
 									'<b>',
 									'</b>',
 									'<a href="https://wpcarousel.io/pricing/?ref=1" target="_blank"><b>',
-									'</b></a>',
+									'</b></a>'
 								),
 							),
 							array(
@@ -1748,7 +1748,7 @@ SP_WPCF::createSection(
 									'<br><strong style="font-weight: 700;">',
 									'</b></div><a class="sp_wpcp-open-docs" href="https://docs.shapedplugin.com/docs/wordpress-carousel-pro/configurations/how-to-configure-the-carousel-orientation/" target="_blank">',
 									'</a><a class="sp_wpcp-open-live-demo" href="https://wpcarousel.io/carousel-orientations/" target="_blank">',
-									'</a>',
+									'</a>'
 								),
 								'options'    => array(
 									'horizontal' => __( 'Horizontal', 'wp-carousel-free' ),
@@ -1871,7 +1871,7 @@ SP_WPCF::createSection(
 									'<div class="sp_wpcp-info-label">',
 									'</div><div class="sp_wpcp-short-content">',
 									'</div><a class="sp_wpcp-open-live-demo" href="https://wpcarousel.io/slider-sliding-effects/" target="_blank">',
-									'</a>',
+									'</a>'
 								),
 								'options'    => array(
 									''          => __( 'Slide', 'wp-carousel-free' ),
@@ -1908,7 +1908,7 @@ SP_WPCF::createSection(
 									'<b>',
 									'</b>',
 									'<a href="https://wpcarousel.io/pricing/?ref=1" target="_blank"><b>',
-									'</b></a>',
+									'</b></a>'
 								),
 							),
 						),
@@ -2104,7 +2104,7 @@ SP_WPCF::createSection(
 									'<b>',
 									'</b>',
 									'<a href="https://wpcarousel.io/pricing/?ref=1" target="_blank"><b>',
-									'</b></a>',
+									'</b></a>'
 								),
 								'dependency' => array( 'wpcp_navigation', '!=', 'false' ),
 							),
@@ -2238,7 +2238,7 @@ SP_WPCF::createSection(
 									'<b>',
 									'</b>',
 									'<a href="https://wpcarousel.io/pricing/?ref=1" target="_blank"><b>',
-									'</b></a>',
+									'</b></a>'
 								),
 								'dependency' => array( 'wpcp_pagination', '!=', 'false' ),
 							),
@@ -2322,7 +2322,7 @@ SP_WPCF::createSection(
 					'<b>',
 					'</b>',
 					'<a href="https://wpcarousel.io/pricing/?ref=1" target="_blank"><b>',
-					'</b></a>',
+					'</b></a>'
 				),
 			),
 			array(
