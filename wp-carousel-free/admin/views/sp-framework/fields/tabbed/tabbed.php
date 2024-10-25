@@ -50,7 +50,7 @@ if ( ! class_exists( 'SP_WPCF_Field_tabbed' ) ) {
 				$tabbed_icon   = ( ! empty( $tab['icon'] ) ) ? '<i class="wpcf--icon ' . $tab['icon'] . '"></i>' : '';
 				$tabbed_active = ( empty( $key ) ) ? ' class="wpcf-tabbed-active"' : '';
 
-				echo '<a href="#"' . esc_attr( $tabbed_active ) . '>' . wp_kses_post( $tabbed_icon . $tab['title'] ) . '</a>';
+				echo '<a href="#" ' . ( empty( $key ) ? ' class="wpcf-tabbed-active"' : '' ) . ' >' . wp_kses_post( $tabbed_icon . $tab['title'] ) . '</a>';
 			}
 			echo '</div>';
 

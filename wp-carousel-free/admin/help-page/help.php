@@ -208,6 +208,9 @@ class WP_Carousel_Free_Help {
 						break;
 					case 'location-weather':
 					case 'gallery-slider-for-woocommerce':
+					case 'easy-accordion-free':
+					case 'testimonial-free':
+					case 'logo-carousel-free':
 						$image_type = 'gif';
 						break;
 				}
@@ -772,13 +775,13 @@ class WP_Carousel_Free_Help {
 							</a>
 							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://logocarousel.com/">
 								<i class="spwpcp-icon-button-arrow-icon"></i>
-								<img src="https://ps.w.org/logo-carousel-free/assets/icon-256x256.png" alt="">
+								<img src="https://ps.w.org/logo-carousel-free/assets/icon-256x256.gif" alt="">
 								<h4>Logo Carousel</h4>
 								<p>Showcase a group of logo images with Title, Description, Tooltips, Links, and Popup as a grid or in a carousel.</p>
 							</a>
 							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://easyaccordion.io/">
 								<i class="spwpcp-icon-button-arrow-icon"></i>
-								<img src="https://ps.w.org/easy-accordion-free/assets/icon-256x256.png" alt="">
+								<img src="https://ps.w.org/easy-accordion-free/assets/icon-256x256.gif" alt="">
 								<h4>Easy Accordion</h4>
 								<p>Minimize customer support by offering comprehensive FAQs and increasing conversions.</p>
 							</a>

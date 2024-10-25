@@ -9,14 +9,14 @@
  * Plugin Name:       WP Carousel
  * Plugin URI:        https://wpcarousel.io/
  * Description:       The most powerful and user-friendly carousel, slider, and gallery plugin for WordPress. Create unlimited beautiful carousels, sliders, and galleries in minutes using images, posts, WooCommerce products, etc.
- * Version:           2.6.9
+ * Version:           2.7.0
  * Author:            ShapedPlugin LLC
  * Author URI:        https://shapedplugin.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       wp-carousel-free
  * Domain Path:       /languages
- * WC requires at least: 4.0
+ * WC requires at least: 6.4
  * WC tested up to: 9.3.3
  */
 
@@ -119,7 +119,7 @@ class SP_WP_Carousel_Free {
 	 */
 	public function setup() {
 		$this->plugin_name = 'wp-carousel-free';
-		$this->version     = '2.6.9';
+		$this->version     = '2.7.0';
 		$this->define_constants();
 		$this->includes();
 		$this->load_dependencies();
@@ -179,6 +179,7 @@ class SP_WP_Carousel_Free {
 		include_once WPCAROUSELF_PATH . '/admin/help-page/help.php';
 		include_once WPCAROUSELF_PATH . '/admin/preview/class-wp-carousel-free-preview.php';
 		include_once WPCAROUSELF_PATH . '/admin/class-wp-carousel-free-gutenberg-block.php';
+		include_once WPCAROUSELF_PATH . '/admin/Media_View/class-wp-carousel-free-media-view.php';
 		require_once WPCAROUSELF_PATH . '/admin/class-wp-carousel-free-elementor-block.php';
 	}
 

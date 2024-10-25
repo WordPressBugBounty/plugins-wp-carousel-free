@@ -43,14 +43,8 @@
 	margin-bottom: 0;
 }
 
-/* .wpcp-carousel-section.wpcp-standard .slick-list, */
 .wpcp-carousel-section.wpcp-standard {
 	overflow: hidden;
-}
-
-.wpcp-carousel-section.wpcp-standard {
-	overflow: hidden;
-	padding-right: 2px;
 }
 
 .wpcp-carousel-section .swiper-wrapper {
@@ -62,6 +56,28 @@
 	vertical-align: middle;
 	float: none;
 	max-width: 100%;
+	position: relative;
+}
+
+.wpcp-single-item.wcp-video-item i {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	font-size: 40px;
+	color: #fff;
+	cursor: pointer;
+	z-index: 5;
+	font-family: fontawesome;
+	font-weight: normal;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.wpcp-single-item.wcp-video-item .wpcp-all-captions {
+	padding: 10px 20px 15px;
 }
 
 .wpcp-all-captions li {
@@ -83,9 +99,11 @@
 	padding-left: 15px;
 	padding-right: 15px;
 }
+
 .wpcp-carousel-section .wpcp-single-item figure {
 	margin: 0;
 	line-height: 0;
+	overflow: hidden;
 }
 
 .wpcp-carousel-section.wpcp-image-carousel .wpcp-single-item figure {
@@ -333,7 +351,7 @@
 }
 
 .theme-storefront .wpcp-carousel-wrapper .star-rating {
-    width: 5.7em;
+	width: 5.7em;
 }
 
 /*--------------------------------------------------------------
@@ -366,12 +384,8 @@
 	left: auto;
 	top: auto;
 	font-size: 30px;
-	-webkit-transition: ease all 0.3s;
-	-moz-transition: ease all 0.3s;
-	-ms-transition: ease all 0.3s;
-	-o-transition: ease all 0.3s;
 	transition: ease all 0.3s;
-	margin-top: -15px;
+	margin-top: 0;
 	cursor: pointer;
 }
 
@@ -391,6 +405,7 @@
 .wpcp-carousel-section.nav-vertical-center .swiper-button-next,
 .wpcp-carousel-section.nav-vertical-center .swiper-button-prev {
 	top: 50%;
+	transform: translateY(-50%);
 }
 
 .wpcp-carousel-section.nav-vertical-center .swiper-button-prev {
@@ -399,28 +414,32 @@
 	text-align: left;
 }
 
-.wpcp-carousel-section.nav-vertical-center .swiper-button-next,
+/* .wpcp-carousel-section.nav-vertical-center .swiper-button-next,
 .wpcp-carousel-section.nav-vertical-center .swiper-button-prev {
 	margin-top: -15px;
 }
 
-.wpcp-carousel-section.nav-vertical-center .swiper-pagination ~ .swiper-button-next,
-.wpcp-carousel-section.nav-vertical-center .swiper-pagination ~ .swiper-button-prev {
+.wpcp-carousel-section.nav-vertical-center .swiper-pagination~.swiper-button-next,
+.wpcp-carousel-section.nav-vertical-center .swiper-pagination~.swiper-button-prev {
 	margin-top: -35px;
-}
+} */
 
 .wpcp-carousel-section.nav-vertical-center .swiper-button-next {
 	right: -5px;
 	text-align: right;
 	left: auto;
 }
+.wpcp-carousel-content-wrapper:has(.wpcp-swiper-dots) {
+	margin-bottom: 60px;
+}
 
 /*--------------------------------------------------------------
 ## Carousel Pagination Dots
 --------------------------------------------------------------*/
-.wpcp-carousel-section .wpcp-swiper-dots {
-	position: inherit;
-	margin-top: 10px;
+.wpcp-carousel-section .wpcp-swiper-dots,
+.wpcp-carousel-section .swiper-pagination-bullets.swiper-pagination-horizontal {
+	position: absolute;
+	bottom: unset;
 }
 
 .wpcp-carousel-section .wpcp-swiper-dots .swiper-pagination-bullet {
@@ -528,6 +547,7 @@ html[dir="rtl"] .wpcp-single-item {
 .wpcp-carousel-section i.fa {
 	font-style: normal;
 }
+
 .block-editor-page a.sp_wp_carousel_block_edit_button,
 a.sp_wp_carousel_block_edit_button {
 	display: inline-block;
@@ -573,7 +593,8 @@ body.admin-bar .wpcf-fancybox-wrapper.fancybox-container .fancybox-toolbar {
 	bottom: 95px;
 }
 
-.wpcf-fancybox-wrapper, .fancybox-container {
+.wpcf-fancybox-wrapper,
+.fancybox-container {
 	z-index: 9999929 !important;
 }
 
@@ -595,15 +616,16 @@ body.admin-bar .wpcf-fancybox-wrapper.fancybox-container .fancybox-toolbar {
 }
 
 /* Elementor lightbox conflict */
-.wpcf-fancybox-wrapper ~ .elementor-lightbox {
+.wpcf-fancybox-wrapper~.elementor-lightbox {
 	display: none !important;
 }
+
 /* Elementor Pro v3.14.1 conflict */
 .elementor-default .wpcp-carousel-wrapper .swiper-container:not(.swiper-container-initialized) .swiper-wrapper {
-    overflow: initial;
+	overflow: initial;
 }
 
-/* transition CSS for carousel image */
+/* Transition CSS for carousel image */
 .wpcp-carousel-wrapper .wpcp-carousel-section.wpcp-image-carousel .wpcp-single-item img,
 .wpcp-carousel-wrapper .wpcp-carousel-section.wpcp-post-carousel .wpcp-single-item img,
 .wpcp-carousel-wrapper .wpcp-carousel-section.wpcp-product-carousel .wpcp-single-item img {
@@ -612,4 +634,44 @@ body.admin-bar .wpcf-fancybox-wrapper.fancybox-container .fancybox-toolbar {
 	-ms-transition: all 0.3s;
 	-o-transition: all 0.3s;
 	transition: all 0.3s;
+}
+
+/* Center mode */
+.wpcp-center.wpcp-carousel-section .swiper-slide.swiper-slide-active .wpcp-single-item {
+	transform: scale(1);
+	opacity: 1;
+}
+
+.wpcp-center .swiper-slide.swiper-slide-active {
+	transform: scale(1);
+}
+
+.wpcp-center.wpcp-carousel-section .swiper-slide .wpcp-single-item {
+	transition: all 0.3s;
+	transform: scale(0.85);
+	opacity: 0.6;
+}
+
+/* Top Image */
+.wpcp-carousel-section.detail-on-top .wpcp-single-item {
+	display: flex !important;
+	-webkit-flex-direction: column-reverse;
+	flex-direction: column-reverse;
+}
+.wpcp-carousel-section .wcp-video-item a.wcp-light-box img[src*='hqdefault'] {
+	margin-top: -9.4%;
+	margin-bottom: -9.4%;
+}
+
+.wcp-video-item a.wcp-light-box {
+	display: block;
+	overflow: hidden;
+	font-size: 0;
+}
+.swiper-slide-kenburn {
+	display: flex;
+	width: 100%;
+}
+.wpcp-carousel-section.swiper-3d.swiper-flip{
+	perspective:none;
 }

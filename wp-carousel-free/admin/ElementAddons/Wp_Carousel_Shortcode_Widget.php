@@ -26,7 +26,7 @@ class Wp_Carousel_Shortcode_Widget extends \Elementor\Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'WP Carousel Free', 'wp-carousel-Free' );
+		return __( 'WP Carousel Free', 'wp-carousel-free' );
 	}
 
 	/**
@@ -102,7 +102,6 @@ class Wp_Carousel_Shortcode_Widget extends \Elementor\Widget_Base {
 		);
 
 		$this->end_controls_section();
-
 	}
 
 	/**
@@ -143,7 +142,5 @@ class Wp_Carousel_Shortcode_Widget extends \Elementor\Widget_Base {
 		} else {
 			echo do_shortcode( ' [sp_wpcarousel id="' . $post_id . '"]' );
 		}
-
 	}
-
 }

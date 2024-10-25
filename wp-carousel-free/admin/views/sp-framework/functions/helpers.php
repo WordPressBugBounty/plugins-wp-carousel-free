@@ -66,3 +66,16 @@ if ( ! function_exists( 'wpcf_wp_editor_api' ) ) {
 		return version_compare( $wp_version, '4.8', '>=' );
 	}
 }
+if ( ! function_exists( 'wpcf_wp_editor_api' ) ) {
+	/**
+	 *
+	 * Check for wp editor api
+	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 */
+	function wpcf_wp_editor_api() {
+		global $wp_version;
+		return version_compare( $wp_version, '4.8', '>=' );
+	}
+}

@@ -30,6 +30,7 @@ if ( ! empty( $image_url[0] ) ) {
 	<div class="wpcp-single-item">
 		<?php
 			require WPCF_Helper::wpcf_locate_template( 'loop/image-type/image.php' );
+			require WPCF_Helper::wpcf_locate_template( 'loop/image-type/caption.php' );
 		?>
 	</div>
 </div>

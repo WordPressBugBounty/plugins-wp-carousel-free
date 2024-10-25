@@ -11,5 +11,13 @@
 
 if ( $show_post_content ) {
 	?>
-<div class='wpcp-post-content'><?php the_excerpt(); ?></div>
+<div class='wpcp-post-content'>
+	<?php
+	if ( 'content' === $wpcp_post_content_type ) {
+		the_content();
+	} else {
+		the_excerpt();
+	}
+	?>
+</div>
 <?php } ?>

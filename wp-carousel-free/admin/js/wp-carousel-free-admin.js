@@ -3,10 +3,14 @@ jQuery(document).ready(function ($) {
 	/**
 	 * Admin Preloader.
 	 */
-	$(".sp_wpcp_shortcode_generator .wpcf-wrapper").css("visibility", "hidden");
-	$(".sp_wpcp_shortcode_generator .wpcf-wrapper").css("visibility", "visible");
-	$(".sp_wpcp_shortcode_generator .wpcf-wrapper").css("background", "#fff");
-	$(".sp_wpcp_shortcode_generator .wpcf-wrapper li").css("opacity", 1);
+	$("#sp_wpcp_shortcode_generator .wpcf-wrapper").css("visibility", "hidden");
+	$("#sp_wpcp_shortcode_generator .wpcf-wrapper").css("visibility", "visible");
+	$("#sp_wpcp_shortcode_generator .wpcf-wrapper").css("background", "rgb(241, 241, 241)");
+	$("#sp_wpcp_shortcode_generator .wpcf-wrapper li").css("opacity", 1);
+
+	$("#wpcf-section-sp_wpcp_upload_options_0").show();
+	$("#wpcf-section-sp_wpcp_display_shortcodes_0, #wpcf-section-sp_wpcp_display_builders_0").removeClass('hidden').show();
+	$("#wpcf-section-sp_wpcp_display_shortcode_0").show();
 
 	// Smart Brand plugin installation process functionalities.
 	$(document).on('click', '.brand-plugin-install:not(.activated,.activate_brand)', function (e) {
@@ -64,7 +68,7 @@ jQuery(document).ready(function ($) {
 		});
 	});
 
-	// Smart Brand plugin activation process functionalities.	
+	// Smart Brand plugin activation process functionalities.
 	$(document).on('click', '.activate_plugin', function (e) {
 		e.preventDefault(); // Prevents the default click behavior
 		$('.activate_plugin').html('Activating ...'); // Changes the HTML content of elements with the class 'qv-active'

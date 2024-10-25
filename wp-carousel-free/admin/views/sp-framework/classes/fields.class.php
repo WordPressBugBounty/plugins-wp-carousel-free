@@ -94,7 +94,6 @@ if ( ! class_exists( 'SP_WPCF_Fields' ) ) {
 			}
 
 			return $field_name . $nested_name;
-
 		}
 
 		/**
@@ -131,7 +130,6 @@ if ( ! class_exists( 'SP_WPCF_Fields' ) ) {
 			}
 
 			return $atts;
-
 		}
 
 		/**
@@ -156,7 +154,6 @@ if ( ! class_exists( 'SP_WPCF_Fields' ) ) {
 			$output .= ( ! empty( $this->field['_error'] ) ) ? '<div class="wpcf-error-text">' . $this->field['_error'] . '</div>' : '';
 
 			return $output;
-
 		}
 
 		/**
@@ -502,7 +499,6 @@ if ( ! class_exists( 'SP_WPCF_Fields' ) ) {
 			}
 
 			return $options;
-
 		}
 
 		/**
@@ -612,8 +608,6 @@ if ( ! class_exists( 'SP_WPCF_Fields' ) ) {
 			}
 
 			return $options;
-
 		}
-
 	}
 }

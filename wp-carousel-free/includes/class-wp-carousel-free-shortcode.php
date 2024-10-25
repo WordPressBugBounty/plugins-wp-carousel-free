@@ -69,10 +69,10 @@ class WP_Carousel_Free_Shortcode {
 			'right' => '20',
 		);
 		// Carousel Column.
-		$column_number   = isset( $shortcode_data['wpcp_number_of_columns'] ) ? $shortcode_data['wpcp_number_of_columns'] : '';
-		$image_link_show = isset( $shortcode_data['wpcp_click_action_type_group']['wpcp_logo_link_show'] ) ? $shortcode_data['wpcp_click_action_type_group']['wpcp_logo_link_show'] : 'l_box';
-
-		if ( ( 'image-carousel' === $carousel_type && 'l_box' === $image_link_show ) ) {
+		$column_number    = isset( $shortcode_data['wpcp_number_of_columns'] ) ? $shortcode_data['wpcp_number_of_columns'] : '';
+		$image_link_show  = isset( $shortcode_data['wpcp_click_action_type_group']['wpcp_logo_link_show'] ) ? $shortcode_data['wpcp_click_action_type_group']['wpcp_logo_link_show'] : 'l_box';
+		$wpcp_post_detail = isset( $shortcode_data['wpcp_post_detail_position'] ) ? $shortcode_data['wpcp_post_detail_position'] : '';
+		if ( ( 'image-carousel' === $carousel_type && 'l_box' === $image_link_show ) || 'video-carousel' === $carousel_type ) {
 			wp_enqueue_style( 'wpcf-fancybox-popup' );
 			wp_enqueue_script( 'wpcf-fancybox-popup' );
 			wp_enqueue_script( 'wpcf-fancybox-config' );
@@ -90,6 +90,9 @@ class WP_Carousel_Free_Shortcode {
 		} elseif ( 'product-carousel' === $carousel_type ) {
 			$carousel_classes .= ' wpcp-product-carousel';
 		}
+		if ( 'top' === $wpcp_post_detail ) {
+			$carousel_classes .= ' detail-on-top';
+		}
 
 		// Preloader classes.
 		if ( $preloader ) {
@@ -97,7 +100,7 @@ class WP_Carousel_Free_Shortcode {
 			$carousel_classes .= ' wpcp-preloader';
 		}
 
-		if ( 'carousel' === $wpcp_layout ) {
+		if ( 'carousel' === $wpcp_layout || 'slider' === $wpcp_layout ) {
 			/**
 			 * Functionalities of carousel pagination show/hide and hide on mobile options/
 			 */
@@ -129,56 +132,81 @@ class WP_Carousel_Free_Shortcode {
 				$arrows        = 'true';
 				$arrows_mobile = 'true';
 			}
-
+			$wpcp_carousel_mode = isset( $shortcode_data['wpcp_carousel_mode'] ) ? $shortcode_data['wpcp_carousel_mode'] : 'standard';
 			// Responsive screen sizes.
-			$wpcp_screen_sizes     = wpcf_get_option( 'wpcp_responsive_screen_setting' );
-			$desktop_size          = isset( $wpcp_screen_sizes['desktop'] ) && ! empty( $wpcp_screen_sizes['desktop'] ) ? $wpcp_screen_sizes['desktop'] : '1200';
-			$laptop_size           = isset( $wpcp_screen_sizes['laptop'] ) && ! empty( $wpcp_screen_sizes['laptop'] ) ? $wpcp_screen_sizes['laptop'] : '980';
-			$tablet_size           = isset( $wpcp_screen_sizes['tablet'] ) && ! empty( $wpcp_screen_sizes['tablet'] ) ? $wpcp_screen_sizes['tablet'] : '736';
-			$mobile_size           = isset( $wpcp_screen_sizes['mobile'] ) && ! empty( $wpcp_screen_sizes['mobile'] ) ? $wpcp_screen_sizes['mobile'] : '480';
-			$old_column_lg_desktop = isset( $column_number['column1'] ) ? $column_number['column1'] : '5';
-			$column_lg_desktop     = isset( $column_number['lg_desktop'] ) && ! empty( $column_number['lg_desktop'] ) ? $column_number['lg_desktop'] : $old_column_lg_desktop;
-			$old_column_desktop    = isset( $column_number['column2'] ) ? $column_number['column2'] : '4';
-			$column_desktop        = isset( $column_number['desktop'] ) && ! empty( $column_number['desktop'] ) ? $column_number['desktop'] : $old_column_desktop;
-			$old_column_sm_desktop = isset( $column_number['column3'] ) ? $column_number['column3'] : '3';
-			$column_sm_desktop     = isset( $column_number['laptop'] ) && ! empty( $column_number['laptop'] ) ? $column_number['laptop'] : $old_column_sm_desktop;
-			$old_column_tablet     = isset( $column_number['column4'] ) ? $column_number['column4'] : '2';
-			$column_tablet         = isset( $column_number['tablet'] ) && ! empty( $column_number['tablet'] ) ? $column_number['tablet'] : $old_column_tablet;
-			$old_column_mobile     = isset( $column_number['column5'] ) ? $column_number['column5'] : '1';
-			$column_mobile         = isset( $column_number['mobile'] ) && ! empty( $column_number['mobile'] ) ? $column_number['mobile'] : $old_column_mobile;
-			$is_auto_play          = isset( $shortcode_data['wpcp_carousel_auto_play'] ) ? $shortcode_data['wpcp_carousel_auto_play'] : true;
-			$auto_play             = $is_auto_play ? 'true' : 'false';
-			$autoplay_speed        = isset( $shortcode_data['carousel_auto_play_speed'] ) && is_numeric( $shortcode_data['carousel_auto_play_speed'] ) ? $shortcode_data['carousel_auto_play_speed'] : '3000';
-			$speed                 = isset( $shortcode_data['standard_carousel_scroll_speed'] ) && is_numeric( $shortcode_data['standard_carousel_scroll_speed'] ) ? $shortcode_data['standard_carousel_scroll_speed'] : '600';
-			$is_infinite           = isset( $shortcode_data['carousel_infinite'] ) ? $shortcode_data['carousel_infinite'] : '';
-			$infinite              = $is_infinite ? 'true' : 'false';
-			$is_pause_on_hover     = isset( $shortcode_data['carousel_pause_on_hover'] ) ? $shortcode_data['carousel_pause_on_hover'] : '';
-			$pause_on_hover        = $is_pause_on_hover ? 'true' : 'false';
-			$carousel_direction    = isset( $shortcode_data['wpcp_carousel_direction'] ) ? $shortcode_data['wpcp_carousel_direction'] : '';
-			$lazy_load_image       = isset( $shortcode_data['wpcp_image_lazy_load'] ) ? $shortcode_data['wpcp_image_lazy_load'] : 'false';
-			$is_draggable          = isset( $shortcode_data['slider_draggable'] ) ? $shortcode_data['slider_draggable'] : true;
-			$draggable             = $is_draggable ? 'true' : 'false';
-			$free_mode             = isset( $shortcode_data['free_mode'] ) && $shortcode_data['free_mode'] ? 'true' : 'false';
-			$space_between         = isset( $item_gap['top'] ) && is_numeric( $item_gap['top'] ) ? $item_gap['top'] : '20';
-			$is_swipe              = isset( $shortcode_data['slider_swipe'] ) ? $shortcode_data['slider_swipe'] : true;
-			$swipe                 = $is_swipe ? 'true' : 'false';
-			$is_swipetoslide       = isset( $shortcode_data['carousel_swipetoslide'] ) ? $shortcode_data['carousel_swipetoslide'] : true;
-			$swipetoslide          = $is_swipetoslide ? 'true' : 'false';
-			$rtl                   = ( 'ltr' === $carousel_direction ) ? 'true' : 'false';
-			$carousel_classes     .= ' wpcp-standard';
-			$wpcp_swiper_options   = '{ "accessibility":true, "spaceBetween":' . $space_between . ', "arrows":' . $arrows . ', "freeMode": ' . $free_mode . ', "autoplay":' . $auto_play . ', "autoplaySpeed":' . $autoplay_speed . ', "dots":' . $dots . ', "infinite":' . $infinite . ', "speed":' . $speed . ', "pauseOnHover":' . $pause_on_hover . ',
+			$wpcp_screen_sizes = wpcf_get_option( 'wpcp_responsive_screen_setting' );
+			$desktop_size      = isset( $wpcp_screen_sizes['desktop'] ) && ! empty( $wpcp_screen_sizes['desktop'] ) ? $wpcp_screen_sizes['desktop'] : '1200';
+			$laptop_size       = isset( $wpcp_screen_sizes['laptop'] ) && ! empty( $wpcp_screen_sizes['laptop'] ) ? $wpcp_screen_sizes['laptop'] : '980';
+			$tablet_size       = isset( $wpcp_screen_sizes['tablet'] ) && ! empty( $wpcp_screen_sizes['tablet'] ) ? $wpcp_screen_sizes['tablet'] : '736';
+			$mobile_size       = isset( $wpcp_screen_sizes['mobile'] ) && ! empty( $wpcp_screen_sizes['mobile'] ) ? $wpcp_screen_sizes['mobile'] : '480';
+			$center_mode       = 'center' === $wpcp_carousel_mode ? 'true' : 'false';
+			if ( 'slider' === $wpcp_layout ) {
+				$column_lg_desktop = 1;
+				$column_desktop    = 1;
+				$column_sm_desktop = 1;
+				$column_tablet     = 1;
+				$column_mobile     = 1;
+				$wpcp_slider_style = isset( $shortcode_data['wpcp_slider_style'] ) ? $shortcode_data['wpcp_slider_style'] : 'slide';
+				$center_mode       = 'false';
+				$effect            = $wpcp_slider_style;
+				$item_gap          = array(
+					'top'   => '0',
+					'right' => '0',
+				);
+			} else {
+				$old_column_lg_desktop = isset( $column_number['column1'] ) ? $column_number['column1'] : '5';
+				$column_lg_desktop     = isset( $column_number['lg_desktop'] ) && ! empty( $column_number['lg_desktop'] ) ? $column_number['lg_desktop'] : $old_column_lg_desktop;
+				$old_column_desktop    = isset( $column_number['column2'] ) ? $column_number['column2'] : '4';
+				$column_desktop        = isset( $column_number['desktop'] ) && ! empty( $column_number['desktop'] ) ? $column_number['desktop'] : $old_column_desktop;
+				$old_column_sm_desktop = isset( $column_number['column3'] ) ? $column_number['column3'] : '3';
+				$column_sm_desktop     = isset( $column_number['laptop'] ) && ! empty( $column_number['laptop'] ) ? $column_number['laptop'] : $old_column_sm_desktop;
+				$old_column_tablet     = isset( $column_number['column4'] ) ? $column_number['column4'] : '2';
+				$column_tablet         = isset( $column_number['tablet'] ) && ! empty( $column_number['tablet'] ) ? $column_number['tablet'] : $old_column_tablet;
+				$old_column_mobile     = isset( $column_number['column5'] ) ? $column_number['column5'] : '1';
+				$column_mobile         = isset( $column_number['mobile'] ) && ! empty( $column_number['mobile'] ) ? $column_number['mobile'] : $old_column_mobile;
+				$wpcp_slider_animation = isset( $shortcode_data['wpcp_slider_animation'] ) ? $shortcode_data['wpcp_slider_animation'] : 'slide';
+				$effect                = 'standard' === $wpcp_carousel_mode ? $wpcp_slider_animation : 'slide';
+
+			}
+
+			$is_auto_play       = isset( $shortcode_data['wpcp_carousel_auto_play'] ) ? $shortcode_data['wpcp_carousel_auto_play'] : true;
+			$auto_play          = $is_auto_play ? 'true' : 'false';
+			$autoplay_speed     = isset( $shortcode_data['carousel_auto_play_speed'] ) && is_numeric( $shortcode_data['carousel_auto_play_speed'] ) ? $shortcode_data['carousel_auto_play_speed'] : '3000';
+			$speed              = isset( $shortcode_data['standard_carousel_scroll_speed'] ) && is_numeric( $shortcode_data['standard_carousel_scroll_speed'] ) ? $shortcode_data['standard_carousel_scroll_speed'] : '600';
+			$is_infinite        = isset( $shortcode_data['carousel_infinite'] ) ? $shortcode_data['carousel_infinite'] : '';
+			$infinite           = $is_infinite ? 'true' : 'false';
+			$is_pause_on_hover  = isset( $shortcode_data['carousel_pause_on_hover'] ) ? $shortcode_data['carousel_pause_on_hover'] : '';
+			$pause_on_hover     = $is_pause_on_hover ? 'true' : 'false';
+			$carousel_direction = isset( $shortcode_data['wpcp_carousel_direction'] ) ? $shortcode_data['wpcp_carousel_direction'] : '';
+			$lazy_load_image    = isset( $shortcode_data['wpcp_image_lazy_load'] ) ? $shortcode_data['wpcp_image_lazy_load'] : 'false';
+			$is_draggable       = isset( $shortcode_data['slider_draggable'] ) ? $shortcode_data['slider_draggable'] : true;
+			$draggable          = $is_draggable ? 'true' : 'false';
+			$free_mode          = isset( $shortcode_data['free_mode'] ) && $shortcode_data['free_mode'] ? 'true' : 'false';
+			$space_between      = isset( $item_gap['top'] ) && is_numeric( $item_gap['top'] ) ? $item_gap['top'] : '20';
+			$is_swipe           = isset( $shortcode_data['slider_swipe'] ) ? $shortcode_data['slider_swipe'] : true;
+			$swipe              = $is_swipe ? 'true' : 'false';
+			$is_swipetoslide    = isset( $shortcode_data['carousel_swipetoslide'] ) ? $shortcode_data['carousel_swipetoslide'] : true;
+			$swipetoslide       = $is_swipetoslide ? 'true' : 'false';
+			$rtl                = ( 'ltr' === $carousel_direction ) ? 'true' : 'false';
+
+			$carousel_classes .= ' wpcp-standard';
+			if ( 'true' == $center_mode ) {
+				$carousel_classes .= ' wpcp-center';
+			}
+
+			$wpcp_swiper_options = '{ "accessibility":true, "spaceBetween":' . $space_between . ', "arrows":' . $arrows . ', "freeMode": ' . $free_mode . ', "autoplay":' . $auto_play . ', "effect": "' . $effect . '", "centerMode": ' . $center_mode . ', "autoplaySpeed":' . $autoplay_speed . ', "dots":' . $dots . ', "infinite":' . $infinite . ', "speed":' . $speed . ', "pauseOnHover":' . $pause_on_hover . ',
 			"slidesToShow":{"lg_desktop":' . $column_lg_desktop . ', "desktop": ' . $column_desktop . ', "laptop": ' . $column_sm_desktop . ', "tablet": ' . $column_tablet . ', "mobile": ' . $column_mobile . '}, "responsive":{"desktop":' . $desktop_size . ', "laptop": ' . $laptop_size . ', "tablet": ' . $tablet_size . ', "mobile": ' . $mobile_size . '}, "rtl":' . $rtl . ', "lazyLoad": "' . $lazy_load_image . '", "swipe": ' . $swipe . ', "draggable": ' . $draggable . ', "swipeToSlide":' . $swipetoslide . ' }';
 			// Carousel Configurations.
 			if ( wpcf_get_option( 'wpcp_swiper_js', true ) ) {
 				wp_enqueue_script( 'wpcf-swiper-js' );
 			}
 			wp_enqueue_script( 'wpcf-swiper-config' );
-			include WPCAROUSELF_PATH . '/public/templates/carousel.php';
+			include WPCF_Helper::wpcf_locate_template( 'carousel.php' );
 			$html = ob_get_contents();
 			return apply_filters( 'sp_wpcp_carousel_slider', $html, $post_id );
 		}
 		if ( 'grid' === $wpcp_layout ) {
-			include WPCAROUSELF_PATH . '/public/templates/gallery.php';
+			include WPCF_Helper::wpcf_locate_template( 'gallery.php' );
 			$html = ob_get_contents();
 			return apply_filters( 'sp_wpcp_carousel_gallery', $html, $post_id );
 		}

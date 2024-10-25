@@ -83,8 +83,12 @@ if ( ! class_exists( 'SP_WPCF_Field_image_select' ) ) {
 					echo '<div class="wpcf--sibling wpcf--image' . esc_attr( $active . $pro_only_class ) . '">';
 					echo '<figure>';
 					echo '<img src="' . esc_url( $image ) . '" alt="img-' . esc_attr( $num++ ) . '" />';
-					echo isset( $option['text'] ) ? '<p class="sp-carousel-type">' . esc_html( $option['text'] ) . '</p>' : '';
-
+					// echo isset( $option['text'] ) ? '<p class="sp-carousel-type">' . esc_html( $option['text'] ) . '</p>' : '';
+					if ( isset( $option['option_demo_url'] ) ) {
+						echo '<p class="sp-carousel-type">' . esc_html( $option['text'] ) . '<a href="' . esc_url( $option['option_demo_url'] ) . '" tooltip="Demo" class="wpcp-live-demo-icon" target="_blank"><i class="wpcf-icon-external_link"></i></a></p>';
+					} else {
+						echo isset( $option['text'] ) ? '<p class="sp-carousel-type">' . wp_kses_post( $option['text'] ) . '</p>' : '';
+					}
 					echo '<input type="' . esc_attr( $type ) . '" name="' . esc_attr( $this->field_name( $extra ) ) . '" value="' . esc_attr( $key ) . '"' . $this->field_attributes() . esc_attr( $checked ) . '/>';  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $this->field_attributes() is escaped before being passed in.
 					echo '</figure>';
 					echo '</div>';
@@ -96,7 +100,6 @@ if ( ! class_exists( 'SP_WPCF_Field_image_select' ) ) {
 			}
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
 
 		/**
@@ -118,8 +121,6 @@ if ( ! class_exists( 'SP_WPCF_Field_image_select' ) ) {
 			$this->parent->output_css .= $output;
 
 			return $output;
-
 		}
-
 	}
 }

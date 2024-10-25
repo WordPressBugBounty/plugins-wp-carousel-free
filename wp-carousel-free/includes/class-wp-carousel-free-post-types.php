@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Custom post class to register the carousel.
+ * Custom post class to register tahe carousel.
  */
 class WP_Carousel_Free_Post_Type {
 
@@ -73,8 +73,8 @@ class WP_Carousel_Free_Post_Type {
 		$labels = apply_filters(
 			'sp_wp_carousel_post_type_labels',
 			array(
-				'name'               => esc_html_x( 'All Carousels', 'wp-carousel-free' ),
-				'singular_name'      => esc_html_x( 'WP Carousel', 'wp-carousel-free' ),
+				'name'               => esc_html__( 'All Carousels', 'wp-carousel-free' ),
+				'singular_name'      => esc_html__( 'WP Carousel', 'wp-carousel-free' ),
 				'add_new'            => esc_html__( 'Add New', 'wp-carousel-free' ),
 				'add_new_item'       => esc_html__( 'Add New Carousel', 'wp-carousel-free' ),
 				'edit_item'          => esc_html__( 'Edit Carousel', 'wp-carousel-free' ),

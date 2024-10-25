@@ -23,7 +23,6 @@ if ( ! function_exists( 'wpcf_validate_email' ) ) {
 		if ( ! filter_var( $value, FILTER_VALIDATE_EMAIL ) ) {
 			return esc_html__( 'Please enter a valid email address.', 'wp-carousel-free' );
 		}
-
 	}
 }
 

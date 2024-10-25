@@ -140,7 +140,7 @@ if ( ! class_exists( 'WPCF_Helper' ) ) {
 		 * @return string
 		 */
 		public static function get_item_image( $lazy_load_image, $wpcp_layout, $img_url, $title_attr, $width, $height, $alt_text, $lazy_img_url ) {
-			if ( 'false' !== $lazy_load_image && 'carousel' === $wpcp_layout ) {
+			if ( 'false' !== $lazy_load_image && 'carousel' === $wpcp_layout || 'slider' === $wpcp_layout ) {
 				$image = sprintf( '<img class="wcp-lazy swiper-lazy" data-src="%1$s" src="%6$s" %2$s alt="%3$s" width="%4$s" height="%5$s">', $img_url, $title_attr, $alt_text, $width, $height, $lazy_img_url );
 			} else {
 				$image = sprintf( '<img class="skip-lazy" src="%1$s"%2$s alt="%3$s" width="%4$s" height="%5$s">', $img_url, $title_attr, $alt_text, $width, $height );
@@ -174,19 +174,24 @@ if ( ! class_exists( 'WPCF_Helper' ) ) {
 		 * @return void
 		 */
 		public static function get_item_loops( $upload_data, $shortcode_data, $carousel_type, $post_id ) {
-			$show_slide_image = isset( $shortcode_data['show_image'] ) ? $shortcode_data['show_image'] : '';
-			$show_img_title   = isset( $shortcode_data['wpcp_post_title'] ) ? $shortcode_data['wpcp_post_title'] : '';
-			$image_link_show  = isset( $shortcode_data['wpcp_click_action_type_group']['wpcp_logo_link_show'] ) ? $shortcode_data['wpcp_click_action_type_group']['wpcp_logo_link_show'] : 'l_box';
-			$wpcp_layout      = isset( $shortcode_data['wpcp_layout'] ) ? $shortcode_data['wpcp_layout'] : 'carousel';
-			$lazy_load_img    = apply_filters( 'wpcp_lazy_load_img', WPCAROUSELF_URL . 'public/css/spinner.svg' );
-			$lazy_load_image  = isset( $shortcode_data['wpcp_image_lazy_load'] ) ? $shortcode_data['wpcp_image_lazy_load'] : 'false';
+			$show_slide_image      = isset( $shortcode_data['show_image'] ) ? $shortcode_data['show_image'] : '';
+			$wpcp_slider_animation = isset( $shortcode_data['wpcp_slider_animation'] ) ? $shortcode_data['wpcp_slider_animation'] : 'slide';
+			$wpcp_carousel_mode    = isset( $shortcode_data['wpcp_carousel_mode'] ) ? $shortcode_data['wpcp_carousel_mode'] : 'standard';
+			$show_img_title        = isset( $shortcode_data['wpcp_post_title'] ) ? $shortcode_data['wpcp_post_title'] : '';
+			$image_link_show       = isset( $shortcode_data['wpcp_click_action_type_group']['wpcp_logo_link_show'] ) ? $shortcode_data['wpcp_click_action_type_group']['wpcp_logo_link_show'] : 'l_box';
+			$wpcp_layout           = isset( $shortcode_data['wpcp_layout'] ) ? $shortcode_data['wpcp_layout'] : 'carousel';
+			$lazy_load_img         = apply_filters( 'wpcp_lazy_load_img', WPCAROUSELF_URL . 'public/css/spinner.svg' );
+			$lazy_load_image       = isset( $shortcode_data['wpcp_image_lazy_load'] ) ? $shortcode_data['wpcp_image_lazy_load'] : 'false';
 
 			$_image_title_att      = isset( $shortcode_data['_image_title_attr'] ) ? $shortcode_data['_image_title_attr'] : '';
 			$show_image_title_attr = ( $_image_title_att ) ? 'true' : 'false';
 			$image_sizes           = isset( $shortcode_data['wpcp_image_sizes'] ) ? $shortcode_data['wpcp_image_sizes'] : 'medium';
 			$post_order_by         = isset( $shortcode_data['wpcp_post_order_by'] ) ? $shortcode_data['wpcp_post_order_by'] : '';
 			$post_order            = isset( $shortcode_data['wpcp_post_order'] ) ? $shortcode_data['wpcp_post_order'] : '';
-			$grid_column           = '';
+			$image_orderby         = isset( $shortcode_data['wpcp_image_order_by'] ) ? $shortcode_data['wpcp_image_order_by'] : '';
+			$show_img_caption      = isset( $shortcode_data['wpcp_image_caption'] ) ? $shortcode_data['wpcp_image_caption'] : '';
+
+			$grid_column = '';
 			if ( 'grid' === $wpcp_layout ) {
 				$column_number     = isset( $shortcode_data['wpcp_number_of_columns'] ) ? $shortcode_data['wpcp_number_of_columns'] : '';
 				$column_lg_desktop = isset( $column_number['lg_desktop'] ) && ! empty( $column_number['lg_desktop'] ) ? $column_number['lg_desktop'] : '5';
@@ -197,10 +202,15 @@ if ( ! class_exists( 'WPCF_Helper' ) ) {
 				$grid_column       = "wpcpro-col-xs-$column_mobile wpcpro-col-sm-$column_tablet  wpcpro-col-md-$column_sm_desktop wpcpro-col-lg-$column_desktop wpcpro-col-xl-$column_lg_desktop";
 			}
 
-			if ( 'carousel' === $wpcp_layout ) {
+			if ( 'slider' === $wpcp_layout ) {
 				$grid_column = 'swiper-slide';
 			}
-
+			if ( 'carousel' === $wpcp_layout ) {
+				$grid_column = 'swiper-slide';
+				if ( 'flip' === $wpcp_slider_animation && 'standard' === $wpcp_carousel_mode ) {
+					$grid_column = ' single-item-fade';
+				}
+			}
 			if ( 'product-carousel' === $carousel_type ) {
 				$show_quick_view_button = isset( $shortcode_data['quick_view'] ) ? $shortcode_data['quick_view'] : true;
 				$show_product_name      = $shortcode_data['wpcp_product_name'];
@@ -220,11 +230,12 @@ if ( ! class_exists( 'WPCF_Helper' ) ) {
 				}
 			}
 			if ( 'post-carousel' === $carousel_type ) {
-				$show_post_content = $shortcode_data['wpcp_post_content_show'];
-				$show_post_date    = $shortcode_data['wpcp_post_date_show'];
-				$show_post_author  = $shortcode_data['wpcp_post_author_show'];
-
-				$post_query = self::wpcp_query( $upload_data, $shortcode_data, $post_id );
+				$show_post_content      = $shortcode_data['wpcp_post_content_show'];
+				$wpcp_post_content_type = isset( $shortcode_data['wpcp_post_content_type'] ) ? $shortcode_data['wpcp_post_content_type'] : 'excerpt';
+				$show_post_date         = $shortcode_data['wpcp_post_date_show'];
+				$show_post_author       = $shortcode_data['wpcp_post_author_show'];
+				$show_post_comment      = isset( $shortcode_data['wpcp_post_comment_show'] ) ? $shortcode_data['wpcp_post_comment_show'] : false;
+				$post_query             = self::wpcp_query( $upload_data, $shortcode_data, $post_id );
 				if ( $post_query->have_posts() ) {
 					while ( $post_query->have_posts() ) :
 						$post_query->the_post();
@@ -242,8 +253,7 @@ if ( ! class_exists( 'WPCF_Helper' ) ) {
 				if ( empty( $gallery_ids ) ) {
 					return;
 				}
-				$image_orderby = isset( $shortcode_data['wpcp_image_order_by'] ) ? $shortcode_data['wpcp_image_order_by'] : '';
-				$attachments   = explode( ',', $gallery_ids );
+				$attachments = explode( ',', $gallery_ids );
 				( ( 'rand' === $image_orderby ) ? shuffle( $attachments ) : '' );
 				if ( is_array( $attachments ) || is_object( $attachments ) ) :
 					foreach ( $attachments as $attachment ) {
@@ -251,6 +261,82 @@ if ( ! class_exists( 'WPCF_Helper' ) ) {
 					} // End foreach.
 				endif;
 			}
+			if ( 'video-carousel' === $carousel_type ) {
+				$video_sources = isset( $upload_data['carousel_video_source'] ) ? $upload_data['carousel_video_source'] : array();
+				if ( empty( $video_sources ) ) {
+					return;
+				}
+				$video_sources = array_slice( $video_sources, 0, 6 );
+				$lightbox_data = 'data-thumbs="true" data-outside="1" data-loop=1 data-keyboard=1';
+				$sp_urls       = self::get_video_thumb_url( $video_sources );
+				if ( 'rand' === $image_orderby ) {
+					shuffle( $sp_urls );
+				}
+				foreach ( $sp_urls as $sp_url ) {
+					$image_width_attr     = '';
+					$image_height_attr    = '';
+					$image_src            = isset( $sp_url['video_thumb_url'] ) ? $sp_url['video_thumb_url'] : '';
+					$video_thumb_alt_text = isset( $sp_url['video_thumb_alt'] ) ? $sp_url['video_thumb_alt'] : '';
+					if ( ! empty( $image_src ) ) {
+						$video_url = isset( $sp_url['video_url'] ) && ! empty( $sp_url['video_url'] ) ? $sp_url['video_url'] : $image_src;
+						require self::wpcf_locate_template( 'loop/video-type.php' );
+					}
+				}
+			}
+		}
+
+		/**
+		 * Get video URL and Thumbnail.
+		 *
+		 * @param array $_video_sources video sources.
+		 * @return array
+		 */
+		public static function get_video_thumb_url( $_video_sources ) {
+			$vid_url = array();
+			foreach ( $_video_sources as $_video_source ) {
+				$video_type            = 'youtube';
+				$wpcp_video_id         = $_video_source['carousel_video_source_id'];
+				$wpcp_video_desc       = $_video_source['carousel_video_description'];
+				$wpcp_video_thumb_url  = '';
+				$wpcp_img_click_action = '';
+				$wpcp_video_url        = '';
+				$video_thumb_alt_text  = '';
+				$video_thumb_alt_text  = 'youtube-video-thumbnail';
+				$wpcp_video_url        = 'https://www.youtube.com/watch?v=' . $wpcp_video_id;
+				$wpcp_video_thumb_url  = self::fetch_highest_res( $wpcp_video_id );
+				$vid_url[]             = array(
+					'video_type'       => $video_type,
+					'img_click_action' => $wpcp_img_click_action,
+					'video_id'         => $wpcp_video_id,
+					'video_url'        => $wpcp_video_url,
+					'video_thumb_url'  => $wpcp_video_thumb_url,
+					'video_thumb_alt'  => $video_thumb_alt_text,
+					'video_desc'       => $wpcp_video_desc,
+				);
+			} // End foreach.
+			return $vid_url;
+		}
+		/**
+		 * Fetch highest resolution thumb from YouTube .YouTube available thumb size - maxresdefault, sddefault, mqdefault, hqdefault, and default.
+		 *
+		 * @param string $wpcp_video_id YouTube video id.
+		 * @return mixed
+		 */
+		public static function fetch_highest_res( $wpcp_video_id ) {
+			$resolutions      = array( 'hqdefault', 'maxresdefault', 'mqdefault', 'sddefault', 'default' );
+			$http             = is_ssl() ? 'https:' : 'http:';
+			$thumb_resolution = apply_filters( 'wpcp_youtube_thumb_resolution', true );
+			if ( $thumb_resolution ) {
+				foreach ( $resolutions as $res ) {
+					$resolution = apply_filters( 'wp_carousel_youtube_thumb_size', $res );
+					$thumb_url  = "$http//img.youtube.com/vi_webp/$wpcp_video_id/$resolution.webp";
+					if ( ! empty( $wpcp_video_id ) && ! empty( $thumb_url ) && @getimagesize( $thumb_url ) ) {
+						return $thumb_url;
+					}
+				}
+			}
+			$default_resolution = apply_filters( 'wp_carousel_youtube_default_thumb_size', 'hqdefault' );
+			return "$http//img.youtube.com/vi/$wpcp_video_id/$default_resolution.jpg";
 		}
 
 		/**
@@ -381,7 +467,6 @@ if ( ! class_exists( 'WPCF_Helper' ) ) {
 				$number_of_total_posts = count( $queried_post_ids );
 
 				if ( ! empty( $queried_post_ids ) ) {
-
 					if ( 'carousel' !== $wpcp_layout && $wpcp_pagination ) {
 						$wppaged    = 'paged' . $post_id;
 						$paged      = isset( $_GET[ "$wppaged" ] ) ? $_GET[ "$wppaged" ] : 1;

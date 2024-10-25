@@ -6,7 +6,7 @@
  *
  * @see delete_option(), delete_post_meta_key()
  * @since 3.1.0
- * @package WP Carousel Pro
+ * @package WP Carousel
  */
 
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;

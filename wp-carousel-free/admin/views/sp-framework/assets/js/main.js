@@ -549,6 +549,315 @@
 
     });
   };
+
+
+  //
+  // Field: group
+  //
+  $.fn.wpcf_field_group = function () {
+    return this.each(function () {
+
+      var $this = $(this),
+        $fieldset = $this.children('.wpcf-fieldset'),
+        $group = $fieldset.length ? $fieldset : $this,
+        $wrapper = $group.children('.wpcf-cloneable-wrapper'),
+        $hidden = $group.children('.wpcf-cloneable-hidden'),
+        $max = $group.children('.wpcf-cloneable-max'),
+        $min = $group.children('.wpcf-cloneable-min'),
+        field_id = $wrapper.data('field-id'),
+        is_number = Boolean(Number($wrapper.data('title-number'))),
+        max = parseInt($wrapper.data('max')),
+        min = parseInt($wrapper.data('min'));
+
+
+      // clear accordion arrows if multi-instance
+      if ($wrapper.hasClass('ui-accordion')) {
+        $wrapper.find('.ui-accordion-header-icon').remove();
+      }
+
+      var update_title_numbers = function ($selector) {
+        $selector.find('.wpcf-cloneable-title-number').each(function (index) {
+          $(this).html(($(this).closest('.wpcf-cloneable-item').index() + 1) + '.');
+        });
+      };
+
+      $wrapper.accordion({
+        header: '> .wpcf-cloneable-item > .wpcf-cloneable-title',
+        collapsible: true,
+        active: false,
+        animate: false,
+        heightStyle: 'content',
+        beforeActivate: function (event, ui) {
+          var $panel = ui.newPanel;
+          var $header = ui.newHeader;
+          if ($panel.length && !$panel.data('opened')) {
+            var $fields = $panel.children();
+            var $first = $fields.first();
+            var $title = $header.find('.wpcf-cloneable-value');
+            $first.on('change keyup', function (event) {
+              setTimeout(function () {
+                var $group_title = $first.find('.wpcf--active .sp-carousel-type');
+                $title.text($group_title.html());
+              }, 300);
+            });
+
+          }
+        },
+        icons: {
+          'header': 'wpcf-cloneable-header-icon fa fa-angle-right',
+          'activeHeader': 'wpcf-cloneable-header-icon fa fa-angle-down'
+        },
+        activate: function (event, ui) {
+
+          var $panel = ui.newPanel;
+          var $header = ui.newHeader;
+
+          if ($panel.length && !$panel.data('opened')) {
+            var $fields = $panel.children();
+            var $first = $fields.first();
+            var $title = $header.find('.wpcf-cloneable-value');
+            $first.on('change keyup', function (event) {
+              setTimeout(function () {
+                var $group_title = $first.find('.wpcf--active .sp-carousel-type');
+                $title.text($group_title.html());
+              }, 300);
+            });
+            $panel.wpcf_reload_script();
+            $panel.data('opened', true);
+            $panel.data('retry', false);
+          } else if ($panel.data('retry')) {
+            $panel.wpcf_reload_script_retry();
+            $panel.data('retry', false);
+          }
+
+        }
+      });
+
+      $wrapper.sortable({
+        axis: 'y',
+        handle: '.wpcf-cloneable-title,.wpcf-cloneable-sort',
+        helper: 'original',
+        cursor: 'move',
+        placeholder: 'widget-placeholder',
+        start: function (event, ui) {
+          $wrapper.accordion({ active: false });
+          $wrapper.sortable('refreshPositions');
+          ui.item.children('.wpcf-cloneable-content').data('retry', true);
+        },
+        update: function (event, ui) {
+
+          SP_WPCP_Framework.helper.name_nested_replace($wrapper.children('.wpcf-cloneable-item'), field_id);
+          //  $wrapper.sp_wpcp_customizer_refresh();
+
+          if (is_number) {
+            update_title_numbers($wrapper);
+          }
+
+        },
+      });
+      $group.children('.wpcf-cloneable-add').on('click', function (e) {
+
+        e.preventDefault();
+
+        var count = $wrapper.children('.wpcf-cloneable-item').length;
+
+        $min.hide();
+
+        if (max && (count + 1) > max) {
+          $max.show();
+          return;
+        }
+
+        var $cloned_item = $hidden.wpcf_clone(true);
+
+        $cloned_item.removeClass('wpcf-cloneable-hidden');
+
+        $cloned_item.find(':input[name!="_pseudo"]').each(function () {
+          this.name = this.name.replace('___', '').replace(field_id + '[0]', field_id + '[' + count + ']');
+        });
+
+        $wrapper.append($cloned_item);
+        $wrapper.accordion('refresh');
+        $wrapper.accordion({ active: count });
+        // $wrapper.sp_wpcp_customizer_refresh();
+        // $wrapper.sp_wpcp_customizer_listen({ closest: true });
+
+        if (is_number) {
+          update_title_numbers($wrapper);
+        }
+
+      });
+
+      var event_clone = function (e) {
+
+        e.preventDefault();
+
+        var count = $wrapper.children('.wpcf-cloneable-item').length;
+
+        $min.hide();
+
+        if (max && (count + 1) > max) {
+          $max.show();
+          return;
+        }
+
+        var $this = $(this),
+          $parent = $this.parent().parent(),
+          $cloned_helper = $parent.children('.wpcf-cloneable-helper').wpcf_clone(true),
+          $cloned_title = $parent.children('.wpcf-cloneable-title').wpcf_clone(),
+          $cloned_content = $parent.children('.wpcf-cloneable-content').wpcf_clone(),
+          $cloned_item = $('<div class="wpcf-cloneable-item" />');
+
+        $cloned_item.append($cloned_helper);
+        $cloned_item.append($cloned_title);
+        $cloned_item.append($cloned_content);
+
+        $wrapper.children().eq($parent.index()).after($cloned_item);
+
+        SP_WPCF.helper.name_nested_replace($wrapper.children('.wpcf-cloneable-item'), field_id);
+
+        $wrapper.accordion('refresh');
+        //  $wrapper.sp_wpcp_customizer_refresh();
+        // $wrapper.sp_wpcp_customizer_listen({ closest: true });
+
+        if (is_number) {
+          update_title_numbers($wrapper);
+        }
+
+      };
+
+      $wrapper.children('.wpcf-cloneable-item').children('.wpcf-cloneable-helper').on('click', '.wpcf-cloneable-clone', event_clone);
+      $group.children('.wpcf-cloneable-hidden').children('.wpcf-cloneable-helper').on('click', '.wpcf-cloneable-clone', event_clone);
+
+      var event_remove = function (e) {
+
+        e.preventDefault();
+
+        var count = $wrapper.children('.wpcf-cloneable-item').length;
+
+        $max.hide();
+        $min.hide();
+
+        if (min && (count - 1) < min) {
+          $min.show();
+          return;
+        }
+
+        $(this).closest('.wpcf-cloneable-item').remove();
+
+        SP_WPCP_Framework.helper.name_nested_replace($wrapper.children('.wpcf-cloneable-item'), field_id);
+
+        // $wrapper.sp_wpcp_customizer_refresh();
+
+        if (is_number) {
+          update_title_numbers($wrapper);
+        }
+
+      };
+
+      $wrapper.children('.wpcf-cloneable-item').children('.wpcf-cloneable-helper').on('click', '.wpcf-cloneable-remove', event_remove);
+      $group.children('.wpcf-cloneable-hidden').children('.wpcf-cloneable-helper').on('click', '.wpcf-cloneable-remove', event_remove);
+
+      setTimeout(function () {
+        $group.find('.wpcf-cloneable-item:not(.wpcf-cloneable-hidden)').each(function () {
+          var $header = $(this).find('.wpcf-cloneable-title');
+          var $title = $header.find('.wpcf-cloneable-value');
+          var $group_title = $(this).find('.wpcf--active .sp-carousel-type');
+          $title.html($group_title.html());
+        });
+      }, 100);
+    });
+  };
+  //
+  // Field: wp_editor
+  //
+  $.fn.wpcf_field_wp_editor = function () {
+    return this.each(function () {
+
+      if (typeof window.wp.editor === 'undefined' || typeof window.tinyMCEPreInit === 'undefined' || typeof window.tinyMCEPreInit.mceInit.wpcf_wp_editor === 'undefined') {
+        return;
+      }
+
+      var $this = $(this),
+        $editor = $this.find('.wpcf-wp-editor'),
+        $textarea = $this.find('textarea');
+
+      // If there is wp-editor remove it for avoid dupliated wp-editor conflicts.
+      var $has_wp_editor = $this.find('.wp-editor-wrap').length || $this.find('.mce-container').length;
+
+      if ($has_wp_editor) {
+        $editor.empty();
+        $editor.append($textarea);
+        $textarea.css('display', '');
+      }
+
+      // Generate a unique id
+      var uid = SP_WPCF.helper.uid('wpcf-editor-');
+
+      $textarea.attr('id', uid);
+
+      // Get default editor settings
+      var default_editor_settings = {
+        tinymce: window.tinyMCEPreInit.mceInit.wpcf_wp_editor,
+        quicktags: window.tinyMCEPreInit.qtInit.wpcf_wp_editor
+      };
+
+      // Get default editor settings
+      var field_editor_settings = $editor.data('editor-settings');
+
+      // Callback for old wp editor
+      var wpEditor = wp.oldEditor ? wp.oldEditor : wp.editor;
+
+      if (wpEditor && wpEditor.hasOwnProperty('autop')) {
+        wp.editor.autop = wpEditor.autop;
+        wp.editor.removep = wpEditor.removep;
+        wp.editor.initialize = wpEditor.initialize;
+      }
+
+      // Add on change event handle
+      var editor_on_change = function (editor) {
+        editor.on('change keyup', function () {
+          var value = (field_editor_settings.wpautop) ? editor.getContent() : wp.editor.removep(editor.getContent());
+          $textarea.val(value).trigger('change');
+        });
+      };
+
+      // Extend editor selector and on change event handler
+      default_editor_settings.tinymce = $.extend({}, default_editor_settings.tinymce, { selector: '#' + uid, setup: editor_on_change });
+
+      // Override editor tinymce settings
+      if (field_editor_settings.tinymce === false) {
+        default_editor_settings.tinymce = false;
+        $editor.addClass('wpcf-no-tinymce');
+      }
+
+      // Override editor quicktags settings
+      if (field_editor_settings.quicktags === false) {
+        default_editor_settings.quicktags = false;
+        $editor.addClass('wpcf-no-quicktags');
+      }
+
+      // Wait until :visible
+      var interval = setInterval(function () {
+        if ($this.is(':visible')) {
+          window.wp.editor.initialize(uid, default_editor_settings);
+          clearInterval(interval);
+        }
+      });
+
+      // Add Media buttons
+      if (field_editor_settings.media_buttons && window.wpcf_media_buttons) {
+        var $editor_buttons = $editor.find('.wp-media-buttons');
+        if ($editor_buttons.length) {
+          $editor_buttons.find('.wpcf-shortcode-button').data('editor-id', uid);
+        } else {
+          var $media_buttons = $(window.wpcf_media_buttons);
+          $media_buttons.find('.wpcf-shortcode-button').data('editor-id', uid);
+          $editor.prepend($media_buttons);
+        }
+      }
+    });
+  };
   //
   // Field: code_editor
   //
@@ -616,9 +925,37 @@
         $edit = $this.find('.wpcf-edit-gallery'),
         $clear = $this.find('.wpcf-clear-gallery'),
         $list = $this.find('ul.sp-gallery-images'),
+        $sorter = $this.find('ul.sp-gallery-images'),
         $input = $this.find('input'),
         $img = $this.find('img'),
         wp_media_frame;
+      $sorter.sortable({
+        cursor: "move",
+        // connectWith: $disabled,
+        // placeholder: 'ui-sortable-placeholder',
+        update: function (event, ui) {
+          var selectedIds = Array();
+          $('.sp-gallery-images li a.edit-attachment-modify').each(function () {
+            selectedIds.push($(this).data('id'));
+          });
+          $input.val(selectedIds.join(',')).trigger('change');
+          wpcp_image_edit.init();
+        }
+      });
+      $(document).find('.wpcp_image-thumbnail-delete').on('click', function (e) {
+        e.preventDefault();
+        $(this).parents('li').remove();
+        setTimeout(() => {
+          wpcp_image_edit.init();
+          var selectedIds = Array();
+          $('.sp-gallery-images li a.edit-attachment-modify').each(function () {
+            selectedIds.push($(this).data('id'));
+          });
+          $input.val(selectedIds.join(',')).trigger('change');
+        }, 3000);
+      });
+
+
 
       $this.on('click', '.wpcf-button, .wpcf-edit-gallery', function (e) {
 
@@ -632,8 +969,31 @@
         if (typeof window.wp === 'undefined' || !window.wp.media || !window.wp.media.gallery) { return; }
 
         // Open media with state
-        if (state === 'gallery') {
+        // if (state === 'gallery') {
 
+        //   wp_media_frame = window.wp.media({
+        //     library: {
+        //       type: 'image'
+        //     },
+        //     frame: 'post',
+        //     state: 'gallery',
+        //     multiple: true
+        //   });
+
+        //   wp_media_frame.open();
+
+        // } else {
+
+        //   wp_media_frame = window.wp.media.gallery.edit('[gallery ids="' + ids + '"]');
+
+        //   if (what === 'add') {
+        //     wp_media_frame.setState('gallery-library');
+        //   }
+
+        // }
+
+        // Open media with state.
+        if (state === 'gallery') {
           wp_media_frame = window.wp.media({
             library: {
               type: 'image'
@@ -642,43 +1002,151 @@
             state: 'gallery',
             multiple: true
           });
-
           wp_media_frame.open();
-
         } else {
-
           wp_media_frame = window.wp.media.gallery.edit('[gallery ids="' + ids + '"]');
-
           if (what === 'add') {
             wp_media_frame.setState('gallery-library');
           }
-
         }
 
         // Media Update
+        // Media Update handler
         wp_media_frame.on('update', function (selection) {
-
+          // Clear the current media list
           $list.empty();
 
-          var selectedIds = selection.models.map(function (attachment) {
+          // Iterate over the selected media items and process each one
+          const selectedIds = selection.models.map(attachment => {
+            // Convert the media item to a JSON object for easier manipulation
+            const item = attachment.toJSON();
 
-            var item = attachment.toJSON();
-            var thumb = (item.sizes && item.sizes.thumbnail && item.sizes.thumbnail.url) ? item.sizes.thumbnail.url : item.url;
+            // Determine the thumbnail image URL or fallback to the default media URL if no thumbnail exists
+            //	const thumb = item.sizes?.thumbnail?.url || item.url;
+            const thumb = (item.sizes && item.sizes.thumbnail && item.sizes.thumbnail.url) || item.url;
+            // Create a deep copy of the media item data and remove unnecessary properties
+            const dataItem = { ...item };
+            delete dataItem.compat;
+            delete dataItem.nonces;
+            delete dataItem.sizes; // Remove the 'sizes' to keep the data lightweight
 
-            $list.append('<li><img src="' + thumb + '"></li>');
+            // Append the media item to the list with an edit and delete button
+            $list.append(`<li>
+									<img src="${thumb}">
+									<a class="edit-attachment-modify ${item.id} wcp-icon edit-icon"
+									data-id="${item.id}" href="#">
+										<span class="wpcf-icon-edit"></span>
+									</a>
+									<a class="wpcp_image-thumbnail-delete remove-icon wcp-icon"
+									data-id="${item.id}" href="#">
+										<span class="wpcf-icon-delete"></span>
+									</a>
+								</li>`);
 
+            // Convert the media item data into a JSON string for storage
+            const jsonString = JSON.stringify(dataItem);
+
+            // Find the current media item’s edit button and attach the JSON data to it
+            const currentItem = $list.find(`.edit-attachment-modify.${item.id}`);
+            currentItem.attr('data-wpcp_image-model', jsonString);
+
+            // Return the item's ID to be used later for input updates
             return item.id;
-
           });
 
+          // Update the hidden input field with the list of selected media item IDs
           $input.val(selectedIds.join(',')).trigger('change');
+
+          // Make the clear and edit buttons visible (remove hidden class)
           $clear.removeClass('hidden');
           $edit.removeClass('hidden');
 
+          // Initialize any custom image editing scripts (likely a plugin-specific function)
+          wpcp_image_edit.init();
+
+          // Handle the delete functionality for each media item
+          $(document).find('.wpcp_image-thumbnail-delete').on('click', function (e) {
+            e.preventDefault(); // Prevent the default anchor link behavior
+
+            // Remove the media item from the DOM
+            $(this).closest('li').remove();
+
+            // Collect the remaining media item IDs
+            const updatedIds = [];
+            $('.sp-gallery-images li a.edit-attachment-modify').each(function () {
+              updatedIds.push($(this).data('id')); // Push the remaining item's ID to the array
+            });
+
+            // Update the hidden input field with the new list of IDs
+            $input.val(updatedIds.join(',')).trigger('change');
+
+            // Re-initialize the custom image editing scripts
+            wpcp_image_edit.init();
+          });
+
+          // Fetch additional attachment details for each selected media item
+          setTimeout(() => {
+            selectedIds.forEach(id => {
+
+              // Find the corresponding edit button for this media item
+              const currentItem = $list.find(`.edit-attachment-modify.${id}`);
+
+              // Get the stored JSON data associated with this media item
+              const jsonData = currentItem.data('wpcp_image-model');
+
+              // Make an AJAX call to retrieve additional data for this media item
+              wp.media.ajax('wpcp_image_get_attachment_links', {
+                data: {
+                  nonce: wpcf_metabox_local.save_nonce, // Security nonce for validation
+                  attachment_id: id, // Media item ID
+                },
+                // If the request is successful, merge the new data with the existing JSON data
+                success(response) {
+                  const mergedObject = { ...jsonData, ...response }; // Merge existing and new data
+                  const updatedJsonString = JSON.stringify(mergedObject); // Convert to JSON string
+                  currentItem.attr('data-wpcp_image-model', updatedJsonString); // Update the data attribute
+
+                  // Re-initialize custom image editing scripts with updated data
+                  wpcp_image_edit.init();
+                },
+                // If an error occurs during the request, log it in the console
+                error(error_message) {
+                  console.error('Error fetching attachment links:', error_message);
+                }
+              });
+            });
+          }, 2000);
         });
 
       });
+      $this.on('click', '.edit-attachment', function (e) {
+        var $el = $(this),
+          ids = $input.val(),
+          what = ($el.hasClass('sp_wpcp-edit-gallery')) ? 'edit' : 'add',
+          attachId = $el.data('id'),
+          state = (what === 'add' && !ids.length) ? 'gallery' : 'gallery-edit';
+        e.preventDefault();
+        if (typeof window.wp === 'undefined' || !window.wp.media || !window.wp.media.gallery) { return; }
+        // Get the attachment object for the specified image ID
+        var attachment = wp.media.attachment();
+        // Open media editor popup for the single image
+        wp.media.editor.open({
+          title: 'Edit Image', // Title of the modal
+          multiple: false, // Set to false to only allow selecting one image.
+          button: { text: 'Select' }, // Custom text for the select button.
+          // Set the initial selection to the specified image attachment.
+          selection: attachment,
+          // Callback function when image is selected
+          // 'selection' parameter contains the selected image information
+          // Here, you can perform actions with the selected image
+          // For example, you can log the selected image details to console
+          // or perform additional operations with it
+          // onSelect: function (selection) {
+          // 	console.log(selection);
+          // }
+        });
 
+      });
       $clear.on('click', function (e) {
         e.preventDefault();
         $list.empty();
@@ -2049,7 +2517,7 @@
     return this.each(function () {
 
       var $this = $(this),
-        $siblings = $this.find('.wpcf--sibling'),
+        $siblings = $this.find('.wpcf--sibling:not(.wpcf-disabled):not(.wpcf-pro-only)'),
         multiple = $this.data('multiple') || false;
 
       $siblings.on('click', function () {
@@ -2096,6 +2564,10 @@
           if ($this.find('.wpcf-support').length > 0) {
             $class = 'support-tooltip';
           }
+          // this class add with the support tooltip.
+          if ($this.find('.sp_wpcp-support').length > 0) {
+            $class = 'support-tooltip';
+          }
 
           var help_text = $this.find('.wpcf-help-text').html();
           if ($('.wpcf-tooltip').length > 0) {
@@ -2107,9 +2579,14 @@
           offset_left = SP_WPCF.vars.is_rtl
             ? $this.offset().left + 36
             : $this.offset().left + 36
-
+          var $top = $this.offset().top - (($tooltip.outerHeight() / 2) - 14);
+          // This block used for support tooltip.
+          if ($this.find('.sp_wpcp-support').length > 0) {
+            $top = $this.offset().top + 52;
+            offset_left = $this.offset().left - 222;
+          }
           $tooltip.css({
-            top: $this.offset().top - (($tooltip.outerHeight() / 2) - 14),
+            top: $top,
             left: offset_left,
             textAlign: 'left',
           });
@@ -2119,9 +2596,7 @@
           if (!$tooltip.is(':hover')) {
             $tooltip.remove();
           }
-
         }
-
       });
       // Event delegation to handle tooltip removal when the cursor leaves the tooltip itself.
       $('body').on('mouseleave', '.wpcf-tooltip', function () {
@@ -2129,9 +2604,65 @@
           $tooltip.remove();
         }
       });
-
     });
   };
+  //
+  // Help Tooltip
+  //
+  // $.fn.wpcf_help = function () {
+  //   return this.each(function () {
+
+  //     var $this = $(this),
+  //       $tooltip,
+  //       offset_left,
+  //       $class = '';
+
+  //     $this.on({
+  //       mouseenter: function () {
+  //         // this class add with the support tooltip.
+  //         if ($this.find('.sp_wpcp-support').length > 0) {
+  //           $class = 'support-tooltip';
+  //         }
+
+  //         var help_text = $this.find('.wpcf-help-text').html();
+  //         if ($('.sp_wpcp-tooltip').length > 0) {
+  //           $tooltip = $('.sp_wpcp-tooltip').html(help_text);
+  //         } else {
+  //           $tooltip = $('<div class="sp_wpcp-tooltip ' + $class + '"></div>').html(help_text).appendTo('body');
+  //         }
+
+  //         offset_left = SP_WPCP_Framework.vars.is_rtl
+  //           ? $this.offset().left + 36
+  //           : $this.offset().left + 36;
+  //         var $top = $this.offset().top - (($tooltip.outerHeight() / 2) - 14);
+  //         // This block used for support tooltip.
+  //         if ($this.find('.sp_wpcp-support').length > 0) {
+  //           $top = $this.offset().top + 52;
+  //           offset_left = $this.offset().left - 212;
+  //         }
+  //         $tooltip.css({
+  //           top: $top,
+  //           left: offset_left,
+  //           textAlign: 'left',
+  //         });
+
+  //       },
+  //       mouseleave: function () {
+  //         if (!$tooltip.is(':hover')) {
+  //           $tooltip.remove();
+  //         }
+  //       }
+
+  //     });
+  //     // Event delegation to handle tooltip removal when the cursor leaves the tooltip itself.
+  //     $('body').on('mouseleave', '.sp_wpcp-tooltip', function () {
+  //       if ($tooltip !== undefined) {
+  //         $tooltip.remove();
+  //       }
+  //     });
+
+  //   });
+  // }
 
   //
   // Customize Refresh
@@ -2234,7 +2765,9 @@
     return this.each(function () {
 
       var $this = $(this);
-
+      if ($this.data('inited')) {
+        $this.children('.wpcf-field-wp_editor').wpcf_field_wp_editor();
+      }
     });
   };
 
@@ -2267,11 +2800,13 @@
         $this.children('.wpcf-field-fieldset_cpt').wpcf_field_fieldset();
 
         // Field colors
+        $this.children('.wpcf-field-box_shadow ').find('.wpcf-color').wpcf_color();
         $this.children('.wpcf-field-border').find('.wpcf-color').wpcf_color();
         $this.children('.wpcf-field-color').find('.wpcf-color').wpcf_color();
         $this.children('.wpcf-field-color_group').find('.wpcf-color').wpcf_color();
         $this.children('.wpcf-field-typography').find('.wpcf-color').wpcf_color();
-
+        $this.children('.wpcf-field-group').wpcf_field_group();
+        $this.children('.wpcf-field-wp_editor').wpcf_field_wp_editor();
         // Field chosenjs
         $this.children('.wpcf-field-select').find('.wpcf-chosen').wpcf_chosen();
 
@@ -2285,6 +2820,7 @@
 
         // Help Tooptip
         $this.children('.wpcf-field').find('.wpcf-help').wpcf_help();
+        $('.wpcp-admin-header').find('.sp_wpcp-support-area').wpcf_help();
 
         if (settings.dependency) {
           $this.wpcf_dependency();
@@ -2436,10 +2972,30 @@
           }, 3000);
         }
       });
+    })
+
+    // Get the last activated or selected layout.
+    var lastSelectedOption = $('input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]:checked').val();
+
+    $('input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]').each(function () {
+      if ($(this).val() === 'audio-carousel' || $(this).val() === 'content-carousel' || $(this).val() === 'mix-content' || $(this).val() === 'external-carousel' ) {
+        $(this).prop('disabled', true);
+      }
     });
 
+    $('input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]').on('change', function () {
+      if (!$(this).is(':disabled')) {
+        lastSelectedOption = $(this).val();
+        console.log(lastSelectedOption);
+      }
+    });
+    $('#publishing-action').on('click', '#publish', function (e) {
+      if ($('input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]:checked').is(':disabled')) {
+        $('input[name="sp_wpcp_upload_options[wpcp_carousel_type]"][value="' + lastSelectedOption + '"]').prop('checked', true);
+      }
+    });
 
-    // Wp Carousel import.
+    // WP Carousel Import.
     $('.wpcp_import button.import').on('click', function (event) {
       event.preventDefault();
       var $this = $(this),
@@ -2491,42 +3047,139 @@
         }, 3000);
       }
     });
-    // Hide justified layout if source type is not "image carousel".
-    $('.wpcf-field-carousel_type').on('change', function () {
-      if ($('.wpcf-field-carousel_type input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]:checked').val() == 'image-carousel') {
-        $('.wpcp_layout .wpcf--sibling.wpcf--image').eq(4).show();
-      } else {
-        $('.wpcp_layout .wpcf--sibling.wpcf--image').eq(4).hide();
-      }
-    });
-    // hide Carousel Settings when grid layout will be selected.
-    if ($('.wpcp_layout input[name="sp_wpcp_shortcode_options[wpcp_layout]"]:checked').val() == 'grid') {
-      $(".wpcf-nav-metabox li:nth-child(5)").hide();
-    } else {
-      $(".wpcf-nav-metabox li:nth-child(5)").show();
-    }
-    $('.wpcf-field-image_select.wpcp_layout').on('change', function () {
-      if ($('.wpcp_layout input[name="sp_wpcp_shortcode_options[wpcp_layout]"]:checked').val() == 'grid') {
-        $(".wpcf-nav-metabox li:nth-child(5)").hide();
-      } else {
-        $(".wpcf-nav-metabox li:nth-child(5)").show();
-      }
-    });
 
-    // hide Lightbox Settings when Click Action Type = 'none'.
-    if ($('.wpcp_logo_link_show_class input[name="sp_wpcp_shortcode_options[wpcp_logo_link_show]"]:checked').val() == 'none') {
+    if ($('.wpcp_carousel_type input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]:checked').val() == 'image-carousel') {
+      $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(5)').show();
+    } else {
+      $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(5)').hide();
+      $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(1)').trigger('click');
+    }
+    // Show/hide and trigger click for product carousel tab.
+    if ($('.wpcp_carousel_type input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]:checked').val() == 'product-carousel') {
+      $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(4)').show();
+    } else {
+      $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(4)').hide();
+      $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(1)').trigger('click');
+    }
+    // show/hide lightbox tab.
+    if ($('.wpcp_carousel_type input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]:checked').val() == 'image-carousel' || $('.wpcp_carousel_type input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]:checked').val() == 'video-carousel') {
+      $(".wpcf-nav-metabox li:nth-child(3)").show();
+    } else {
+      $(".wpcf-nav-metabox li:nth-child(3)").hide();
+    }
+
+
+
+
+    // Hide justified layout if source type is not "image carousel".
+    $('.wpcf-field-carousel_type.wpcp_carousel_type').on('change', function () {
+
+      // Show/hide and trigger click for post carousel tab.
+      if ($('.wpcp_carousel_type input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]:checked').val() == 'post-carousel') {
+        $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(3)').show();
+      } else {
+        $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(3)').hide();
+        $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(1)').trigger('click');
+      }
+      if ($('.wpcp_carousel_type input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]:checked').val() == 'image-carousel') {
+        $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(5)').show();
+      } else {
+        $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(5)').hide();
+        $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(1)').trigger('click');
+      }
+      // Show/hide and trigger click for product carousel tab.
+      if ($('.wpcp_carousel_type input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]:checked').val() == 'product-carousel') {
+        $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(4)').show();
+      } else {
+        $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(4)').hide();
+        $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(1)').trigger('click');
+      }
+      //  show/hide Lightbox tab.
+      if ($('.wpcp_carousel_type input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]:checked').val() == 'image-carousel' || $('.wpcp_carousel_type input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]:checked').val() == 'video-carousel') {
+        $(".wpcf-nav-metabox li:nth-child(3)").show();
+      } else {
+        $(".wpcf-nav-metabox li:nth-child(3)").hide();
+      }
+    });
+    // Hide Carousel Settings when grid layout will be selected.
+    if ($('.wpcp_layout input[name="sp_wpcp_shortcode_options[wpcp_layout]"]:checked').val() == 'grid') {
       $(".wpcf-nav-metabox li:nth-child(4)").hide();
     } else {
       $(".wpcf-nav-metabox li:nth-child(4)").show();
     }
-    $('.wpcf-field-image_select.wpcp_logo_link_show_class').on('change', function () {
-      if ($('.wpcp_logo_link_show_class input[name="sp_wpcp_shortcode_options[wpcp_logo_link_show]"]:checked').val() == 'none') {
+    if ('hide' != $('.wpcp_product_desc input[name="sp_wpcp_shortcode_options[wpcp_product_desc]"]:checked').val()) {
+      $('.wpcp_product_desc .wpcf-desc-text').show();
+    } else {
+      $('.wpcp_product_desc .wpcf-desc-text').hide();
+    }
+    $('.wpcp_product_desc').on('change', function () {
+      if ('hide' != $('.wpcp_product_desc input[name="sp_wpcp_shortcode_options[wpcp_product_desc]"]:checked').val()) {
+        $('.wpcp_product_desc .wpcf-desc-text').show();
+      } else {
+        $('.wpcp_product_desc .wpcf-desc-text').hide();
+      }
+    });
+    if ('vertical_outer' != $('.wpcp-carousel-nav-position select option:selected').val()) {
+      $('.wpcp-carousel-nav-position .wpcf-desc-text').show();
+    } else {
+      $('.wpcp-carousel-nav-position .wpcf-desc-text').hide();
+    }
+    if ('content_with_limit' == $('.wpcp_post_content_type select option:selected').val()) {
+      $('.wpcp_post_content_type .wpcf-desc-text').show();
+    } else {
+      $('.wpcp_post_content_type .wpcf-desc-text').hide();
+    }
+    $('.wpcp_post_content_type').on('change', function () {
+      if ('content_with_limit' == $('.wpcp_post_content_type select option:selected').val()) {
+        $('.wpcp_post_content_type .wpcf-desc-text').show();
+      } else {
+        $('.wpcp_post_content_type .wpcf-desc-text').hide();
+      }
+    });
+    $('.wpcp-carousel-nav-position').on('change', function () {
+      if ('vertical_outer' != $('.wpcp-carousel-nav-position select option:selected').val()) {
+        $('.wpcp-carousel-nav-position .wpcf-desc-text').show();
+      } else {
+        $('.wpcp-carousel-nav-position .wpcf-desc-text').hide();
+      }
+    });
+    $('.wpcf-field-image_select.wpcp_layout').on('change', function () {
+      if ($('.wpcp_layout input[name="sp_wpcp_shortcode_options[wpcp_layout]"]:checked').val() == 'grid') {
         $(".wpcf-nav-metabox li:nth-child(4)").hide();
       } else {
         $(".wpcf-nav-metabox li:nth-child(4)").show();
       }
     });
 
+    // hide Lightbox Settings when Click Action Type = 'none'.
+    if ($('.wpcp_logo_link_show_class input[name="sp_wpcp_shortcode_options[wpcp_logo_link_show]"]:checked').val() == 'none') {
+      $(".wpcf-nav-metabox li:nth-child(3)").hide();
+    } else {
+      $(".wpcf-nav-metabox li:nth-child(3)").show();
+    }
+    $('.wpcf-field-image_select.wpcp_logo_link_show_class').on('change', function () {
+      if ($('.wpcp_logo_link_show_class input[name="sp_wpcp_shortcode_options[wpcp_logo_link_show]"]:checked').val() == 'none') {
+        $(".wpcf-nav-metabox li:nth-child(3)").hide();
+      } else {
+        $(".wpcf-nav-metabox li:nth-child(3)").show();
+      }
+    });
+
+    // Show/hide and trigger click for post carousel tab
+    if ($('.wpcp_carousel_type input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]:checked').val() == 'post-carousel') {
+      $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(3)').show();
+    } else {
+      $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(3)').hide();
+      $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(1)').trigger('click');
+    }
+
+    // Show/hide and trigger click for product carousel tab
+    if ($('.wpcp_carousel_type input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]:checked').val() == 'product-carousel') {
+      $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(4)').show();
+    } else {
+      $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(4)').hide();
+      $('.wp-carousel-style-tabs .wpcf-tabbed-nav a:nth-child(1)').trigger('click');
+    }
   });
   $(document).on('keyup change', '.sp_wp_carousel_page_wpcp_settings #wpcf-form', function (e) {
     e.preventDefault();
@@ -2610,39 +3263,632 @@
   });
 
   /* Carousel Navigation - Select Position Preview */
-	function navigationPositionPreview(selector, regex) {
-		var str = "";
-		$(selector + ' option:selected').each(function () {
-			str = $(this).val();
-		});
-		var src = $(selector + ' .wpcf-fieldset img').attr('src');
-		var result = src.match(regex);
-		if (result && result[1]) {
-			src = src.replace(result[1], str);
-			$(selector + ' .wpcf-fieldset img').attr('src', src);
-		}
-	}
-	$('.wpcp-carousel-nav-position').on('change', function () {
-		navigationPositionPreview(".wpcp-carousel-nav-position", /carousel-navigation\/(.+)\.svg/);
-	});
+  function navigationPositionPreview(selector, regex) {
+    var str = "";
+    $(selector + ' option:selected').each(function () {
+      str = $(this).val();
+    });
+    var src = $(selector + ' .wpcf-fieldset img').attr('src');
+    var result = src.match(regex);
+    if (result && result[1]) {
+      src = src.replace(result[1], str);
+      $(selector + ' .wpcf-fieldset img').attr('src', src);
+    }
+  }
+  $('.wpcp-carousel-nav-position').on('change', function () {
+    navigationPositionPreview(".wpcp-carousel-nav-position", /carousel-navigation\/(.+)\.svg/);
+  });
 
-	// Disable and style the switcher element
-	$('.wpcf_show_hide .wpcf--switcher').attr('disabled', 'disabled').addClass('wp_carousel_only_pro_switcher').css({ 'background': '#B0BCC4' });
+  // Disable and style the switcher element
+  $('.wpcf_show_hide .wpcf--switcher').attr('disabled', 'disabled').addClass('wp_carousel_only_pro_switcher').css({ 'background': '#99AAB2' });
 
-	// Apply common styling to elements with the 'wp_carousel_only_pro_switcher' class
-	$('.wp_carousel_only_pro_switcher').css({ 'pointer-events': 'none', 'color': '#8796A1', 'position': 'relative' });
+  // Apply common styling to elements with the 'wp_carousel_only_pro_switcher' class
+  $('.wp_carousel_only_pro_switcher').css({ 'pointer-events': 'none', 'color': '#99AAB2', 'position': 'relative' });
 
-	$(document).on("change", ".wpcp_logo_link_show_class", function (event) {
-		event.stopPropagation();
-		var select_value = $(this)
-			.find("input:checked")
-			.val();  
+  $(document).on("change", ".wpcp_logo_link_show_class", function (event) {
+    event.stopPropagation();
+    var select_value = $(this)
+      .find("input:checked")
+      .val();
 
-		if (select_value == "l_box" || select_value == "image-carousel" ) {
-			$(".sp_wpcp-metabox .sp_wpcp-nav.sp_wpcp-nav-metabox li:nth-child(4) a").show();
-		} else {
-			$(".sp_wpcp-metabox .sp_wpcp-nav.sp_wpcp-nav-metabox li:nth-child(4) a").hide();
-			$(".sp_wpcp-metabox .sp_wpcp-nav.sp_wpcp-nav-metabox li:nth-child(1) a").trigger('click');
-		}
-	});
+    if (select_value == "l_box" || select_value == "image-carousel") {
+      $(".sp_wpcp-metabox .sp_wpcp-nav.sp_wpcp-nav-metabox li:nth-child(4) a").show();
+    } else {
+      $(".sp_wpcp-metabox .sp_wpcp-nav.sp_wpcp-nav-metabox li:nth-child(4) a").hide();
+      $(".sp_wpcp-metabox .sp_wpcp-nav.sp_wpcp-nav-metabox li:nth-child(1) a").trigger('click');
+    }
+  });
 })(jQuery, window, document);
+
+
+
+/**
+* Slide Model
+*/
+var WPCarouselSlide = Backbone.Model.extend({
+
+  /**
+  * Defaults
+  * As we always populate this model with existing data, we
+  * leave these blank to just show how this model is structured.
+  */
+  defaults: {
+    'id': '',
+    'title': '',
+    'caption': '',
+    'alt': '',
+    'link': '',
+    'type': '',
+
+  },
+
+});
+
+/**
+* Images Collection
+* - Comprises of all slides in an WPCarousel Slider
+* - Each image is represented by an WPCarouselSlides Model
+*/
+var WPCarouselSlides = new Backbone.Collection();
+
+/**
+* Modal Window
+*/
+var WPCarouselModalWindow = new wp.media.view.Modal({
+  controller: {
+    trigger: function () {
+
+    }
+  }
+});
+
+/**
+* View
+*/
+var WPCarouselView = wp.Backbone.View.extend({
+  /**
+  * The Tag Name and Tag's Class(es)
+  */
+  id: 'wpcp_image-meta-edit',
+  tagName: 'div',
+  className: 'edit-attachment-frame mode-select hide-menu hide-router',
+
+  /**
+  * Template
+  * - The template to load inside the above tagName element.
+  */
+  template: wp.template('wpcp_image-meta-editor'),
+
+  /**
+  * Events
+  * - Functions to call when specific events occur
+  */
+  events: {
+    'click .edit-media-header .left': 'loadPreviousItem',
+    'click .edit-media-header .right': 'loadNextItem',
+    'keyup input': 'updateItem',
+    'keyup textarea': 'updateItem',
+    'change input': 'updateItem',
+    'change textarea': 'updateItem',
+    'keyup .CodeMirror': 'updateCode',
+    'blur textarea': 'updateItem',
+    'change select': 'updateItem',
+    'click a.wpcp_image-meta-submit': 'saveItem',
+    'keyup input#link-search': 'searchLinks',
+    'click div.query-results li': 'insertLink',
+
+    'click a.wpcp_image-thumbnail': 'insertThumb',
+    'click a.wpcp_image-thumbnail-delete': 'removeThumb',
+
+    'click button.media-file': 'insertMediaFileLinks',
+    'click button.attachment-page': 'insertAttachmentPageLink',
+  },
+  /**
+  * Initialize
+  *
+  * @param object model WPCarouselImage Backbone Model
+  */
+  initialize: function (args) {
+
+    // Set some flags
+    this.is_loading = false;
+    this.collection = args.collection;
+    this.child_views = args.child_views;
+    this.attachment_id = args.attachment_id;
+    this.attachment_index = 0;
+    this.search_timer = '';
+
+    // Get the model from the collection
+    var count = 0;
+    this.collection.each(function (model) {
+
+      // If this model's id matches the attachment id, this is the model we want, also make sure both are int
+      if (String(model.get('id')) == String(this.attachment_id)) {
+        this.model = model;
+        this.attachment_index = count;
+
+        return false;
+      }
+
+      // Increment the index count
+      count++;
+    }, this);
+
+  },
+  updateCode: function (e) {
+
+    $model = this.model;
+
+    $textarea = this.$el.find('.wpcp_image-html-slide-code');
+
+    $model.set('code', this.editor.getValue(), { silent: true });
+
+    $textarea.text();
+
+  },
+  insertThumb: function (e) {
+    $model = this.model;
+    e.preventDefault();
+    // Get input field class name
+    var fieldClassName = this.$el.data('field');
+    var wpcp_image_media_frame = wp.media.frames.wpcp_image_media_frame = wp.media({
+      className: 'media-frame wpcp_image-media-frame',
+      frame: 'select',
+      multiple: false,
+      title: wpcf_metabox_local.videoframe,
+      library: {
+        type: 'image'
+      },
+      button: {
+        text: wpcf_metabox_local.videouse
+      }
+    });
+
+    wpcp_image_media_frame.on('select', function () {
+      // Grab our attachment selection and construct a JSON representation of the model.
+      var thumbnail = wpcp_image_media_frame.state().get('selection').first().toJSON();
+
+      $model.set('src', thumbnail.url, { silent: true });
+      jQuery('div.thumbnail > img', $parent.find('.media-frame-content')).attr('src', thumbnail.url);
+
+    });
+
+    // Now that everything has been set, let's open up the frame.
+    wpcp_image_media_frame.open();
+  },
+  removeThumb: function (e) {
+    e.preventDefault();
+    $model = this.model;
+    $parent = this.$el.parent();
+
+    jQuery('div.thumbnail > img', $parent.find('.media-frame-content')).attr('src', '');
+
+    $model.set('src', '', { silent: true });
+
+  },
+  /**
+  * Render
+  * - Binds the model to the view, so we populate the view's fields and data
+  */
+  render: function () {
+    // Get HTML
+    if (this.model) {
+      this.$el.html(this.template(this.model.attributes))
+    } else {
+      return false;
+    }
+    // If any child views exist, render them now.
+    if (this.child_views.length > 0) {
+      this.child_views.forEach(function (view) {
+        // Init with model.
+        var child_view = new view({
+          model: this.model
+        });
+        // Render view within our main view.
+        this.$el.find('div.addons').append(child_view.render().el);
+      }, this);
+    }
+
+    // Set caption
+    this.$el.find('textarea[name=caption]').val(this.model.get('caption'));
+    this.$el.find('textarea[name=description]').val(this.model.get('description'));
+    this.$el.find('select[name=crop_position]').val(this.model.get('crop_position'));
+    var $current_element = this;
+    // Change tab class and display content
+    this.$el.find('.wpcp_tabs-nav a').on('click', function (event) {
+      event.preventDefault();
+      $current_element.$el.find('.tab-active').removeClass('tab-active');
+      jQuery(this).parent().addClass('tab-active');
+      $current_element.$el.find('.wpcp_tabs-stage > div').hide();
+      jQuery(jQuery(this).attr('href')).show();
+    });
+
+    jQuery('.wpcp_tabs-nav a:first').trigger('click'); // Default.
+
+    // Init QuickTags on the caption editor.
+    // Delay is required for the first load for some reason.
+    setTimeout(function () {
+      quicktags({
+        id: 'caption',
+        buttons: 'strong,em,link,ul,ol,li,close'
+      });
+      quicktags({
+        id: 'description',
+        buttons: 'strong,em,link,ul,ol,li,close'
+      });
+      QTags._buttonsInit();
+    }, 100);
+
+    // Init Link Searching.
+    wpLink.init;
+
+    // Enable / disable the buttons depending on the index.
+    if (this.attachment_index === 0) {
+      // Disable left button.
+      this.$el.find('button.left').addClass('disabled');
+    }
+    if (this.attachment_index == (this.collection.length - 1)) {
+      // Disable right button.
+      this.$el.find('button.right').addClass('disabled');
+    }
+    textarea = this.$el.find('.wpcp_image-html-slide-code');
+    if (textarea.length) {
+      this.editor = CodeMirror.fromTextArea(textarea[0], {
+        enterMode: 'keep',
+        indentUnit: 4,
+        electricChars: false,
+        lineNumbers: true,
+        lineWrapping: true,
+        matchBrackets: true,
+        mode: 'php',
+        smartIndent: false,
+        tabMode: 'shift',
+        theme: 'ttcn'
+      });
+    }
+    this.$el.trigger('wpcp_imageRenderMeta');
+    this.$el.trigger('insertMediaFileLinks');
+    // Return
+    return this;
+
+  },
+
+  /**
+  * Tells the view we're loading by displaying a spinner
+  */
+  loading: function () {
+
+    // Set a flag so we know we're loading data
+    this.is_loading = true;
+
+    // Show the spinner
+    this.$el.find('.spinner').css('visibility', 'visible');
+  },
+
+  /**
+  * Hides the loading spinner
+  */
+  loaded: function (response) {
+
+    // Set a flag so we know we're not loading anything now
+    this.is_loading = false;
+
+    // Hide the spinner
+    this.$el.find('.spinner').css('visibility', 'hidden');
+
+    // Display the error message, if it's provided
+    if (typeof response !== 'undefined') {
+      alert(response);
+    }
+
+  },
+
+  /**
+  * Load the previous model in the collection
+  */
+  loadPreviousItem: function () {
+    // Decrement the index.
+    this.attachment_index--;
+    if (this.attachment_index < 0) {
+      this.attachment_index = this.collection.length - 1;
+    }
+    // Get the model at the new index from the collection.
+    this.model = this.collection.at(this.attachment_index);
+    // Update the attachment_id.
+    this.attachment_id = this.model.get('id');
+    // Re-render the view.
+    this.render();
+  },
+
+  /**
+  * Load the next model in the collection
+  */
+  loadNextItem: function () {
+
+    // Increment the index.
+    this.attachment_index++;
+
+    // Get the model at the new index from the collection.
+    if (this.attachment_index > this.collection.length - 1) {
+      this.attachment_index = 0;
+    }
+
+    this.model = this.collection.at(this.attachment_index);
+
+    // Update the attachment_id.
+    this.attachment_id = this.model.get('id');
+
+    // Re-render the view.
+    this.render();
+  },
+
+  /**
+  * Updates the model based on the changed view data.
+  */
+  updateItem: function (event) {
+
+    // Check if the target has a name. If not, it's not a model value we want to store.
+    if (event.target.name == '') {
+      return;
+    }
+
+    // Update the model's value, depending on the input type.
+    if (event.target.type == 'checkbox') {
+      value = (event.target.checked ? 1 : 0);
+    } else {
+      value = event.target.value;
+    }
+
+    // Update the model.
+    this.model.set(event.target.name, value);
+
+  },
+
+  /**
+  * Saves the image metadata
+  */
+  saveItem: function (event) {
+
+    event.preventDefault();
+
+    // Tell the View we're loading
+    this.trigger('loading');
+    // Make an AJAX request to save the image metadata
+    wp.media.ajax('wpcf_image_save_meta', {
+      context: this,
+      data: {
+        nonce: wpcf_metabox_local.save_nonce,
+        post_id: wpcf_metabox_local.id,
+        attach_id: this.model.get('id'),
+        meta: this.model.attributes,
+      },
+
+      success: function (response) {
+
+        // Tell the view we've finished successfully
+        this.trigger('loaded loaded:success');
+
+        // Assign the model's JSON string back to the underlying item
+        var item = JSON.stringify(this.model.attributes);
+        jQuery('ul#wpcp_image-output li#' + this.model.get('id')).attr('data-wpcp_image-model', item);
+        // Show the user the 'saved' notice for 1.5 seconds
+        var saved = this.$el.find('.saved');
+        saved.fadeIn();
+        setTimeout(function () {
+          saved.fadeOut();
+        }, 1500);
+
+      },
+      error: function (error_message) {
+
+        // Tell wp.media we've finished, but there was an error
+        this.trigger('loaded loaded:error', error_message);
+
+      }
+    });
+
+  },
+
+  /**
+  * Searches Links
+  */
+  searchLinks: function (event) { },
+
+  /**
+  * Inserts the clicked link into the URL field
+  */
+  insertLink: function (event) { },
+
+  /**
+  * Inserts the direct media link for the Media Library item
+  *
+  * The button triggering this event is only displayed if we are editing a
+  * Media Library item, so there's no need to perform further checks
+  */
+  insertMediaFileLinks: function (event) {
+
+    // Tell the View we're loading
+    this.trigger('loading');
+    // Make an AJAX request to get the media link
+    wp.media.ajax('wpcp_image_get_attachment_links', {
+      context: this,
+      data: {
+        nonce: wpcf_metabox_local.save_nonce,
+        attachment_id: this.model.get('id'),
+      },
+      success: function (response) {
+
+        // Update model
+        this.model.set('wpcplink', response.media_link);
+        // Tell the view we've finished successfully.
+        this.trigger('loaded loaded:success');
+
+        // Re-render the view.
+        this.render();
+
+      },
+      error: function (error_message) {
+
+        // Tell wp.media we've finished, but there was an error.
+        this.trigger('loaded loaded:error', error_message);
+
+      }
+    });
+
+  },
+
+  /**
+  * Inserts the attachment page link for the Media Library item
+  *
+  * The button triggering this event is only displayed if we are editing a
+  * Media Library item, so there's no need to perform further checks
+  */
+  insertAttachmentPageLink: function (event) {
+
+    // Tell the View we're loading
+    this.trigger('loading');
+
+    // Make an AJAX request to get the media link
+    wp.media.ajax('wpcp_image_get_attachment_links', {
+      context: this,
+      data: {
+        nonce: wpcf_metabox_local.save_nonce,
+        attachment_id: this.model.get('id'),
+      },
+      success: function (response) {
+
+        // Update model
+        this.model.set('wpcplink', response.attachment_page);
+
+        // Tell the view we've finished successfully
+        this.trigger('loaded loaded:success');
+
+        // Re-render the view
+        this.render();
+
+      },
+      error: function (error_message) {
+
+        // Tell wp.media we've finished, but there was an error
+        this.trigger('loaded loaded:error', error_message);
+
+      }
+    });
+
+  }
+
+});
+
+/**
+* Sub Views
+* - Addons must populate this array with their own Backbone Views, which will be appended
+* to the settings region
+*/
+var WPCarouselChildViews = [];
+var WPCarouselContentViews = [];
+
+/**
+* DOM
+*/
+; (function ($) {
+
+  $(document).ready(function () {
+
+    wpcp_image_edit = {
+
+      init: function () {
+
+        // Populate the collection
+        WPCarouselSlidesUpdate();
+
+        // Edit Image
+        $(document).on('click.wpcp_imageModify', '.edit-attachment-modify', function (e) {
+          // Prevent default action
+          e.preventDefault();
+          // Get the selected attachment
+          var attachment_id = $(this).data('id');
+
+          // Pass the collection of images for this gallery to the modal view, as well
+          // as the selected attachment
+          WPCarouselModalWindow.content(new WPCarouselView({
+            collection: WPCarouselSlides,
+            child_views: WPCarouselChildViews,
+            attachment_id: attachment_id,
+          }));
+
+          // Open the modal window.
+          WPCarouselModalWindow.open();
+
+          $(document).trigger('wpcp_imageEditOpen');
+
+          $('.CodeMirror').each(function (i, el) {
+            el.CodeMirror.refresh();
+          });
+
+        });
+
+      }
+    };
+
+    wpcp_image_edit.init();
+
+  });
+
+  $(document).on('wpcp_imageUploaded', function () {
+    wpcp_image_edit.init();
+  });
+  /**
+  * Populates the WPCarouselSlides Backbone collection
+  *
+  * Called when images are added, deleted or reordered
+  * Doesn't need to be called when an image is edited, as the model will be updated automatically in the collection
+  */
+  function WPCarouselSlidesUpdate(selected) {
+
+    // Clear the collection
+    WPCarouselSlides.reset();
+
+    // var $items = 'ul#wpcp_image-output li.wpcp_image-slide' + (selected ? '.selected' : '');
+    var $items = '.edit-attachment-modify';
+
+    // Iterate through the gallery images in the DOM, adding them to the collection
+    jQuery($items).each(function () {
+      // Build an WPCarouselImage Backbone Model from the JSON supplied in the element
+      var wpcp_image_slide = jQuery.parseJSON(jQuery(this).attr('data-wpcp_image-model'));
+
+      // Add the model to the collection
+      WPCarouselSlides.add(new WPCarouselSlide(wpcp_image_slide));
+
+    });
+
+  }
+  if (typeof ClipboardJS !== 'undefined') {
+    var copyAttachmentURLClipboard = new ClipboardJS('.copy-attachment-url'),
+      copyAttachmentURLSuccessTimeout;
+    /**
+     * Handles media list copy media URL button.
+     *
+     * @param {MouseEvent} event A click event.
+     * @return {void}
+     */
+    copyAttachmentURLClipboard.on('success', function (event) {
+      var triggerElement = $(event.trigger),
+        successElement = $('.success', triggerElement.closest('.copy-to-clipboard-container'));
+
+      // Clear the selection and move focus back to the trigger.
+      event.clearSelection();
+
+      // Show success visual feedback.
+      clearTimeout(copyAttachmentURLSuccessTimeout);
+      successElement.removeClass('hidden');
+
+      // Hide success visual feedback after 3 seconds since last success and unfocus the trigger.
+      copyAttachmentURLSuccessTimeout = setTimeout(function () {
+        successElement.addClass('hidden');
+      }, 3000);
+
+      // Handle success audible feedback.
+      wp.a11y.speak(wp.i18n.__('The file URL has been copied to your clipboard'));
+    });
+  }
+})(jQuery);

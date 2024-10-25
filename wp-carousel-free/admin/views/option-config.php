@@ -48,8 +48,8 @@ SP_WPCF::createOptions(
 SP_WPCF::createSection(
 	$prefix,
 	array(
-		'title'  => 'Advanced Settings',
-		'icon'   => 'fa fa-cogs',
+		'title'  => __( 'Advanced Controls', 'wp-carousel-free' ),
+		'icon'   => 'fa fa-wrench',
 		'fields' => array(
 			array(
 				'id'         => 'wpcf_delete_all_data',
@@ -59,38 +59,30 @@ SP_WPCF::createSection(
 				'default'    => false,
 			),
 			array(
-				'type'    => 'subheading',
-				'content' => __( 'Styles', 'wp-carousel-free' ),
-			),
-			array(
 				'id'         => 'wpcp_enqueue_swiper_css',
 				'type'       => 'switcher',
 				'title'      => __( 'Swiper CSS', 'wp-carousel-free' ),
-				'text_on'    => __( 'Enqueue', 'wp-carousel-free' ),
-				'text_off'   => __( 'Dequeue', 'wp-carousel-free' ),
-				'text_width' => 95,
+				'text_on'    => __( 'Enqueued', 'wp-carousel-free' ),
+				'text_off'   => __( 'Dequeued', 'wp-carousel-free' ),
+				'text_width' => 100,
 				'default'    => true,
 			),
 			array(
 				'id'         => 'wpcp_enqueue_fa_css',
 				'type'       => 'switcher',
 				'title'      => __( 'Font Awesome CSS', 'wp-carousel-free' ),
-				'text_on'    => __( 'Enqueue', 'wp-carousel-free' ),
-				'text_off'   => __( 'Dequeue', 'wp-carousel-free' ),
-				'text_width' => 95,
+				'text_on'    => __( 'Enqueued', 'wp-carousel-free' ),
+				'text_off'   => __( 'Dequeued', 'wp-carousel-free' ),
+				'text_width' => 100,
 				'default'    => true,
-			),
-			array(
-				'type'    => 'subheading',
-				'content' => __( 'Scripts', 'wp-carousel-free' ),
 			),
 			array(
 				'id'         => 'wpcp_swiper_js',
 				'type'       => 'switcher',
 				'title'      => __( 'Swiper JS', 'wp-carousel-free' ),
-				'text_on'    => __( 'Enqueue', 'wp-carousel-free' ),
-				'text_off'   => __( 'Dequeue', 'wp-carousel-free' ),
-				'text_width' => 95,
+				'text_on'    => __( 'Enqueued', 'wp-carousel-free' ),
+				'text_off'   => __( 'Dequeued', 'wp-carousel-free' ),
+				'text_width' => 100,
 				'default'    => true,
 			),
 			array(
@@ -98,9 +90,9 @@ SP_WPCF::createSection(
 				'type'       => 'switcher',
 				'title'      => __( 'Load Script for Ajax Theme', 'wp-carousel-free' ),
 				'title_help' => '<div class="sp_wpcp-short-content">' . __( 'Enable this option for ajax theme so that the WP Carousel works perfectly with that theme.', 'wp-carousel-free' ) . '</div>',
-				'text_on'    => __( 'Enqueue', 'wp-carousel-free' ),
-				'text_off'   => __( 'Dequeue', 'wp-carousel-free' ),
-				'text_width' => 95,
+				'text_on'    => __( 'Enqueued', 'wp-carousel-free' ),
+				'text_off'   => __( 'Dequeued', 'wp-carousel-free' ),
+				'text_width' => 100,
 				'default'    => false,
 			),
 		),
@@ -262,7 +254,7 @@ SP_WPCF::createSection(
 	array(
 		'id'     => 'custom_css_section',
 		'title'  => __( 'Custom CSS', 'wp-carousel-free' ),
-		'icon'   => 'fa fa-css3',
+		'icon'   => 'fa fa-file-code-o',
 		'fields' => array(
 			array(
 				'id'       => 'wpcp_custom_css',
@@ -272,6 +264,23 @@ SP_WPCF::createSection(
 					'mode'  => 'css',
 					'theme' => 'monokai',
 				),
+			),
+		),
+	)
+);
+//
+// License Key Fields.
+//
+SP_WPCF::createSection(
+	$prefix,
+	array(
+		'id'     => 'license_key_fields',
+		'title'  => __( 'License Key', 'wp-carousel-free' ),
+		'icon'   => 'fa fa-key',
+		'fields' => array(
+			array(
+				'id'   => 'license_key',
+				'type' => 'license',
 			),
 		),
 	)

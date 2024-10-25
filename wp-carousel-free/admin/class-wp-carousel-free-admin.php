@@ -52,8 +52,140 @@ class WP_Carousel_Free_Admin {
 		$this->suffix      = defined( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min';
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
+		// add_action( 'wp_ajax_create_image_meta', array( $this, 'create_image_meta' ) );
+		add_action( 'wp_ajax_wpcf_image_save_meta', array( $this, 'save_meta' ) );
+		add_action( 'wp_ajax_wpcf_image_get_attachment_links', array( $this, 'get_attachment_links' ) );
 	}
 
+	/**
+	 * Returns the media link (direct image URL) for the given attachment ID
+	 *
+	 * @since
+	 */
+	public function get_attachment_links() {
+		// Check nonce.
+		check_admin_referer( 'wpcf_image-save-meta', 'nonce' );
+
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'You are not allowed to edit sliders.', 'wp-carousel-free' ) ) );
+		}
+
+		// Get required inputs.
+		$attachment_id = isset( $_POST['attachment_id'] ) ? absint( wp_unslash( $_POST['attachment_id'] ) ) : false;
+
+		// Return the attachment's links.
+		wp_send_json_success(
+			array(
+				'media_link'      => wp_get_attachment_url( $attachment_id ),
+				'attachment_page' => get_attachment_link( $attachment_id ),
+				'wpcplink'        => get_post_meta( $attachment_id, 'wpcplinking', true ),
+				'crop_position'   => get_post_meta( $attachment_id, 'crop_position', true ),
+				'link_target'     => get_post_meta( $attachment_id, 'wpcplinktarget', true ),
+			)
+		);
+	}
+	/**
+	 * Saves the metadata for an image in a slider.
+	 *
+	 * @since 1.0.0
+	 */
+	public function save_meta() {
+		// Run a security check first.
+		check_ajax_referer( 'wpcf_image-save-meta', 'nonce' );
+
+		$post_id = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : null;
+
+		if ( null === $post_id ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Invalid Post ID.', 'wp-carousel-free' ) ) );
+		}
+
+		if ( ! current_user_can( 'edit_posts', $post_id ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'You are not allowed to edit sliders.', 'wp-carousel-free' ) ) );
+		}
+
+		// Prepare variables.
+		$attach_id = isset( $_POST['attach_id'] ) ? intval( wp_unslash( $_POST['attach_id'] ) ) : false;
+		$meta      = isset( $_POST['meta'] ) ? wp_unslash( $_POST['meta'] ) : array(); //@codingStandardsIgnoreLine
+		// Update attachment post data.
+		$update_attachment_data = array(
+			'ID'           => $attach_id,
+			'post_title'   => isset( $meta['title'] ) ? trim( esc_html( $meta['title'] ) ) : '',
+			'post_content' => isset( $meta['description'] ) ? wp_kses_post( trim( $meta['description'] ) ) : '',
+			'post_excerpt' => isset( $meta['caption'] ) ? wp_kses_post( trim( $meta['caption'] ) ) : '', // Caption is stored as post excerpt.
+		);
+
+		// Update attachment meta.
+		$new_alt_text = trim( esc_html( $meta['alt'] ) );
+		update_post_meta( $attach_id, '_wp_attachment_image_alt', $new_alt_text );
+		// Update the post.
+		wp_update_post( $update_attachment_data );
+
+		wp_send_json_success();
+	}
+	/**
+	 * Getting image metadata.
+	 *
+	 * @param  int $image_id id.
+	 * @return array
+	 */
+	private function getting_image_metadata( $image_id ) {
+		$image_metadata_array                          = array();
+		$image_linking_meta                            = wp_get_attachment_metadata( $image_id );
+		$image_linking_urls                            = isset( $image_linking_meta['image_meta'] ) ? $image_linking_meta['image_meta'] : '';
+		$image_linking_url                             = ! empty( $image_linking_urls['wpcplinking'] ) ? $image_linking_urls['wpcplinking'] : '';
+		$image_metadata_array['status']                = 'active';
+		$image_metadata_array['id']                    = $image_id;
+		$image_metadata_array['src']                   = esc_url( wp_get_attachment_url( $image_id ) );
+		$image_metadata_array['height']                = $image_linking_meta['height'] ?? '';
+		$image_metadata_array['width']                 = $image_linking_meta['width'] ?? '';
+		$image_metadata_array['alt']                   = trim( esc_html( get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ) ) ?? '';
+		$image_metadata_array['caption']               = trim( esc_html( get_post_field( 'post_excerpt', $image_id ) ) ) ?? '';
+		$image_metadata_array['title']                 = trim( esc_html( get_post_field( 'post_title', $image_id ) ) ) ?? '';
+		$image_metadata_array['description']           = trim( get_post_field( 'post_content', $image_id ) ) ?? '';
+		$image_metadata_array['filename']              = trim( esc_html( get_post_field( 'post_name', $image_id ) ) ) ?? '';
+		$image_metadata_array['wpcplink']              = esc_url( $image_linking_url );
+		$image_metadata_array['link_target']           = get_post_meta( $image_id, 'wpcplinktarget', true );
+		$image_metadata_array['crop_position']         = trim( esc_html( get_post_meta( $image_id, 'crop_position', true ) ) ) ?? 'center_center';
+		$image_metadata_array['editLink']              = get_edit_post_link( $image_id, 'display' );
+		$image_metadata_array['type']                  = 'image';
+		$image_metadata_array['mime']                  = $image_linking_meta['sizes']['thumbnail']['mime-type'] ?? '';
+		$image_metadata_array['filesizeHumanReadable'] = isset( $image_linking_meta['filesize'] ) ? round( $image_linking_meta['filesize'] / 1024 ) : '';
+		if ( array_key_exists( 'sizes', $image_linking_meta ) ) {
+			unset( $image_linking_meta['sizes'] );
+		}
+		if ( array_key_exists( 'image_meta', $image_linking_meta ) ) {
+			unset( $image_linking_meta['image_meta'] );
+		}
+		return array_merge( $image_linking_meta, $image_metadata_array );
+	}
+
+	/**
+	 * Returns the media link (direct image URL) for the given attachment ID
+	 *
+	 * @since
+	 */
+	public function create_image_meta() {
+		// Check nonce.
+		check_admin_referer( 'wpcf_image-save-meta', 'nonce' );
+
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'You are not allowed to edit sliders.', 'wp-carousel-free' ) ) );
+		}
+		// Get required inputs.
+		$attachment_id = isset( $_POST['attach_id'] ) ? absint( wp_unslash( $_POST['attach_id'] ) ) : false;
+		if ( ! $attachment_id ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Invalid Attachment ID.', 'wp-carousel-free' ) ) );
+		}
+		$image_meta = $this->getting_image_metadata( $attachment_id );
+		$json       = wp_json_encode( $image_meta );
+		// Return the attachment's links.
+		wp_send_json_success(
+			array(
+				'edit_text'  => __( 'Edit Image on Media Library', 'wp-carousel-free' ),
+				'image_meta' => $json,
+			)
+		);
+	}
 	/**
 	 * Register the stylesheets for the admin area of the plugin.
 	 *

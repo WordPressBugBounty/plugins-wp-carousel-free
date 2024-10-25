@@ -15,8 +15,28 @@ $wpcp_arrows         = isset( $shortcode_data['wpcp_carousel_navigation']['wpcp_
 $wpcp_hide_on_mobile = isset( $shortcode_data['wpcp_carousel_navigation']['wpcp_hide_on_mobile'] ) ? $shortcode_data['wpcp_carousel_navigation']['wpcp_hide_on_mobile'] : '';
 // Carousel Pagination settings.
 $wpcp_dots                      = isset( $shortcode_data['wpcp_carousel_pagination']['wpcp_pagination'] ) ? $shortcode_data['wpcp_carousel_pagination']['wpcp_pagination'] : 'show';
+$pagination_margin              = isset( $shortcode_data['wpcp_pagination_margin'] ) ? $shortcode_data['wpcp_pagination_margin'] : '';
+$pagination_margin_top          = isset( $pagination_margin['top'] ) ? (int) $pagination_margin['top'] : 40;
+$pagination_margin_right        = isset( $pagination_margin['right'] ) ? $pagination_margin['right'] : '0';
+$pagination_margin_bottom       = isset( $pagination_margin['bottom'] ) ? $pagination_margin['bottom'] : '0';
+$pagination_margin_left         = isset( $pagination_margin['left'] ) ? $pagination_margin['left'] : '0';
 $wpcp_pagination_hide_on_mobile = isset( $shortcode_data['wpcp_carousel_pagination']['wpcp_pagination_hide_on_mobile'] ) ? $shortcode_data['wpcp_carousel_pagination']['wpcp_pagination_hide_on_mobile'] : '';
 $wpcp_pagination                = isset( $shortcode_data['wpcp_source_pagination'] ) ? $shortcode_data['wpcp_source_pagination'] : false;
+$image_vertical_alignment       = isset( $shortcode_data['wpcp_image_vertical_alignment'] ) ? $shortcode_data['wpcp_image_vertical_alignment'] : 'center';
+
+// Box-shadow
+$box_shadow_style         = isset( $shortcode_data['wpcp_box_shadow_style'] ) ? $shortcode_data['wpcp_box_shadow_style'] : 'none';
+$box_shadow             = ( isset( $shortcode_data['wpcp_box_shadow'] ) && 'none' !== $box_shadow_style ) ? $shortcode_data['wpcp_box_shadow'] : array();
+$box_shadow_horizontal  = isset( $box_shadow['horizontal'] ) ? $box_shadow['horizontal'] : '0';
+$box_shadow_vertical    = isset( $box_shadow['vertical'] ) ? $box_shadow['vertical'] : '0';
+$box_shadow_blur        = isset( $box_shadow['blur'] ) ? $box_shadow['blur'] : '0';
+$box_shadow_spread      = isset( $box_shadow['spread'] ) ? $box_shadow['spread'] : '0';
+$box_shadow_style       = ( 'inset' === $box_shadow_style ) ? $box_shadow_style : '';
+$box_shadow_color       = isset( $box_shadow['color'] ) ? $box_shadow['color'] : '#dddddd';
+$box_shadow_hover_color = isset( $box_shadow['hover_color'] ) ? $box_shadow['hover_color'] : '#dddddd';
+$shadow_margin          = ( 'inset' === $box_shadow_style ) ? '' : 'margin: ' . $box_shadow_blur . 'px';
+
+
 // Layout type.
 $wpcp_layout = isset( $shortcode_data['wpcp_layout'] ) ? $shortcode_data['wpcp_layout'] : 'carousel';
 
@@ -96,7 +116,10 @@ if ( $wpcp_dots ) {
 	}
 	';
 }
-
+$the_wpcf_dynamic_css .= '
+	#sp-wp-carousel-free-id-' . $post_id . ' .wpcp-swiper-dots {
+		margin: ' . esc_html( $pagination_margin_top . 'px ' . $pagination_margin_right . 'px ' . $pagination_margin_bottom . 'px ' . $pagination_margin_left ) . 'px;
+	}';
 if ( $wpcp_pagination_hide_on_mobile ) {
 	$the_wpcf_dynamic_css .= '
 	@media screen and (max-width: 479px) {
@@ -105,8 +128,25 @@ if ( $wpcp_pagination_hide_on_mobile ) {
 		}
 	}';
 }
+$the_wpcf_dynamic_css .= '.wpcp-wrapper-' . $post_id . ' .swiper-wrapper .swiper-slide-kenburn, .wpcp-wrapper-' . $post_id . ' .swiper-wrapper, .wpcp-wrapper-' . $post_id . '  .wpcpro-row{
+	align-items: ' . $image_vertical_alignment . ';
+}';
 
-// grid pagination styles.
+if ( 'none' !== $box_shadow_style ) {
+	$the_wpcf_dynamic_css .= '#sp-wp-carousel-free-id-' . $post_id . ' .wpcp-single-item {
+		box-shadow: ' . $box_shadow_style . ' ' . $box_shadow_horizontal . 'px ' . $box_shadow_vertical . 'px ' . $box_shadow_blur . 'px ' . $box_shadow_spread . 'px ' . $box_shadow_color . ';
+		transition: all .3s;
+		' . $shadow_margin . ';
+	}
+	#sp-wp-carousel-free-id-' . $post_id . '.swiper-flip .wpcp-single-item{
+		margin: 0!important;
+	}
+	#sp-wp-carousel-free-id-' . $post_id . ' .wpcp-single-item:hover {
+		box-shadow: ' . $box_shadow_style . ' ' . $box_shadow_horizontal . 'px ' . $box_shadow_vertical . 'px ' . $box_shadow_blur . 'px ' . $box_shadow_spread . 'px ' . $box_shadow_hover_color . ';
+	}';
+}
+
+// Grid pagination styles.
 if ( $wpcp_pagination && 'grid' === $wpcp_layout && 'image-carousel' !== $carousel_type ) { // Load grid pagination's styles if layout is grid, Source type is not image carousel and pagination is enabled.
 	$pagination_alignment = isset( $shortcode_data['pagination_alignment'] ) ? $shortcode_data['pagination_alignment'] : 'center'; // button allignment.
 	$pagination_colors    = isset( $shortcode_data['pagination_color'] ) ? $shortcode_data['pagination_color'] : array(
@@ -210,5 +250,6 @@ $item_gap              = isset( $shortcode_data['wpcp_slide_margin'] ) ? $shortc
 $the_wpcf_dynamic_css .= '#sp-wp-carousel-free-id-' . $post_id . ' .wpcpro-row>[class*="wpcpro-col-"] {
     padding: 0 ' . (int) $item_gap['top'] / 2 . 'px;
     padding-bottom: ' . $item_gap['right'] . 'px;
+} #sp-wp-carousel-free-id-' . $post_id . ' .swiper-slide .single-item-fade:not(:last-child) {
+    margin-right: ' . $item_gap['top'] . 'px;
 }';
-

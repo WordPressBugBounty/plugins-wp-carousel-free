@@ -23,18 +23,21 @@
 }
 
 /* Admin Preloader */
-.sp_wpcp_shortcode_generator .wpcf-wrapper {
-    min-height: 200px;
+
+#sp_wpcp_shortcode_options .wpcf-wrapper .sp_wpcp-nav-metabox li{
+    opacity: 0;
+}
+/* Admin Preloader */
+#sp_wpcp_shortcode_options .wpcf-wrapper {
+    min-height: 300px;
     z-index: 999;
     background-image: url(../img/spinner.svg);
     background-repeat: no-repeat;
-    background-color: #fff;
+    background-color: #f1f1f1;
     background-position: center;
+    padding-top: 30px;
 }
 
-.sp_wpcp_shortcode_generator .wpcf-wrapper li {
-    opacity: 0;
-}
 
 /* Help Page */
 .sp-wpcp-help .wp-badge {
@@ -241,7 +244,44 @@
     margin-right: 2px;
     color: #5db62e
 }
+/* Shortcode sidebar */
+.wpcp-scode-wrap-side * {
+    box-sizing: border-box;
+}
 
+.wpcp-scode-wrap-side p {
+    margin-top: 0;
+}
+
+.wpcp-scode-wrap-side {
+    margin-top: 0;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.wpcp-scode-wrap-side .sp_wpcp-sc-title {
+    margin-top: 0;
+    margin-bottom: 7px;
+    font-size: 1.2em;
+}
+
+.sp_wpcp-field-image_select.wpcp_layout figure {
+    width: 100px;
+}
+
+.sp_wpcp-field-image_select.wpcp_layout .sp_wpcp--image {
+    margin: 0px 3px 5px 0;
+}
+
+#sp_wpcp_upload_options.postbox {
+    margin-bottom: 0px;
+}
+
+#sp_wpcp_display_builders .handle-actions,
+#sp_wpcp_display_shortcodes .handle-actions {
+    display: none;
+    pointer-events: none;
+}
 /* Live preview css */
 #sp_wpcf_live_preview .wpcp-carousel-wrapper .sp-wpcpro-section-title,
 #sp_wpcf_live_preview #poststuff .wpcp-carousel-wrapper .sp-wpcpro-section-title {
@@ -329,4 +369,7 @@ Go Pro
 
 .spwpcp-footer-text-star {
     color: #dba617;
+}
+.spwpcf-gutenberg-shortcode.editor-styles-wrapper:after {
+    display: none;
 }

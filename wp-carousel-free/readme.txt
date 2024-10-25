@@ -1,9 +1,9 @@
-=== Carousel, Slider, Gallery by WP Carousel – Image Carousel & Photo Gallery, Post Carousel & Post Grid, Product Carousel & Product Grid for WooCommerce ===
+=== Carousel, Slider, Gallery by WP Carousel – Image Carousel with Lightbox & Photo Gallery, Video Slider, Post Carousel & Post Grid, Product Carousel & Product Grid ===
 Contributors: shapedplugin, khalilu, shamimmiashuhagh, rubel_miah
 Tags: slider, carousel, slideshow, gallery, video slider
 Requires at least: 5.0
 Tested up to: 6.6.2
-Stable tag: 2.6.9
+Stable tag: 2.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -325,6 +325,32 @@ Thank you!
 
 
 == Changelog ==
+
+= 2.7.0 – Oct 25, 2024 =
+* New: The Slider Layout option.
+* New: The 2 Slider Styles (Slide, Flip) options.
+* New: The Center Style option for the Carousel layout.
+* New: The Flip Slide Effect option for the Carousel layout.
+* New: The Video Carousel Slider Grid Feature.
+* New: The Item Title option.
+* New: The Item Title Source option.
+* New: The Content Position Top option.
+* New: The Items Vertical Alignment (Top, Middle, Bottom) option.
+* New: The Carousel Pagination Margin option.
+* New: Dedicated Image Info (Caption, Description, Title, Alt Text, Crop Position) Edit options.
+* New: The Drag and Drop Image Ordering option.
+* New: The Post Content (Full and Excerpt) option.
+* New: The Post Comment option.
+* Improved: The Style Settings tab is renamed to Display Settings.
+* Improved: The Image Settings options are placed in the  Display Settings tab.
+* Improved: The Typography tab options are placed in the Display Settings tab.
+* Improved: The How To Use Shortcode section moved to the right side of the page.
+* Improved: The Carousel Navigation Vertical Center Position.
+* Fix: The Fontello icon conflict issue was found with other plugins or theme icons.
+* Fix: Some strings translation issue.
+* Updated: The language (.pot) file.
+* Tested: WordPress 6.6.2 compatibility.
+* Tested: WooCommerce 9.3.3 compatibility.
 
 = 2.6.9 – Oct 03, 2024 =
 * Improved: The plugin security has been improved.

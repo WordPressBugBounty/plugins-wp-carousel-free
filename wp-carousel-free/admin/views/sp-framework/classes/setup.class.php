@@ -118,7 +118,6 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 			}
 
 			return self::$instance;
-
 		}
 
 		/**
@@ -259,7 +258,6 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 				}
 			}
 			do_action( 'wpcf_loaded' );
-
 		}
 
 		/**
@@ -318,7 +316,6 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 
 			self::$dir = $dirname;
 			self::$url = $directory_uri . $foldername;
-
 		}
 
 		/**
@@ -359,7 +356,6 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 			} else {
 				return self::$dir . '/' . $file;
 			}
-
 		}
 
 		/**
@@ -415,7 +411,9 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 			$fields = apply_filters(
 				'wpcf_fields',
 				array(
+					'addContent',
 					'border',
+					'box_shadow',
 					'button_set',
 					'carousel_type',
 					'checkbox',
@@ -427,10 +425,12 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 					'dimensions_advanced',
 					'fieldset',
 					'gallery',
+					'group',
 					'heading',
 					'image_select',
 					'image_sizes',
 					'media',
+					'license',
 					'notice',
 					'radio',
 					'select',
@@ -444,6 +444,7 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 					'switcher',
 					'text',
 					'typography',
+					'wp_editor',
 					'preview',
 				)
 			);
@@ -455,7 +456,6 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 					}
 				}
 			}
-
 		}
 
 		/**
@@ -501,6 +501,7 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 			$settings_page_base    = 'sp_wp_carousel_page_wpcp_settings' === $current_screen->base;
 			$tools_page_base       = 'sp_wp_carousel_page_wpcf_tools' === $current_screen->base;
 			if ( 'sp_wp_carousel' === $the_current_post_type || $settings_page_base || $tools_page_base ) {
+					global $post_id;
 				if ( ! empty( self::$args['admin_options'] ) ) {
 					foreach ( self::$args['admin_options'] as $argument ) {
 						if ( substr( $wpscreen->id, -strlen( $argument['menu_slug'] ) ) === $argument['menu_slug'] ) {
@@ -558,13 +559,24 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 						'color_palette' => apply_filters( 'wpcf_color_palette', array() ),
 						'i18n'          => array(
 							'confirm'         => esc_html__( 'Are you sure?', 'wp-carousel-free' ),
-							'typing_text'     => esc_html__( 'Please enter %s or more characters', 'wp-carousel-free' ),
+							'typing_text'     => esc_html__( 'Please enter more characters', 'wp-carousel-free' ),
 							'searching_text'  => esc_html__( 'Searching...', 'wp-carousel-free' ),
 							'no_results_text' => esc_html__( 'No results found.', 'wp-carousel-free' ),
 						),
 					)
 				);
+				wp_localize_script(
+					'wpcf',
+					'wpcf_metabox_local',
+					array(
+						'id'           => $post_id,
+						'slide_width'  => 960,
+						'slide_height' => 300,
+						'save_nonce'   => wp_create_nonce( 'wpcf_image-save-meta' ),
+						'saving'       => esc_attr__( 'Saving...', 'wp-carousel-free' ),
 
+					)
+				);
 				// Enqueue fields scripts and styles.
 				$enqueued = array();
 
@@ -590,7 +602,6 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 
 				do_action( 'wpcf_enqueue' );
 			}
-
 		}
 
 
@@ -695,11 +706,9 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 			}
 
 			echo ( ! empty( $field['title'] ) || ! empty( $field['fancy_title'] ) ) ? '</div>' : '';
-			echo '<div class="clear"></div>';
+			echo isset( $field['type'] ) && 'heading' == $field['type'] ? '' : '<div class="clear"></div>';
 			echo '</div>';
-
 		}
-
 	}
 
 }

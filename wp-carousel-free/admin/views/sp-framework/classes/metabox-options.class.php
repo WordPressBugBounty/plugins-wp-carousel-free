@@ -348,7 +348,7 @@ if ( ! class_exists( 'SP_WPCF_Metabox' ) ) {
 						SP_WPCF::field( $field, $this->get_meta_value( $field ), $this->unique, 'metabox' );
 					}
 				} else {
-					echo '<div class="wpcf-no-option">' . esc_html__( 'No data available.', 'wpcf' ) . '</div>';
+					echo '<div class="wpcf-no-option">' . esc_html__( 'No data available.', 'wp-carousel-free' ) . '</div>';
 				}
 
 				echo '</div>';
@@ -365,8 +365,8 @@ if ( ! class_exists( 'SP_WPCF_Metabox' ) ) {
 				echo '<div class="wpcf-sections-reset">';
 				echo '<label>';
 				echo '<input type="checkbox" name="' . esc_attr( $this->unique ) . '[_reset]" />';
-				echo '<span class="button wpcf-button-reset">' . esc_html__( 'Reset', 'wpcf' ) . '</span>';
-				echo '<span class="button wpcf-button-cancel">' . sprintf( '<small>( %s )</small> %s', esc_html__( 'update post', 'wpcf' ), esc_html__( 'Cancel', 'wpcf' ) ) . '</span>';
+				echo '<span class="button wpcf-button-reset">' . esc_html__( 'Reset', 'wp-carousel-free' ) . '</span>';
+				echo '<span class="button wpcf-button-cancel">' . sprintf( '<small>( %s )</small> %s', esc_html__( 'update post', 'wp-carousel-free' ), esc_html__( 'Cancel', 'wp-carousel-free' ) ) . '</span>';
 				echo '</label>';
 				echo '</div>';
 
