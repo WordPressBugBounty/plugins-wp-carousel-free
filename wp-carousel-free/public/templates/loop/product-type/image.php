@@ -15,7 +15,7 @@ if ( has_post_thumbnail() && $show_slide_image ) {
 	$image_url              = wp_get_attachment_image_src( $product_thumb_id, $image_sizes );
 	$image_url              = is_array( $image_url ) ? $image_url : array( '', '', '' );
 
-	$the_image_title_attr = ' title="' . get_the_title() . '"';
+	$the_image_title_attr = ' title="' . esc_url( get_the_title() ) . '"';
 	$image_title_attr     = $show_image_title_attr ? $the_image_title_attr : '';
 
 	// Product Thumbnail.

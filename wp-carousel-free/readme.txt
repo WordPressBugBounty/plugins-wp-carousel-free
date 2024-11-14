@@ -2,8 +2,8 @@
 Contributors: shapedplugin, khalilu, shamimmiashuhagh, rubel_miah
 Tags: slider, carousel, slideshow, gallery, video slider
 Requires at least: 5.0
-Tested up to: 6.6.2
-Stable tag: 2.7.0
+Tested up to: 6.7
+Stable tag: 2.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -325,6 +325,11 @@ Thank you!
 
 
 == Changelog ==
+
+= 2.7.1 – Nov 14, 2024 =
+* Tested: WordPress 6.7 compatibility.
+* Tested: WooCommerce 9.4.1 compatibility.
+* Improved: Sanitize product image title attribute.
 
 = 2.7.0 – Oct 25, 2024 =
 * New: The Slider Layout option.
