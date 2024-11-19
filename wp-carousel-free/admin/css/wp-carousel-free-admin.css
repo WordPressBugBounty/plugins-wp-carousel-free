@@ -24,9 +24,10 @@
 
 /* Admin Preloader */
 
-#sp_wpcp_shortcode_options .wpcf-wrapper .sp_wpcp-nav-metabox li{
+#sp_wpcp_shortcode_options .wpcf-wrapper .sp_wpcp-nav-metabox li {
     opacity: 0;
 }
+
 /* Admin Preloader */
 #sp_wpcp_shortcode_options .wpcf-wrapper {
     min-height: 300px;
@@ -126,7 +127,7 @@
     background-color: #fff;
     border-radius: 3px;
     margin: 20px 20px 0 0;
-    box-shadow: 0 0 20px 0 rgba(36,39,50,.08);
+    box-shadow: 0 0 20px 0 rgba(36, 39, 50, .08);
 }
 
 #sp-wpcfree-review-notice .sp-wpcfree-plugin-icon {
@@ -244,6 +245,7 @@
     margin-right: 2px;
     color: #5db62e
 }
+
 /* Shortcode sidebar */
 .wpcp-scode-wrap-side * {
     box-sizing: border-box;
@@ -282,6 +284,7 @@
     display: none;
     pointer-events: none;
 }
+
 /* Live preview css */
 #sp_wpcf_live_preview .wpcp-carousel-wrapper .sp-wpcpro-section-title,
 #sp_wpcf_live_preview #poststuff .wpcp-carousel-wrapper .sp-wpcpro-section-title {
@@ -336,7 +339,7 @@ Go Pro
     font-weight: 700;
 } */
 
-#adminmenu #menu-posts-sp_wp_carousel li:nth-child(7) a{
+#adminmenu #menu-posts-sp_wp_carousel li:nth-child(7) a {
     color: #dba617;
 }
 
@@ -370,6 +373,174 @@ Go Pro
 .spwpcp-footer-text-star {
     color: #dba617;
 }
+
 .spwpcf-gutenberg-shortcode.editor-styles-wrapper:after {
     display: none;
+}
+
+/* Black Friday Banner Styles  */
+.sp_wp_carousel-custom-admin-notice.sp_wp_carousel-notice-info {
+    position: relative;
+    border-radius: 5px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 16px;
+    height: auto;
+    border-left: 0;
+    margin-top: 40px;
+    margin-right: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 5px 40px;
+    background: linear-gradient(90deg, #000717 0%, #002068 50.5%, #451223 100%);
+}
+
+.sp_wp_carousel-custom-admin-notice.sp_wp_carousel-notice-info .sp_wp_carousel-offer-text {
+    display: flex;
+    align-items: center;
+}
+
+.sp_wp_carousel-custom-admin-notice.sp_wp_carousel-notice-info span.sp_wp_carousel-clock-icon {
+    font-size: 24px;
+    margin-right: 6px;
+}
+
+.sp_wp_carousel-notice-info img.sp_wp_carousel-plugin-logo,
+.sp_wp_carousel-custom-admin-notice img.sp_wp_carousel-offer-name,
+.sp_wp_carousel-custom-admin-notice img.sp_wp_carousel-offer-percentage {
+    max-width: 250px;
+}
+
+.sp_wp_carousel-notice-info img.sp_wp_carousel-plugin-logo {
+    width: 150px;
+}
+
+.sp_wp_carousel-notice-info img.sp_wp_carousel-offer-percentage {
+    width: 210px;
+    vertical-align: middle;
+}
+
+.sp_wp_carousel-custom-admin-notice .sp_wp_carousel-offer-text p {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: .5px;
+}
+
+.sp_wp_carousel-custom-admin-notice a.sp_wp_carousel-get-offer-button {
+    width: 100px;
+    display: inline-block;
+    font-size: 13px;
+    background: pink;
+    border-radius: 50px;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    padding: 12px 15px;
+    font-weight: 600;
+    transition: .8s ease;
+    background: linear-gradient(98.42deg, #A900BF 8.48%, #E100FF 80.32%);
+}
+
+.sp_wp_carousel-custom-admin-notice a.sp_wp_carousel-get-offer-button:hover {
+    background: linear-gradient(0deg, #A900BF 8.48%, #E100FF 80.32%);
+}
+
+.sp_wp_carousel-custom-admin-notice .sp_wp_carousel-close-offer-banner {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    top: 6px;
+    cursor: pointer;
+}
+
+.sp_wp_carousel-custom-admin-notice i.sp_wp_carousel-icon-banner-close {
+    transition: 0.15s ease;
+}
+
+.sp_wp_carousel-custom-admin-notice i.sp_wp_carousel-icon-banner-close:hover {
+    color: #df3939b5;
+}
+
+.sp_wp_carousel-custom-admin-notice.sp_wp_carousel-notice-info .sp_wp_carousel-notice-content {
+    line-height: 22px;
+}
+
+/* Offer Banner Responsiveness */
+@media only screen and (max-width: 1360px) {
+    .sp_wp_carousel-custom-admin-notice.sp_wp_carousel-notice-info {
+        padding-bottom: 20px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .sp_wp_carousel-custom-admin-notice.sp_wp_carousel-notice-info {
+        padding-top: 20px;
+    }
+}
+
+/* Banner Close Icon */
+@font-face {
+    font-family: 'sp_wp_carousel-fontello';
+    src: url('./font/fontello.eot?36197398');
+    src: url('./font/fontello.eot?36197398#iefix') format('embedded-opentype'),
+        url('./font/fontello.woff2?36197398') format('woff2'),
+        url('./font/fontello.woff?36197398') format('woff'),
+        url('./font/fontello.ttf?36197398') format('truetype'),
+        url('./font/fontello.svg?36197398#fontello') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+  @media screen and (-webkit-min-device-pixel-ratio:0) {
+    @font-face {
+      font-family: 'fontello';
+      src: url('../font/fontello.svg?36197398#fontello') format('svg');
+    }
+  }
+  */
+[class^="sp_wp_carousel-icon-"]:before,
+[class*=" sp_wp_carousel-icon-"]:before {
+    font-family: "sp_wp_carousel-fontello";
+    font-style: normal;
+    font-weight: normal;
+    speak: never;
+
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    /* opacity: .8; */
+
+    /* For safety - reset parent styles, that can break glyph codes*/
+    font-variant: normal;
+    text-transform: none;
+
+    /* fix buttons height, for twitter bootstrap */
+    line-height: 1em;
+
+    /* Animation center compensation - margins should be symmetric */
+    /* remove if not needed */
+    margin-left: .2em;
+
+    /* you can be more comfortable with increased icons size */
+    /* font-size: 120%; */
+
+    /* Font smoothing. That was taken from TWBS */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Uncomment for 3D effect */
+    /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.sp_wp_carousel-icon-banner-close:before {
+    content: '\e800';
 }

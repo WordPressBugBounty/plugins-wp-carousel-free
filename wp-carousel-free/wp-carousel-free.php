@@ -9,7 +9,7 @@
  * Plugin Name:       WP Carousel
  * Plugin URI:        https://wpcarousel.io/
  * Description:       The most powerful and user-friendly carousel, slider, and gallery plugin for WordPress. Create unlimited beautiful carousels, sliders, and galleries in minutes using images, posts, WooCommerce products, etc.
- * Version:           2.7.1
+ * Version:           2.7.2
  * Author:            ShapedPlugin LLC
  * Author URI:        https://shapedplugin.com/
  * License:           GPL-2.0+
@@ -119,7 +119,7 @@ class SP_WP_Carousel_Free {
 	 */
 	public function setup() {
 		$this->plugin_name = 'wp-carousel-free';
-		$this->version     = '2.7.1';
+		$this->version     = '2.7.2';
 		$this->define_constants();
 		$this->includes();
 		$this->load_dependencies();
@@ -161,12 +161,11 @@ class SP_WP_Carousel_Free {
 	 * @return void
 	 */
 	public function includes() {
-		include_once WPCAROUSELF_INCLUDES . '/class-wp-carosuel-free-updates.php';
+		include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-updates.php';
 		include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-loader.php';
 		include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-post-types.php';
 		include_once WPCAROUSELF_PATH . '/admin/views/sp-framework/classes/setup.class.php';
-		include_once WPCAROUSELF_PATH . '/admin/views/notices/review.php';
-		include_once WPCAROUSELF_PATH . '/admin/views/notices/class-wp-carousel-free-promotion.php';
+		include_once WPCAROUSELF_PATH . '/admin/views/notices/admin-notices.php';
 		include_once WPCAROUSELF_PATH . '/admin/views/metabox-config.php';
 		include_once WPCAROUSELF_PATH . '/admin/views/option-config.php';
 		include_once WPCAROUSELF_PATH . '/admin/views/tools-config.php';
@@ -212,12 +211,14 @@ class SP_WP_Carousel_Free {
 	 */
 	private function define_common_hooks() {
 		$plugin_cpt           = new WP_Carousel_Free_Post_Type( $this->get_plugin_name(), $this->get_version() );
-		$plugin_review_notice = new WP_Carousel_Free_Review( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin_notices = new WP_Carousel_Admin_Notices( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'init', $plugin_cpt, 'wp_carousel_post_type', 11 );
-		$this->loader->add_action( 'admin_notices', $plugin_review_notice, 'display_admin_notice' );
-		$this->loader->add_action( 'wp_ajax_sp-wpcfree-never-show-review-notice', $plugin_review_notice, 'dismiss_review_notice' );
+		$this->loader->add_action( 'admin_notices', $plugin_admin_notices, 'display_admin_notice' );
+		$this->loader->add_action( 'wp_ajax_sp-wpcfree-never-show-review-notice', $plugin_admin_notices, 'dismiss_review_notice' );
 		add_action( 'wp_ajax_wp_ajax_install_plugin', 'wp_ajax_install_plugin' );
+		$this->loader->add_action( 'admin_notices', $plugin_admin_notices, 'show_admin_offer_banner' );
+		$this->loader->add_action( 'wp_ajax_sp-carousel-hide-offer-banner', $plugin_admin_notices, 'dismiss_friday_offer_banner' );
 	}
 
 	/**
@@ -356,3 +357,5 @@ function sp_wpcf_redirect_after_activation( $plugin_file ) {
 
 add_action( 'plugins_loaded', 'load_sp_wordpress_carousel_plugin' );
 add_action( 'activated_plugin', 'sp_wpcf_redirect_after_activation' );
+
+
