@@ -129,8 +129,7 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 
 			// Init action.
 			do_action( 'wpcf_init' );
-
-			self::set_locale();
+			add_action( 'init', array( 'SP_WPCF', 'set_locale' ) );
 
 			add_action( 'after_setup_theme', array( 'SP_WPCF', 'setup' ) );
 			add_action( 'init', array( 'SP_WPCF', 'setup' ) );

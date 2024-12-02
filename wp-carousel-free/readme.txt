@@ -2,8 +2,8 @@
 Contributors: shapedplugin, khalilu, shamimmiashuhagh, rubel_miah
 Tags: slider, carousel, slideshow, gallery, video slider
 Requires at least: 5.0
-Tested up to: 6.7
-Stable tag: 2.7.2
+Tested up to: 6.7.1
+Stable tag: 2.7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -325,6 +325,10 @@ Thank you!
 
 
 == Changelog ==
+
+= 2.7.3 – Dec 02, 2024 =
+* Fix: The translation-related warning was found with WP  v6.7.1
+* Tested: WP 6.7.1 compatibility.
 
 = 2.7.2 – Nov 19, 2024 =
 * Fix: The image lightbox did not show a full-size image when the carousel image size was set to small or medium.

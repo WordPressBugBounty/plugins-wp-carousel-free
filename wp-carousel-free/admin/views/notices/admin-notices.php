@@ -134,7 +134,7 @@ class WP_Carousel_Admin_Notices {
 	 *
 	 * @return array The offers data, or an empty array if the data could not be retrieved or is invalid.
 	 */
-	public static function get_cached_offers_data( $api_url, $cache_duration = HOUR_IN_SECONDS ) {
+	public static function get_cached_offers_data( $api_url, $cache_duration = DAY_IN_SECONDS ) {
 		$cache_key   = 'sp_offers_data_' . md5( $api_url ); // Unique cache key based on the API URL.
 		$offers_data = get_transient( $cache_key );
 
@@ -242,9 +242,7 @@ class WP_Carousel_Admin_Notices {
 					<?php echo esc_html( $action_title ); ?>
 					</a>
 				</div>
-				<div class="sp_wp_carousel-close-offer-banner" data-unique_id="<?php echo esc_attr( $banner_unique_id ); ?>">
-					<i class="sp_wp_carousel-icon-banner-close"></i>
-				</div>
+				<div class="sp_wp_carousel-close-offer-banner" data-unique_id="<?php echo esc_attr( $banner_unique_id ); ?>"></div>
 			</div>
 			<script type='text/javascript'>
 			jQuery(document).ready( function($) {
