@@ -49,12 +49,12 @@ if ( ! class_exists( 'SP_WPCF_Field_gallery' ) ) {
 			$image_metadata_array['status']                = 'active';
 			$image_metadata_array['id']                    = $image_id;
 			$image_metadata_array['url']                   = esc_url( wp_get_attachment_url( $image_id ) );
-			$image_metadata_array['height']                = $image_linking_meta['height'] ?? '';
-			$image_metadata_array['width']                 = $image_linking_meta['width'] ?? '';
+			$image_metadata_array['height']                = esc_attr( $image_linking_meta['height'] ) ?? '';
+			$image_metadata_array['width']                 = esc_attr( $image_linking_meta['width'] ) ?? '';
 			$image_metadata_array['alt']                   = trim( esc_html( get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ) ) ?? '';
 			$image_metadata_array['caption']               = trim( esc_html( get_post_field( 'post_excerpt', $image_id ) ) ) ?? '';
 			$image_metadata_array['title']                 = trim( esc_html( get_post_field( 'post_title', $image_id ) ) ) ?? '';
-			$image_metadata_array['description']           = trim( get_post_field( 'post_content', $image_id ) ) ?? '';
+			$image_metadata_array['description']           = trim( esc_html( get_post_field( 'post_content', $image_id ) ) ) ?? '';
 			$image_metadata_array['filename']              = trim( esc_html( get_post_field( 'post_name', $image_id ) ) ) ?? '';
 			$image_metadata_array['wpcplink']              = '';
 			$image_metadata_array['link_target']           = '';
@@ -72,6 +72,25 @@ if ( ! class_exists( 'SP_WPCF_Field_gallery' ) ) {
 			return array_merge( $image_linking_meta, $image_metadata_array );
 		}
 
+		/**
+		 * Helper function to sanitize string values.
+		 *
+		 * @param  mixed $value The value to sanitize.
+		 * @return mixed  The sanitized value.
+		 */
+		private function sanitize_meta_value( $value ) {
+			if ( ! is_string( $value ) ) {
+					return $value;
+			}
+			// Replace quotes with escaped versions.
+			$value = str_replace(
+				array( '\\', '"', "'" ),
+				array( '\\\\', '\"', '\'' ),
+				$value
+			);
+
+			return $value;
+		}
 		/**
 		 * Render
 		 *
@@ -103,7 +122,24 @@ if ( ! class_exists( 'SP_WPCF_Field_gallery' ) ) {
 						continue;
 					}
 					$image_meta = $this->getting_image_metadata( $id );
-					$json       = wp_json_encode( $image_meta );
+
+					// Recursively sanitize all string values in the array.
+					array_walk_recursive(
+						$image_meta,
+						function ( &$value ) {
+							$value = $this->sanitize_meta_value( $value );
+						}
+					);
+
+					// Encode with options to handle special characters.
+					$json = wp_json_encode(
+						$image_meta,
+						JSON_HEX_QUOT | // Convert quotes.
+						JSON_HEX_TAG | // Convert < >.
+						JSON_HEX_AMP | // Convert &.
+						JSON_HEX_APOS   // Convert '.
+					);
+
 					if ( isset( $attachment[0] ) ) {
 						$image_title = get_the_title( $id );
 						if ( isset( $attachment[0] ) ) {

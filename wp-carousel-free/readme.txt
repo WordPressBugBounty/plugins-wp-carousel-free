@@ -3,7 +3,8 @@ Contributors: shapedplugin, khalilu, shamimmiashuhagh, rubel_miah
 Tags: slider, carousel, slideshow, gallery, video slider
 Requires at least: 5.0
 Tested up to: 6.7.1
-Stable tag: 2.7.3
+Requires PHP: 7.0.0
+Stable tag: 2.7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -218,9 +219,9 @@ Designed and Developed by [__ShapedPlugin__](https://shapedplugin.com/)
 
 = MINIMUM REQUIREMENTS =
 
-* PHP 5.6 or later
+* PHP 7.0.0 or later
 * MySQL 5.6 or later
-* WordPress 4.5 or later
+* WordPress 5.0 or later
 
 **This section describes how to install the plugin and get it working**
 
@@ -325,6 +326,11 @@ Thank you!
 
 
 == Changelog ==
+
+= 2.7.4 – Jan 14, 2025 =
+* Improved: The plugin security improved.
+* Fix: The image delete option did not work rarely.
+* Tested: WooCommerce 9.5.2 compatibility.
 
 = 2.7.3 – Dec 02, 2024 =
 * Fix: The translation-related warning was found with WP  v6.7.1

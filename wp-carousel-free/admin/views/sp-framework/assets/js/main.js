@@ -952,7 +952,7 @@
             selectedIds.push($(this).data('id'));
           });
           $input.val(selectedIds.join(',')).trigger('change');
-        }, 3000);
+        }, 500);
       });
 
 
@@ -3489,9 +3489,21 @@ var WPCarouselView = wp.Backbone.View.extend({
       }, this);
     }
 
-    // Set caption
-    this.$el.find('textarea[name=caption]').val(this.model.get('caption'));
-    this.$el.find('textarea[name=description]').val(this.model.get('description'));
+    function decodeAndCleanText(text) {
+			if (!text) return '';
+			// Comprehensive HTML entity decoding
+			const parser = new DOMParser();
+			const decodedText = parser.parseFromString(text, 'text/html').documentElement.textContent;
+			// Optional: Remove excess whitespace or unwanted characters if necessary
+			return decodedText.trim();
+		}
+		// Set caption
+		this.$el.find('textarea[name=caption]').val(
+			decodeAndCleanText(this.model.get('caption'))
+		);
+		this.$el.find('textarea[name=description]').val(
+			decodeAndCleanText(this.model.get('description'))
+		);
     this.$el.find('select[name=crop_position]').val(this.model.get('crop_position'));
     var $current_element = this;
     // Change tab class and display content

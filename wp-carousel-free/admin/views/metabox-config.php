@@ -1255,7 +1255,7 @@ SP_WPCF::createSection(
 								'type'       => 'image_sizes',
 								'chosen'     => true,
 								'title'      => __( 'Dimensions', 'wp-carousel-free' ),
-								'default'    => 'medium',
+								'default'    => 'full',
 								'subtitle'   => __( 'Set dimensions for the image.', 'wp-carousel-free' ),
 								'dependency' => array( 'wpcp_carousel_type|show_image', 'any|==', 'image-carousel,post-carousel,product-carousel|true', true ),
 							),
