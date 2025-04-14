@@ -32,6 +32,7 @@ class WP_Carousel_Free_Updates {
 		'2.4.11' => 'updates/update-2.4.11.php',
 		'2.4.12' => 'updates/update-2.4.12.php',
 		'2.6.0'  => 'updates/update-2.6.0.php',
+		'2.7.5'  => 'updates/update-2.7.5.php',
 	);
 
 	/**

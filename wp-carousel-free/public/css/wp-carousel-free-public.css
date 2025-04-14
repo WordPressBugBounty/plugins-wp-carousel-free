@@ -675,3 +675,10 @@ body.admin-bar .wpcf-fancybox-wrapper.fancybox-container .fancybox-toolbar {
 .wpcp-carousel-section.swiper-3d.swiper-flip{
 	perspective:none;
 }
+/*--------------------------------------------------------------
+##  Section Title
+--------------------------------------------------------------*/
+.sp-wpcpro-section-title {
+	text-align: center;
+	font-size: 24px;
+}

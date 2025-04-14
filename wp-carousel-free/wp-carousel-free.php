@@ -9,7 +9,7 @@
  * Plugin Name:       WP Carousel
  * Plugin URI:        https://wpcarousel.io/
  * Description:       The most powerful and user-friendly carousel, slider, and gallery plugin for WordPress. Create unlimited beautiful carousels, sliders, and galleries in minutes using images, posts, WooCommerce products, etc.
- * Version:           2.7.4
+ * Version:           2.7.5
  * Author:            ShapedPlugin LLC
  * Author URI:        https://shapedplugin.com/
  * License:           GPL-2.0+
@@ -17,7 +17,7 @@
  * Text Domain:       wp-carousel-free
  * Domain Path:       /languages
  * WC requires at least: 6.4
- * WC tested up to:   9.5.2
+ * WC tested up to:   9.8.1
  */
 
 // If this file is called directly, abort.
@@ -119,7 +119,7 @@ class SP_WP_Carousel_Free {
 	 */
 	public function setup() {
 		$this->plugin_name = 'wp-carousel-free';
-		$this->version     = '2.7.4';
+		$this->version     = '2.7.5';
 		$this->define_constants();
 		$this->includes();
 		$this->load_dependencies();
@@ -166,9 +166,16 @@ class SP_WP_Carousel_Free {
 		include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-post-types.php';
 		include_once WPCAROUSELF_PATH . '/admin/views/sp-framework/classes/setup.class.php';
 		include_once WPCAROUSELF_PATH . '/admin/views/notices/admin-notices.php';
-		include_once WPCAROUSELF_PATH . '/admin/views/metabox-config.php';
-		include_once WPCAROUSELF_PATH . '/admin/views/option-config.php';
-		include_once WPCAROUSELF_PATH . '/admin/views/tools-config.php';
+
+		add_action(
+			'after_setup_theme',
+			function () {
+				include_once WPCAROUSELF_PATH . '/admin/views/metabox-config.php';
+				include_once WPCAROUSELF_PATH . '/admin/views/option-config.php';
+				include_once WPCAROUSELF_PATH . '/admin/views/tools-config.php';
+			}
+		);
+
 		include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-shortcode.php';
 		include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-import-export.php';
 		include_once WPCAROUSELF_PATH . '/public/shortcode-deprecated.php';
