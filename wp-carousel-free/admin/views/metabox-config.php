@@ -120,22 +120,18 @@ SP_WPCF::createSection(
 					'audio-carousel'    => array(
 						'icon' => 'wpcf-icon-audio',
 						'text' => __( 'Audio', 'wp-carousel-free' ),
-						// 'pro_only' => true,
 					),
 					'content-carousel'  => array(
 						'icon' => 'wpcf-icon-content',
 						'text' => __( 'Content', 'wp-carousel-free' ),
-						// 'pro_only' => true,
 					),
 					'mix-content'       => array(
 						'icon' => 'wpcf-icon-mix-content',
 						'text' => __( 'Mix-Content', 'wp-carousel-free' ),
-						// 'pro_only' => true,
 					),
 					'external-carousel' => array(
 						'icon' => 'wpcf-icon-external',
 						'text' => __( 'External', 'wp-carousel-free' ),
-						// 'pro_only' => true,
 					),
 				),
 				'default' => 'image-carousel',
@@ -155,18 +151,14 @@ SP_WPCF::createSection(
 
 				'title'      => __( 'Audio', 'wp-carousel-free' ),
 				'text'       => __( 'Add Audio', 'wp-carousel-free' ),
-				'content'    => 'With <a href="https://wpcarousel.io/pricing/?ref=1" target="_blank" />WP Carousel Pro</a>, you can create unlimited
-<a href="https://wpcarousel.io/embed-audio/" target="_blank" />Audio Carousels</a> and Galleries from any audio platform, including self-hosted.
-<a href="https://wpcarousel.io/pricing/?ref=1" target="_blank" /><b>Get Pro Now!</b></a> ',
+				'content'    => 'With <a href="https://wpcarousel.io/pricing/?ref=1" target="_blank" />WP Carousel Pro</a>, you can create unlimited <a href="https://wpcarousel.io/embed-audio/" target="_blank" />Audio Carousels</a> and Galleries from any audio platform, including self-hosted. <a href="https://wpcarousel.io/pricing/?ref=1" target="_blank" /><b>Get Pro Now!</b></a> ',
 				'dependency' => array( 'wpcp_carousel_type', '==', 'audio-carousel' ),
 			),
 			array(
 				'type'       => 'addContent',
 				'title'      => __( 'Mix Content', 'wp-carousel-free' ),
 				'text'       => __( 'Add Content', 'wp-carousel-free' ),
-				'content'    => 'With <a href="https://wpcarousel.io/pricing/?ref=1" target="_blank" />WP Carousel Pro</a>, you can
-<a href="https://wpcarousel.io/mix-content-carousel/" target="_blank" />Slide Mix Content</a>, e.g., images, video, audio, HTML, custom content, etc.
-<a href="https://wpcarousel.io/pricing/?ref=1" target="_blank" /><b>Get Pro Now!</b></a>',
+				'content'    => 'With <a href="https://wpcarousel.io/pricing/?ref=1" target="_blank" />WP Carousel Pro</a>, you can <a href="https://wpcarousel.io/mix-content-carousel/" target="_blank" />Slide Mix Content</a>, e.g., images, video, audio, HTML, custom content, etc. <a href="https://wpcarousel.io/pricing/?ref=1" target="_blank" /><b>Get Pro Now!</b></a>',
 				'dependency' => array( 'wpcp_carousel_type', '==', 'mix-content' ),
 			),
 
@@ -195,9 +187,7 @@ SP_WPCF::createSection(
 			array(
 				'type'       => 'addContent',
 				'class'      => 'external_content',
-				'content'    => 'With <a href="https://wpcarousel.io/pricing/?ref=1" target="_blank" />WP Carousel Pro</a>, you can show <a href="https://wpcarousel.io/external-rss-feed-carousel/" target="_blank" />
-Feeds Content</a> from external sources.
-<a href="https://wpcarousel.io/pricing/?ref=1" target="_blank" /><b>Get Pro Now!</b></a> ',
+				'content'    => 'With <a href="https://wpcarousel.io/pricing/?ref=1" target="_blank" />WP Carousel Pro</a>, you can show <a href="https://wpcarousel.io/external-rss-feed-carousel/" target="_blank" />Feeds Content</a> from external sources. <a href="https://wpcarousel.io/pricing/?ref=1" target="_blank" /><b>Get Pro Now!</b></a> ',
 				'dependency' => array( 'wpcp_carousel_type', '==', 'external-carousel' ),
 			),
 			// End external Carousel.
@@ -475,17 +465,6 @@ SP_WPCF::createSection(
 				'type'       => 'image_select',
 				'title'      => __( 'Carousel Style', 'wp-carousel-free' ),
 				'subtitle'   => __( 'Choose a carousel style.', 'wp-carousel-free' ),
-				// 'title_help' => sprintf(
-				// * translators: 1: start div tag, 2: close div and start antoher div tag 3: start bold tag 4: close bold tag 5: start div and link tag 6: close link and start another link tag 7: close link tag.. */
-				// __( '%1$sCarousel Mode%2$sChoose %3$sStandard%4$s for a classic display, %3$sTicker%4$s for continuous scrolling, or %3$sCenter%4$s for a focused and immersive view.%5$sOpen Docs%6$sLive Demo%7$s', 'wp-carousel-free' ),
-				// '<div class="sp_wpcp-info-label">',
-				// '</div><div class="sp_wpcp-short-content">',
-				// '<b>',
-				// '</b>',
-				// '</div><a class="sp_wpcp-open-docs" href="https://docs.shapedplugin.com/docs/wordpress-carousel-pro/configurations/how-to-configure-carousel-mode/" target="_blank">',
-				// '</a><a class="sp_wpcp-open-live-demo" href="https://wpcarousel.io/carousel-modes/" target="_blank">',
-				// '</a>'
-				// ),
 				'options'    => array(
 					'standard'    => array(
 						'image' => plugin_dir_url( __DIR__ ) . 'img/carousel-mode/standard.svg',
@@ -588,36 +567,6 @@ SP_WPCF::createSection(
 				'default'    => 'normal',
 				'dependency' => array( 'wpcp_layout', '==', 'slider' ),
 			),
-			// array(
-			// 'id'         => 'wpcp_thumbnail_position',
-			// 'type'       => 'image_select',
-			// 'class'      => 'wpcp_thumbnail_position',
-			// 'title'      => __( 'Thumbnails Position', 'wp-carousel-free' ),
-			// 'subtitle'   => __( 'Choose a thumbnails position.', 'wp-carousel-free' ),
-			// 'options'    => array(
-			// 'bottom' => array(
-			// 'image' => plugin_dir_url( __DIR__ ) . 'img/thumbnail_position_bottom.svg',
-			// 'text'  => __( 'Bottom', 'wp-carousel-free' ),
-			// ),
-			// 'top'    => array(
-			// 'image'    => plugin_dir_url( __DIR__ ) . 'img/thumbnail_position_top.svg',
-			// 'text'     => __( 'Top', 'wp-carousel-free' ),
-			// 'pro_only' => true,
-			// ),
-			// 'left'   => array(
-			// 'image'    => plugin_dir_url( __DIR__ ) . 'img/thumbnail_position_left.svg',
-			// 'text'     => __( 'Left', 'wp-carousel-free' ),
-			// 'pro_only' => true,
-			// ),
-			// 'right'  => array(
-			// 'image'    => plugin_dir_url( __DIR__ ) . 'img/thumbnail_position_right.svg',
-			// 'text'     => __( 'Right', 'wp-carousel-free' ),
-			// 'pro_only' => true,
-			// ),
-			// ),
-			// 'default'    => 'bottom',
-			// 'dependency' => array( 'wpcp_layout', '==', 'thumbnails-slider', true ),
-			// ),
 
 			array(
 				'id'         => 'wpcp_slider_animation',
@@ -662,13 +611,6 @@ SP_WPCF::createSection(
 				'dependency' => array( 'wpcp_layout|wpcp_carousel_mode', '==|==', 'carousel|standard', true ),
 			),
 
-			// array(
-			// 'id'         => 'thumbnails_hide_on_mobile',
-			// 'type'       => 'checkbox',
-			// 'title'      => __( 'Hide Thumbnails on Mobile', 'wp-carousel-free' ),
-			// 'default'    => false,
-			// 'dependency' => array( 'wpcp_layout', '==', 'thumbnails-slider' ),
-			// ),
 			array(
 				'id'         => 'wpcp_number_of_columns',
 				'type'       => 'column',
@@ -676,7 +618,6 @@ SP_WPCF::createSection(
 				'title'      => __( 'Columns', 'wp-carousel-free' ),
 				'subtitle'   => __( 'Set number of column on devices.', 'wp-carousel-free' ),
 				'sanitize'   => 'wpcf_sanitize_number_array_field',
-				// 'title_help' => '<div class="sp_wpcp-img-tag"><img src="' . plugin_dir_url( __DIR__ ) . 'img/help-visuals/column.svg" alt="' . __( 'Column(s)', 'wp-carousel-free' ) . '"></div><div class="sp_wpcp-info-label">' . __( 'Column(s)', 'wp-carousel-free' ) . '</div>',
 				'default'    => array(
 					'lg_desktop' => '5',
 					'desktop'    => '4',
@@ -3055,7 +2996,7 @@ SP_WPCF::createSection(
 							),
 							array(
 								'id'         => 'slides_to_scroll',
-								'class'         => 'pro_only_field',
+								'class'      => 'pro_only_field',
 								'type'       => 'column',
 								'title'      => __( 'Slide to Scroll', 'wp-carousel-free' ),
 								'subtitle'   => __( 'Number of slide(s) to scroll at a time.', 'wp-carousel-free' ),
@@ -3168,7 +3109,7 @@ SP_WPCF::createSection(
 		'fields' => array(
 			array(
 				'type'      => 'shortcode',
-				'shortcode' => true,
+				'shortcode' => 'shortcode',
 				'class'     => 'sp_wpcp-admin-sidebar',
 			),
 		),
@@ -3190,6 +3131,29 @@ SP_WPCF::createSection(
 			array(
 				'type'      => 'shortcode',
 				'shortcode' => false,
+				'class'     => 'sp_wpcp-admin-sidebar',
+			),
+		),
+	)
+);
+
+SP_WPCF::createMetabox(
+	'sp_wpcp_notice',
+	array(
+		'title'        => __( 'Unlock Pro Feature', 'wp-carousel-free' ),
+		'post_type'    => 'sp_wp_carousel',
+		'context'      => 'side',
+		'show_restore' => false,
+	)
+);
+
+SP_WPCF::createSection(
+	'sp_wpcp_notice',
+	array(
+		'fields' => array(
+			array(
+				'type'      => 'shortcode',
+				'shortcode' => 'pro_notice',
 				'class'     => 'sp_wpcp-admin-sidebar',
 			),
 		),

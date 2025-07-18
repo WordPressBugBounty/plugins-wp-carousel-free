@@ -145,7 +145,7 @@ if ( ! class_exists( 'SP_WPCF_Field_gallery' ) ) {
 						if ( isset( $attachment[0] ) ) {
 							echo '<li class="wpcp_image-slide wpcp_image-image">';
 							echo '<img src="' . esc_url( $attachment[0] ) . '" />';
-							echo '<a class="edit-attachment-modify edit-icon wcp-icon" data-id="' . esc_attr( $id ) . '" href="" target="_blank" data-wpcp_image-model=\'' . $json . '\' ><span class="wpcf-icon-edit"></span></a>';
+							echo '<a class="edit-attachment-modify edit-icon wcp-icon" data-id="' . esc_attr( $id ) . '" href="" target="_blank" data-wpcp_image-model=\'' . $json . '\' ><span class="wpcf-icon-edit"></span></a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $json is escaped before being passed in.
 							echo '<a class="wpcp_image-thumbnail-delete remove-icon wcp-icon" data-id="' . esc_attr( $id ) . '" href=""><span class="wpcf-icon-delete"></span></a>';
 							echo '</li>';
 						}
@@ -153,9 +153,6 @@ if ( ! class_exists( 'SP_WPCF_Field_gallery' ) ) {
 				}
 			}
 			echo '</ul>';
-			// echo '<ul> <li>';
-			// echo '<a href="#" class="button wpcf-edit-gallery' . esc_attr( $hidden ) . '"><i class="fa fa-pencil-square-o"></i>' . esc_html( $args['edit_title'] ) . '</a>';
-			// echo '</ul></li>';
 			echo '<ul> <li>';
 			echo '<a href="#" class="button wpcf-warning-primary wpcf-clear-gallery' . esc_attr( $hidden ) . '"><i class="fa fa-trash"></i>' . esc_html( $args['clear_title'] ) . '</a>';
 			echo '</ul></li>';

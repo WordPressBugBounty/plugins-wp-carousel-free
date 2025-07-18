@@ -55,6 +55,8 @@ function sp_wpcf_delete_plugin_data() {
 	// Delete Carousel post meta.
 	delete_post_meta_by_key( 'sp_wpcp_upload_options' );
 	delete_post_meta_by_key( 'sp_wpcp_shortcode_options' );
+
+	delete_option( 'wpcp_page_data' );
 }
 
 // Load WPCP file.

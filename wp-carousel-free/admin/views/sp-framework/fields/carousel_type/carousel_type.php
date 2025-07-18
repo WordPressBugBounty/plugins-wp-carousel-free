@@ -70,11 +70,10 @@ if ( ! class_exists( 'SP_WPCF_Field_carousel_type' ) ) {
 					$pro_only       = isset( $option['pro_only'] ) ? ' disabled' : '';
 					$pro_only_class = isset( $option['pro_only'] ) ? ' wpcf-disabled' : '';
 					$pro_only_text  = isset( $option['pro_only'] ) ? '<strong class="ct-pro-only">' . esc_html__( 'PRO', 'wp-carousel-free' ) . '</strong>' : '';
-					echo '<div class="wpcf--sibling wpcf--image' . $active . $pro_only_class . '">';
-					// echo '<img src="' . $option . '" alt="img-' . $num++ . '" />';
-					echo '<label><input' . esc_attr( $pro_only ) . ' type="' . esc_attr( $type ) . '" name="' . esc_attr( $this->field_name( $extra ) ) . '" value="' . esc_attr( $key ) . '"' . $this->field_attributes() . esc_attr( $checked ) . '/>' . $pro_only_text;
+					echo '<div class="wpcf--sibling wpcf--image' . esc_attr( $active . $pro_only_class ) . '">';
+					echo '<label><input' . esc_attr( $pro_only ) . ' type="' . esc_attr( $type ) . '" name="' . esc_attr( $this->field_name( $extra ) ) . '" value="' . esc_attr( $key ) . '"' . $this->field_attributes() . esc_attr( $checked ) . '/>' . $pro_only_text;// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $pro_only_text is escaped before being passed in
 					if ( isset( $option['image'] ) ) {
-						echo '<img  src="' . $option['image'] . '" class="svg-icon">';
+						echo '<img  src="' . esc_url( $option['image'] ) . '" class="svg-icon">';
 					} else {
 
 						echo '<i class="' . esc_attr( $option['icon'] ) . '"></i>';
@@ -91,27 +90,6 @@ if ( ! class_exists( 'SP_WPCF_Field_carousel_type' ) ) {
 			echo '<div class="clear"></div>';
 
 			echo wp_kses_post( $this->field_after() );
-		}
-
-		/**
-		 * Output
-		 *
-		 * @return statement
-		 */
-		public function output() {
-
-			$output    = '';
-			$bg_image  = array();
-			$important = ( ! empty( $this->field['output_important'] ) ) ? '!important' : '';
-			$elements  = ( is_array( $this->field['output'] ) ) ? join( ',', $this->field['output'] ) : $this->field['output'];
-
-			if ( ! empty( $elements ) && isset( $this->value ) && $this->value !== '' ) {
-				$output = $elements . '{background-image:url(' . $this->value . ')' . $important . ';}';
-			}
-
-			$this->parent->output_css .= $output;
-
-			return $output;
 		}
 	}
 }

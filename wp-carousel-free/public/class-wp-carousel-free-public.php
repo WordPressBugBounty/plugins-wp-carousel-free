@@ -58,17 +58,25 @@ class WP_Carousel_Free_Public {
 	 * @return void
 	 */
 	public function enqueue_styles() {
-		// Stylesheet loading problem solving here. Shortcode id to push page id option for getting how many shortcode in the page.
-		// Get the existing shortcode ids from the current page.
 		$get_page_data      = self::get_page_data();
 		$found_generator_id = $get_page_data['generator_id'];
-		if ( $found_generator_id ) {
-			wp_enqueue_style( 'wpcf-swiper' );
-			wp_enqueue_style( 'wp-carousel-free-fontawesome' );
-			wp_enqueue_style( 'wpcf-fancybox-popup' );
-			wp_enqueue_style( 'wp-carousel-free' );
-			$dynamic_style = self::load_dynamic_style( $found_generator_id );
-			wp_add_inline_style( 'wp-carousel-free', $dynamic_style['dynamic_css'] );
+
+		if ( empty( $found_generator_id ) || ! is_array( $found_generator_id ) ) {
+			return;
+		}
+
+		wp_enqueue_style( 'wpcf-swiper' );
+		wp_enqueue_style( 'wp-carousel-free-fontawesome' );
+		wp_enqueue_style( 'wpcf-fancybox-popup' );
+		wp_enqueue_style( 'wp-carousel-free' );
+
+		$dynamic_style = self::load_dynamic_style( $found_generator_id );
+
+		if ( ! empty( $dynamic_style['dynamic_css'] ) ) {
+			wp_add_inline_style(
+				'wp-carousel-free',
+				$dynamic_style['dynamic_css']
+			);
 		}
 	}
 
@@ -136,19 +144,18 @@ class WP_Carousel_Free_Public {
 	}
 
 	/**
-	 * Delete page shortcode ids array option on save
+	 * Update page shortcode ids array option on save
 	 *
 	 * @param  int $post_ID current post id.
 	 * @return void
 	 */
-	public function delete_page_wp_carousel_option_on_save( $post_ID ) {
-		if ( is_multisite() ) {
-			$option_key = 'sp_wp_carousel_page_id' . get_current_blog_id() . $post_ID;
-			if ( get_site_option( $option_key ) ) {
-				delete_site_option( $option_key );
-			}
-		} elseif ( get_option( 'sp_wp_carousel_page_id' . $post_ID ) ) {
-				delete_option( 'sp_wp_carousel_page_id' . $post_ID );
+	public function update_page_wp_carousel_option_on_save( $post_ID ) {
+		$option_key = 'wpcp_page_data';
+		$all_data   = get_option( $option_key, array() );
+
+		if ( ! empty( $all_data[ $post_ID ] ) ) {
+			unset( $all_data[ $post_ID ] );
+			update_option( $option_key, $all_data );
 		}
 	}
 
@@ -168,24 +175,31 @@ class WP_Carousel_Free_Public {
 	}
 
 	/**
-	 * Gets the existing shortcode-id, page-id and option-key from the current page.
+	 * Get current page shortcode data.
 	 *
-	 * @return array
+	 * @return array {
+	 *     @type int    $page_id       Current page ID.
+	 *     @type array  $generator_id  List of shortcode IDs used on this page.
+	 *     @type string $option_key    Option key used for retrieval.
+	 * }
 	 */
 	public static function get_page_data() {
-		$current_page_id    = get_queried_object_id();
-		$option_key         = 'sp_wp_carousel_page_id' . $current_page_id;
-		$found_generator_id = get_option( $option_key );
-		if ( is_multisite() ) {
-			$option_key         = 'sp_wp_carousel_page_id' . get_current_blog_id() . $current_page_id;
-			$found_generator_id = get_site_option( $option_key );
+		$current_page_id = absint( get_queried_object_id() );
+
+		$option_key = 'wpcp_page_data';
+		$all_data   = get_option( $option_key, array() );
+
+		// Ensure array and sanitize values.
+		$found_generator_id = array();
+		if ( isset( $all_data[ $current_page_id ] ) && is_array( $all_data[ $current_page_id ] ) ) {
+			$found_generator_id = array_map( 'absint', $all_data[ $current_page_id ] );
 		}
-		$get_page_data = array(
+
+		return array(
 			'page_id'      => $current_page_id,
 			'generator_id' => $found_generator_id,
 			'option_key'   => $option_key,
 		);
-		return $get_page_data;
 	}
 
 	/**
@@ -197,7 +211,6 @@ class WP_Carousel_Free_Public {
 	 * @return array dynamic style use in the existing shortcodes in the current page.
 	 */
 	public static function load_dynamic_style( $found_generator_id, $shortcode_data = '', $upload_data = '' ) {
-		$setting_options      = get_option( 'sp_testimonial_pro_options' );
 		$the_wpcf_dynamic_css = '';
 		// If multiple shortcode found in the current page.
 		if ( is_array( $found_generator_id ) ) {
@@ -227,38 +240,31 @@ class WP_Carousel_Free_Public {
 	}
 
 	/**
-	 * If the option does not exist, it will be created.
+	 * Updates the centralized option storing shortcode IDs used on a page.
 	 *
-	 * It will be serialized before it is inserted into the database.
+	 * @param int   $post_id        The shortcode post ID.
+	 * @param array $get_page_data  Array containing page ID, generator IDs, and option key.
 	 *
-	 * @param  string $post_id existing shortcode id.
-	 * @param  array  $get_page_data get current page-id, shortcode-id and option-key from the the current page.
 	 * @return void
 	 */
 	public static function wpf_db_options_update( $post_id, $get_page_data ) {
-		$found_generator_id = $get_page_data['generator_id'];
-		$option_key         = $get_page_data['option_key'];
-		$current_page_id    = $get_page_data['page_id'];
-		if ( $found_generator_id ) {
-			$found_generator_id = is_array( $found_generator_id ) ? $found_generator_id : array( $found_generator_id );
-			if ( ! in_array( $post_id, $found_generator_id ) || empty( $found_generator_id ) ) {
-				// If not found the shortcode id in the page options.
-				array_push( $found_generator_id, $post_id );
-				if ( is_multisite() ) {
-					update_site_option( $option_key, $found_generator_id );
-				} else {
-					update_option( $option_key, $found_generator_id );
-				}
-			}
-		} else {
-			// If option not set in current page add option.
-			if ( $current_page_id ) {
-				if ( is_multisite() ) {
-					add_site_option( $option_key, array( $post_id ) );
-				} else {
-					add_option( $option_key, array( $post_id ) );
-				}
-			}
+		$post_id         = absint( $post_id );
+		$current_page_id = absint( $get_page_data['page_id'] );
+		$option_key      = isset( $get_page_data['option_key'] ) ? sanitize_key( $get_page_data['option_key'] ) : '';
+		$found_ids       = isset( $get_page_data['generator_id'] ) && is_array( $get_page_data['generator_id'] )
+		? array_map( 'absint', $get_page_data['generator_id'] )
+		: array();
+
+		// Exit early if the post ID is already stored.
+		if ( in_array( $post_id, $found_ids, true ) || empty( $current_page_id ) ) {
+			return;
 		}
+
+		$found_ids[] = $post_id;
+		$all_data    = get_option( $option_key, array() );
+
+		// Update the page ID's entry with the new list of post IDs.
+		$all_data[ $current_page_id ] = $found_ids;
+		update_option( $option_key, $all_data );
 	}
 }

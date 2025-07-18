@@ -43,7 +43,7 @@ if ( ! class_exists( 'WP_Carousel_Free_Gutenberg_Block_Init' ) ) {
 		public function sp_wp_carousel_free_block_editor_assets() {
 			wp_enqueue_script(
 				'sp-wp-carousel-free-shortcode-block',
-				plugins_url( '/GutenbergBlock/build/index.js', dirname( __FILE__ ) ),
+				plugins_url( '/GutenbergBlock/build/index.js', __DIR__ ),
 				array( 'jquery' ),
 				WPCAROUSELF_VERSION,
 				true
@@ -155,22 +155,39 @@ if ( ! class_exists( 'WP_Carousel_Free_Gutenberg_Block_Init' ) ) {
 		}
 
 		/**
-		 * Render callback.
+		 * Render the carousel block output.
 		 *
-		 * @param string $attributes Shortcode.
-		 * @return string
+		 * @param array $attributes Block attributes.
+		 * @return string Rendered HTML.
 		 */
 		public function sp_wp_carousel_free_render_shortcode( $attributes ) {
-			$class_name = '';
-			if ( ! empty( $attributes['className'] ) ) {
-				$class_name = 'class="' . esc_attr( $attributes['className'] ) . '"';
-			}
-			if ( ! $attributes['is_admin'] ) {
-				return '<div ' . $class_name . '>' . do_shortcode( '[sp_wpcarousel id="' . sanitize_text_field( $attributes['shortcode'] ) . '"]' ) . '</div>';
-			}
-			$edit_page_link = get_edit_post_link( sanitize_text_field( $attributes['shortcode'] ) );
+			$class_name = ! empty( $attributes['className'] )
+				? sprintf( ' class="%s"', esc_attr( $attributes['className'] ) )
+				: '';
 
-			return '<div id="' . uniqid() . '" ' . $class_name . ' ><a href="' . $edit_page_link . '" target="_blank" class="sp_wp_carousel_block_edit_button">Edit View</a>' . do_shortcode( '[sp_wpcarousel id="' . sanitize_text_field( $attributes['shortcode'] ) . '"]' ) . '</div>';
+			$shortcode_id = isset( $attributes['shortcode'] ) ? sanitize_text_field( $attributes['shortcode'] ) : '';
+			$is_admin     = ! empty( $attributes['is_admin'] );
+
+			if ( ! $is_admin ) {
+				// Frontend render.
+				return sprintf(
+					'<div%s>%s</div>',
+					$class_name,
+					do_shortcode( '[sp_wpcarousel id="' . esc_attr( $shortcode_id ) . '"]' )
+				);
+			}
+
+			// Editor render with admin flag.
+			$edit_link = get_edit_post_link( $shortcode_id );
+			$unique_id = 'sp-wpcf-' . uniqid();
+
+			return sprintf(
+				'<div id="%s"%s><a href="%s" target="_blank" class="sp_wp_carousel_block_edit_button">Edit View</a>%s</div>',
+				esc_attr( $unique_id ),
+				$class_name,
+				esc_url( $edit_link ),
+				do_shortcode( '[sp_wpcarousel id="' . esc_attr( $shortcode_id ) . '" is_admin="true"]' )
+			);
 		}
 	}
 }

@@ -93,7 +93,7 @@ if ( ! class_exists( 'SP_WPCF_Field_spacing' ) ) {
 
 				echo '<div class="wpcf--input">';
 				echo ( ! empty( $args['all_text'] ) ) ? '<span class="wpcf--label wpcf--icon">' . wp_kses_post( $args['all_text'] ) . '</span>' : '';
-				echo '<input type="number" name="' . esc_attr( $this->field_name( '[all]' ) ) . '" value="' . esc_attr( $value['all'] ) . '"' . $placeholder . ' class="wpcf-input-number' . esc_attr( $is_unit ) . '" step="any" />';
+				echo '<input type="number" name="' . esc_attr( $this->field_name( '[all]' ) ) . '" value="' . esc_attr( $value['all'] ) . '"' . $placeholder . ' class="wpcf-input-number' . esc_attr( $is_unit ) . '" step="any" />';// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $placeholder is escaped before being passed in
 				echo ( $unit ) ? '<span class="wpcf--label wpcf--unit">' . esc_attr( $args['units'][0] ) . '</span>' : '';
 				echo '</div>';
 
@@ -116,7 +116,7 @@ if ( ! class_exists( 'SP_WPCF_Field_spacing' ) ) {
 
 					echo '<div class="wpcf--input">';
 					if ( ! empty( $text ) ) {
-						echo '<div class="sp_wpcp--title">' . $text . '</div>';
+						echo '<div class="sp_wpcp--title">' . wp_kses_post( $text ) . '</div>';
 					}
 					echo ( ! empty( $args[ $property . '_icon' ] ) ) ? '<span class="wpcf--label wpcf--icon">' . wp_kses_post( $args[ $property . '_icon' ] ) . '</span>' : '';
 					echo '<input type="number" name="' . esc_attr( $this->field_name( '[' . $property . ']' ) ) . '" value="' . esc_attr( $value[ $property ] ) . '"' . $placeholder . ' class="wpcf-input-number' . esc_attr( $is_unit ) . '" step="any" />';// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $placeholder is escaped before being passed in
@@ -140,8 +140,6 @@ if ( ! class_exists( 'SP_WPCF_Field_spacing' ) ) {
 			echo '</div>';
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
-
 	}
 }

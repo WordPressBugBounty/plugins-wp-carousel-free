@@ -16,10 +16,10 @@ if ( ! $image_width_attr && $image_src ) {
 }
 ?>
 <a class="wcp-light-box" data-buttons='["close"]' href="<?php echo esc_url( $video_url ); ?>"  data-fancybox="wpcp_view">
-		<img src="<?php echo esc_url( $image_src ); ?>" width="<?php echo esc_attr( $image_width_attr ); ?>" height="<?php echo esc_attr( $image_height_attr ); ?>" alt="<?php echo esc_attr( $video_thumb_alt_text ); ?>">
-		<?php
-		if ( isset( $sp_url['video_url'] ) && ! empty( $sp_url['video_url'] ) ) {
-			?>
-		<i class="fa fa-play-circle-o" aria-hidden="true"></i>
-		<?php } ?>
+	<img src="<?php echo esc_url( $image_src ); ?>" width="<?php echo esc_attr( $image_width_attr ); ?>" height="<?php echo esc_attr( $image_height_attr ); ?>" alt="<?php echo esc_attr( $video_thumb_alt_text ); ?>">
+	<?php
+	if ( isset( $sp_url['video_url'] ) && ! empty( $sp_url['video_url'] ) ) {
+		?>
+	<i class="fa fa-play-circle-o" aria-hidden="true"></i>
+	<?php } ?>
 </a>

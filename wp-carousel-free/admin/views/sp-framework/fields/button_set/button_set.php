@@ -77,9 +77,9 @@ if ( ! class_exists( 'SP_WPCF_Field_button_set' ) ) {
 						echo '<div class="wpcf--sibling wpcf--button' . esc_attr( $active . $pro_only_class ) . '">';
 						echo '<input type="' . esc_attr( $type ) . '" name="' . esc_attr( $this->field_name( $extra ) ) . '" value="' . esc_attr( $key ) . '"' . $this->field_attributes() . esc_attr( $checked ) . '/>';// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						if ( isset( $option['option_name'] ) && ! empty( $option['option_name'] ) ) {
-							echo $option['option_name'];
+							echo esc_html( $option['option_name'] );
 						} else {
-							echo $option;
+							echo wp_kses_post( $option );
 						}
 						echo '</div>';
 
@@ -89,14 +89,12 @@ if ( ! class_exists( 'SP_WPCF_Field_button_set' ) ) {
 
 				} else {
 
-					echo  ! empty( $this->field['empty_message'] ) ? esc_attr( $this->field['empty_message'] ) : esc_html__( 'No data available.', 'wp-carousel-free' );
+					echo ! empty( $this->field['empty_message'] ) ? esc_attr( $this->field['empty_message'] ) : esc_html__( 'No data available.', 'wp-carousel-free' );
 
 				}
 			}
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
-
 	}
 }

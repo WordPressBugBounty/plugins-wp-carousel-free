@@ -14,8 +14,8 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 $image_data       = get_post( $attachment );
-$image_title      = $image_data->post_title;
-$image_alt_titles = $image_data->_wp_attachment_image_alt;
+$image_title      = WPCF_Helper::get_translated_attachment_data( $attachment, 'title' );
+$image_alt_titles = WPCF_Helper::get_translated_attachment_data( $attachment, 'alt' );
 $image_alt_title  = ! empty( $image_alt_titles ) ? $image_alt_titles : $image_title;
 $image_url        = wp_get_attachment_image_src( $attachment, $image_sizes );
 $image_url        = is_array( $image_url ) ? $image_url : array( '', '', '' );

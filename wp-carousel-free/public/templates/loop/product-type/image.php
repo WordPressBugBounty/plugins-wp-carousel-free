@@ -11,12 +11,11 @@
 
 if ( has_post_thumbnail() && $show_slide_image ) {
 	$product_thumb_id       = get_post_thumbnail_id();
-	$product_thumb_alt_text = get_post_meta( $product_thumb_id, '_wp_attachment_image_alt', true );
 	$image_url              = wp_get_attachment_image_src( $product_thumb_id, $image_sizes );
 	$image_url              = is_array( $image_url ) ? $image_url : array( '', '', '' );
-
-	$the_image_title_attr = ' title="' . esc_url( get_the_title() ) . '"';
-	$image_title_attr     = $show_image_title_attr ? $the_image_title_attr : '';
+	$the_image_title_attr   = WPCF_Helper::get_translated_attachment_data( $product_thumb_id, 'title' );
+	$product_thumb_alt_text = WPCF_Helper::get_translated_attachment_data( $product_thumb_id, 'alt' );
+	$image_title_attr       = $show_image_title_attr ? ' title="' . esc_attr( $the_image_title_attr ?? get_the_title() ) . '"' : '';
 
 	// Product Thumbnail.
 	$wpcp_product_thumb = '';

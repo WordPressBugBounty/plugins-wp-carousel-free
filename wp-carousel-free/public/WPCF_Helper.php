@@ -140,13 +140,64 @@ if ( ! class_exists( 'WPCF_Helper' ) ) {
 		 * @return string
 		 */
 		public static function get_item_image( $lazy_load_image, $wpcp_layout, $img_url, $title_attr, $width, $height, $alt_text, $lazy_img_url ) {
-			if ( 'false' !== $lazy_load_image && 'carousel' === $wpcp_layout || 'slider' === $wpcp_layout ) {
+			if ( 'false' !== $lazy_load_image && ( 'carousel' === $wpcp_layout || 'slider' === $wpcp_layout ) ) {
 				$image = sprintf( '<img class="wcp-lazy swiper-lazy" data-src="%1$s" src="%6$s" %2$s alt="%3$s" width="%4$s" height="%5$s">', $img_url, $title_attr, $alt_text, $width, $height, $lazy_img_url );
 			} else {
-				$image = sprintf( '<img class="skip-lazy" src="%1$s"%2$s alt="%3$s" width="%4$s" height="%5$s">', $img_url, $title_attr, $alt_text, $width, $height );
+				$image = sprintf( '<img class="skip-lazy" src="%1$s" %2$s alt="%3$s" width="%4$s" height="%5$s">', $img_url, $title_attr, $alt_text, $width, $height );
 			}
 			return $image;
 		}
+
+		/**
+		 * Get translated attachment data for title or alt text.
+		 *
+		 * Supports WPML and Polylang multilingual plugins.
+		 * Falls back to original data if no translation is available.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param int    $attachment_id The attachment ID.
+		 * @param string $field         The field to retrieve ('title' or 'alt').
+		 * @return string The translated attachment data or empty string.
+		 */
+		public static function get_translated_attachment_data( $attachment_id, $field = 'title' ) {
+			// Check if WPML is active.
+			if ( function_exists( 'apply_filters' ) && has_filter( 'wpml_translate_single_string' ) ) {
+				$image_data = get_post( $attachment_id );
+
+				if ( 'title' === $field ) {
+					return apply_filters( 'wpml_translate_single_string', $image_data->post_title, 'WordPress', 'attachment_' . $attachment_id . '_title' );
+				} elseif ( 'alt' === $field ) {
+					$alt_text = get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
+					return apply_filters( 'wpml_translate_single_string', $alt_text, 'WordPress', 'attachment_' . $attachment_id . '_alt' );
+				}
+			}
+
+			// Check if Polylang is active.
+			if ( function_exists( 'pll_get_post' ) ) {
+				$current_lang          = function_exists( 'pll_current_language' ) ? pll_current_language() : '';
+				$translated_attachment = pll_get_post( $attachment_id, $current_lang );
+				$translated_attachment = $translated_attachment ? $translated_attachment : $attachment_id;
+
+				if ( 'title' === $field ) {
+					$translated_image_data = get_post( $translated_attachment );
+					return $translated_image_data->post_title;
+				} elseif ( 'alt' === $field ) {
+					return get_post_meta( $translated_attachment, '_wp_attachment_image_alt', true );
+				}
+			}
+
+			// Fallback to original data.
+			if ( 'title' === $field ) {
+				$image_data = get_post( $attachment_id );
+				return $image_data->post_title;
+			} elseif ( 'alt' === $field ) {
+				return get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
+			}
+
+			return '';
+		}
+
 		/**
 		 * Preloader
 		 *
@@ -354,7 +405,6 @@ if ( ! class_exists( 'WPCF_Helper' ) ) {
 			if ( $wpcp_pagination && 'carousel' !== $wpcp_layout ) {
 				$carousel_type = isset( $upload_data['wpcp_carousel_type'] ) ? $upload_data['wpcp_carousel_type'] : '';
 				if ( 'post-carousel' === $carousel_type || 'product-carousel' === $carousel_type ) {
-					// $wpcp_layout = isset( $shortcode_data['wpcp_layout'] ) ? $shortcode_data['wpcp_layout'] : 'carousel';
 					$wpcp_query = self::wpcp_query( $upload_data, $shortcode_data, $post_id );
 
 					$total_pages = $wpcp_query->max_num_pages;
@@ -362,13 +412,11 @@ if ( ! class_exists( 'WPCF_Helper' ) ) {
 					$wppaged    = 'paged' . $post_id;
 					$args       = array(
 						'format'       => '?' . $wppaged . '=%#%',
-						// 'format'       => '?paged=%#%',
 						'current'      => isset( $_GET[ "$wppaged" ] ) ? $_GET[ "$wppaged" ] : 1,
 						'total'        => $total_pages,
 						'prev_next'    => true,
 						'next_text'    => '<i class="fa fa-angle-right"></i>',
 						'prev_text'    => '<i class="fa fa-angle-left"></i>',
-						// 'type'         => $type,
 						'show_all'     => true,
 						'aria_current' => true,
 					);

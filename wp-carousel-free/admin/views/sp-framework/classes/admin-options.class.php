@@ -192,7 +192,6 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 
 			// wp enqueue for typography and output css.
 			parent::__construct();
-
 		}
 
 		/**
@@ -224,7 +223,7 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 					$parents[ $section['parent'] ][] = $section;
 					unset( $sections[ $key ] );
 				}
-				$count++;
+				++$count;
 			}
 
 			foreach ( $sections as $key => $section ) {
@@ -233,7 +232,7 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 					$section['subs'] = wp_list_sort( $parents[ $section['id'] ], array( 'priority' => 'ASC' ), 'ASC', true );
 				}
 				$result[] = $section;
-				$count++;
+				++$count;
 			}
 
 			return wp_list_sort( $result, array( 'priority' => 'ASC' ), 'ASC', true );
@@ -325,7 +324,6 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 					}
 				}
 			}
-
 		}
 
 		/**
@@ -347,7 +345,6 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 					)
 				);
 			}
-
 		}
 
 		/**
@@ -362,7 +359,6 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 			$default = ( isset( $this->args['defaults'][ $field['id'] ] ) ) ? $this->args['defaults'][ $field['id'] ] : $default;
 
 			return $default;
-
 		}
 
 		/**
@@ -383,7 +379,6 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 			if ( $this->args['save_defaults'] && empty( $tmp_options ) ) {
 				$this->save_options( $this->options );
 			}
-
 		}
 
 		/**
@@ -518,7 +513,6 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 			}
 
 			return false;
-
 		}
 
 		/**
@@ -540,7 +534,6 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 			}
 
 			do_action( "wpcf_{$this->unique}_saved", $data, $this );
-
 		}
 
 		/**
@@ -565,7 +558,6 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 			}
 
 			return $this->options;
-
 		}
 
 		/**
@@ -606,7 +598,6 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 			}
 
 			add_action( 'load-' . $menu_page, array( $this, 'add_page_on_load' ) );
-
 		}
 
 		/**
@@ -711,7 +702,7 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 			if ( $show_buttons ) {
 				echo '<h1><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 5.83333V34.1667C0 34.625 0.375 35 0.833333 35H39.1667C39.625 35 40 34.625 40 34.1667V5.83333C40 5.375 39.625 5 39.1667 5H0.833333C0.375 5 0 5.375 0 5.83333ZM34.15 30.4083H5.85C5.39167 30.4083 5.01667 30.0333 5.01667 29.575V10.425C5.01667 9.96667 5.39167 9.59167 5.85 9.59167H34.15C34.6083 9.59167 34.9833 9.96667 34.9833 10.425V29.575C34.9833 30.0333 34.6083 30.4083 34.15 30.4083Z" fill="#178087"/><path d="M31.4667 20.25L27.925 24.675C27.7834 24.8584 27.5167 24.8834 27.3417 24.7417L25.55 23.3C25.375 23.1584 25.3417 22.8917 25.4834 22.7167L27.45 20.2667C27.575 20.1167 27.575 19.9 27.45 19.7417L25.4667 17.275C25.325 17.0917 25.35 16.8334 25.5334 16.6917L27.325 15.25C27.5084 15.1084 27.7667 15.1334 27.9084 15.3167L31.2084 19.4334L31.4584 19.7334C31.5917 19.875 31.5917 20.0917 31.4667 20.25Z" fill="#178087"/><path d="M12.5417 20.2667L14.5084 22.7167C14.65 22.9001 14.625 23.1584 14.4417 23.3001L12.6584 24.7334C12.475 24.8751 12.2167 24.8501 12.075 24.6667L8.52502 20.2501C8.40002 20.1001 8.40002 19.8834 8.52502 19.7251L8.59169 19.6417L12.1 15.3084C12.2417 15.1251 12.5084 15.1001 12.6834 15.2417L14.475 16.6834C14.6584 16.8251 14.6834 17.0917 14.5417 17.2667L12.5417 19.7501C12.425 19.9001 12.4167 20.1167 12.5417 20.2667Z" fill="#178087"/></svg>' . esc_attr( $this->args['framework_title'] ) . '</h1>';
 			} else {
-				echo '<h1 class="export-import"><img src="' . WPCAROUSELF_URL . 'admin/img/import-export.svg">' . esc_attr( $this->args['framework_title'] ) . '</h1>';
+				echo '<h1 class="export-import"><img src="' . esc_url( WPCAROUSELF_URL ) . 'admin/img/import-export.svg">' . esc_attr( $this->args['framework_title'] ) . '</h1>';
 			}
 			echo '</div>';
 
@@ -866,7 +857,6 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 			echo '</div>';
 
 			do_action( 'wpcf_options_after' );
-
 		}
 	}
 }

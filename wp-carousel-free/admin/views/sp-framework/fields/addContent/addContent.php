@@ -43,8 +43,7 @@ if ( ! class_exists( 'SP_WPCF_Field_addContent' ) ) {
 		public function render() {
 			echo wp_kses_post( $this->field_before() );
 			$style = ( ! empty( $this->field['style'] ) ) ? $this->field['style'] : 'normal';
-			// echo '<div class="wpcf-addContent wpcf-addContent-' . esc_attr( $style ) . '">' . wp_kses_post( $this->field['content'] ) . '</div>';
-			echo ! empty( $this->field['text'] ) ? '<a href="#" class="button button-primary wpcf-cloneable-add"><i class="fa fa-plus-circle"></i> ' . $this->field['text'] . ' </a>' : '';
+			echo ! empty( $this->field['text'] ) ? '<a href="#" class="button button-primary wpcf-cloneable-add"><i class="fa fa-plus-circle"></i> ' . esc_html( $this->field['text'] ) . ' </a>' : '';
 			echo '<div class="wpcf-desc-text">' . wp_kses_post( $this->field['content'] ) . '</div>';
 			echo wp_kses_post( $this->field_after() );
 		}

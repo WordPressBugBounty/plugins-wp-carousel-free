@@ -228,23 +228,28 @@ class WP_Carousel_Free_Shortcode {
 		$upload_data        = get_post_meta( $post_id, 'sp_wpcp_upload_options', true );
 		$shortcode_data     = get_post_meta( $post_id, 'sp_wpcp_shortcode_options', true );
 		$main_section_title = get_the_title( $post_id );
+		$get_page_data      = WP_Carousel_Free_Public::get_page_data();
+		$found_ids          = $get_page_data['generator_id'];
+		$current_post_id    = absint( $attributes['id'] );
+		$force_enqueue      = wpcf_get_option( 'wpcp_ajax_js', false );
+		$shortcode_in_page  = in_array( $current_post_id, $found_ids, true );
+		$is_admin           = ! empty( $attributes['is_admin'] ) ? true : false;
+		$should_enqueue     = $force_enqueue || ! $shortcode_in_page || $is_admin;
 
 		// Stylesheet loading problem solving here. Shortcode id to push page id option for getting how many shortcode in the page.
 		// Get the existing shortcode ids from the current page.
-		$get_page_data      = WP_Carousel_Free_Public::get_page_data();
-		$found_generator_id = $get_page_data['generator_id'];
 		ob_start();
-		if ( wpcf_get_option( 'wpcp_ajax_js', false ) ) {
+		if ( $force_enqueue ) {
 			wp_enqueue_script( 'wpcf-ajax-theme' );
 		}
 		// This shortcode id not in page id option. Enqueue stylesheets in shortcode.
-		if ( ! is_array( $found_generator_id ) || ! $found_generator_id || ! in_array( $post_id, $found_generator_id ) || wpcf_get_option( 'wpcp_ajax_js', false ) ) {
+		if ( $should_enqueue ) {
 			wp_enqueue_style( 'wpcf-swiper' );
 			wp_enqueue_style( 'wp-carousel-free-fontawesome' );
 			wp_enqueue_style( 'wp-carousel-free' );
 
 			$dynamic_style = WP_Carousel_Free_Public::load_dynamic_style( $post_id, $shortcode_data, $upload_data );
-			echo '<style id="wp_carousel_dynamic_css' . esc_attr( $post_id ) . '">' . $dynamic_style['dynamic_css'] . '</style>';
+			echo '<style id="wp_carousel_dynamic_css' . esc_attr( $post_id ) . '">' . $dynamic_style['dynamic_css'] . '</style>'; // phpcs:ignore
 		}
 		// Update options if the existing shortcode id option not found.
 		WP_Carousel_Free_Public::wpf_db_options_update( $post_id, $get_page_data );

@@ -13,9 +13,9 @@ if ( has_post_thumbnail() && $show_slide_image ) {
 	$image_id             = get_post_thumbnail_id();
 	$image_url            = wp_get_attachment_image_src( $image_id, $image_sizes );
 	$image_url            = is_array( $image_url ) ? $image_url : array( '', '', '' );
-	$image_alt_text       = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
-	$the_image_title_attr = ' title="' . the_title_attribute( 'echo=0' ) . '"';
-	$image_title_attr     = ( 'true' === $show_image_title_attr ) ? $the_image_title_attr : '';
+	$the_image_title_attr = WPCF_Helper::get_translated_attachment_data( $image_id, 'title' );
+	$image_alt_text       = WPCF_Helper::get_translated_attachment_data( $image_id, 'alt' );
+	$image_title_attr     = $show_image_title_attr ? ' title="' . esc_attr( $the_image_title_attr ?? get_the_title() ) . '"' : '';
 
 	if ( ! empty( $image_url[0] ) ) {
 		$post_thumb = WPCF_Helper::get_item_image( $lazy_load_image, $wpcp_layout, $image_url[0], $image_title_attr, $image_url[1], $image_url[2], $image_alt_text, $lazy_load_img );

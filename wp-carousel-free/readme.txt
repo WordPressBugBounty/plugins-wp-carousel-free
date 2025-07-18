@@ -4,7 +4,7 @@ Tags: slider, carousel, slideshow, gallery, video slider
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.0.0
-Stable tag: 2.7.5
+Stable tag: 2.7.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -326,6 +326,12 @@ Thank you!
 
 
 == Changelog ==
+
+= Version 2.7.6 – Jul 18, 2025 =
+* Improved: The image alt tag translation case for the WPML plugin.
+* Improved: The image alt tag translation case for the Polylang plugin.
+* Improved: The plugin option data to save in the wp_options table.
+* Tested: WooCommerce 10.0.2 compatibility.
 
 = 2.7.5 – Apr 14, 2025 =
 * Fix: The translation-related warning was found with WP 6.8.

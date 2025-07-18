@@ -15,6 +15,7 @@ jQuery(document).ready(function ($) {
 			baseClass: carousel_id + ' wpcf-fancybox-wrapper',
 			animationDuration: 366,
 			transitionDuration: 366,
+			infobar: false,
 			hash: false,
 			caption: function (instance, item) {
 				return '';
