@@ -7,19 +7,19 @@
  * @version 1.0.0
  */
 
- if ( ! defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	die; } // Cannot access directly.
 
 if ( ! class_exists( 'SP_WPCF_Field_notice' ) ) {
 
 	/**
- *
- * Field: notice
- *
- * @since 1.0.0
- * @version 1.0.0
- */
-class SP_WPCF_Field_notice extends SP_WPCF_Fields {
+	 *
+	 * Field: notice
+	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 */
+	class SP_WPCF_Field_notice extends SP_WPCF_Fields {
 
 		/**
 		 * Notice field constructor.
@@ -42,8 +42,6 @@ class SP_WPCF_Field_notice extends SP_WPCF_Fields {
 		public function render() {
 			$style = ( ! empty( $this->field['style'] ) ) ? $this->field['style'] : 'normal';
 			echo ( ! empty( $this->field['content'] ) ) ? '<div class="wpcf-notice wpcf-notice-' . esc_attr( $style ) . '">' . wp_kses_post( $this->field['content'] ) . '</div>' : '';
-
 		}
-
 	}
 }

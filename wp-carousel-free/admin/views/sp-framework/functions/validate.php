@@ -56,7 +56,6 @@ if ( ! function_exists( 'wpcf_validate_required' ) ) {
 		if ( empty( $value ) ) {
 			return esc_html__( 'This field is required.', 'wp-carousel-free' );
 		}
-
 	}
 }
 
@@ -74,6 +73,5 @@ if ( ! function_exists( 'wpcf_validate_url' ) ) {
 		if ( ! filter_var( $value, FILTER_VALIDATE_URL ) ) {
 			return esc_html__( 'Please enter a valid URL.', 'wp-carousel-free' );
 		}
-
 	}
 }

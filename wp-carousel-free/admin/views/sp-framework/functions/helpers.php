@@ -34,7 +34,6 @@ if ( ! function_exists( 'wpcf_array_search' ) ) {
 		}
 
 		return $results;
-
 	}
 }
 

@@ -9,8 +9,10 @@
  * @package WP Carousel
  * @subpackage wp-carousel-free/sp-framework
  */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die; } // Cannot access directly.
+
 /**
  *
  * Field: color
@@ -55,7 +57,6 @@ if ( ! class_exists( 'SP_WPCF_Field_color' ) ) {
 			echo wp_kses_post( $this->field_before() );
 			echo '<input type="text" name="' . esc_attr( $this->field_name() ) . '" value="' . esc_attr( $this->value ) . '" class="wpcf-color"' . $default_attr . $this->field_attributes() . '/>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $this->field_attributes() is escaped before being passed in.
 			echo wp_kses_post( $this->field_after() );
-
 		}
 
 		/**
@@ -84,8 +85,6 @@ if ( ! class_exists( 'SP_WPCF_Field_color' ) ) {
 			$this->parent->output_css .= $output;
 
 			return $output;
-
 		}
-
 	}
 }

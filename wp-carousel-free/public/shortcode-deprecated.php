@@ -5,6 +5,10 @@
  * @package WP Carousel
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 if ( ! function_exists( 'wp_carousel_free_shortcode' ) ) {
 
 	/**
@@ -17,7 +21,7 @@ if ( ! function_exists( 'wp_carousel_free_shortcode' ) ) {
 		$post = get_post();
 
 		static $instance = 0;
-		$instance ++;
+		++$instance;
 
 		if ( ! empty( $attr['ids'] ) ) {
 			if ( empty( $attr['orderby'] ) ) {
@@ -60,7 +64,7 @@ if ( ! function_exists( 'wp_carousel_free_shortcode' ) ) {
 					'draggable'           => 'true',
 					'size'                => 'medium',
 					'include'             => '',
-					'exclude'             => '',
+					'exclude'             => '', // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 					'carousel_direction'  => 'ltr',
 				),
 				$attr,
@@ -124,7 +128,7 @@ if ( ! function_exists( 'wp_carousel_free_shortcode' ) ) {
 			$attachments = get_children(
 				array(
 					'post_parent'    => $id,
-					'exclude'        => $exclude,
+					'exclude'        => $exclude, // phpcs:ignore
 					'post_status'    => 'inherit',
 					'post_type'      => 'attachment',
 					'post_mime_type' => 'image',

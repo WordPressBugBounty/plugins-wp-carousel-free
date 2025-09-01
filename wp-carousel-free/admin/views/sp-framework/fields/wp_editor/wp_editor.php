@@ -36,7 +36,6 @@ if ( ! class_exists( 'SP_WPCF_Field_wp_editor' ) ) {
 			parent::__construct( $field, $value, $unique, $where, $parent );
 		}
 
-
 		/**
 		 * Render
 		 *

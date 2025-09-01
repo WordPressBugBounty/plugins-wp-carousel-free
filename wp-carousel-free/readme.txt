@@ -1,192 +1,61 @@
-=== Carousel, Slider, Gallery by WP Carousel – Image Carousel with Lightbox & Photo Gallery, Video Slider, Post Carousel & Post Grid, Product Carousel & Product Grid ===
+=== Carousel, Slider, Photo Gallery with Lightbox, Video Slider, by WP Carousel ===
 Contributors: shapedplugin, khalilu, shamimmiashuhagh, rubel_miah
 Tags: slider, carousel, slideshow, gallery, video slider
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.0.0
-Stable tag: 2.7.6
+Stable tag: 2.7.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-
-The most powerful carousel, slider, and gallery plugin. Responsive carousel and gallery with images, posts, products, videos, content, and more.
-
+Carousel, Slider, and Photo Gallery with Lightbox plugin. Create Image Carousel, Video Slider, Post Carousel, Post Grid, Product Carousel, and more.
 
 == Description ==
 
+[__WP Carousel__](https://wpcarousel.io/) is a responsive plugin for creating **Carousel, Slider, Photo Gallery, and Video Slider** in WordPress. It supports images, posts, WooCommerce products, and YouTube videos. Images can be selected directly from the WordPress media library and arranged with drag-and-drop. The plugin is lightweight, responsive, and works across all major devices and browsers.
+
 [youtube https://www.youtube.com/embed/videoseries?list=PLoUb-7uG-5jO_zo3exhqUNlZ7h0FQVJTt]
 
-[__Live Demo__](https://wpcarousel.io/wp-carousel-free-demo/) | [__Video Tutorials__](https://www.youtube.com/shapedplugin/) | [__Documentation__](https://docs.shapedplugin.com/docs/wordpress-carousel/introduction/) | [__Upgrade to Pro &raquo;__](https://wpcarousel.io/pricing/?ref=1)
+[__Live Demo__](https://wpcarousel.io/wp-carousel-free-demo/) | [__Video Tutorials__](https://www.youtube.com/shapedplugin/) | [__Documentation__](https://docs.shapedplugin.com/docs/wordpress-carousel/introduction/) | [__Support__](https://shapedplugin.com/create-new-ticket/)
 
 
-= Overview =
+## You'll be ble to display ##
 
-**WP Carousel** is the most powerful and user-friendly WordPress Carousel plugin to create beautiful carousels with **Images, Posts, WooCommerce Products etc.** This plugin will allow you simply select images from WordPress media library, drag and drop them into place and also supports WordPress posts and WooCommerce products. It's fully responsive, highly customizable and works smoothly on iPhone, iPad, Android, Firefox, Chrome, Safari, Opera and Edge.
+**Image Carousel & Slider:** Create Carousels and Sliders by uploading images from the WordPress media library.
 
-We believe that you shouldn't be a coder or hire a developer to create a carousel for your WordPress site. That’s why we built the **WordPress Carousel** plugin that’s both **EASY and POWERFUL.**
+**Photo Gallery:** Build image galleries with lightbox support and customizable layouts.
 
-= WP Carousel 2.0 =
+**Post Carousel:** Display recent posts in a carousel with title, image, excerpt, date, and author.
 
-**WP Carousel 2.0** has completely been rebuilt and this provides you now many improvements and new amazing features.
+**Post Grid:** Show posts in a grid format with title, image, excerpt, date, and author.
 
-= You'll be able to display =
+**WooCommerce Product Carousel:** Display WooCommerce products in a carousel with options to show or hide product name, image, price, rating, and add-to-cart button.
 
-* **Image Carousel** – Create beautiful image carousels with uploading images via WordPress regular media gallery. Easily drag and drop image slides.
+**Product Grid Gallery:** Show WooCommerce products in a grid gallery with product details such as name, image, price, reviews, and add-to-cart button.
 
-* **Post Carousel** – Display WordPress latest posts in the carousel with post title, image, excerpt, date, author etc.
-
-* **WooCommerce Product Carousel** – Display latest WooCommerce products carousel. Show/hide the product name, image, price, rating, add to cart button etc.
+**Video Slider & Gallery:** Create sliders and galleries with multiple YouTube videos.
 
 
-= Key Feature List =
+## Features you'll love ##
 
-* Fully Responsive and Touch-friendly.
-* Lightweight, Fast & Powerful.
-* **Shortcode Generator.**
-* Extremely User-friendly Admin Panel.
-* **Create Carousel using images from media gallery, posts, products etc.**
-* **Drag and drop image slides Re-ordering.**
-* **Multiple Carousels.** (Create unlimited carousels into same page)
-* **Multisite Supported.**
-* Set border for image slide.
-* AutoPlay on/off.
-* AutoPlay Speed Control.
-* Stop on hover carousel.
-* Infinite looping for the carousel.
-* Show/hide Navigation and Pagination dots.
-* Navigation & Pagination dots color.
-* Unlimited color and styling options.
-* Control carousel columns on different devices.
-* Display random order.
-* Unique settings for each carousel.
-* Touch Swipe options.
-* Mouse Draggable enable or disable.
-* Multilingual Ready.
-* RTL Supported.
-* Widget Supported.
-* Compatible with any theme.
-* Advanced Settings to enqueue or dequeue Scripts/CSS.
-* Custom CSS field to override styles.
-* Developer friendly & easy to customize.
-* SEO friendly & optimized for speed.
-* Support all modern browsers: IE, Firefox, Chrome, Safari, Opera, Edge etc.
-* Documentation and Video Tutorials.
-* **Fast and Active Support.**
-* And much more options.
+**Drag & Drop Responsive Builder:** Easily upload and reorder slides with the responsive drag-and-drop builder. Supports images and videos, letting you organize carousels and galleries in any order.
 
+**Multiple Carousels and Galleries:** Add and display multiple carousels or galleries on the same page without conflict.
 
-= For fast support, features request, and bug reporting =
+**Carousel Controls:** Enable or disable autoplay, set speed, stop on hover, and loop infinitely. Show or hide navigation and pagination dots with custom colors. Touch swipe and mouse drag are also supported.
 
->Ask us at [__Support.__](https://shapedplugin.com/support/?user=lite)
+**Responsive and Mobile Ready:** WP Carousel sliders and galleries are fully responsive. You can set the number of columns and spacing individually for small, medium, and large devices.
 
+**Lightbox** Open images or videos in a popup overlay for viewing larger versions without leaving the page. Works across devices and is easy to navigate.
 
-= WP Carousel Pro =
+**Color & Styling Options:** The plugin lets you customize colors and styles for carousels and galleries to match your site’s design.
 
-[__WP Carousel Pro__](https://wpcarousel.io/?ref=1) is the most powerful and user-friendly multi-purpose WordPress Carousel plugin to create beautiful carousels with **images, Posts, WooCommerce Products, Contents (Images, Text, HTML, Shortcodes), Video** etc. The plugin has own image and content management system and also supports **Posts, Pages, Custom Post Type, Taxonomy, Custom Taxonomy, Custom Contents, YouTube, Vimeo, Dailymotion, mp4, WebM, Self-hosted Video with Lightbox.** It's fully responsive, highly customizable and works smoothly on iPhone, iPad, Android, Firefox, Chrome, Safari, Opera and Edge.
+**Multisite Support:** The plugin can be used across WordPress multisite networks, allowing you to create and manage carousels on multiple sites from a single installation.
 
-It’s even easier to put images of different height together so the width is dynamic with fixed height so that your site looks pretty. The plugin vastly improves user experience and lets you create different types of beautiful carousels easily and quickly.
+**Theme & Plugin Compatibility:** The plugin is compatible with most WordPress themes and plugins, ensuring smooth integration without conflicts.
 
-= Popular Carousel Types =
-
-* **Image Carousel** - WP Carousel Pro allows you to create beautiful image carousels for your site in minutes! Upload images via WordPress regular media gallery, create a gallery to make carousel.
-* **Post Carousel** - Display posts from multiple Categories, Tags, Formats, or Types: Latest, Taxonomies, Specific etc. Show the standard post contents: title, image, excerpt, read more, category, date, author, tags, comments etc.
-* **Product Carousel** - Filter by different product types. (e.g. latest, categories, specific products etc.). Show/hide the product name, image, price, excerpt, read more, rating, add to cart button etc.
-* **Content Carousel (Slide Anything)** - Slide anything you want based on your WordPress site. (e.g. images, text, HTML, shortcodes, any custom contents etc.) You can sort slide content by drag and drop easily.
-* **Video Carousel** - Show videos from multiple sources: YouTube, Vimeo, Dailymotion, mp4, WebM, and even self-hosted video with Lightbox. A customizable video icon will place over the video thumb.
-
-
-
-= WP Carousel Pro Features =
-
-* [__All Sample Carousels__](https://wpcarousel.io/simple-image-carousel/?ref=1) (Live Demo in action).
-* Fully Responsive and Touch-friendly.
-* Advanced Shortcode Generator.
-* **Slide Anything. (e.g. Image, Post, Product, Content, Video, Text, HTML, Shortcodes etc.)**
-* **Display posts from multiple Categories, Tags, Formats, or Types. (e.g. Latest, Taxonomies, Specific etc.).**
-* Add Unlimited Carousels. (e.g. post, page, custom template, widget or anywhere you want.)
-* **840+ Google Fonts** (Advanced Typography).
-* Enable/Disable option for Google Font loading.
-* **100+ Advanced Styling and Visual Customization options.**
-* Drag & Drop ordering Image, Content, Video.
-* **Image Internal and External Links.**
-* **Image Carousel (with caption and description.)**
-* **Image Content Position (Bottom, Right, and Overlay).**
-* Show/hide image caption and description.
-* Slide border and inner padding.
-* **Lightbox functionality for images.**
-* Lightbox images group by the view.
-* Smart lazy-loading option for images.
-* GrayScale effect for images.
-* Soft and Hard cropping option for image.
-* Set equal or fixed height with CSS for images.
-* Variable width option in the carousel.
-* Image Title Attribute option.
-* **Post Carousel.**
-* Show the standard post contents or select which content you want to display. (Title, image, excerpt, read more, category, date, author, tags, comments etc.)
-* Post excerpt and full content display option.
-* Show Post Content with words limit.
-* Show/hide read more button.
-* Read more button text customization option.
-* **WooCommerce Product Carousel.**
-* **Product content position** (Bottom, right, overlay)
-* **Filter by different product types. (e.g. latest, categories, specific products etc.).**
-* Show/hide the standard product contents. (Product name, image, price, excerpt, read more, rating, add to cart etc.).
-* Limit product description.
-* Post order (Ascending & Descending) and order by ID, date, random, title, modified etc.
-* **Content Carousel**
-* **Slide Anything you want based on your website. (e.g. images, text, HTML, shortcodes, any custom contents etc.)**
-* **Video Carousel.**
-* Video icon color customization.
-* Add video caption and description.
-* Add custom video thumbnail for the Self-hosted Video.
-* Custom CSS field to override styles.
-* Display carousel section title.
-* Set margin-bottom for the section title.
-* Scripts Enqueue or Dequeue options to avoid conflicts.
-* **Carousel Mode (Standard, Ticker and Center Mode).**
-* AutoPlay on/off.
-* Control AutoPlay and Pagination speed.
-* Stop on hover carousel.
-* Infinite looping for the carousel.
-* Touch, swipe or tap on Android, iOS or any other touch devices.
-* Mouse Draggable options.
-* Adaptive height for the carousel.
-* Enable or Disable carousel scroll with tab and keyboard.
-* Set the number of slides to scroll.
-* Show/hide carousel navigation and pagination dots.
-* 8+ Different navigation positions.
-* 6 FontAwesome directional icons.
-* Hide navigation border and background.
-* Set carousel pagination dots margin.
-* Unlimited colors and styling options.
-* Different types of sliding and hover effects.
-* Control carousel column on different devices.
-* Duplicate or clone carousels.
-* Multisite supported.
-* Automatic update integration.
-* Widget ready.
-* RTL supported.
-* Compatible with any theme or extension.
-* Support all browsers: Firefox, Chrome, IE, Safari etc.
-* SEO friendly & optimized for speed.
-* Extensive Online docs & Video Tutorials.
-* **Fast and friendly support.**
-* Any new features we add in the future (which is often).
-* [__Full list of PRO features.__](https://wpcarousel.io/#features)
-
-
-= Multilingual Ready =
-
-* [WPML](https://wpml.org/)
-* [Polylang](https://wordpress.org/plugins/polylang/)
-* [qTranslate-x](https://wordpress.org/plugins/qtranslate-x/)
-* [GTranslate](https://wordpress.org/plugins/gtranslate/)
-* [Google Language Translator](https://wordpress.org/plugins/google-language-translator/)
-* [WPGlobus](https://wordpress.org/plugins/wpglobus/)
-
-= Page Builders Ready =
-
-* Gutenberg (WordPress 5.0.2)
+## Page Builders Ready ##
+* Gutenberg Editor
 * WPBakery
 * Elementor
 * BeaverBuilder
@@ -198,21 +67,31 @@ It’s even easier to put images of different height together so the width is dy
 * Themify Builder etc.
 
 
-**WP Carousel Pro - Admin Panel Overview**
+## Multilingual Ready ##
+
+* [WPML](https://wpml.org/)
+* [Polylang](https://wordpress.org/plugins/polylang/)
+* [Loco Translate](https://wordpress.org/plugins/loco-translate/)
+* [qTranslate-x](https://wordpress.org/plugins/qtranslate-x/)
+* [GTranslate](https://wordpress.org/plugins/gtranslate/)
+* [Google Language Translator](https://wordpress.org/plugins/google-language-translator/)
+* [WPGlobus](https://wordpress.org/plugins/wpglobus/)
+
+
+## For fast support, features request, and bug reporting ##
+>Ask us at [__Support.__](https://shapedplugin.com/create-new-ticket/)
+
+
+## WP Carousel Pro ##
+[__WP Carousel__](https://wpcarousel.io/?ref=1) is the free version of [__WP Carousel Pro__](https://wpcarousel.io/pricing?ref=1). The Pro version includes additional features such as support for posts, WooCommerce products, custom content (text, HTML, shortcodes), and extended video options. It also supports WordPress pages, custom post types, taxonomies, and custom taxonomies. Video sources include YouTube, Vimeo, TikTok, Twitch, Wistia, Dailymotion, MP4, WebM, and self-hosted videos with lightbox support. See [__Documentation__](https://docs.shapedplugin.com/docs/wordpress-carousel-pro/introduction/).
+
 
 [youtube https://www.youtube.com/embed/videoseries?list=PLoUb-7uG-5jNgTTcnUflIiytxgTWaBEzm]
 
 [__Watch all Tutorials &raquo;__](https://www.youtube.com/watch?v=m2XP6GNW0mE&index=2&list=PLoUb-7uG-5jNgTTcnUflIiytxgTWaBEzm)
 
-= Premium Support and Documentation =
-
-The premium version of the plugin entitles you to get fast, friendly, and priority support with replies posted within 24 hours (without holidays). Please [__submit__](https://shapedplugin.com/create-new-ticket/) a support ticket here. This will create a support thread in our support portal.
-
-For documentation and tutorials go to our [__Documentation__](https://docs.shapedplugin.com/docs/wordpress-carousel/introduction/).
-
-= Author =
+## Author ##
 Designed and Developed by [__ShapedPlugin__](https://shapedplugin.com/)
-
 
 
 == Installation ==
@@ -260,9 +139,6 @@ The WordPress codex contains <a href="https://wordpress.org/documentation/articl
 **WP Carousel** is perfect for photographers, designers, bloggers, different organizations, and small to large businesses. Basically, if you want to create beautiful carousels like, Image Carousel, Post Carousel, and Product Carousel, then you need to use WP Carousel.
 
 
-= What types of carousel you can create using WP Carousel? =
-You can create three (3) types of carousel using **WP Carousel** such as: **Image Carousel, Post Carousel, and Product Carousel.** And with the [__Premium Version__](https://wpcarousel.io/pricing/?ref=1), you can create also **Content Carousel** and **Video Carousel**.
-
 = Do I need to have coding skills to use WP Carousel? =
 No. You don’t need any coding skill. No more pain writing any shortcode attributes to display carousel in your site. With just a few clicks, you can amazingly create unlimited Image, Post, and Product Carousels.
 
@@ -300,15 +176,6 @@ Yes, WP Carousel is 100% translation ready and tested with [WPML](https://wpml.o
 = Is WP Carousel compatible with WordPress multisite? =
 Yes, WP Carousel works perfectly with WordPress multi-site network.
 
-= How to use ‘WP Carousel’ in WordPress 5.0 Gutenberg Block Editor =
-Adding a **WP Carousel (Image Carousel, Post Carousel, Product Carousel)** using the WordPress 5.0 **Block Editor** is pretty straight-forward. You can paste the generated shortcode into a ‘Paragraph Block’ or use the ‘Shortcode Block’. It works nicely as classic editor.
-
-= Do you Like this Plugin and want to encourage us for improvement? =
-Please give the plugin [__5 stars__](https://wordpress.org/support/plugin/wp-carousel-free/reviews/?filter=5#new-post) rating and your precious appreciation will help us to make it much great in the future.
-
-Thank you!
-
-
 
 == Screenshots ==
 
@@ -326,6 +193,18 @@ Thank you!
 
 
 == Changelog ==
+
+= Version 2.7.7 – Aug 22, 2025 =
+* New: Carousel Source type: Pages option added.
+* New: The option to show featured products has been added.
+* New: Unlimited YouTube videos option added.
+* New: The Slider Navigation: Top Right option.
+* New: The Slider Pagination: Dynamic option.
+* New: The Lightbox overlay color option.
+* New: The Lightbox navigation arrow color and background color option.
+* New: The Lightbox Close button option to show/hide it.
+* New: The Overlay/Outside Close option to close the lightbox on click of the overlay or not. 
+* Improved: The plugin's options are enhanced to make it more user-friendly.
 
 = Version 2.7.6 – Jul 18, 2025 =
 * Improved: The image alt tag translation case for the WPML plugin.

@@ -85,7 +85,7 @@ if ( ! class_exists( 'SP_WPCF_Field_typography' ) ) {
 					'text_decoration'    => false,
 					'custom_style'       => false,
 					'compact'            => false,
-					'exclude'            => '',
+					'exclude'            => '', // phpcs:ignore
 					'unit'               => 'px',
 					'line_height_unit'   => '',
 					'preview_text'       => 'The quick brown fox jumps over the lazy dog',
@@ -138,8 +138,8 @@ if ( ! class_exists( 'SP_WPCF_Field_typography' ) ) {
 			if ( ! empty( $args['font_family'] ) ) {
 				echo '<div class="wpcf--block">';
 				echo '<div class="wpcf--title">' . esc_html__( 'Font Family', 'wp-carousel-free' ) . '</div>';
-				echo '<select disabled name="sp_wpcp_shortcode_options[wpcp_section_title_typography][font-family]" class="wpcf--font-family" data-placeholder="Select a font" style="display: none;">
-				<option>Open Sans</option>
+				echo '<select disabled name="sp_wpcp_shortcode_options[wpcp_section_title_typography][font-family]" class="wpcf--font-family" data-placeholder="Select a font">
+				<option>Select Font</option>
 				</select>';
 				echo '</div>';
 			}
@@ -204,7 +204,7 @@ if ( ! class_exists( 'SP_WPCF_Field_typography' ) ) {
 				echo '<div class="wpcf--block wpcf--block-subset hidden">';
 				echo '<div class="wpcf--title">' . esc_html__( 'Subset', 'wp-carousel-free' ) . '</div>';
 				$subset = ( is_array( $this->value['subset'] ) ) ? $this->value['subset'] : array_filter( (array) $this->value['subset'] );
-				echo '<select disabled name="sp_wpcp_shortcode_options[wpcp_section_title_typography][subset]" class="wpcf--subset" data-placeholder="Default" style="display: none;"><option value="default"></option></select>';
+				echo '<select disabled name="sp_wpcp_shortcode_options[wpcp_section_title_typography][subset]" class="wpcf--subset" data-placeholder="Default"><option value="default"></option></select>';
 				echo '</div>';
 			}
 
@@ -212,7 +212,7 @@ if ( ! class_exists( 'SP_WPCF_Field_typography' ) ) {
 			if ( ! empty( $args['text_align'] ) ) {
 				echo '<div class="wpcf--block">';
 				echo '<div class="wpcf--title">' . esc_html__( 'Text Align', 'wp-carousel-free' ) . '</div>';
-				echo '<select disabled name="sp_wpcp_shortcode_options[wpcp_section_title_typography][text-align]" class="wpcf--text-align" data-placeholder="Center" style="display: none;"><option value="">Center</option></select>';
+				echo '<select disabled name="sp_wpcp_shortcode_options[wpcp_section_title_typography][text-align]" class="wpcf--text-align" data-placeholder="Center"><option value="">Center</option></select>';
 				echo '</div>';
 			}
 
@@ -236,7 +236,7 @@ if ( ! class_exists( 'SP_WPCF_Field_typography' ) ) {
 			if ( ! empty( $args['text_transform'] ) ) {
 				echo '<div class="wpcf--block">';
 				echo '<div class="wpcf--title">' . esc_html__( 'Text Transform', 'wp-carousel-free' ) . '</div>';
-				echo '<select disabled name="sp_wpcp_shortcode_options[wpcp_title_typography][text-align]" class="wpcf--text-align" data-placeholder="Default" style="display: none;"><option value="none">None</option></select>';
+				echo '<select disabled name="sp_wpcp_shortcode_options[wpcp_title_typography][text-align]" class="wpcf--text-align" data-placeholder="Default"><option value="none">None</option></select>';
 				echo '</div>';
 			}
 
@@ -395,95 +395,6 @@ if ( ! class_exists( 'SP_WPCF_Field_typography' ) ) {
 			}
 			$output .= '</select>';
 			return $output;
-		}
-
-		/**
-		 * Enqueue
-		 *
-		 * @return void
-		 */
-		public function enqueue() {
-
-			if ( ! wp_script_is( 'wpcf-webfontloader' ) ) {
-				SP_WPCF::include_plugin_file( 'fields/typography/google-fonts.php' );
-				wp_enqueue_script( 'wpcf-webfontloader', 'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js', array( 'wpcf' ), '1.6.28', true );
-				$webfonts = array();
-				$customwebfonts = apply_filters( 'wpcf_field_typography_customwebfonts', array() );
-				if ( ! empty( $customwebfonts ) ) {
-					$webfonts['custom'] = array(
-						'label' => esc_html__( 'Custom Web Fonts', 'wp-carousel-free' ),
-						'fonts' => $customwebfonts,
-					);
-				}
-
-				$webfonts['safe'] = array(
-					'label' => esc_html__( 'Safe Web Fonts', 'wp-carousel-free' ),
-					'fonts' => apply_filters(
-						'wpcf_field_typography_safewebfonts',
-						array(
-							'Arial',
-							'Arial Black',
-							'Helvetica',
-							'Times New Roman',
-							'Courier New',
-							'Tahoma',
-							'Verdana',
-							'Impact',
-							'Trebuchet MS',
-							'Comic Sans MS',
-							'Lucida Console',
-							'Lucida Sans Unicode',
-							'Georgia, serif',
-							'Palatino Linotype',
-						)
-					),
-				);
-
-				$webfonts['google'] = array(
-					'label' => esc_html__( 'Google Web Fonts', 'wp-carousel-free' ),
-					'fonts' => apply_filters(
-						'wpcf_field_typography_googlewebfonts',
-						''
-					),
-				);
-
-				$defaultstyles = apply_filters( 'wpcf_field_typography_defaultstyles', array( 'normal', 'italic', '700', '700italic' ) );
-				$googlestyles  = apply_filters(
-					'wpcf_field_typography_googlestyles',
-					array(
-						'100'       => 'Thin 100',
-						'100italic' => 'Thin 100 Italic',
-						'200'       => 'Extra-Light 200',
-						'200italic' => 'Extra-Light 200 Italic',
-						'300'       => 'Light 300',
-						'300italic' => 'Light 300 Italic',
-						'normal'    => 'Normal 400',
-						'italic'    => 'Normal 400 Italic',
-						'500'       => 'Medium 500',
-						'500italic' => 'Medium 500 Italic',
-						'600'       => 'Semi-Bold 600',
-						'600italic' => 'Semi-Bold 600 Italic',
-						'700'       => 'Bold 700',
-						'700italic' => 'Bold 700 Italic',
-						'800'       => 'Extra-Bold 800',
-						'800italic' => 'Extra-Bold 800 Italic',
-						'900'       => 'Black 900',
-						'900italic' => 'Black 900 Italic',
-					)
-				);
-
-				$webfonts = apply_filters( 'wpcf_field_typography_webfonts', $webfonts );
-
-				wp_localize_script(
-					'wpcf',
-					'wpcf_typography_json',
-					array(
-						'webfonts'      => $webfonts,
-						'defaultstyles' => $defaultstyles,
-						'googlestyles'  => $googlestyles,
-					)
-				);
-			}
 		}
 	}
 }

@@ -9,6 +9,10 @@
  * @subpackage WP_Carousel_Free/includes/updates
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * Update version.
  */

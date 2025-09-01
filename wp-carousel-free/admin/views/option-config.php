@@ -260,25 +260,8 @@ SP_WPCF::createSection(
 				'title'    => __( 'Custom CSS', 'wp-carousel-free' ),
 				'settings' => array(
 					'mode'  => 'css',
-					'theme' => 'monokai',
+					'theme' => 'default',
 				),
-			),
-		),
-	)
-);
-//
-// License Key Fields.
-//
-SP_WPCF::createSection(
-	$prefix,
-	array(
-		'id'     => 'license_key_fields',
-		'title'  => __( 'License Key', 'wp-carousel-free' ),
-		'icon'   => 'wpcf-icon-key-01',
-		'fields' => array(
-			array(
-				'id'   => 'license_key',
-				'type' => 'license',
 			),
 		),
 	)

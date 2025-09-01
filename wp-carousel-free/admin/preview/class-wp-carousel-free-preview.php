@@ -9,6 +9,10 @@
  * @subpackage WP_Carousel_Free/admin
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * The admin preview.
  */
@@ -60,7 +64,6 @@ class WP_Carousel_Free_Preview {
 		}
 		WP_Carousel_Free_Shortcode::wpcf_html_show( $upload_data, $shortcode_data, $post_id, $main_section_title );
 		?>
-		<script src="<?php echo esc_url( WPCAROUSELF_URL . 'public/js/fancybox-config.min.js' ); ?>" ></script>
 		<?php
 		die();
 	}

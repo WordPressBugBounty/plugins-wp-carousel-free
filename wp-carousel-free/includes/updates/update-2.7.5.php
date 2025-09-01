@@ -8,6 +8,10 @@
  * @subpackage WP_Carousel_free/includes/updates
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 update_option( 'wp_carousel_free_version', '2.7.5' );
 update_option( 'wp_carousel_free_db_version', '2.7.5' );
 

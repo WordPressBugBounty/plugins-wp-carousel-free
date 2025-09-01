@@ -8,6 +8,7 @@
  * @package WP Carousel
  * @subpackage wp-carousel-free/sp-framework
  */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die; } // Cannot access directly.
 
@@ -61,8 +62,6 @@ if ( ! class_exists( 'SP_WPCF_Field_color_group' ) ) {
 				}
 			}
 			echo wp_kses_post( $this->field_after() );
-
 		}
-
 	}
 }

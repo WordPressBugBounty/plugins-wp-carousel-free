@@ -9,5 +9,8 @@
  * @subpackage WP_Carousel_Free/public/templates
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 ?>
 <h2 class="sp-wpcpro-section-title"> <?php echo wp_kses_post( $main_section_title ); ?> </h2>

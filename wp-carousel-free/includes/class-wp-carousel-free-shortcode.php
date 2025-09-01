@@ -11,6 +11,11 @@
  * @subpackage WP_Carousel_Free/includes
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+
 /**
  * The Shortcode class.
  *
@@ -69,8 +74,11 @@ class WP_Carousel_Free_Shortcode {
 			'right' => '20',
 		);
 		// Carousel Column.
-		$column_number    = isset( $shortcode_data['wpcp_number_of_columns'] ) ? $shortcode_data['wpcp_number_of_columns'] : '';
-		$image_link_show  = isset( $shortcode_data['wpcp_click_action_type_group']['wpcp_logo_link_show'] ) ? $shortcode_data['wpcp_click_action_type_group']['wpcp_logo_link_show'] : 'l_box';
+		$column_number       = isset( $shortcode_data['wpcp_number_of_columns'] ) ? $shortcode_data['wpcp_number_of_columns'] : '';
+		$image_link_show     = isset( $shortcode_data['wpcp_click_action_type_group']['wpcp_logo_link_show'] ) ? $shortcode_data['wpcp_click_action_type_group']['wpcp_logo_link_show'] : 'l_box';
+		$l_box_outside_close = isset( $shortcode_data['l_box_outside_close'] ) && $shortcode_data['l_box_outside_close'] ? 'true' : 'false';
+		$arrow_position      = isset( $shortcode_data['wpcp_carousel_nav_position'] ) ? $shortcode_data['wpcp_carousel_nav_position'] : 'vertical_outer';
+
 		$wpcp_post_detail = isset( $shortcode_data['wpcp_post_detail_position'] ) ? $shortcode_data['wpcp_post_detail_position'] : '';
 		if ( ( 'image-carousel' === $carousel_type && 'l_box' === $image_link_show ) || 'video-carousel' === $carousel_type ) {
 			wp_enqueue_style( 'wpcf-fancybox-popup' );
@@ -80,9 +88,13 @@ class WP_Carousel_Free_Shortcode {
 
 		// Carousel Settings.
 		$preloader = isset( $shortcode_data['wpcp_preloader'] ) ? $shortcode_data['wpcp_preloader'] : true;
-		$nav_class = 'grid' === $wpcp_layout ? 'wpcp-gallery-wrapper' : ' nav-vertical-center';
+
+		$arrow_position = ( 'top_right' === $arrow_position ) ? ' nav-top-right' : ' nav-vertical-center';
+		$nav_class      = 'grid' === $wpcp_layout ? 'wpcp-gallery-wrapper' : $arrow_position;
+
 		// Carousel Classes.
 		$carousel_classes = 'wpcp-carousel-section sp-wpcp-' . $post_id . ' ' . $nav_class;
+
 		if ( 'image-carousel' === $carousel_type ) {
 			$carousel_classes .= ' wpcp-image-carousel';
 		} elseif ( 'post-carousel' === $carousel_type ) {
@@ -132,7 +144,9 @@ class WP_Carousel_Free_Shortcode {
 				$arrows        = 'true';
 				$arrows_mobile = 'true';
 			}
-			$wpcp_carousel_mode = isset( $shortcode_data['wpcp_carousel_mode'] ) ? $shortcode_data['wpcp_carousel_mode'] : 'standard';
+			$wpcp_carousel_mode       = isset( $shortcode_data['wpcp_carousel_mode'] ) ? $shortcode_data['wpcp_carousel_mode'] : 'standard';
+			$carousel_pagination_type = isset( $shortcode_data['wpcp_carousel_pagination_type'] ) ? $shortcode_data['wpcp_carousel_pagination_type'] : 'dots';
+
 			// Responsive screen sizes.
 			$wpcp_screen_sizes = wpcf_get_option( 'wpcp_responsive_screen_setting' );
 			$desktop_size      = isset( $wpcp_screen_sizes['desktop'] ) && ! empty( $wpcp_screen_sizes['desktop'] ) ? $wpcp_screen_sizes['desktop'] : '1200';
@@ -194,7 +208,7 @@ class WP_Carousel_Free_Shortcode {
 				$carousel_classes .= ' wpcp-center';
 			}
 
-			$wpcp_swiper_options = '{ "accessibility":true, "spaceBetween":' . $space_between . ', "arrows":' . $arrows . ', "freeMode": ' . $free_mode . ', "autoplay":' . $auto_play . ', "effect": "' . $effect . '", "centerMode": ' . $center_mode . ', "autoplaySpeed":' . $autoplay_speed . ', "dots":' . $dots . ', "infinite":' . $infinite . ', "speed":' . $speed . ', "pauseOnHover":' . $pause_on_hover . ',
+			$wpcp_swiper_options = '{ "pagination_type": "' . $carousel_pagination_type . '","accessibility":true, "spaceBetween":' . $space_between . ', "arrows":' . $arrows . ', "freeMode": ' . $free_mode . ', "autoplay":' . $auto_play . ', "effect": "' . $effect . '", "centerMode": ' . $center_mode . ', "autoplaySpeed":' . $autoplay_speed . ', "dots":' . $dots . ', "infinite":' . $infinite . ', "speed":' . $speed . ', "pauseOnHover":' . $pause_on_hover . ',
 			"slidesToShow":{"lg_desktop":' . $column_lg_desktop . ', "desktop": ' . $column_desktop . ', "laptop": ' . $column_sm_desktop . ', "tablet": ' . $column_tablet . ', "mobile": ' . $column_mobile . '}, "responsive":{"desktop":' . $desktop_size . ', "laptop": ' . $laptop_size . ', "tablet": ' . $tablet_size . ', "mobile": ' . $mobile_size . '}, "rtl":' . $rtl . ', "lazyLoad": "' . $lazy_load_image . '", "swipe": ' . $swipe . ', "draggable": ' . $draggable . ', "swipeToSlide":' . $swipetoslide . ' }';
 			// Carousel Configurations.
 			if ( wpcf_get_option( 'wpcp_swiper_js', true ) ) {

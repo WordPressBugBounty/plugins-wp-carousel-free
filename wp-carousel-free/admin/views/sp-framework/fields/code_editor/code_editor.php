@@ -25,19 +25,6 @@ if ( ! class_exists( 'SP_WPCF_Field_code_editor' ) ) {
 	class SP_WPCF_Field_code_editor extends SP_WPCF_Fields {
 
 		/**
-		 * Code mirror Version
-		 *
-		 * @var string
-		 */
-		public $version = '5.62.2';
-		/**
-		 *  Code mirror url.
-		 *
-		 * @var string
-		 */
-		public $cdn_url = 'https://cdn.jsdelivr.net/npm/codemirror@';
-
-		/**
 		 * Code_editor field constructor.
 		 *
 		 * @param array  $field The field type.
@@ -50,7 +37,6 @@ if ( ! class_exists( 'SP_WPCF_Field_code_editor' ) ) {
 			parent::__construct( $field, $value, $unique, $where, $parent );
 		}
 
-
 		/**
 		 * Render
 		 *
@@ -62,8 +48,6 @@ if ( ! class_exists( 'SP_WPCF_Field_code_editor' ) ) {
 				'tabSize'     => 2,
 				'lineNumbers' => true,
 				'theme'       => 'default',
-				'mode'        => 'htmlmixed',
-				'cdnURL'      => $this->cdn_url . $this->version,
 			);
 
 			$settings = ( ! empty( $this->field['settings'] ) ) ? $this->field['settings'] : array();
@@ -72,7 +56,6 @@ if ( ! class_exists( 'SP_WPCF_Field_code_editor' ) ) {
 			echo wp_kses_post( $this->field_before() );
 			echo '<textarea name="' . esc_attr( $this->field_name() ) . '"' . $this->field_attributes() . ' data-editor="' . esc_attr( wp_json_encode( $settings ) ) . '">' . wp_kses_post( $this->value ) . '</textarea>';// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $this->field_attributes() is escaped before being passed in.
 			echo wp_kses_post( $this->field_after() );
-
 		}
 
 		/**
@@ -81,22 +64,9 @@ if ( ! class_exists( 'SP_WPCF_Field_code_editor' ) ) {
 		 * @return void
 		 */
 		public function enqueue() {
-			$page = ( isset( $_GET['page'] ) && ! empty( $_GET['page'] ) ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore
-
-			// Do not loads CodeMirror in revslider page.
-			if ( in_array( $page, array( 'revslider' ) ) ) {
-				return; }
-
-			if ( ! wp_script_is( 'wpcf-codemirror' ) ) {
-				wp_enqueue_script( 'wpcf-codemirror', esc_url( $this->cdn_url . $this->version . '/lib/codemirror.min.js' ), array( 'wpcf' ), $this->version, true );
-				wp_enqueue_script( 'wpcf-codemirror-loadmode', esc_url( $this->cdn_url . $this->version . '/addon/mode/loadmode.min.js' ), array( 'wpcf-codemirror' ), $this->version, true );
-			}
-
-			if ( ! wp_style_is( 'wpcf-codemirror' ) ) {
-				wp_enqueue_style( 'wpcf-codemirror', esc_url( $this->cdn_url . $this->version . '/lib/codemirror.min.css' ), array(), $this->version );
-			}
-
+			// Enqueue code-mirror.
+			wp_enqueue_script( 'code-editor' );
+			wp_enqueue_style( 'code-editor' );
 		}
-
 	}
 }

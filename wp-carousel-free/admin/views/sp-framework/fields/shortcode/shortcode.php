@@ -38,14 +38,14 @@ if ( ! class_exists( ' SP_WPCF_Field_shortcode' ) ) {
 					echo '<div class="sp_wpcp_shortcode-area sp_wpcp-notice-wrapper">';
 					echo '<div class="sp_wpcp-notice-heading">' . sprintf(
 						/* translators: 1: start span tag, 2: close tag. */
-						esc_html__( 'Unlock More Power with %1$sPRO%2$s', 'wp-carousel-free' ),
+						esc_html__( 'Additional Features in %1$sPRO%2$s', 'wp-carousel-free' ),
 						'<span>',
 						'</span>'
 					) . '</div>';
 
 					echo '<p class="sp_wpcp-notice-desc">' . sprintf(
 						/* translators: 1: start bold tag, 2: close tag. */
-						esc_html__( 'Boost Conversions with Premium Carousels, Sliders, and Galleries by Pro!', 'wp-carousel-free' ),
+						esc_html__( 'The Pro version includes additional features such as:', 'wp-carousel-free' ),
 						'<b>',
 						'</b>'
 					) . '</p>';

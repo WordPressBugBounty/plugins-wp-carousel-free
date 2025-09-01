@@ -333,15 +333,17 @@ if ( ! class_exists( 'SP_WPCF_Fields' ) ) {
 
 				case 'tag':
 				case 'tags':
-					$taxonomies = ( isset( $query_args['taxonomies'] ) ) ? $query_args['taxonomies'] : 'post_tag';
-					$tags       = get_terms( $taxonomies, $query_args );
+					$taxonomies       = isset( $query_args['taxonomies'] ) ? $query_args['taxonomies'] : 'post_tag';
+					$args             = $query_args;
+					$args['taxonomy'] = $taxonomies;
+					$tags             = get_terms( $args );
 
 					if ( ! is_wp_error( $tags ) && ! empty( $tags ) ) {
 						foreach ( $tags as $tag ) {
-							$options[ $tag->term_id ] = $tag->name;
+							// Sanitize term ID and name before use.
+							$options[ absint( $tag->term_id ) ] = sanitize_text_field( $tag->name );
 						}
 					}
-
 					break;
 
 				case 'menu':

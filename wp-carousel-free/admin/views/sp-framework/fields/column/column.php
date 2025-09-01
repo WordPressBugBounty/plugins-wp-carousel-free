@@ -129,7 +129,6 @@ if ( ! class_exists( 'SP_WPCF_Field_column' ) ) {
 			echo '</div>';
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
 
 		/**
@@ -174,8 +173,6 @@ if ( ! class_exists( 'SP_WPCF_Field_column' ) ) {
 			$this->parent->output_css .= $output;
 
 			return $output;
-
 		}
-
 	}
 }

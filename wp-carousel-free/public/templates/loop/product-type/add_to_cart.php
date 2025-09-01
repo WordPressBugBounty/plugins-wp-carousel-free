@@ -9,6 +9,10 @@
  * @subpackage WP_Carousel_Free/public/templates
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 // Add to cart button.
 $wpcp_cart = apply_filters( 'wpcp_filter_product_cart', do_shortcode( '[add_to_cart id="' . get_the_ID() . '" show_price="false" style="none"]' ) );
 if ( $show_product_cart ) :

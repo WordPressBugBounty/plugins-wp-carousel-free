@@ -126,7 +126,7 @@ if ( ! class_exists( 'SP_WPCF_Field_image_sizes' ) ) {
 						}
 					}
 					$custom_selected = ( in_array( 'custom', $this->value, true ) ) ? ' selected' : '';
-					echo '<option ' . esc_attr( $custom_selected ) . ' value="custom">Set custom size</option>';
+					echo '<option disabled ' . esc_attr( $custom_selected ) . ' value="custom">Set custom size (Pro)</option>';
 
 					echo '</select>';
 
@@ -138,8 +138,6 @@ if ( ! class_exists( 'SP_WPCF_Field_image_sizes' ) ) {
 			}
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
-
 	}
 }

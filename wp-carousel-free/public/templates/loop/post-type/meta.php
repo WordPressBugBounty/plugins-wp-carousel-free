@@ -8,6 +8,11 @@
  * @package WP_Carousel_Free
  * @subpackage WP_Carousel_Free/public/templates
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 // Post comment number.
 $wpcp_comments  = '';
 $comment_number = get_comments_number();

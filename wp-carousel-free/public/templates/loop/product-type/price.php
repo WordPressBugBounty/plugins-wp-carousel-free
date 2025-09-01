@@ -9,6 +9,10 @@
  * @subpackage WP_Carousel_Free/public/templates
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 $price_html = $product->get_price_html();
 if ( $price_html && $show_product_price ) {
 	?>

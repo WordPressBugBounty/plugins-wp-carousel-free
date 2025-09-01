@@ -49,5 +49,5 @@ if ( ! class_exists( 'SP_WPCF_Field_custom_import' ) ) {
 				echo '<a id="wpcf_shortcode_link_redirect" href="' . esc_url( $wpcf_shortcodelink ) . '"></a>';
 			echo wp_kses_post( $this->field_after() );
 		}
-}
+	}
 }

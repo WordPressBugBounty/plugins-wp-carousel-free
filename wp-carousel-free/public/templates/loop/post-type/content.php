@@ -9,6 +9,10 @@
  * @subpackage WP_Carousel_Free/public/templates
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 if ( $show_post_content ) {
 	?>
 <div class='wpcp-post-content'>

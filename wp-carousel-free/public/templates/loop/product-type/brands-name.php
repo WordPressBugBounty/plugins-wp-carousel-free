@@ -9,6 +9,10 @@
  * @subpackage WP_Carousel_Free/public/templates
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 $show_product_brands = isset( $shortcode_data['show_product_brands'] ) ? $shortcode_data['show_product_brands'] : false;
 
 if ( $show_product_brands ) {

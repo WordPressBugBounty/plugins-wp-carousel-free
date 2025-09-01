@@ -9,6 +9,10 @@
  * @subpackage WP_Carousel_Free/public/templates
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 if ( ( $show_img_title && ! empty( get_the_title() ) ) ) {
 	?>
 <h2 class="wpcp-post-title">

@@ -382,137 +382,212 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 		}
 
 		/**
+		 * Sanitize Carousel Free plugin options.
+		 *
+		 * @param array $options Raw options array.
+		 * @return array Sanitized options array.
+		 */
+		public function sanitize_options( $options ) {
+			if ( ! is_array( $options ) ) {
+				return array();
+			}
+
+			$sanitized = array();
+
+			foreach ( $options as $key => $value ) {
+				switch ( $key ) {
+					case 'wpcf_transient':
+						$sanitized['wpcf_transient'] = array();
+						if ( is_array( $value ) ) {
+							foreach ( $value as $sub_key => $sub_val ) {
+								switch ( $sub_key ) {
+									case 'section':
+										$sanitized['wpcf_transient']['section'] = sanitize_text_field( $sub_val );
+										break;
+									default:
+										$sanitized['wpcf_transient'][ $sub_key ] = sanitize_text_field( $sub_val );
+										break;
+								}
+							}
+						}
+						break;
+
+					case 'wpcf_options_noncesp_wpcp_settings':
+					case '_wp_http_referer':
+						$sanitized[ $key ] = sanitize_text_field( $value );
+						break;
+
+					case 'sp_wpcp_settings':
+						$sanitized['sp_wpcp_settings'] = array();
+						if ( is_array( $value ) ) {
+							foreach ( $value as $sub_key => $sub_val ) {
+								switch ( $sub_key ) {
+									// Boolean flags (0/1 checkboxes).
+									case 'wpcf_delete_all_data':
+									case 'wpcp_enqueue_swiper_css':
+									case 'wpcp_enqueue_fa_css':
+									case 'wpcp_swiper_js':
+									case 'wpcp_ajax_js':
+										$sanitized['sp_wpcp_settings'][ $sub_key ] = (int) $sub_val;
+										break;
+
+									// Nested media arrays (sanitize each field).
+									case 'wm_image':
+									case 'wm_clean':
+										$sanitized['sp_wpcp_settings'][ $sub_key ] = array();
+										if ( is_array( $sub_val ) ) {
+											foreach ( $sub_val as $media_key => $media_val ) {
+												$sanitized['sp_wpcp_settings'][ $sub_key ][ $media_key ] = sanitize_text_field( $media_val );
+											}
+										}
+										break;
+
+									// Nested responsive screen settings.
+									case 'wpcp_responsive_screen_setting':
+										$sanitized['sp_wpcp_settings'][ $sub_key ] = array();
+										if ( is_array( $sub_val ) ) {
+											foreach ( $sub_val as $screen => $cols ) {
+												$sanitized['sp_wpcp_settings'][ $sub_key ][ $screen ] = absint( $cols );
+											}
+										}
+										break;
+
+									// Simple text fields.
+									case 'wm_position':
+									case 'wm_opacity':
+									case 'wm_custom':
+									case 'wm_quality':
+										$sanitized['sp_wpcp_settings'][ $sub_key ] = sanitize_text_field( $sub_val );
+										break;
+
+									// Nested margin array.
+									case 'wm_margin':
+										$sanitized['sp_wpcp_settings'][ $sub_key ] = array();
+										if ( is_array( $sub_val ) ) {
+											$sanitized['sp_wpcp_settings'][ $sub_key ]['all']  = isset( $sub_val['all'] ) ? sanitize_text_field( $sub_val['all'] ) : '';
+											$sanitized['sp_wpcp_settings'][ $sub_key ]['unit'] = isset( $sub_val['unit'] ) ? sanitize_text_field( $sub_val['unit'] ) : '';
+										}
+										break;
+
+									// Custom CSS (strip tags completely).
+									case 'wpcp_custom_css':
+										$sanitized['sp_wpcp_settings'][ $sub_key ] = wp_strip_all_tags( $sub_val );
+										break;
+
+									default:
+										$sanitized['sp_wpcp_settings'][ $sub_key ] = sanitize_text_field( $sub_val );
+										break;
+								}
+							}
+						}
+						break;
+
+					default:
+						// Fallback sanitization.
+						$sanitized[ $key ] = is_scalar( $value ) ? wp_kses_post( $value ) : '';
+						break;
+				}
+			}
+
+			return $sanitized;
+		}
+
+		/**
 		 * Set options.
 		 *
 		 * @param  bool $ajax is ajax.
 		 * @return bool
 		 */
 		public function set_options( $ajax = false ) {
+			// Check nonce.
+			$nonce = $ajax && ( ! empty( $_POST['nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : ( ( ! empty( $_POST[ 'wpcf_options_nonce' . $this->unique ] ) ) ? sanitize_text_field( wp_unslash( $_POST[ 'wpcf_options_nonce' . $this->unique ] ) ) : '' );
+			if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'wpcf_options_nonce' ) ) {
+				return false;
+			}
 
 			// XSS ok.
 			// No worries, This "POST" requests is sanitizing in the below foreach.
-			$response = ( $ajax && ! empty( $_POST['data'] ) ) ? json_decode( wp_unslash( trim( $_POST['data'] ) ), true ) : $_POST;  // phpcs:ignore -- nonce veri
+			$response = ( $ajax && ! empty( $_POST['data'] ) ) ? json_decode( wp_unslash( trim( $_POST['data'] ) ), true ) : wp_unslash( $_POST );  // phpcs:ignore
+			$response = $this->sanitize_options( $response ); // Sanitize json response.
 
 			// Set variables.
-			$data      = array();
-			$noncekey  = 'wpcf_options_nonce' . $this->unique;
-			$nonce     = ( ! empty( $response[ $noncekey ] ) ) ? $response[ $noncekey ] : '';
-			$options   = ( ! empty( $response[ $this->unique ] ) ) ? $response[ $this->unique ] : array();
-			$transient = ( ! empty( $response['wpcf_transient'] ) ) ? $response['wpcf_transient'] : array();
+			$data       = array();
+			$options    = ( ! empty( $response[ $this->unique ] ) ) ? $response[ $this->unique ] : array();
+			$transient  = ( ! empty( $response['wpcf_transient'] ) ) ? $response['wpcf_transient'] : array();
+			$importing  = false;
+			$section_id = ( ! empty( $transient['section'] ) ) ? $transient['section'] : '';
 
-			if ( wp_verify_nonce( $nonce, 'wpcf_options_nonce' ) ) {
-
-				$importing  = false;
-				$section_id = ( ! empty( $transient['section'] ) ) ? $transient['section'] : '';
-
-				if ( ! $ajax && ! empty( $response['wpcf_import_data'] ) ) {
-
-					// XSS ok.
-					// No worries, This "POST" requests is sanitizing in the below foreach. see #L337 - #L341.
-					$import_data  = json_decode( wp_unslash( trim( $response['wpcf_import_data'] ) ), true );
-					$options      = ( is_array( $import_data ) && ! empty( $import_data ) ) ? $import_data : array();
-					$importing    = true;
-					$this->notice = esc_html__( 'Settings successfully imported.', 'wp-carousel-free' );
-
+			if ( ! empty( $transient['reset'] ) ) {
+				foreach ( $this->pre_fields as $field ) {
+					if ( ! empty( $field['id'] ) ) {
+						$data[ $field['id'] ] = $this->get_default( $field );
+					}
 				}
 
-				if ( ! empty( $transient['reset'] ) ) {
-
-					foreach ( $this->pre_fields as $field ) {
+				$this->notice = esc_html__( 'Default settings restored.', 'wp-carousel-free' );
+			} elseif ( ! empty( $transient['reset_section'] ) && ! empty( $section_id ) ) {
+				if ( ! empty( $this->pre_sections[ $section_id - 1 ]['fields'] ) ) {
+					foreach ( $this->pre_sections[ $section_id - 1 ]['fields'] as $field ) {
 						if ( ! empty( $field['id'] ) ) {
 							$data[ $field['id'] ] = $this->get_default( $field );
 						}
 					}
+				}
+				$data         = wp_parse_args( $data, $this->options );
+				$this->notice = esc_html__( 'Default settings restored.', 'wp-carousel-free' );
+			} else {
 
-					$this->notice = esc_html__( 'Default settings restored.', 'wp-carousel-free' );
+				// Sanitize and validate.
+				foreach ( $this->pre_fields as $field ) {
+					if ( ! empty( $field['id'] ) ) {
+						$field_id    = $field['id'];
+						$field_value = isset( $options[ $field_id ] ) ? $options[ $field_id ] : '';
 
-				} elseif ( ! empty( $transient['reset_section'] ) && ! empty( $section_id ) ) {
-
-					if ( ! empty( $this->pre_sections[ $section_id - 1 ]['fields'] ) ) {
-
-						foreach ( $this->pre_sections[ $section_id - 1 ]['fields'] as $field ) {
-							if ( ! empty( $field['id'] ) ) {
-								$data[ $field['id'] ] = $this->get_default( $field );
-							}
+						// Ajax and Importing doing wp_unslash already.
+						if ( ! $ajax && ! $importing ) {
+							$field_value = wp_unslash( $field_value );
 						}
-					}
 
-					$data = wp_parse_args( $data, $this->options );
+						// Sanitize "post" request of field.
+						if ( ! isset( $field['sanitize'] ) ) {
+							if ( is_array( $field_value ) ) {
 
-					$this->notice = esc_html__( 'Default settings restored.', 'wp-carousel-free' );
-
-				} else {
-
-					// Sanitize and validate.
-					foreach ( $this->pre_fields as $field ) {
-
-						if ( ! empty( $field['id'] ) ) {
-
-							$field_id    = $field['id'];
-							$field_value = isset( $options[ $field_id ] ) ? $options[ $field_id ] : '';
-
-							// Ajax and Importing doing wp_unslash already.
-							if ( ! $ajax && ! $importing ) {
-								$field_value = wp_unslash( $field_value );
-							}
-
-							// Sanitize "post" request of field.
-							if ( ! isset( $field['sanitize'] ) ) {
-
-								if ( is_array( $field_value ) ) {
-
-									$data[ $field_id ] = wp_kses_post_deep( $field_value );
-
-								} else {
-
-									$data[ $field_id ] = wp_kses_post( $field_value );
-
-								}
-							} elseif ( isset( $field['sanitize'] ) && is_callable( $field['sanitize'] ) ) {
-
-									$data[ $field_id ] = call_user_func( $field['sanitize'], $field_value );
-
+								$data[ $field_id ] = wp_kses_post_deep( $field_value );
 							} else {
 
-								$data[ $field_id ] = $field_value;
-
+								$data[ $field_id ] = wp_kses_post( $field_value );
 							}
+						} elseif ( isset( $field['sanitize'] ) && is_callable( $field['sanitize'] ) ) {
+							$data[ $field_id ] = call_user_func( $field['sanitize'], $field_value );
+						} else {
+							$data[ $field_id ] = $field_value;
+						}
 
-							// Validate "post" request of field.
-							if ( isset( $field['validate'] ) && is_callable( $field['validate'] ) ) {
+						// Validate "post" request of field.
+						if ( isset( $field['validate'] ) && is_callable( $field['validate'] ) ) {
 
-								$has_validated = call_user_func( $field['validate'], $field_value );
+							$has_validated = call_user_func( $field['validate'], $field_value );
+							if ( ! empty( $has_validated ) ) {
 
-								if ( ! empty( $has_validated ) ) {
-
-									$data[ $field_id ]         = ( isset( $this->options[ $field_id ] ) ) ? $this->options[ $field_id ] : '';
-									$this->errors[ $field_id ] = $has_validated;
-
-								}
+								$data[ $field_id ]         = ( isset( $this->options[ $field_id ] ) ) ? $this->options[ $field_id ] : '';
+								$this->errors[ $field_id ] = $has_validated;
 							}
 						}
 					}
 				}
-
-				$data = apply_filters( "wpcf_{$this->unique}_save", $data, $this );
-
-				do_action( "wpcf_{$this->unique}_save_before", $data, $this );
-
-				$this->options = $data;
-
-				$this->save_options( $data );
-
-				do_action( "wpcf_{$this->unique}_save_after", $data, $this );
-
-				if ( empty( $this->notice ) ) {
-					$this->notice = esc_html__( 'Settings saved.', 'wp-carousel-free' );
-				}
-
-				return true;
-
 			}
 
-			return false;
+			$data = apply_filters( "wpcf_{$this->unique}_save", $data, $this );
+			do_action( "wpcf_{$this->unique}_save_before", $data, $this );
+			$this->options = $data;
+			$this->save_options( $data );
+			do_action( "wpcf_{$this->unique}_save_after", $data, $this );
+
+			if ( empty( $this->notice ) ) {
+				$this->notice = esc_html__( 'Settings saved.', 'wp-carousel-free' );
+			}
+
+			return true;
 		}
 
 		/**
@@ -567,29 +642,66 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 		 */
 		public function add_admin_menu() {
 
-			extract( $this->args );
+			$args = $this->args;
+
+			$menu_type       = $args['menu_type'] ?? '';
+			$menu_parent     = $args['menu_parent'] ?? '';
+			$menu_title      = $args['menu_title'] ?? '';
+			$menu_capability = $args['menu_capability'] ?? 'manage_options';
+			$menu_slug       = $args['menu_slug'] ?? '';
+			$menu_icon       = $args['menu_icon'] ?? '';
+			$menu_position   = $args['menu_position'] ?? null;
+			$sub_menu_title  = $args['sub_menu_title'] ?? '';
+			$menu_hidden     = $args['menu_hidden'] ?? false;
 
 			if ( 'submenu' === $menu_type ) {
 
-				$menu_page = call_user_func( 'add_submenu_page', $menu_parent, esc_attr( $menu_title ), esc_attr( $menu_title ), $menu_capability, $menu_slug, array( $this, 'add_options_html' ) );
+				$menu_page = add_submenu_page(
+					$menu_parent,
+					esc_attr( $menu_title ),
+					esc_attr( $menu_title ),
+					$menu_capability,
+					$menu_slug,
+					array( $this, 'add_options_html' )
+				);
 
 			} else {
 
-				$menu_page = call_user_func( 'add_menu_page', esc_attr( $menu_title ), esc_attr( $menu_title ), $menu_capability, $menu_slug, array( $this, 'add_options_html' ), $menu_icon, $menu_position );
+				$menu_page = add_menu_page(
+					esc_attr( $menu_title ),
+					esc_attr( $menu_title ),
+					$menu_capability,
+					$menu_slug,
+					array( $this, 'add_options_html' ),
+					$menu_icon,
+					$menu_position
+				);
 
 				if ( ! empty( $sub_menu_title ) ) {
-					call_user_func( 'add_submenu_page', $menu_slug, esc_attr( $sub_menu_title ), esc_attr( $sub_menu_title ), $menu_capability, $menu_slug, array( $this, 'add_options_html' ) );
+					add_submenu_page(
+						$menu_slug,
+						esc_attr( $sub_menu_title ),
+						esc_attr( $sub_menu_title ),
+						$menu_capability,
+						$menu_slug,
+						array( $this, 'add_options_html' )
+					);
 				}
 
-				if ( ! empty( $this->args['show_sub_menu'] ) && count( $this->pre_tabs ) > 1 ) {
+				if ( ! empty( $args['show_sub_menu'] ) && count( $this->pre_tabs ) > 1 ) {
 
-					// create submenus.
 					foreach ( $this->pre_tabs as $section ) {
-						call_user_func( 'add_submenu_page', $menu_slug, esc_attr( $section['title'] ), esc_attr( $section['title'] ), $menu_capability, $menu_slug . '#tab=' . sanitize_title( $section['title'] ), '__return_null' );
+						add_submenu_page(
+							$menu_slug,
+							esc_attr( $section['title'] ),
+							esc_attr( $section['title'] ),
+							$menu_capability,
+							$menu_slug . '#tab=' . sanitize_title( $section['title'] ),
+							'__return_null'
+						);
 					}
 
 					remove_submenu_page( $menu_slug, $menu_slug );
-
 				}
 
 				if ( ! empty( $menu_hidden ) ) {

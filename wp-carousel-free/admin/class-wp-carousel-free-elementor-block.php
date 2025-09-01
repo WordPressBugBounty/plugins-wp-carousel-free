@@ -7,6 +7,10 @@
  * @subpackage WordPress_Carousel_Free/admin
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * Wp_Carousel_Free_Element_Shortcode_Block
  */
@@ -49,7 +53,6 @@ class Wp_Carousel_Free_Element_Shortcode_Block {
 			self::$_instance = new self();
 		}
 		return self::$_instance;
-
 	}
 
 	/**
@@ -165,7 +168,6 @@ class Wp_Carousel_Free_Element_Shortcode_Block {
 		require_once WPCAROUSELF_PATH . '/admin/ElementAddons/Wp_Carousel_Shortcode_Widget.php';
 		\Elementor\Plugin::instance()->widgets_manager->register( new Wp_Carousel_Shortcode_Widget() );
 	}
-
 }
 
 Wp_Carousel_Free_Element_Shortcode_Block::instance();

@@ -9,7 +9,7 @@
  * Plugin Name:       WP Carousel
  * Plugin URI:        https://wpcarousel.io/
  * Description:       The most powerful and user-friendly carousel, slider, and gallery plugin for WordPress. Create unlimited beautiful carousels, sliders, and galleries in minutes using images, posts, WooCommerce products, etc.
- * Version:           2.7.6
+ * Version:           2.7.7
  * Author:            ShapedPlugin LLC
  * Author URI:        https://shapedplugin.com/
  * License:           GPL-2.0+
@@ -78,7 +78,7 @@ class SP_WP_Carousel_Free {
 	 * @since 2.0.0
 	 * @var   string
 	 */
-	private $min_php = '5.6';
+	private $min_php = '7.0.0';
 
 	/**
 	 * Plugin file.
@@ -120,7 +120,7 @@ class SP_WP_Carousel_Free {
 	 */
 	public function setup() {
 		$this->plugin_name = 'wp-carousel-free';
-		$this->version     = '2.7.6';
+		$this->version     = '2.7.7';
 		$this->define_constants();
 		$this->includes();
 		$this->load_dependencies();
@@ -196,7 +196,6 @@ class SP_WP_Carousel_Free {
 	 * Include the following files that make up the plugin:
 	 *
 	 * - WP_Carousel_Free_Loader. Orchestrates the hooks of the plugin.
-	 * - WP_Carousel_Free_I18n. Defines internationalization functionality.
 	 * - WP_Carousel_Free_Admin. Defines all hooks for the admin area.
 	 * - WP_Carousel_Free_Public. Defines all hooks for the public side of the site.
 	 *
@@ -225,8 +224,6 @@ class SP_WP_Carousel_Free {
 		$this->loader->add_action( 'admin_notices', $plugin_admin_notices, 'display_admin_notice' );
 		$this->loader->add_action( 'wp_ajax_sp-wpcfree-never-show-review-notice', $plugin_admin_notices, 'dismiss_review_notice' );
 		add_action( 'wp_ajax_wp_ajax_install_plugin', 'wp_ajax_install_plugin' );
-		$this->loader->add_action( 'admin_notices', $plugin_admin_notices, 'show_admin_offer_banner' );
-		$this->loader->add_action( 'wp_ajax_sp-carousel-hide-offer-banner', $plugin_admin_notices, 'dismiss_friday_offer_banner' );
 	}
 
 	/**

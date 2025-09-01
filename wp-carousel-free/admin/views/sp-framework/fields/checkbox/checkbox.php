@@ -114,8 +114,6 @@ if ( ! class_exists( 'SP_WPCF_Field_checkbox' ) ) {
 			}
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
-
 	}
 }

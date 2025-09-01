@@ -156,7 +156,6 @@ if ( ! class_exists( 'SP_WPCF_Field_dimensions_advanced' ) ) {
 			echo '<div class="clear"></div>';
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
 	}
 }

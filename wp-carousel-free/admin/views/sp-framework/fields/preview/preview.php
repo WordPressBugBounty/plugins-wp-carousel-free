@@ -43,6 +43,5 @@ if ( ! class_exists( 'SP_WPCF_Field_preview' ) ) {
 		public function render() {
 			echo '<div class="sp-wpcf-preview-box"><div id="sp-wpcf-preview-box"></div></div>';
 		}
-
 	}
 }

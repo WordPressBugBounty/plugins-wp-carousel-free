@@ -9,6 +9,10 @@
  * @subpackage WP_Carousel_Free/public/templates
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 $av_rating      = $product->get_average_rating();
 $average_rating = ( $av_rating / 5 ) * 100;
 if ( $average_rating > 0 && $show_product_rating ) {

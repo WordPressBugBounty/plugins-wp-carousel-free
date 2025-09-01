@@ -3,7 +3,13 @@
  * Elementor wp carousel shortcode Widget.
  *
  * @since 2.4.1
+ * @package WP_Carousel_Free
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 class Wp_Carousel_Shortcode_Widget extends \Elementor\Widget_Base {
 	/**
 	 * Get widget name.
@@ -136,8 +142,6 @@ class Wp_Carousel_Shortcode_Widget extends \Elementor\Widget_Base {
 				jQuery('#wpcp-preloader-' + <?php echo intval( $post_id ); ?>).animate({ opacity: 0 }, 600).remove();
 				jQuery('#sp-wp-carousel-free-id-' + <?php echo intval( $post_id ); ?>).animate({ opacity: 1 }, 600);
 			</script>
-			<script src="<?php echo esc_url( WPCAROUSELF_URL . 'public/js/wp-carousel-free-public.min.js' ); ?>" ></script>
-			<script src="<?php echo esc_url( WPCAROUSELF_URL . 'public/js/fancybox-config.min.js' ); ?>" ></script>
 			<?php
 		} else {
 			echo do_shortcode( ' [sp_wpcarousel id="' . $post_id . '"]' );

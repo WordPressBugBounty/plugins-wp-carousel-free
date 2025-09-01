@@ -9,6 +9,10 @@
  * @subpackage WP_Carousel_Free/admin
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * The class for the admin-specific functionality of the plugin.
  */
@@ -330,7 +334,7 @@ class WP_Carousel_Free_Admin {
 	public function sp_wpcp_review_text( $text ) {
 		$screen = get_current_screen();
 		if ( 'sp_wp_carousel' === $screen->post_type ) {
-			$url  = 'https://wordpress.org/support/plugin/wp-carousel-free/reviews/?filter=5#new-post';
+			$url  = 'https://wordpress.org/support/plugin/wp-carousel-free/reviews/';
 			$text = sprintf( 'Enjoying <strong>WP Carousel?</strong> Please rate us <span class="spwpcp-footer-text-star">★★★★★</span> <a href="%s" target="_blank">WordPress.org</a>. Your positive feedback will help us grow more. Thank you! 😊', $url );
 		}
 

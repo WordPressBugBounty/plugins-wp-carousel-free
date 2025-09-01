@@ -9,6 +9,10 @@
  * @subpackage WP_Carousel_Free/public/templates
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 if ( $show_product_name && ! empty( get_the_title() ) ) {
 	?>
 <h2 class="wpcp-product-title">

@@ -121,7 +121,6 @@ if ( ! class_exists( 'SP_WPCF_Metabox' ) ) {
 
 			// wp enqueue for typography and output css.
 			parent::__construct();
-
 		}
 
 
@@ -308,7 +307,7 @@ if ( ! class_exists( 'SP_WPCF_Metabox' ) ) {
 
 					echo '<li><a href="#" data-section="' . esc_attr( $this->unique ) . '_' . esc_attr( $tab_key ) . '">' . wp_kses_post( $tab_icon . $section['title'] . $tab_error ) . '</a></li>';
 
-					$tab_key++;
+					++$tab_key;
 				}
 
 				echo '</ul>';
@@ -352,7 +351,7 @@ if ( ! class_exists( 'SP_WPCF_Metabox' ) ) {
 				}
 
 				echo '</div>';
-				$section_key++;
+				++$section_key;
 			}
 
 			echo '</div>';
@@ -416,12 +415,10 @@ if ( ! class_exists( 'SP_WPCF_Metabox' ) ) {
 										// Sanitize "post" request of field.
 										if ( isset( $field['sanitize'] ) && is_callable( $field['sanitize'] ) ) {
 											$data[ $field_id ] = call_user_func( $field['sanitize'], $field_value );
-										} else {
-											if ( is_array( $field_value ) ) {
+										} elseif ( is_array( $field_value ) ) {
 												$data[ $field_id ] = wp_kses_post_deep( $field_value );
-											} else {
-												$data[ $field_id ] = wp_kses_post( $field_value );
-											}
+										} else {
+											$data[ $field_id ] = wp_kses_post( $field_value );
 										}
 
 										// Validate "post" request of field.
@@ -443,12 +440,10 @@ if ( ! class_exists( 'SP_WPCF_Metabox' ) ) {
 								// Sanitize "post" request of field.
 								if ( isset( $field['sanitize'] ) && is_callable( $field['sanitize'] ) ) {
 										$data[ $field_id ] = call_user_func( $field['sanitize'], $field_value );
-								} else {
-									if ( is_array( $field_value ) ) {
+								} elseif ( is_array( $field_value ) ) {
 										$data[ $field_id ] = wp_kses_post_deep( $field_value );
-									} else {
-										$data[ $field_id ] = wp_kses_post( $field_value );
-									}
+								} else {
+									$data[ $field_id ] = wp_kses_post( $field_value );
 								}
 
 								// Validate "post" request of field.
@@ -463,7 +458,7 @@ if ( ! class_exists( 'SP_WPCF_Metabox' ) ) {
 							}
 						}
 					}
-					$count++;
+					++$count;
 				}
 			}
 

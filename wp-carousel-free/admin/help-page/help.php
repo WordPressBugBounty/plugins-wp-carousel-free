@@ -724,7 +724,7 @@ class WP_Carousel_Free_Help {
 							</div>
 						</div>
 						<div class="spwpcp-about-img">
-							<img src="https://shapedplugin.com/wp-content/uploads/2024/01/shapedplugin-team.jpg" alt="">
+							<img src="<?php echo esc_url( WPCAROUSELF_URL . 'admin/help-page/img/shapedplugin-team.jpg' ); ?>" alt="ShapedPlugin Team">
 							<span>Team ShapedPlugin LLC at WordCamp Sylhet</span>
 						</div>
 					</div>
@@ -754,7 +754,9 @@ class WP_Carousel_Free_Help {
 							</a>
 							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://smartpostshow.com/?ref=1">
 								<i class="spwpcp-icon-button-arrow-icon"></i>
-								<img src="<?php echo esc_url( $plugin_icon['post-carousel'] ); ?>" alt="Smart Post Show">
+								<?php if ( ! empty( $plugin_icon['post-carousel'] ) ) { ?>
+									<img src="<?php echo esc_url( $plugin_icon['post-carousel'] ); ?>" alt="Smart Post Show">
+								<?php } ?>
 								<h4>Smart Post Show</h4>
 								<p>Filter and display posts (any post types), pages, taxonomy, custom taxonomy, and custom field, in beautiful layouts.</p>
 							</a>
@@ -772,7 +774,9 @@ class WP_Carousel_Free_Help {
 							</a>
 							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://getwpteam.com/?ref=1">
 								<i class="spwpcp-icon-button-arrow-icon"></i>
-								<img src="<?php echo esc_url( $plugin_icon['team-free'] ); ?>" alt="WP Team">
+								<?php if ( ! empty( $plugin_icon['team-free'] ) ) { ?>
+									<img src="<?php echo esc_url( $plugin_icon['team-free'] ); ?>" alt="WP Team">
+								<?php } ?>
 								<h4>WP Team</h4>
 								<p>Display your team members smartly who are at the heart of your company or organization!</p>
 							</a>

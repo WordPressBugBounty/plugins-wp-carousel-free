@@ -8,6 +8,7 @@
  * @package WP Carousel
  * @subpackage wp-carousel-free/sp-framework
  */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die; } // Cannot access directly.
 
@@ -58,7 +59,6 @@ if ( ! class_exists( 'SP_WPCF_Field_spinner' ) ) {
 			echo '<div class="wpcf--spin"><input type="number" name="' . esc_attr( $this->field_name() ) . '" value="' . esc_attr( $this->value ) . '"' . $this->field_attributes( array( 'class' => 'wpcf-input-number' ) ) . ' data-min="' . esc_attr( $args['min'] ) . '" data-max="' . esc_attr( $args['max'] ) . '" data-step="' . esc_attr( $args['step'] ) . '" data-unit="' . esc_attr( $args['unit'] ) . '" step="any" /></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $this->field_attributes() is escaped before being passed in
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
 
 		/**
@@ -71,7 +71,6 @@ if ( ! class_exists( 'SP_WPCF_Field_spinner' ) ) {
 			if ( ! wp_script_is( 'jquery-ui-spinner' ) ) {
 				wp_enqueue_script( 'jquery-ui-spinner' );
 			}
-
 		}
 
 		/**
@@ -87,7 +86,7 @@ if ( ! class_exists( 'SP_WPCF_Field_spinner' ) ) {
 			$mode      = ( ! empty( $this->field['output_mode'] ) ) ? $this->field['output_mode'] : 'width';
 			$unit      = ( ! empty( $this->field['unit'] ) ) ? $this->field['unit'] : 'px';
 
-			if ( ! empty( $elements ) && isset( $this->value ) && '' !== $this->value  ) {
+			if ( ! empty( $elements ) && isset( $this->value ) && '' !== $this->value ) {
 				foreach ( $elements as $key_property => $element ) {
 					if ( is_numeric( $key_property ) ) {
 						if ( $mode ) {
@@ -103,8 +102,6 @@ if ( ! class_exists( 'SP_WPCF_Field_spinner' ) ) {
 			$this->parent->output_css .= $output;
 
 			return $output;
-
 		}
-
 	}
 }

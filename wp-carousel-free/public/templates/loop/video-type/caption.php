@@ -7,6 +7,10 @@
  * @package WP_Carousel
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 // Video caption.
 if ( ! empty( $sp_url['video_desc'] ) ) {
 	?>

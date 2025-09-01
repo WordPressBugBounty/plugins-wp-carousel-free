@@ -7,6 +7,10 @@
  * @subpackage wp-carousel-free/public
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 $section_title_dynamic_css = '';
 $section_title             = isset( $shortcode_data['section_title'] ) ? $shortcode_data['section_title'] : '';
 $carousel_type             = isset( $upload_data['wpcp_carousel_type'] ) ? $upload_data['wpcp_carousel_type'] : '';
@@ -24,8 +28,8 @@ $wpcp_pagination_hide_on_mobile = isset( $shortcode_data['wpcp_carousel_paginati
 $wpcp_pagination                = isset( $shortcode_data['wpcp_source_pagination'] ) ? $shortcode_data['wpcp_source_pagination'] : false;
 $image_vertical_alignment       = isset( $shortcode_data['wpcp_image_vertical_alignment'] ) ? $shortcode_data['wpcp_image_vertical_alignment'] : 'center';
 
-// Box-shadow
-$box_shadow_style         = isset( $shortcode_data['wpcp_box_shadow_style'] ) ? $shortcode_data['wpcp_box_shadow_style'] : 'none';
+// Box-shadow.
+$box_shadow_style       = isset( $shortcode_data['wpcp_box_shadow_style'] ) ? $shortcode_data['wpcp_box_shadow_style'] : 'none';
 $box_shadow             = ( isset( $shortcode_data['wpcp_box_shadow'] ) && 'none' !== $box_shadow_style ) ? $shortcode_data['wpcp_box_shadow'] : array();
 $box_shadow_horizontal  = isset( $box_shadow['horizontal'] ) ? $box_shadow['horizontal'] : '0';
 $box_shadow_vertical    = isset( $box_shadow['vertical'] ) ? $box_shadow['vertical'] : '0';
@@ -35,7 +39,6 @@ $box_shadow_style       = ( 'inset' === $box_shadow_style ) ? $box_shadow_style 
 $box_shadow_color       = isset( $box_shadow['color'] ) ? $box_shadow['color'] : '#dddddd';
 $box_shadow_hover_color = isset( $box_shadow['hover_color'] ) ? $box_shadow['hover_color'] : '#dddddd';
 $shadow_margin          = ( 'inset' === $box_shadow_style ) ? '' : 'margin: ' . $box_shadow_blur . 'px';
-
 
 // Layout type.
 $wpcp_layout = isset( $shortcode_data['wpcp_layout'] ) ? $shortcode_data['wpcp_layout'] : 'carousel';
@@ -57,6 +60,33 @@ $slide_border_color     = isset( $slide_border['color'] ) ? $slide_border['color
  * Image Zoom
  */
 $image_zoom = isset( $shortcode_data['wpcp_image_zoom'] ) ? $shortcode_data['wpcp_image_zoom'] : 'zoom_in';
+
+// Lightbox settings.
+$l_box_nav_arrow_color      = isset( $shortcode_data['l_box_nav_arrow_color'] ) ? $shortcode_data['l_box_nav_arrow_color'] : '';
+$l_box_arrow_color          = isset( $l_box_nav_arrow_color['color1'] ) ? $l_box_nav_arrow_color['color1'] : '#ccc';
+$l_box_arrow_hover_color    = isset( $l_box_nav_arrow_color['color2'] ) ? $l_box_nav_arrow_color['color2'] : '#fff';
+$l_box_arrow_bg_color       = isset( $l_box_nav_arrow_color['color3'] ) ? $l_box_nav_arrow_color['color3'] : '#1e1e1e';
+$l_box_arrow_hover_bg_color = isset( $l_box_nav_arrow_color['color4'] ) ? $l_box_nav_arrow_color['color4'] : '#1e1e1e';
+
+$lb_overlay_color = isset( $shortcode_data['wpcp_img_lb_overlay_color'] ) ? $shortcode_data['wpcp_img_lb_overlay_color'] : '#0b0b0b';
+
+$the_wpcf_dynamic_css .= '
+.sp-wp-carousel-free-id-' . $post_id . '.wpcf-fancybox-wrapper .fancybox-bg{
+		background: ' . $lb_overlay_color . ';
+		opacity: 0.8;
+}
+.sp-wp-carousel-free-id-' . $post_id . '.wpcf-fancybox-wrapper .fancybox-navigation .fancybox-button .wpcp-fancybox-nav-arrow i {
+	color: ' . $l_box_arrow_color . ';
+}
+.sp-wp-carousel-free-id-' . $post_id . '.wpcf-fancybox-wrapper .fancybox-navigation .fancybox-button .wpcp-fancybox-nav-arrow i:hover {
+	color: ' . $l_box_arrow_hover_color . ';
+}
+.sp-wp-carousel-free-id-' . $post_id . '.wpcf-fancybox-wrapper .fancybox-navigation .fancybox-button {
+	background: ' . $l_box_arrow_bg_color . ';
+}
+.sp-wp-carousel-free-id-' . $post_id . '.wpcf-fancybox-wrapper .fancybox-navigation .fancybox-button:hover {
+	background: ' . $l_box_arrow_hover_bg_color . ';
+}';
 
 // Product Image Border.
 $image_border_width     = isset( $shortcode_data['wpcp_product_image_border']['all'] ) && ! empty( $shortcode_data['wpcp_product_image_border']['all'] ) ? $shortcode_data['wpcp_product_image_border']['all'] : $old_slide_border_width;
@@ -84,7 +114,18 @@ $nav_dynamic_style = '';
 if ( $wpcp_arrows ) {
 	$wpcp_nav_color       = isset( $shortcode_data['wpcp_nav_colors']['color1'] ) ? $shortcode_data['wpcp_nav_colors']['color1'] : '#aaa';
 	$wpcp_nav_hover_color = isset( $shortcode_data['wpcp_nav_colors']['color2'] ) ? $shortcode_data['wpcp_nav_colors']['color2'] : '#fff';
-	$nav_dynamic_style   .= '
+	$navigation_icon      = isset( $shortcode_data['navigation_icons'] ) ? $shortcode_data['wpcp_nav_colors'] : 'right_open';
+	if ( 'right_open' !== $navigation_icon ) {
+		$nav_dynamic_style .= '
+		#sp-wp-carousel-free-id-' . $post_id . '.wpcp-carousel-section.sp-wpcp-' . $post_id . ' .swiper-button-prev,
+		#sp-wp-carousel-free-id-' . $post_id . '.wpcp-carousel-section.sp-wpcp-' . $post_id . ' .swiper-button-next,
+		#sp-wp-carousel-free-id-' . $post_id . '.wpcp-carousel-section.sp-wpcp-' . $post_id . ' .swiper-button-prev:hover,
+		#sp-wp-carousel-free-id-' . $post_id . '.wpcp-carousel-section.sp-wpcp-' . $post_id . ' .swiper-button-next:hover {
+			font-size: 18px ;
+    		font-weight: 400;
+		}';
+	}
+	$nav_dynamic_style .= '
 	#sp-wp-carousel-free-id-' . $post_id . '.sp-wpcp-' . $post_id . ' .swiper-button-prev,
 	#sp-wp-carousel-free-id-' . $post_id . '.sp-wpcp-' . $post_id . ' .swiper-button-next,
 	#sp-wp-carousel-free-id-' . $post_id . '.sp-wpcp-' . $post_id . ' .swiper-button-prev:hover,

@@ -9,6 +9,10 @@
  * @subpackage WP_Carousel_Free/public/templates
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 if ( has_post_thumbnail() && $show_slide_image ) {
 	$product_thumb_id       = get_post_thumbnail_id();
 	$image_url              = wp_get_attachment_image_src( $product_thumb_id, $image_sizes );

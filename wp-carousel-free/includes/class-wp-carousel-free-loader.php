@@ -9,6 +9,10 @@
  * @subpackage WP_Carousel_Free/includes
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * Register all actions and filters for the plugin.
  *

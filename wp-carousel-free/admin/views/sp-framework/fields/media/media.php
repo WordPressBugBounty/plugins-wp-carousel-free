@@ -120,8 +120,6 @@ if ( ! class_exists( 'SP_WPCF_Field_media' ) ) {
 			echo '<input type="hidden" name="' . esc_attr( $this->field_name( '[description]' ) ) . '" value="' . esc_attr( $this->value['description'] ) . '" class="sp_wpcp--description"/>';
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
-
 	}
 }

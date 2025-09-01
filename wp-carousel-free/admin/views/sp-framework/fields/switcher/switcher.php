@@ -8,6 +8,7 @@
  * @package WP Carousel
  * @subpackage wp-carousel-free/sp-framework
  */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die; } // Cannot access directly.
 
@@ -59,8 +60,6 @@ if ( ! class_exists( 'SP_WPCF_Field_switcher' ) ) {
 			echo ( ! empty( $this->field['label'] ) ) ? '<span class="wpcf--label">' . esc_attr( $this->field['label'] ) . '</span>' : '';
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
-
 	}
 }

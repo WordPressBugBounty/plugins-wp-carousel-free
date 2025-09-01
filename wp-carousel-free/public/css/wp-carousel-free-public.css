@@ -227,6 +227,8 @@
 	top: auto;
 	display: block;
 	height: auto;
+	color: #fff;
+    background-color: rgba(0, 0, 0, 0.55);
 }
 
 /*
@@ -431,6 +433,24 @@
 }
 .wpcp-carousel-content-wrapper:has(.wpcp-swiper-dots) {
 	margin-bottom: 60px;
+}
+
+/* Nav top right */
+.wpcp-carousel-section.nav-top-right .wpcp-prev-button,
+.wpcp-carousel-section.nav-top-right .wpcp-next-button {
+	top: 15px;
+}
+
+.wpcp-carousel-section.nav-top-right {
+	padding-top: 50px;
+}
+
+.wpcp-carousel-section.nav-top-right .wpcp-next-button {
+	right: 0;
+}
+
+.wpcp-carousel-section.nav-top-right .wpcp-prev-button {
+	right: 36px;
 }
 
 /*--------------------------------------------------------------

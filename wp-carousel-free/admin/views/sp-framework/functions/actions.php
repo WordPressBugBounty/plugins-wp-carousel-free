@@ -9,8 +9,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die; } // Cannot access directly.
 
-
-
 if ( ! function_exists( 'wpcf_reset_ajax' ) ) {
 	/**
 	 *
@@ -32,7 +30,6 @@ if ( ! function_exists( 'wpcf_reset_ajax' ) ) {
 		delete_option( $unique );
 
 		wp_send_json_success();
-
 	}
 	add_action( 'wp_ajax_wpcf-reset', 'wpcf_reset_ajax' );
 }
@@ -50,7 +47,7 @@ if ( ! function_exists( 'wpcf_chosen_ajax' ) ) {
 		$nonce = ( ! empty( $_POST['nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 		$type  = ( ! empty( $_POST['type'] ) ) ? sanitize_text_field( wp_unslash( $_POST['type'] ) ) : '';
 		$term  = ( ! empty( $_POST['term'] ) ) ? sanitize_text_field( wp_unslash( $_POST['term'] ) ) : '';
-		$query = ( ! empty( $_POST['query_args'] ) ) ? wp_kses_post_deep( $_POST['query_args'] ) : array();
+		$query = ( ! empty( $_POST['query_args'] ) ) ? wp_kses_post_deep( wp_unslash( $_POST['query_args'] ) ) : array(); // phpcs:ignore
 
 		if ( ! wp_verify_nonce( $nonce, 'wpcf_chosen_ajax_nonce' ) ) {
 			wp_send_json_error( array( 'error' => esc_html__( 'Error: Invalid nonce verification.', 'wp-carousel-free' ) ) );
@@ -70,7 +67,6 @@ if ( ! function_exists( 'wpcf_chosen_ajax' ) ) {
 		$options = SP_WPCF_Fields::field_data( $type, $term, $query );
 
 		wp_send_json_success( $options );
-
 	}
 	add_action( 'wp_ajax_wpcf-chosen', 'wpcf_chosen_ajax' );
 }
@@ -93,7 +89,6 @@ if ( ! function_exists( 'wpcf_get_option' ) ) {
 		} else {
 			return ( isset( $default ) ) ? $default : null;
 		}
-
 	}
 }
 

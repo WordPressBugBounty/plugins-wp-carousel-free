@@ -7,6 +7,10 @@
  * @package WP_Carousel
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 // Image caption.
 if ( ! empty( $image_title ) && $show_img_caption ) {
 	?>

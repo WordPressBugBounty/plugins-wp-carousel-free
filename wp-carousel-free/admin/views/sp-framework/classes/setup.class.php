@@ -129,7 +129,6 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 
 			// Init action.
 			do_action( 'wpcf_init' );
-			add_action( 'init', array( 'SP_WPCF', 'set_locale' ) );
 
 			add_action( 'after_setup_theme', array( 'SP_WPCF', 'setup' ) );
 			add_action( 'init', array( 'SP_WPCF', 'setup' ) );
@@ -198,19 +197,6 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 			return compact( 'plugin_link', 'has_plugin', 'button_text', 'activate_plugin_url', 'slug' );
 		}
 
-		/**
-		 * Define the locale for this plugin for internationalization.
-		 *
-		 * Uses the WP_Carousel_Free_I18n class in order to set the domain and to register the hook
-		 * with WordPress.
-		 *
-		 * @since  2.0.0
-		 */
-		public static function set_locale() {
-			include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-i18n.php';
-			$plugin_i18n = new WP_Carousel_Free_I18n();
-			$plugin_i18n->load_plugin_textdomain();
-		}
 		/**
 		 * Setup frameworks
 		 *
@@ -358,6 +344,116 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 		}
 
 		/**
+		 * Enqueue admin and fields styles and scripts
+		 *
+		 * @return void
+		 */
+		public static function add_admin_enqueue_scripts() {
+
+			// Loads scripts and styles only when needed.
+			$wpscreen              = get_current_screen();
+			$current_screen        = get_current_screen();
+			$the_current_post_type = $current_screen->post_type;
+			$settings_page_base    = 'sp_wp_carousel_page_wpcp_settings' === $current_screen->base;
+			$tools_page_base       = 'sp_wp_carousel_page_wpcf_tools' === $current_screen->base;
+			if ( 'sp_wp_carousel' === $the_current_post_type || $settings_page_base || $tools_page_base ) {
+				global $post_id;
+
+				if ( ! empty( self::$args['admin_options'] ) ) {
+					foreach ( self::$args['admin_options'] as $argument ) {
+						if ( substr( $wpscreen->id, -strlen( $argument['menu_slug'] ) ) === $argument['menu_slug'] ) {
+							self::$enqueue = true;
+						}
+					}
+				}
+				if ( ! empty( self::$args['metabox_options'] ) ) {
+					foreach ( self::$args['metabox_options'] as $argument ) {
+						if ( in_array( $wpscreen->post_type, (array) $argument['post_type'] ) ) {
+							self::$enqueue = true;
+						}
+					}
+				}
+
+				if ( ! apply_filters( 'wpcf_enqueue_assets', self::$enqueue ) ) {
+					return;
+				}
+
+				// Check for developer mode.
+				$min = ( self::$premium && SCRIPT_DEBUG ) ? '' : '.min';
+
+				// Admin utilities.
+				wp_enqueue_media();
+
+				// Wp color picker.
+				wp_enqueue_style( 'wp-color-picker' );
+				wp_enqueue_script( 'wp-color-picker' );
+
+				// Main style.
+				wp_enqueue_style( 'wpcf', self::include_plugin_url( 'assets/css/style' . $min . '.css' ), array(), self::$version, 'all' );
+				// Main RTL styles.
+				if ( is_rtl() ) {
+					wp_enqueue_style( 'wpcf-rtl', self::include_plugin_url( 'assets/css/style-rtl' . $min . '.css' ), array(), self::$version, 'all' );
+				}
+
+				// Main scripts.
+				wp_enqueue_script( 'wpcf-plugins', self::include_plugin_url( 'assets/js/plugins' . $min . '.js' ), array(), self::$version, true );
+				wp_enqueue_script( 'wpcf', self::include_plugin_url( 'assets/js/main' . $min . '.js' ), array( 'wpcf-plugins' ), self::$version, true );
+
+				// Main variables.
+				wp_localize_script(
+					'wpcf',
+					'wpcf_vars',
+					array(
+						'previewJS'     => WPCAROUSELF_URL . 'public/js/wp-carousel-free-public.min.js',
+						'color_palette' => apply_filters( 'wpcf_color_palette', array() ),
+						'i18n'          => array(
+							'confirm'         => esc_html__( 'Are you sure?', 'wp-carousel-free' ),
+							'typing_text'     => esc_html__( 'Please enter more characters', 'wp-carousel-free' ),
+							'searching_text'  => esc_html__( 'Searching...', 'wp-carousel-free' ),
+							'no_results_text' => esc_html__( 'No results found.', 'wp-carousel-free' ),
+						),
+					)
+				);
+				wp_localize_script(
+					'wpcf',
+					'wpcf_metabox_local',
+					array(
+						'id'           => $post_id,
+						'slide_width'  => 960,
+						'slide_height' => 300,
+						'save_nonce'   => wp_create_nonce( 'wpcf_image-save-meta' ),
+						'saving'       => esc_attr__( 'Saving...', 'wp-carousel-free' ),
+
+					)
+				);
+				// Enqueue fields scripts and styles.
+				$enqueued = array();
+
+				if ( ! empty( self::$fields ) ) {
+					foreach ( self::$fields as $field ) {
+						if ( ! empty( $field['type'] ) ) {
+							$classname = 'SP_WPCF_Field_' . $field['type'];
+							if ( class_exists( $classname ) && method_exists( $classname, 'enqueue' ) ) {
+								$instance = new $classname( $field );
+								if ( method_exists( $classname, 'enqueue' ) ) {
+									$instance->enqueue();
+								}
+								unset( $instance );
+							}
+						}
+					}
+				}
+				// Load thickbox assets for quick view and brand plugin notice.
+				add_thickbox();
+
+				// Fix the CSS conflict of radio player with wp caroursel free.
+				wp_dequeue_style( 'radio-player-admin' );
+
+				do_action( 'wpcf_enqueue' );
+			}
+		}
+
+		/**
 		 * Is active plugin helper.
 		 *
 		 * @param  mixed $file file path.
@@ -429,7 +525,6 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 					'image_select',
 					'image_sizes',
 					'media',
-					'license',
 					'notice',
 					'radio',
 					'select',
@@ -485,124 +580,6 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 				}
 			}
 		}
-
-		/**
-		 * Enqueue admin and fields styles and scripts
-		 *
-		 * @return void
-		 */
-		public static function add_admin_enqueue_scripts() {
-
-			// Loads scripts and styles only when needed.
-			$wpscreen              = get_current_screen();
-			$current_screen        = get_current_screen();
-			$the_current_post_type = $current_screen->post_type;
-			$settings_page_base    = 'sp_wp_carousel_page_wpcp_settings' === $current_screen->base;
-			$tools_page_base       = 'sp_wp_carousel_page_wpcf_tools' === $current_screen->base;
-			if ( 'sp_wp_carousel' === $the_current_post_type || $settings_page_base || $tools_page_base ) {
-					global $post_id;
-				if ( ! empty( self::$args['admin_options'] ) ) {
-					foreach ( self::$args['admin_options'] as $argument ) {
-						if ( substr( $wpscreen->id, -strlen( $argument['menu_slug'] ) ) === $argument['menu_slug'] ) {
-							self::$enqueue = true;
-						}
-					}
-				}
-				if ( ! empty( self::$args['metabox_options'] ) ) {
-					foreach ( self::$args['metabox_options'] as $argument ) {
-						if ( in_array( $wpscreen->post_type, (array) $argument['post_type'] ) ) {
-							self::$enqueue = true;
-						}
-					}
-				}
-
-				if ( ! apply_filters( 'wpcf_enqueue_assets', self::$enqueue ) ) {
-					return;
-				}
-
-				// Check for developer mode.
-				$min = ( self::$premium && SCRIPT_DEBUG ) ? '' : '.min';
-
-				// Admin utilities.
-				wp_enqueue_media();
-
-				// Wp color picker.
-				wp_enqueue_style( 'wp-color-picker' );
-				wp_enqueue_script( 'wp-color-picker' );
-
-				// Font awesome 4 and 5 loader.
-				if ( apply_filters( 'wpcf_fa4', true ) ) {
-					wp_enqueue_style( 'wpcf-fa', 'https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome' . $min . '.css', array(), '4.7.0', 'all' );
-				} else {
-					wp_enqueue_style( 'wpcf-fa5', 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all' . $min . '.css', array(), '5.15.5', 'all' );
-					wp_enqueue_style( 'wpcf-fa5-v4-shims', 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/v4-shims' . $min . '.css', array(), '5.15.5', 'all' );
-				}
-
-				// Main style.
-				wp_enqueue_style( 'wpcf', self::include_plugin_url( 'assets/css/style' . $min . '.css' ), array(), self::$version, 'all' );
-				// Main RTL styles.
-				if ( is_rtl() ) {
-					wp_enqueue_style( 'wpcf-rtl', self::include_plugin_url( 'assets/css/style-rtl' . $min . '.css' ), array(), self::$version, 'all' );
-				}
-
-				// Main scripts.
-				wp_enqueue_script( 'wpcf-plugins', self::include_plugin_url( 'assets/js/plugins' . $min . '.js' ), array(), self::$version, true );
-				wp_enqueue_script( 'wpcf', self::include_plugin_url( 'assets/js/main' . $min . '.js' ), array( 'wpcf-plugins' ), self::$version, true );
-
-				// Main variables.
-				wp_localize_script(
-					'wpcf',
-					'wpcf_vars',
-					array(
-						'previewJS'     => WPCAROUSELF_URL . 'public/js/wp-carousel-free-public.min.js',
-						'color_palette' => apply_filters( 'wpcf_color_palette', array() ),
-						'i18n'          => array(
-							'confirm'         => esc_html__( 'Are you sure?', 'wp-carousel-free' ),
-							'typing_text'     => esc_html__( 'Please enter more characters', 'wp-carousel-free' ),
-							'searching_text'  => esc_html__( 'Searching...', 'wp-carousel-free' ),
-							'no_results_text' => esc_html__( 'No results found.', 'wp-carousel-free' ),
-						),
-					)
-				);
-				wp_localize_script(
-					'wpcf',
-					'wpcf_metabox_local',
-					array(
-						'id'           => $post_id,
-						'slide_width'  => 960,
-						'slide_height' => 300,
-						'save_nonce'   => wp_create_nonce( 'wpcf_image-save-meta' ),
-						'saving'       => esc_attr__( 'Saving...', 'wp-carousel-free' ),
-
-					)
-				);
-				// Enqueue fields scripts and styles.
-				$enqueued = array();
-
-				if ( ! empty( self::$fields ) ) {
-					foreach ( self::$fields as $field ) {
-						if ( ! empty( $field['type'] ) ) {
-							$classname = 'SP_WPCF_Field_' . $field['type'];
-							if ( class_exists( $classname ) && method_exists( $classname, 'enqueue' ) ) {
-								$instance = new $classname( $field );
-								if ( method_exists( $classname, 'enqueue' ) ) {
-									$instance->enqueue();
-								}
-								unset( $instance );
-							}
-						}
-					}
-				}
-				// Load thickbox assets for quick view and brand plugin notice.
-				add_thickbox();
-
-				// Fix the CSS conflict of radio player with wp caroursel free.
-				wp_dequeue_style( 'radio-player-admin' );
-
-				do_action( 'wpcf_enqueue' );
-			}
-		}
-
 
 		/**
 		 * Add a new framework field.

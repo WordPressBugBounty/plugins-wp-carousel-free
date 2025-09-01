@@ -47,7 +47,6 @@ if ( ! class_exists( 'SP_WPCF_Abstract' ) ) {
 				add_action( 'wp_enqueue_scripts', array( $this, 'collect_output_css_and_typography' ), 10 );
 				SP_WPCF::$css = apply_filters( "wpcf_{$this->unique}_output_css", SP_WPCF::$css, $this );
 			}
-
 		}
 
 		/**
@@ -148,8 +147,6 @@ if ( ! class_exists( 'SP_WPCF_Abstract' ) ) {
 					}
 				}
 			}
-
 		}
-
 	}
 }

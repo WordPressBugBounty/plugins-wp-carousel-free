@@ -69,9 +69,8 @@ if ( ! class_exists( 'SP_WPCF_Field_carousel_type' ) ) {
 					$checked        = ( in_array( $key, $value ) ) ? ' checked' : '';
 					$pro_only       = isset( $option['pro_only'] ) ? ' disabled' : '';
 					$pro_only_class = isset( $option['pro_only'] ) ? ' wpcf-disabled' : '';
-					$pro_only_text  = isset( $option['pro_only'] ) ? '<strong class="ct-pro-only">' . esc_html__( 'PRO', 'wp-carousel-free' ) . '</strong>' : '';
 					echo '<div class="wpcf--sibling wpcf--image' . esc_attr( $active . $pro_only_class ) . '">';
-					echo '<label><input' . esc_attr( $pro_only ) . ' type="' . esc_attr( $type ) . '" name="' . esc_attr( $this->field_name( $extra ) ) . '" value="' . esc_attr( $key ) . '"' . $this->field_attributes() . esc_attr( $checked ) . '/>' . $pro_only_text;// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $pro_only_text is escaped before being passed in
+					echo '<label><input' . esc_attr( $pro_only ) . ' type="' . esc_attr( $type ) . '" name="' . esc_attr( $this->field_name( $extra ) ) . '" value="' . esc_attr( $key ) . '"' . $this->field_attributes() . esc_attr( $checked ) . '/>';// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $pro_only_text is escaped before being passed in
 					if ( isset( $option['image'] ) ) {
 						echo '<img  src="' . esc_url( $option['image'] ) . '" class="svg-icon">';
 					} else {
