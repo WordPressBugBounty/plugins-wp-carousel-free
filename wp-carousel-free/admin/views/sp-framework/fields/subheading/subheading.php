@@ -23,7 +23,6 @@ if ( ! class_exists( 'SP_WPCF_Field_subheading' ) ) {
 	 * @version 1.0.0
 	 */
 	class SP_WPCF_Field_subheading extends SP_WPCF_Fields {
-
 		/**
 		 * The field constructor.
 		 *
@@ -36,7 +35,6 @@ if ( ! class_exists( 'SP_WPCF_Field_subheading' ) ) {
 		public function __construct( $field, $value = '', $unique = '', $where = '', $parent = '' ) {
 			parent::__construct( $field, $value, $unique, $where, $parent );
 		}
-
 
 		/**
 		 * Render

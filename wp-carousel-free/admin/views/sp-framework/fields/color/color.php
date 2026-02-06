@@ -44,14 +44,12 @@ if ( ! class_exists( 'SP_WPCF_Field_color' ) ) {
 			parent::__construct( $field, $value, $unique, $where, $parent );
 		}
 
-
 		/**
 		 * Render
 		 *
 		 * @return void
 		 */
 		public function render() {
-
 			$default_attr = ( ! empty( $this->field['default'] ) ) ? ' data-default-color="' . esc_attr( $this->field['default'] ) . '"' : '';
 
 			echo wp_kses_post( $this->field_before() );

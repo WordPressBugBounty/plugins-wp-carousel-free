@@ -137,40 +137,6 @@ if ( ! class_exists( 'SP_WPCF_Field_box_shadow' ) ) {
 			echo '<div class="clear"></div>';
 
 			echo wp_kses_post( $this->field_after() );
-
-		}
-		/**
-		 * Output
-		 *
-		 * @return Statement
-		 */
-		public function output() {
-
-			$output    = '';
-			$unit      = ( ! empty( $this->value['unit'] ) ) ? $this->value['unit'] : 'px';
-			$important = ( ! empty( $this->field['output_important'] ) ) ? '!important' : '';
-			$element   = ( is_array( $this->field['output'] ) ) ? join( ',', $this->field['output'] ) : $this->field['output'];
-
-			// properties.
-			$horizontal = ( isset( $this->value['horizontal'] ) && '' !== $this->value['horizontal'] ) ? $this->value['horizontal'] : '';
-			$vertical   = ( isset( $this->value['vertical'] ) && '' !== $this->value['vertical'] ) ? $this->value['vertical'] : '';
-			$blur       = ( isset( $this->value['blur'] ) && '' !== $this->value['blur'] ) ? $this->value['blur'] : '';
-			$spread     = ( isset( $this->value['spread'] ) && '' !== $this->value['spread'] ) ? $this->value['spread'] : '';
-			$style      = ( isset( $this->value['style'] ) && '' !== $this->value['style'] && 'outset' !== $this->value['style'] ) ? $this->value['style'] : '';
-			$color      = ( isset( $this->value['color'] ) && '' !== $this->value['color'] ) ? $this->value['color'] : '';
-
-				$output  = $element . '{ box-shadow: ';
-				$output .= ( '' !== $horizontal ) ? $horizontal . $unit : '0' . $unit;
-				$output .= ( '' !== $vertical ) ? $vertical . $unit : '0' . $unit;
-				$output .= ( '' !== $blur ) ? $blur . $unit : '0' . $unit;
-				$output .= ( '' !== $spread ) ? $spread . $unit : '0' . $unit;
-				$output .= ( '' !== $color ) ? $color : '';
-				$output .= ( '' !== $style ) ? $style : '';
-				$output .= ';' . $important . ' }';
-
-			$this->parent->output_css .= $output;
-
-			return $output;
 		}
 	}
 }

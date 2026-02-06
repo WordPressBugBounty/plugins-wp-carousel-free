@@ -326,7 +326,7 @@ if ( ! class_exists( 'WPCF_Helper' ) ) {
 				if ( empty( $video_sources ) ) {
 					return;
 				}
-				// $video_sources = array_slice( $video_sources, 0, 6 );
+
 				$lightbox_data = 'data-thumbs="true" data-outside="1" data-loop=1 data-keyboard=1';
 				$sp_urls       = self::get_video_thumb_url( $video_sources );
 				if ( 'rand' === $image_orderby ) {

@@ -22,7 +22,6 @@ if ( ! class_exists( 'SP_WPCF_Field_button_set' ) ) {
 	 * @version 1.0.0
 	 */
 	class SP_WPCF_Field_button_set extends SP_WPCF_Fields {
-
 		/**
 		 * Button set field constructor.
 		 *
@@ -35,7 +34,6 @@ if ( ! class_exists( 'SP_WPCF_Field_button_set' ) ) {
 		public function __construct( $field, $value = '', $unique = '', $where = '', $parent = '' ) {
 			parent::__construct( $field, $value, $unique, $where, $parent );
 		}
-
 
 		/**
 		 * Render
@@ -82,15 +80,10 @@ if ( ! class_exists( 'SP_WPCF_Field_button_set' ) ) {
 							echo wp_kses_post( $option );
 						}
 						echo '</div>';
-
 					}
-
 					echo '</div>';
-
 				} else {
-
 					echo ! empty( $this->field['empty_message'] ) ? esc_attr( $this->field['empty_message'] ) : esc_html__( 'No data available.', 'wp-carousel-free' );
-
 				}
 			}
 

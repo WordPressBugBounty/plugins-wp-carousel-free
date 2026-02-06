@@ -56,7 +56,7 @@ class WP_Carousel_Free_Admin {
 		$this->suffix      = defined( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min';
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
-		// add_action( 'wp_ajax_create_image_meta', array( $this, 'create_image_meta' ) );
+
 		add_action( 'wp_ajax_wpcf_image_save_meta', array( $this, 'save_meta' ) );
 		add_action( 'wp_ajax_wpcf_image_get_attachment_links', array( $this, 'get_attachment_links' ) );
 	}

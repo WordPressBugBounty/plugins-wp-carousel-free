@@ -22,7 +22,6 @@ if ( ! class_exists( 'SP_WPCF_Field_checkbox' ) ) {
 	 * @version 1.0.0
 	 */
 	class SP_WPCF_Field_checkbox extends SP_WPCF_Fields {
-
 		/**
 		 * Checkbox field constructor.
 		 *
@@ -36,14 +35,12 @@ if ( ! class_exists( 'SP_WPCF_Field_checkbox' ) ) {
 			parent::__construct( $field, $value, $unique, $where, $parent );
 		}
 
-
 		/**
 		 * Render
 		 *
 		 * @return void
 		 */
 		public function render() {
-
 			$args = wp_parse_args(
 				$this->field,
 				array(
@@ -67,9 +64,7 @@ if ( ! class_exists( 'SP_WPCF_Field_checkbox' ) ) {
 					echo '<ul' . $inline_class . '>';// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 					foreach ( $options as $option_key => $option_value ) {
-
 						if ( is_array( $option_value ) && ! empty( $option_value ) ) {
-
 							echo '<li>';
 							echo '<ul>';
 							echo '<li><strong>' . esc_attr( $option_key ) . '</strong></li>';
@@ -86,9 +81,7 @@ if ( ! class_exists( 'SP_WPCF_Field_checkbox' ) ) {
 							echo '</li>';
 
 						} else {
-
 							$checked = ( in_array( $option_key, $value ) ) ? ' checked' : '';
-
 							echo '<li>';
 							echo '<label>';
 							echo '<input type="checkbox" name="' . esc_attr( $this->field_name( '[]' ) ) . '" value="' . esc_attr( $option_key ) . '"' . $this->field_attributes() . esc_attr( $checked ) . '/>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -100,7 +93,6 @@ if ( ! class_exists( 'SP_WPCF_Field_checkbox' ) ) {
 					}
 
 					echo '</ul>';
-
 				} else {
 					echo ! empty( $this->field['empty_message'] ) ? esc_attr( $this->field['empty_message'] ) : esc_html__( 'No data available.', 'wp-carousel-free' );
 				}
@@ -110,7 +102,6 @@ if ( ! class_exists( 'SP_WPCF_Field_checkbox' ) ) {
 					echo '<input type="checkbox" name="_pseudo" class="wpcf--checkbox"' . esc_attr( checked( $this->value, 1, false ) ) . '/>';
 					echo ( ! empty( $this->field['label'] ) ) ? '<span class="wpcf--text">' . esc_attr( $this->field['label'] ) . '</span>' : '';
 					echo '</label>';
-
 			}
 
 			echo wp_kses_post( $this->field_after() );

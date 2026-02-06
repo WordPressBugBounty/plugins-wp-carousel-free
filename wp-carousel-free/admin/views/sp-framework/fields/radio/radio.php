@@ -37,7 +37,6 @@ if ( ! class_exists( 'SP_WPCF_Field_radio' ) ) {
 			parent::__construct( $field, $value, $unique, $where, $parent );
 		}
 
-
 		/**
 		 * Render
 		 *
@@ -102,9 +101,7 @@ if ( ! class_exists( 'SP_WPCF_Field_radio' ) ) {
 					echo '</ul>';
 
 				} else {
-
 					echo ! empty( $this->field['empty_message'] ) ? esc_attr( $this->field['empty_message'] ) : esc_html__( 'No data available.', 'wp-carousel-free' );
-
 				}
 			} else {
 
@@ -112,12 +109,9 @@ if ( ! class_exists( 'SP_WPCF_Field_radio' ) ) {
 					echo '<label><input type="radio" name="' . esc_attr( $this->field_name() ) . '" value="1"' . $this->field_attributes() . esc_attr( checked( $this->value, 1, false ) ) . '/>';// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $this->field_attributes() is escaped before being passed in.
 					echo ( ! empty( $this->field['label'] ) ) ? '<span class="wpcf--text">' . esc_attr( $this->field['label'] ) . '</span>' : '';
 					echo '</label>';
-
 			}
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
-
 	}
 }

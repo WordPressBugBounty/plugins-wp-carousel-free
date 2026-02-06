@@ -37,7 +37,6 @@ if ( ! class_exists( 'SP_WPCF_Field_color_group' ) ) {
 			parent::__construct( $field, $value, $unique, $where, $parent );
 		}
 
-
 		/**
 		 * Render
 		 *

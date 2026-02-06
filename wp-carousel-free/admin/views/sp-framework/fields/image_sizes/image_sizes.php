@@ -42,7 +42,6 @@ if ( ! class_exists( 'SP_WPCF_Field_image_sizes' ) ) {
 		 * @return void
 		 */
 		public function render() {
-
 			$args = wp_parse_args(
 				$this->field,
 				array(
@@ -85,10 +84,8 @@ if ( ! class_exists( 'SP_WPCF_Field_image_sizes' ) ) {
 				)
 			);
 
-			// if ( ! empty( $this->field['options'] ) ) {
+			// Output the select field.
 			if ( ! empty( $sizes ) ) {
-
-				// $options          = ( is_array( $this->field['options'] ) ) ? $this->field['options'] : $this->field_data( $this->field['options'] );
 				$multiple_name    = ( $args['multiple'] ) ? '[]' : '';
 				$multiple_attr    = ( $args['multiple'] ) ? ' multiple="multiple"' : '';
 				$chosen_rtl       = ( is_rtl() ) ? ' chosen-rtl' : '';

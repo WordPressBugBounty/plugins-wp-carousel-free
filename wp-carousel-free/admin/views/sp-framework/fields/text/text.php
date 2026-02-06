@@ -36,14 +36,12 @@ if ( ! class_exists( 'SP_WPCF_Field_text' ) ) {
 			parent::__construct( $field, $value, $unique, $where, $parent );
 		}
 
-
 		/**
 		 * Render
 		 *
 		 * @return void
 		 */
 		public function render() {
-
 			$type = ( ! empty( $this->field['attributes']['type'] ) ) ? $this->field['attributes']['type'] : 'text';
 
 			echo wp_kses_post( $this->field_before() );
@@ -51,8 +49,6 @@ if ( ! class_exists( 'SP_WPCF_Field_text' ) ) {
 			echo '<input type="' . esc_attr( $type ) . '" name="' . esc_attr( $this->field_name() ) . '" value="' . esc_attr( $this->value ) . '"' . $this->field_attributes() . ' />';// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $this->field_attributes() is escaped before being passed in.
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
-
 	}
 }

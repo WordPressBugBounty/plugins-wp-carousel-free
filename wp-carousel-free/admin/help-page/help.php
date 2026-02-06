@@ -752,12 +752,12 @@ class WP_Carousel_Free_Help {
 								<h4>Real Testimonials</h4>
 								<p>Simply collect, manage, and display Testimonials on your website and boost conversions.</p>
 							</a>
-							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://smartpostshow.com/?ref=1">
+							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://wpsmartpost.com/?ref=1">
 								<i class="spwpcp-icon-button-arrow-icon"></i>
 								<?php if ( ! empty( $plugin_icon['post-carousel'] ) ) { ?>
-									<img src="<?php echo esc_url( $plugin_icon['post-carousel'] ); ?>" alt="Smart Post Show">
+									<img src="<?php echo esc_url( $plugin_icon['post-carousel'] ); ?>" alt="Smart Post">
 								<?php } ?>
-								<h4>Smart Post Show</h4>
+								<h4>Smart Post</h4>
 								<p>Filter and display posts (any post types), pages, taxonomy, custom taxonomy, and custom field, in beautiful layouts.</p>
 							</a>
 							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://wooproductslider.io/?ref=1">
@@ -768,16 +768,16 @@ class WP_Carousel_Free_Help {
 							</a>
 							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://woogallery.io/?ref=1">
 								<i class="spwpcp-icon-button-arrow-icon"></i>
-								<img src="<?php echo esc_url( $plugin_icon['gallery-slider-for-woocommerce'] ); ?>" alt="Gallery Slider for WooCommerce">
-								<h4>Gallery Slider for WooCommerce</h4>
+								<img src="<?php echo esc_url( $plugin_icon['gallery-slider-for-woocommerce'] ); ?>" alt="WooGallery">
+								<h4>WooGallery</h4>
 								<p>Product gallery slider and additional variation images gallery for WooCommerce and boost your sales.</p>
 							</a>
 							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://getwpteam.com/?ref=1">
 								<i class="spwpcp-icon-button-arrow-icon"></i>
 								<?php if ( ! empty( $plugin_icon['team-free'] ) ) { ?>
-									<img src="<?php echo esc_url( $plugin_icon['team-free'] ); ?>" alt="WP Team">
+									<img src="<?php echo esc_url( $plugin_icon['team-free'] ); ?>" alt="Smart Team">
 								<?php } ?>
-								<h4>WP Team</h4>
+								<h4>Smart Team</h4>
 								<p>Display your team members smartly who are at the heart of your company or organization!</p>
 							</a>
 							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://logocarousel.com/?ref=1">
@@ -792,25 +792,25 @@ class WP_Carousel_Free_Help {
 								<h4>Location Weather</h4>
 								<p>Best WordPress Weather Forecast plugin to Show Current Temperature & Weather, Daily & Hourly, Detailed Forecast up to 16 Days, and Weather Map.</p>
 							</a>
-							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://shapedplugin.com/plugin/woocommerce-category-slider-pro/?ref=1">
+							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://shapedplugin.com/woocategory/?ref=1">
 								<i class="spwpcp-icon-button-arrow-icon"></i>
-								<img src="<?php echo esc_url( $plugin_icon['woo-category-slider-grid'] ); ?>" alt="Category Slider for WooCommerce">
-								<h4>Category Slider for WooCommerce</h4>
+								<img src="<?php echo esc_url( $plugin_icon['woo-category-slider-grid'] ); ?>" alt="WooCategory">
+								<h4>WooCategory</h4>
 								<p>Display by filtering the list of categories aesthetically and boosting sales.</p>
 							</a>
 							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://wptabs.com/?ref=1">
 								<i class="spwpcp-icon-button-arrow-icon"></i>
-								<img src="<?php echo esc_url( $plugin_icon['wp-expand-tabs-free'] ); ?>" alt="WP Tabs">
-								<h4>WP Tabs</h4>
-								<p>Display tabbed content smartly & quickly on your WordPress site without coding skills.</p>
+								<img src="<?php echo esc_url( $plugin_icon['wp-expand-tabs-free'] ); ?>" alt="Smart Tabs">
+								<h4>Smart Tabs</h4>
+								<p>Display tabbed content smartly & quickly on your WooCommerce and WordPress site without coding skills.</p>
 							</a>
-							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://shapedplugin.com/plugin/woocommerce-quick-view-pro/?ref=1">
+							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://shapedplugin.com/quick-view-for-woocommerce/?ref=1">
 								<i class="spwpcp-icon-button-arrow-icon"></i>
 								<img src="<?php echo esc_url( $plugin_icon['woo-quickview'] ); ?>" alt="Quick View for WooCommerce">
 								<h4>Quick View for WooCommerce</h4>
 								<p>Quickly view product information with smooth animation via AJAX in a nice Modal without opening the product page.</p>
 							</a>
-							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://shapedplugin.com/plugin/smart-brands-for-woocommerce/?ref=1">
+							<a target="_blank" class="spwpcp-our-plugin-list-box" href="https://shapedplugin.com/smart-brands/?ref=1">
 								<i class="spwpcp-icon-button-arrow-icon"></i>
 								<img src="<?php echo esc_url( $plugin_icon['smart-brands-for-woocommerce'] ); ?>" alt="Smart Brands for WooCommerce">
 								<h4>Smart Brands for WooCommerce</h4>

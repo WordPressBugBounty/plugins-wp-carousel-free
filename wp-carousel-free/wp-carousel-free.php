@@ -8,8 +8,8 @@
  *
  * Plugin Name:       WP Carousel
  * Plugin URI:        https://wpcarousel.io/
- * Description:       The most powerful and user-friendly carousel, slider, and gallery plugin for WordPress. Create unlimited beautiful carousels, sliders, and galleries in minutes using images, posts, WooCommerce products, etc.
- * Version:           2.7.7
+ * Description:       Create beautiful image carousels, sliders, video sliders, video galleries, and photo galleries with built-in Lightbox. Easily showcase images, videos, posts, and WooCommerce products with responsive layouts, grids, and fast performance—no code required.
+ * Version:           2.7.10
  * Author:            ShapedPlugin LLC
  * Author URI:        https://shapedplugin.com/
  * License:           GPL-2.0+
@@ -18,7 +18,7 @@
  * Domain Path:       /languages
  * Requires PHP: 7.0.0
  * WC requires at least: 6.4
- * WC tested up to:   10.0.2
+ * WC tested up to:   10.4.3
  */
 
 // If this file is called directly, abort.
@@ -33,8 +33,6 @@ if ( ! defined( 'WPINC' ) ) {
  * @author  Shamim Mia <shamhagh@gmail.com>
  */
 class SP_WP_Carousel_Free {
-
-
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
@@ -120,7 +118,7 @@ class SP_WP_Carousel_Free {
 	 */
 	public function setup() {
 		$this->plugin_name = 'wp-carousel-free';
-		$this->version     = '2.7.7';
+		$this->version     = '2.7.10';
 		$this->define_constants();
 		$this->includes();
 		$this->load_dependencies();
@@ -360,6 +358,15 @@ class SP_WP_Carousel_Free {
 function sp_wpcf() {
 	$plugin = SP_WP_Carousel_Free::init();
 	$plugin->loader->run();
+
+	if ( ! defined( 'SHAPEDPLIUGIN_OFFER_BANNER_LOADED' ) ) {
+		define( 'SHAPEDPLIUGIN_OFFER_BANNER_LOADED', true );
+
+		/**
+		 * The file is responsible for generating admin offer banner.
+		 */
+		include_once plugin_dir_path( __FILE__ ) . '/admin/views/notices/offer-banner.php';
+	}
 }
 
 /**
