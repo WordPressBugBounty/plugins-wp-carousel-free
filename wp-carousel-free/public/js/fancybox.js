@@ -2320,7 +2320,7 @@
               .children()
               .eq(0)
               .empty()
-              .html(caption);
+              .text(caption);
   
             captionH = $clone.outerHeight(true);
   
@@ -2968,7 +2968,7 @@
           $caption
             .children()
             .eq(0)
-            .html(caption);
+            .text(caption);
         } else {
           self.$caption = null;
         }

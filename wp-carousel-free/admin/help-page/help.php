@@ -459,8 +459,8 @@ class WP_Carousel_Free_Help {
 								<div class="spwpcp-info-box-title">
 									<h4><i class="spwpcp-icon-team-icon"></i> Join The Community</h4>
 								</div>
-								<span class='spwpcp-normal-paragraph'>Join the official ShapedPlugin Facebook group to share your experiences, thoughts, and ideas.</span>
-								<a target="_blank" class='spwpcp-small-btn' href="https://www.facebook.com/groups/ShapedPlugin/">Join Now</a>
+								<span class='spwpcp-normal-paragraph'>Join the official ShapedPlugin community to share your experiences, thoughts, and ideas.</span>
+								<a target="_blank" class='spwpcp-small-btn' href="https://community.shapedplugin.com/portal/">Join Now</a>
 							</div>
 						</div>
 					</div>

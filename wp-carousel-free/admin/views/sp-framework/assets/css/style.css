@@ -104,6 +104,23 @@
 	margin-right: 20px;
 }
 
+.wpcf-field select,
+.wpcf-field input:not([type="checkbox"]):not([type="radio"]) {
+    min-height: 32px;
+    line-height: 1;
+}
+
+.wpcf-field input[type="month"],
+.wpcf-field input[type="number"] {
+	border-radius: 4px
+}
+
+.wpcf-field input::-webkit-outer-spin-button,
+.wpcf-field input::-webkit-inner-spin-button {
+  	height: 30px;
+	line-height: 2;
+}
+
 /**
  * 01. 01. Header
  */
@@ -6590,4 +6607,8 @@ div:is(#sp_wpcp_notice, #sp_wpcp_display_builders, #sp_wpcp_display_shortcodes).
 .sp_wpcp-notice-wrapper ul li i {
 	color: rgba(74, 184, 102, 1);
 	font-size: 11px;
+}
+
+.wpcf-field-radio input {
+    margin: 0 4px;
 }
