@@ -4,7 +4,7 @@ Tags: slider, carousel, slideshow, gallery, video slider
 Requires at least: 5.0
 Tested up to: 7.0
 Requires PHP: 7.0.0
-Stable tag: 2.7.11
+Stable tag: 2.7.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -193,6 +193,12 @@ Yes, WP Carousel works perfectly with WordPress multi-site network.
 
 
 == Changelog ==
+
+= Version 2.7.12 – Jul 03, 2026 =
+* Improved: The recommended plugins section now uses the plugins_api function for more reliable data.
+* Improved: Hardened plugin security with proper capability checks.
+* Fix: The undefined warning, which was rarely found.
+* Tested: Compatibility confirmed with WooCommerce 10.9.1.
 
 = Version 2.7.11 – Apr 15, 2026 =
 * Improved: The plugin security has been improved.

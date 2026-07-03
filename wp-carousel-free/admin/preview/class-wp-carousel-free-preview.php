@@ -47,6 +47,10 @@ class WP_Carousel_Free_Preview {
 			return;
 		}
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'error' => esc_html__( 'Error: You do not have permission to do that.', 'wp-carousel-free' ) ) );
+		}
+
 		$setting_data = array();
 		// XSS ok.
 		// No worries, This "POST" requests is sanitizing in the below array map.

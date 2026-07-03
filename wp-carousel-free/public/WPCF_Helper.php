@@ -185,7 +185,7 @@ if ( ! class_exists( 'WPCF_Helper' ) ) {
 
 				if ( 'title' === $field ) {
 					$translated_image_data = get_post( $translated_attachment );
-					return $translated_image_data->post_title;
+					return isset( $translated_image_data->post_title ) ? $translated_image_data->post_title : '';
 				} elseif ( 'alt' === $field ) {
 					return get_post_meta( $translated_attachment, '_wp_attachment_image_alt', true );
 				}
@@ -194,7 +194,7 @@ if ( ! class_exists( 'WPCF_Helper' ) ) {
 			// Fallback to original data.
 			if ( 'title' === $field ) {
 				$image_data = get_post( $attachment_id );
-				return $image_data->post_title;
+				return isset( $image_data->post_title ) ? $image_data->post_title : '';
 			} elseif ( 'alt' === $field ) {
 				return get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
 			}

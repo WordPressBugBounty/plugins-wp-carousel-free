@@ -55,12 +55,12 @@ class Wp_Carousel_Free_Import_Export {
 				$post_meta = get_post_meta( $shortcode->ID );
 				if ( ! empty( $post_meta ) && is_array( $post_meta ) ) {
 					foreach ( $post_meta as $metakey => $value ) {
-						$shortcode_export['meta'][ sanitize_key( $metakey ) ] = maybe_unserialize( $value[0] );
+						$shortcode_export['meta'][ sanitize_key( $metakey ) ] = $this->maybe_unserialize( $value[0] );
 					}
 				}
 
-				$str  = isset( $shortcode_export['meta']['sp_wpcp_upload_options'] ) ? maybe_unserialize( $shortcode_export['meta']['sp_wpcp_upload_options'] ) : '';
-				$data = maybe_unserialize( $str );
+				$str  = isset( $shortcode_export['meta']['sp_wpcp_upload_options'] ) ? $this->maybe_unserialize( $shortcode_export['meta']['sp_wpcp_upload_options'] ) : '';
+				$data = $this->maybe_unserialize( $str );
 
 				// For image gallery.
 				if ( 'image-carousel' === $data['wpcp_carousel_type'] ) {
@@ -270,7 +270,7 @@ class Wp_Carousel_Free_Import_Export {
 							$meta_value = $value; // leave array intact.
 						} else {
 							$meta_value = str_replace( '{#ID#}', $new_shortcode_id, $value );
-							$meta_value = maybe_unserialize( $meta_value );
+							$meta_value = $this->maybe_unserialize( $meta_value );
 						}
 						// update post meta.
 						update_post_meta( $new_shortcode_id, $meta_key, $meta_value );
@@ -373,5 +373,21 @@ class Wp_Carousel_Free_Import_Export {
 		}
 
 		wp_send_json_success( $status, 200 );
+	}
+
+	/**
+	 * Maybe unserialize data if it is serialized.
+	 *
+	 * @param  mixed $data Data to maybe unserialize.
+	 * @param  mixed $options Options for unserialization.
+	 * @return mixed
+	 */
+	public function maybe_unserialize( $data, $options = array() ) {
+		if ( is_serialized( $data ) ) {
+			$default_option = array( 'allowed_classes' => false );
+			$options        = wp_parse_args( $options, $default_option );
+			return unserialize( $data, $options ); // phpcs:ignore -- dissallowed any classes.
+		}
+		return $data;
 	}
 }

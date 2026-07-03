@@ -26,6 +26,10 @@ if ( ! function_exists( 'wpcf_reset_ajax' ) ) {
 			wp_send_json_error( array( 'error' => esc_html__( 'Error: Invalid nonce verification.', 'wp-carousel-free' ) ) );
 		}
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'error' => esc_html__( 'Error: You do not have permission to do that.', 'wp-carousel-free' ) ) );
+		}
+
 		// Success.
 		delete_option( $unique );
 

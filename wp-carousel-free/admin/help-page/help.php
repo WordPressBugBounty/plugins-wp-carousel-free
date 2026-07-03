@@ -136,7 +136,7 @@ class WP_Carousel_Free_Help {
 	public function spwpcp_plugins_info_api_help_page() {
 		$plugins_arr = get_transient( 'spwpcp_plugins' );
 		if ( false === $plugins_arr ) {
-			$args    = (object) array(
+			$args = array(
 				'author'   => 'shapedplugin',
 				'per_page' => '120',
 				'page'     => '1',
@@ -154,33 +154,30 @@ class WP_Carousel_Free_Help {
 					'icons',
 				),
 			);
-			$request = array(
-				'action'  => 'query_plugins',
-				'timeout' => 30,
-				'request' => serialize( $args ),
-			);
-			// https://codex.wordpress.org/WordPress.org_API.
-			$url      = 'http://api.wordpress.org/plugins/info/1.0/';
-			$response = wp_remote_post( $url, array( 'body' => $request ) );
-			if ( ! is_wp_error( $response ) ) {
+
+			if ( ! function_exists( 'plugins_api' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+			}
+
+			$plugin_info = plugins_api( 'query_plugins', $args );
+
+			if ( ! is_wp_error( $plugin_info ) ) {
 
 				$plugins_arr = array();
-				$plugins     = unserialize( $response['body'] );
-
-				if ( isset( $plugins->plugins ) && ( count( $plugins->plugins ) > 0 ) ) {
-					foreach ( $plugins->plugins as $pl ) {
-						if ( ! in_array( $pl->slug, self::$not_show_plugin_list, true ) ) {
+				if ( isset( $plugin_info->plugins ) && ( count( $plugin_info->plugins ) > 0 ) ) {
+					foreach ( $plugin_info->plugins as $pl ) {
+						if ( ! in_array( $pl['slug'], self::$not_show_plugin_list, true ) ) {
 							$plugins_arr[] = array(
-								'slug'              => $pl->slug,
-								'name'              => $pl->name,
-								'version'           => $pl->version,
-								'downloaded'        => $pl->downloaded,
-								'active_installs'   => $pl->active_installs,
-								'last_updated'      => strtotime( $pl->last_updated ),
-								'rating'            => $pl->rating,
-								'num_ratings'       => $pl->num_ratings,
-								'short_description' => $pl->short_description,
-								'icons'             => $pl->icons['2x'],
+								'slug'              => $pl['slug'],
+								'name'              => $pl['name'],
+								'version'           => $pl['version'],
+								'downloaded'        => $pl['downloaded'],
+								'active_installs'   => $pl['active_installs'],
+								'last_updated'      => strtotime( $pl['last_updated'] ),
+								'rating'            => $pl['rating'],
+								'num_ratings'       => $pl['num_ratings'],
+								'short_description' => $pl['short_description'],
+								'icons'             => $pl['icons']['2x'],
 							);
 						}
 					}
@@ -191,11 +188,11 @@ class WP_Carousel_Free_Help {
 		}
 
 		if ( is_array( $plugins_arr ) && ( count( $plugins_arr ) > 0 ) ) {
-			array_multisort( array_column( $plugins_arr, 'active_installs' ), SORT_DESC, $plugins_arr );
+			$active_installs = array_column( $plugins_arr, 'active_installs' );
+			array_multisort( $active_installs, SORT_DESC, $plugins_arr );
 
 			foreach ( $plugins_arr as $plugin ) {
 				$plugin_slug = $plugin['slug'];
-				// $image_type  = 'png';
 				$plugin_icon = $plugin['icons'];
 				if ( isset( self::$plugins[ $plugin_slug ] ) ) {
 					$plugin_file = self::$plugins[ $plugin_slug ];
@@ -207,7 +204,7 @@ class WP_Carousel_Free_Help {
 					continue;
 				}
 
-				$details_link = network_admin_url( 'plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] . '&amp;TB_iframe=true&amp;width=600&amp;height=550' );
+				$details_link = network_admin_url( 'plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] . '&amp;TB_iframe=true&amp;width=745&amp;height=550' );
 				?>
 				<div class="plugin-card <?php echo esc_attr( $plugin_slug ); ?>" id="<?php echo esc_attr( $plugin_slug ); ?>">
 					<div class="plugin-card-top">
@@ -385,12 +382,12 @@ class WP_Carousel_Free_Help {
 		$plugin   = isset( $_GET['plugin'] ) ? sanitize_text_field( wp_unslash( $_GET['plugin'] ) ) : '';
 		$_wpnonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
 
-		if ( isset( $action, $plugin ) && ( 'activate' === $action ) && wp_verify_nonce( $_wpnonce, 'activate-plugin_' . $plugin ) ) {
+		if ( isset( $action, $plugin ) && ( 'activate' === $action ) && wp_verify_nonce( $_wpnonce, 'activate-plugin_' . $plugin ) && current_user_can( 'activate_plugins' ) ) {
 			activate_plugin( $plugin, '', false, true );
 		}
 
-		if ( isset( $action, $plugin ) && ( 'deactivate' === $action ) && wp_verify_nonce( $_wpnonce, 'deactivate-plugin_' . $plugin ) ) {
-			deactivate_plugins( $plugin, '', false, true );
+		if ( isset( $action, $plugin ) && ( 'deactivate' === $action ) && wp_verify_nonce( $_wpnonce, 'deactivate-plugin_' . $plugin ) && current_user_can( 'deactivate_plugins' ) ) {
+			deactivate_plugins( $plugin, '', false );
 		}
 
 		?>
@@ -736,7 +733,9 @@ class WP_Carousel_Free_Help {
 							$plugin_icon[ $plugin['slug'] ] = $plugin['icons'];
 						}
 					}
-					?>
+					// Check if the plugin icon is set before displaying the recommended plugins section.
+					if ( isset( $plugin_icon['easy-accordion-free'] ) ) :
+						?>
 					<div class="spwpcp-our-plugin-list">
 						<h3 class="spwpcp-section-title">Upgrade your Website with our High-quality Plugins!</h3>
 						<div class="spwpcp-our-plugin-list-wrap">
@@ -818,6 +817,7 @@ class WP_Carousel_Free_Help {
 							</a>
 						</div>
 					</div>
+					<?php endif; ?>
 				</div>
 			</section>
 
