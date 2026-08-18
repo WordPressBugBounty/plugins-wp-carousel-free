@@ -21,42 +21,107 @@ if ( ! class_exists( 'WP_Carousel_Free_Gutenberg_Block_Init' ) ) {
 	 */
 	class WP_Carousel_Free_Gutenberg_Block_Init {
 		/**
-		 * Script and style suffix
-		 *
-		 * @since 2.4.1
-		 * @access protected
-		 * @var string
-		 */
-		protected $suffix;
-		/**
 		 * Custom Gutenberg Block Initializer.
 		 */
 		public function __construct() {
-			$this->suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) || ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? '' : '.min';
 			add_action( 'init', array( $this, 'sp_wp_carousel_free_gutenberg_shortcode_block' ) );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'sp_wp_carousel_free_block_editor_assets' ) );
+			add_action( 'enqueue_block_assets', array( $this, 'sp_wp_carousel_free_block_canvas_assets' ) );
 		}
 
 		/**
 		 * Register block editor script for backend.
+		 *
+		 * This only runs for the outer editor document. Since WordPress 6.3 the block
+		 * canvas is an iframe and WordPress 7.1 iframes it unconditionally, so anything
+		 * the rendered carousel needs is enqueued in
+		 * `sp_wp_carousel_free_block_canvas_assets()` instead.
 		 */
 		public function sp_wp_carousel_free_block_editor_assets() {
+			$asset_file = WPCAROUSELF_PATH . '/admin/GutenbergBlock/build/index.asset.php';
+			$asset      = file_exists( $asset_file ) ? require $asset_file : array();
+
+			$dependencies = isset( $asset['dependencies'] ) ? $asset['dependencies'] : array(
+				'wp-block-editor',
+				'wp-blocks',
+				'wp-components',
+				'wp-element',
+				'wp-escape-html',
+				'wp-i18n',
+				'wp-server-side-render',
+			);
+			$version      = isset( $asset['version'] ) ? $asset['version'] : WPCAROUSELF_VERSION;
+
 			wp_enqueue_script(
 				'sp-wp-carousel-free-shortcode-block',
 				plugins_url( '/GutenbergBlock/build/index.js', __DIR__ ),
-				array( 'jquery' ),
-				WPCAROUSELF_VERSION,
+				array_merge( $dependencies, array( 'jquery' ) ),
+				$version,
 				true
+			);
+
+			wp_localize_script(
+				'sp-wp-carousel-free-shortcode-block',
+				'sp_wp_carousel_free',
+				array(
+					'url'                => WPCAROUSELF_URL,
+					'loadScript'         => WPCAROUSELF_URL . 'public/js/wp-carousel-free-public.min.js',
+					'loadFancyBoxScript' => WPCAROUSELF_URL . 'public/js/fancybox-config.min.js',
+					'link'               => admin_url( 'post-new.php?post_type=sp_wp_carousel' ),
+					'shortCodeList'      => $this->sp_wp_carousel_free_post_list(),
+				)
 			);
 
 			/**
 			 * Register block editor css file enqueue for backend.
+			 *
+			 * Kept for WordPress versions that still render the canvas in the same
+			 * document as the editor chrome.
 			 */
 			wp_enqueue_style( 'wpcf-swiper' );
 			wp_enqueue_style( 'wp-carousel-free-fontawesome' );
 			wp_enqueue_style( 'wp-carousel-free' );
 			wp_enqueue_style( 'wpcf-fancybox-popup' );
 		}
+
+		/**
+		 * Enqueue the carousel front-end assets for the block editor canvas.
+		 *
+		 * `enqueue_block_editor_assets` only reaches the outer editor document, while
+		 * WordPress collects `enqueue_block_assets` output for the iframed canvas in
+		 * `_wp_get_iframed_editor_assets()`. Registering them here is what puts the
+		 * carousel CSS, Swiper and the lightbox in the same document as the markup
+		 * `ServerSideRender` renders.
+		 *
+		 * The front end is untouched: there the shortcode keeps enqueueing assets on
+		 * demand.
+		 *
+		 * @since 2.7.13
+		 */
+		public function sp_wp_carousel_free_block_canvas_assets() {
+			if ( ! is_admin() ) {
+				return;
+			}
+
+			wp_enqueue_style( 'wpcf-swiper' );
+			wp_enqueue_style( 'wp-carousel-free-fontawesome' );
+			wp_enqueue_style( 'wp-carousel-free' );
+			wp_enqueue_style( 'wpcf-fancybox-popup' );
+
+			wp_enqueue_script( 'wpcf-swiper-js' );
+			wp_enqueue_script( 'wpcf-swiper-config' );
+			wp_enqueue_script( 'wpcf-fancybox-popup' );
+			wp_enqueue_script( 'wpcf-fancybox-config' );
+			wp_enqueue_script( 'wpcp-preloader' );
+
+			// The admin stylesheet is not loaded inside the canvas, so the block
+			// placeholder select needs its own rules there.
+			wp_add_inline_style(
+				'wp-carousel-free',
+				'.spwpcf-gutenberg-shortcode{padding:0;line-height:24px}.spwpcf-gutenberg-shortcode select.spwpcf-shortcode-selector{width:250px;padding:5px 24px 5px 5px;border:1px solid #ccc;font-size:13px}'
+			);
+		}
+
 		/**
 		 * Shortcode list.
 		 *
@@ -91,28 +156,14 @@ if ( ! class_exists( 'WP_Carousel_Free_Gutenberg_Block_Init' ) ) {
 		 */
 		public function sp_wp_carousel_free_gutenberg_shortcode_block() {
 			/**
-			 * Register block editor js file enqueue for backend.
-			 */
-			wp_register_script( 'wpcf-swiper-gb-config', WPCAROUSELF_URL . 'public/js/wp-carousel-free-public' . $this->suffix . '.js', array( 'jquery' ), WPCAROUSELF_VERSION, true );
-			wp_register_script( 'wpcf-fancybox-popup', WPCAROUSELF_URL . 'public/js/fancybox.min.js', array( 'jquery' ), WPCAROUSELF_VERSION, true );
-
-			wp_localize_script(
-				'wpcf-swiper-gb-config',
-				'sp_wp_carousel_free',
-				array(
-					'url'                => WPCAROUSELF_URL,
-					'loadScript'         => WPCAROUSELF_URL . 'public/js/wp-carousel-free-public.min.js',
-					'loadFancyBoxScript' => WPCAROUSELF_URL . 'public/js/fancybox-config.min.js',
-					'link'               => admin_url( 'post-new.php?post_type=sp_wp_carousel' ),
-					'shortCodeList'      => $this->sp_wp_carousel_free_post_list(),
-				)
-			);
-			/**
 			 * Register Gutenberg block on server-side.
 			 */
 			register_block_type(
 				'sp-wp-carousel-pro/shortcode',
 				array(
+					// Block API v3 tells WordPress the block is safe to render inside the
+					// iframed editor canvas. See the Block API versions handbook page.
+					'api_version'     => 3,
 					'attributes'      => array(
 						'shortcodelist'      => array(
 							'type'    => 'object',
@@ -139,13 +190,6 @@ if ( ! class_exists( 'WP_Carousel_Free_Gutenberg_Block_Init' ) ) {
 						'attributes' => array(
 							'preview' => true,
 						),
-					),
-					// Enqueue blocks.editor.build.js in the editor only.
-					'editor_script'   => array(
-						'wpcp-preloader',
-						'wpcf-swiper-js',
-						'wpcf-swiper-gb-config',
-						'wpcf-fancybox-popup',
 					),
 					// Enqueue blocks.editor.build.css in the editor only.
 					'editor_style'    => array(),

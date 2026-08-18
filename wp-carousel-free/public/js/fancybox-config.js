@@ -1,4 +1,11 @@
-jQuery(document).ready(function ($) {
+/**
+ * Bind the Fancybox lightbox to every carousel in the document.
+ *
+ * Exposed globally because the block editor canvas is an iframe since
+ * WordPress 6.3 and its markup is rendered after this file has run.
+ */
+function SPCarouselFreeLightbox($) {
+	$ = $ || jQuery;
 	$('.wpcp-carousel-section').each(function () {
 		var carousel_id = jQuery(this).attr('id');
 		var carousel_type = jQuery(this).data('carousel_type');
@@ -38,4 +45,10 @@ jQuery(document).ready(function ($) {
 			},
 		});
 	})
+}
+
+window.spWPCarouselFreeLightbox = SPCarouselFreeLightbox;
+
+jQuery(document).ready(function ($) {
+	SPCarouselFreeLightbox($);
 });

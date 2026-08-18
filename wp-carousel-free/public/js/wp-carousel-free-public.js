@@ -2,7 +2,7 @@
     'use strict';
 
     function SPCarouselFreeInit() {
-        jQuery('body').find('.wpcp-carousel-section.wpcp-standard').each(function () {
+        jQuery('body').find('.wpcp-carousel-section.wpcp-standard').not('.swiper-initialized').each(function () {
 
             var carousel_id = $(this).attr('id');
             var _this = $(this);
@@ -124,6 +124,15 @@
 
         jQuery(document).find('.wpcp-carousel-wrapper').addClass('wpcp-loaded');
     }
+
+    /**
+     * Expose the initializer globally.
+     *
+     * The block editor canvas is an iframe since WordPress 6.3, so the editor
+     * has to be able to run the initializer on the window that owns the
+     * markup instead of re-downloading this file into the wrong document.
+     */
+    window.spWPCarouselFreeInit = SPCarouselFreeInit;
 
     // Initialize the carousel when the document is ready
     $(document).ready(function () {

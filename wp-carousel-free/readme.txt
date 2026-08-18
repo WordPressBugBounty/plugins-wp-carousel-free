@@ -2,9 +2,9 @@
 Contributors: shapedplugin, khalilu, shamimmiashuhagh, rubel_miah
 Tags: slider, carousel, slideshow, gallery, video slider
 Requires at least: 5.0
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.0.0
-Stable tag: 2.7.12
+Stable tag: 2.7.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -193,6 +193,13 @@ Yes, WP Carousel works perfectly with WordPress multi-site network.
 
 
 == Changelog ==
+
+= Version 2.7.13 – Aug 18, 2026 =
+* Fixed: Block editor compatibility with WordPress 7.1's iframed canvas.
+* Fixed: Carousel not initializing correctly inside the block editor preview.
+* Improved: Faster, more reliable asset loading in the block editor.
+* Tested: WooCommerce 11.0.1 compatibility.
+* Tested: WordPress 7.1 compatibility.
 
 = Version 2.7.12 – Jul 03, 2026 =
 * Improved: The recommended plugins section now uses the plugins_api function for more reliable data.
