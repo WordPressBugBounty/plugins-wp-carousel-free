@@ -1,0 +1,66 @@
+.block-editor-block-inspector .wpcp-tab-panel
+  .components-panel__body.wpcp-child-panel-body {
+  border-top: 1px solid var(--wpcp-carousel-primary-2-100);
+  margin: 0px -16px;
+  box-sizing: border-box;
+  // background-color: var( --wpcp-carousel-primary-2-50 );
+  .components-panel__body-title {
+    background-color: var( --wpcp-carousel-primary-2-50 );
+    padding: 6px;
+    .components-panel__body-toggle.components-button {
+      padding: 6px;
+      .components-panel__arrow {
+        right: 5px;
+      }
+    }
+  }
+  .components-panel__body.wpcp-child-panel-body {
+    border: 1px solid var( --wpcp-carousel-primary-2-50 );
+    margin: 0px;
+    .components-panel__body-title {
+      background: var( --wpcp-carousel-primary-2-50 );
+      padding: 6px;
+      .components-panel__body-toggle.components-button {
+        padding: 6px;
+        .components-panel__arrow {
+          right: 15px;
+        }
+      }
+    }
+  }
+}
+.wpcp-tab-panel {
+  .components-panel__body.is-opened > .components-panel__body-title {
+    margin: -16px -16px 16px;
+  }
+}
+
+.wpcp-sub-panel-title {
+  font-size: 13px;
+  font-weight: 400;
+  text-align: left;
+  margin: 12px 0px 8px 0px;
+}
+// reset button
+.child-panel-body-reset-icon {
+  position: absolute;
+  top: 7px;
+  right: 0;
+}
+body.rtl .child-panel-body-reset-icon {
+  right: auto;
+  left: 0;
+}
+
+body.rtl {
+  .components-panel__body.wpcp-child-panel-body {
+    .components-panel__body-title {
+      .components-panel__body-toggle.components-button {
+        .components-panel__arrow {
+          left: 5px;
+          right: auto;
+        }
+      }
+    }
+  }
+}

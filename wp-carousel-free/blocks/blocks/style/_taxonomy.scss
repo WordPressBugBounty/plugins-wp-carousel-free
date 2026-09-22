@@ -1,0 +1,42 @@
+/* ════════════════════════════════════════════════════════════════════════════
+ * Taxonomy term default Style
+ * ════════════════════════════════════════════════════════════════════════════ */
+.wpcp-taxonomy-wrapper {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 12px;
+
+	.wpcp-item-taxonomy {
+		display: flex;
+		padding: 7px 10px;
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+		border-radius: 3px;
+		// Normal text/background colors + box-shadow read their tokens; defaults
+		// match the legacy static values so a token-unset block is byte-identical.
+		background: var(--wpcp-tax-bg, #1e1e1e);
+		color: var(--wpcp-tax-color, var(--wpcp-white, #fff));
+		box-shadow: var(--wpcp-tax-shadow, none);
+		font-size: 12px;
+		font-style: normal;
+		font-weight: 600;
+		line-height: 1;
+		letter-spacing: 0.24px;
+		text-transform: capitalize;
+		box-sizing: border-box;
+		text-decoration: none;
+		transition: all 0.3s ease;
+		cursor: pointer;
+	}
+
+	// Hover variants — each falls back to the normal value so a hover-unset block
+	// shows no hover change (replacing the legacy `#uid .wpcp-item-taxonomy:hover`).
+	.wpcp-item-taxonomy:hover {
+		color: var(--wpcp-tax-hover-color, var(--wpcp-tax-color, var(--wpcp-white, #fff)));
+		background: var(--wpcp-tax-bg-hover, var(--wpcp-tax-bg, #1e1e1e));
+		box-shadow: var(--wpcp-tax-shadow-hover, var(--wpcp-tax-shadow, none));
+	}
+}
+

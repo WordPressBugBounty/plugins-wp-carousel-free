@@ -1,0 +1,1343 @@
+/* WizardFlow – multi-step setup wizard */
+
+.wpcp-wizard-canvas {
+	max-width: 645px;
+	min-height: 500px;
+	margin: 0 auto;
+	border-radius: 6px;
+	border: 2px solid #CCE0E3;
+	background: #FFF;
+	padding: 28px 30px;
+	text-align: center;
+	color: #111827;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	box-sizing: border-box;
+
+	* {
+		box-sizing: border-box;
+	}
+}
+
+/* Header: title + subtitle */
+.wpcp-wizard-header {
+	margin-bottom: 4px;
+
+	.wpcp-wizard-title {
+		font-size: 22px;
+		font-weight: 500;
+		margin: 0 0 8px;
+		color: #111827;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+	}
+
+	.wpcp-wizard-title-icon {
+		display: inline-flex;
+		margin-top: 2px;
+	}
+
+	.wpcp-wizard-subtitle {
+		font-size: 16px;
+		color: #2F2F2F;
+		margin: 0;
+		font-weight: 400;
+	}
+}
+
+/* Source grid (step 1) */
+.wpcp-wizard-source-grid {
+	display: flex;
+	padding: 12px 0;
+	justify-content: center;
+	align-items: flex-start;
+	align-content: flex-start;
+	gap: 18px;
+	align-self: stretch;
+	flex-wrap: wrap;
+}
+
+.wpcp-wizard-card {
+	display: flex;
+	width: 115px;
+	padding: 18px 24px 16px;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 12px;
+	border-radius: 4px;
+	border: 1px solid #E0E0E0;
+	cursor: pointer;
+	transition: transform 0.15s, border-color 0.15s;
+
+
+	&:hover:not(.wpcp-pro-locked) {
+		transform: translateY(-2px);
+		background-color: #F2FEFF;
+		// box-shadow: 0 14px 28px rgba(15, 23, 42, 0.28);
+		border-color: #19949E;
+	}
+
+	// &.is-active {
+	// 	border-color: #19949E;
+	// 	background-color: #F2FEFF;
+	// 	// box-shadow: 0 14px 28px rgba(15, 23, 42, 0.32);
+	// }
+
+	.wpcp-wizard-card-icon {
+		width: 28px;
+		height: 28px;
+		color: #1E1E1E;
+		transition: color 0.3s ease;
+	}
+
+	.wpcp-wizard-card-label {
+		color: #2F2F2F;
+		text-align: center;
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 1;
+		transition: color 0.3s ease;
+	}
+
+	// &.is-active,
+	&:hover:not(.wpcp-pro-locked) {
+
+		.wpcp-wizard-card-icon,
+		.wpcp-wizard-card-label {
+			color: #19949E;
+		}
+	}
+}
+.wpcp-wizard-external-source-grid {
+	.wpcp-wizard-external-card.is-active {
+		border-color: #19949E;
+		background-color: #F2FEFF;
+
+		.wpcp-wizard-card-icon,
+		.wpcp-wizard-card-label {
+			color: #19949E;
+		}
+	}
+}
+
+/* Orientation grid*/
+.wpcp-wizard-orientation-grid {
+	display: flex;
+	padding: 12px 0;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 18px;
+	flex-wrap: wrap;
+}
+
+.wpcp-wizard-orient-card {
+	cursor: pointer;
+	border-radius: 4px;
+	transition: transform 0.15s ease;
+
+	> svg {
+		display: block;
+		width: 104px;
+		height: 100px;
+
+		> rect[stroke-width] {
+			transition: stroke 0.15s ease;
+		}
+	}
+
+	&:hover:not(.wpcp-pro-locked) {
+		transform: translateY(-2px);
+
+		> svg > rect[stroke-width] {
+			stroke: #19949E;
+		}
+	}
+}
+
+/* Media buttons (step 3) */
+.wpcp-wizard-media-buttons {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 18px;
+	min-height: 214px;
+	padding: 16px 0 0;
+
+
+
+
+
+	.wpcp-wizard-upload-btn.components-button.is-primary {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+		border-radius: 2px;
+		border: none;
+		background: #19949E;
+		padding: 10px 16px 10px 15px;
+		font-size: 16px;
+		font-weight: 500;
+		color: #FFF;
+		line-height: 20px;
+		font-size: 16px;
+		font-weight: 500;
+		line-height: 20px;
+		padding: 10px 20px;
+		outline: none;
+		box-shadow: none;
+		display: flex;
+
+		padding: 10px 16px;
+		justify-content: center;
+		align-items: center;
+		outline: none;
+		box-shadow: none;
+		min-width: 148px;
+		height: 48px;
+		padding: 10px 20px;
+		border-radius: 4px;
+
+		svg {
+			stroke: #FFF;
+		}
+
+		&:hover {
+			background: #157a82;
+		}
+	}
+
+	.wpcp-wizard-library-btn.components-button.is-secondary {
+		color: #19949E;
+		line-height: 20px;
+		background: rgb(255, 255, 255);
+		border: 1.5px solid rgb(25, 148, 158);
+
+		color: rgb(25, 148, 158);
+		font-size: 16px;
+		font-weight: 500;
+		line-height: 20px;
+		padding: 10px 16px;
+		outline: none;
+		box-shadow: none;
+		display: flex;
+
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+		min-width: 148px;
+		height: 48px;
+		padding: 10px 20px;
+		border-radius: 4px;
+
+		&:hover {
+			background: #f0fafb;
+		}
+	}
+}
+
+/* Thumbnails grid (step 4 review) */
+.wpcp-wizard-thumbs {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 10px;
+	width: 100%;
+	padding: 10px 0;
+
+	.wpcp-wizard-thumb {
+		aspect-ratio: 1;
+		overflow: hidden;
+		border-radius: 4px;
+		background: #f0f0f0;
+		position: relative;
+		cursor: grab;
+
+		.wpcp-wizard-thumb-caption {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			padding: 6px 8px;
+			background: rgba(0, 0, 0, 0.65);
+			color: #fff;
+			font-size: 11px;
+			line-height: 1.3;
+			text-align: center;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		&:active {
+			cursor: grabbing;
+		}
+
+		&.is-dragging {
+			opacity: 0.4;
+			z-index: 0;
+		}
+
+		img {
+			display: block;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			pointer-events: none;
+		}
+
+		.wpcp-wizard-thumb-overlay {
+			position: absolute;
+			inset: 0;
+			background: rgba(0, 0, 0, 0.45);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			opacity: 0;
+			transition: opacity 0.2s ease;
+		}
+
+		&:hover .wpcp-wizard-thumb-overlay {
+			opacity: 1;
+		}
+
+		.wpcp-wizard-thumb-action {
+			width: 30px;
+			height: 30px;
+			border-radius: 4px;
+			border: none;
+			background: rgba(255, 255, 255, 0.95);
+			color: #333;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0;
+			transition: background 0.15s, color 0.15s;
+			position: relative;
+			top: -33px;
+
+			svg {
+				stroke: #333;
+			}
+
+			&:hover {
+				background: #fff;
+				color: #19949E;
+
+				svg {
+					stroke: #19949E;
+				}
+			}
+
+			&.wpcp-wizard-thumb-delete:hover {
+				color: #e53e3e;
+
+				svg {
+					stroke: #e53e3e;
+				}
+			}
+		}
+	}
+}
+
+
+/* Edit Gallery link */
+.wpcp-wizard-edit-gallery {
+	.components-button {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		color: #19949E;
+		font-size: 14px;
+		font-weight: 500;
+		text-decoration: none;
+
+		svg {
+			stroke: #19949E;
+			fill: none;
+		}
+
+		&:hover {
+			color: #157a82;
+
+			svg {
+				stroke: #157a82;
+			}
+		}
+	}
+}
+
+/* Bottom navigation (Previous Step / Skip / Continue) */
+.wpcp-wizard-nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	margin-top: auto;
+	// padding-top: 16px;
+
+	.wpcp-wizard-nav-btn {
+		color: #949494;
+		font-size: 13px;
+		font-weight: 400;
+		text-decoration: none;
+
+		&:hover {
+			color: #555;
+		}
+	}
+
+	.wpcp-wizard-continue {
+		color: #19949E;
+		font-weight: 600;
+
+		&:hover {
+			color: #157a82;
+		}
+	}
+}
+
+/* Gallery edit popup (toolbar) */
+.wpcp-gallery-edit-popup {
+	position: relative;
+	width: 100%;
+	max-width: 645px;
+	max-height: calc(100vh - 48px);
+	overflow-y: auto;
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+	padding: 40px 50px 30px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+
+	* {
+		box-sizing: border-box;
+	}
+}
+
+/* Gallery edit popup footer */
+.wpcp-gallery-edit-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	margin-top: 12px;
+	padding-top: 16px;
+
+	.wpcp-gallery-edit-reset.components-button {
+		color: #949494;
+		font-size: 13px;
+		font-weight: 400;
+		text-decoration: none;
+
+		&:hover {
+			color: #555;
+		}
+	}
+
+	.wpcp-gallery-edit-update.components-button {
+		color: #19949E;
+		font-size: 13px;
+		font-weight: 600;
+		text-decoration: none;
+
+		&:hover {
+			color: #157a82;
+		}
+	}
+}
+
+/* Footer actions (step 1 bottom) */
+.wpcp-wizard-footer-actions {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 24px;
+	margin-top: 4px;
+
+	.components-button.is-primary {
+		border-radius: 4px;
+		border: 1px solid #19949E;
+		background: #19949E;
+		padding: 18px 24px;
+		font-size: 14px;
+		line-height: 1;
+		font-weight: 600;
+		color: #FFF;
+		height: auto;
+
+		&:hover {
+			background: #157a82;
+			border-color: #157a82;
+		}
+	}
+
+	.wpcp-wizard-link {
+		color: #949494;
+		font-size: 13px;
+		font-weight: 600;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		line-height: 1;
+	}
+}
+
+/* ── Video source grid (step 3v) ── */
+.wpcp-wizard-video-source-grid {
+	display: flex;
+	padding: 8px 0;
+	justify-content: center;
+	align-items: flex-start;
+	align-content: flex-start;
+	gap: 8px;
+	align-self: stretch;
+	flex-wrap: wrap;
+}
+
+.wpcp-wizard-video-card.wpcp-wizard-card {
+	width: 90px;
+	padding: 12px 10px 10px;
+	gap: 8px;
+
+	.wpcp-wizard-card-icon {
+		width: 24px;
+		height: 24px;
+
+		svg {
+			width: 24px;
+			height: 24px;
+		}
+	}
+
+	.wpcp-wizard-card-label {
+		font-size: 11px;
+		font-weight: 500;
+		white-space: nowrap;
+	}
+
+	&.is-active {
+		border-color: #19949E;
+		background-color: #F2FEFF;
+	}
+
+	&.is-active,
+	&:hover {
+
+		.wpcp-wizard-card-icon,
+		.wpcp-wizard-card-label {
+			color: #19949E;
+		}
+	}
+}
+
+/* Video URL inputs */
+.wpcp-wizard-video-urls {
+	width: 100%;
+	text-align: left;
+
+	.wpcp-wizard-video-urls-label {
+		display: block;
+		font-size: 14px;
+		font-weight: 500;
+		color: #2F2F2F;
+		margin-bottom: 8px;
+	}
+
+	.wpcp-wizard-video-url-input {
+		display: block;
+		width: 100%;
+		padding: 10px 14px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		font-size: 14px;
+		color: #333;
+		outline: none;
+		margin-bottom: 8px;
+		transition: border-color 0.15s;
+
+		&:focus {
+			border-color: #19949E;
+		}
+
+		&::placeholder {
+			color: #aaa;
+		}
+	}
+}
+
+.wpcp-wizard-add-video-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	background: none;
+	border: none;
+	color: #19949E;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+	// padding: 4px 0;
+	width: 100%;
+
+	svg {
+		stroke: #19949E;
+	}
+
+	&:hover {
+		color: #157a82;
+
+		svg {
+			stroke: #157a82;
+		}
+	}
+}
+
+/* Thumb play icon overlay (always visible) */
+.wpcp-wizard-thumb-play {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.wpcp-wizard-thumb-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #f5f5f5;
+}
+
+/* Video edit step (per-video detail form) */
+.wpcp-wizard-video-edit {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 24px;
+	width: 100%;
+	text-align: left;
+}
+
+.wpcp-wizard-video-edit-left,
+.wpcp-wizard-video-edit-right {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.wpcp-wizard-video-edit-field {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+
+	label {
+		font-size: 13px;
+		font-weight: 500;
+		color: #2F2F2F;
+	}
+
+	input,
+	textarea {
+		padding: 8px 12px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		font-size: 13px;
+		color: #333;
+		outline: none;
+		resize: vertical;
+
+		&:focus {
+			border-color: #19949E;
+		}
+
+		&::placeholder {
+			color: #aaa;
+		}
+	}
+}
+
+.wpcp-wizard-video-edit-preview {
+	position: relative;
+	border-radius: 6px;
+	overflow: hidden;
+	background: #f0f0f0;
+
+	img {
+		display: block;
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+	}
+
+	.wpcp-wizard-video-play-icon {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	&--empty {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 140px;
+	}
+}
+
+.wpcp-wizard-video-edit-thumbnail-row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+
+	>span {
+		font-size: 13px;
+		font-weight: 500;
+		color: #2F2F2F;
+	}
+
+	.wpcp-wizard-video-choose-image-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 12px;
+		font-weight: 600;
+		padding: 6px 14px;
+		border-radius: 2px;
+
+		&.components-button.is-primary {
+			border: 1px solid #19949E;
+			background: #19949E;
+			color: #FFF;
+
+			&:hover {
+				background: #157a82;
+				border-color: #157a82;
+			}
+		}
+
+		&.components-button.is-secondary {
+			border: 1px solid #19949E;
+			background: #FFF;
+			color: #19949E;
+
+			&:hover {
+				background: #f0fafb;
+			}
+		}
+	}
+}
+
+.wpcp-wizard-video-thumb-mini {
+	width: 24px;
+	height: 24px;
+	border-radius: 3px;
+	object-fit: cover;
+}
+
+.wpcp-wizard-video-edit-help {
+	font-size: 12px;
+	color: #19949E;
+	background: #f0fafb;
+	padding: 8px 12px;
+	border-radius: 4px;
+	margin: 4px 0 0;
+	line-height: 1.5;
+}
+
+/* Video edit bottom navigation */
+.wpcp-wizard-video-edit-nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	margin-top: 12px;
+	padding-top: 16px;
+	border-top: 1px solid #eee;
+}
+
+.wpcp-wizard-video-edit-nav-left {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.wpcp-wizard-video-edit-counter {
+	font-size: 14px;
+	font-weight: 500;
+	color: #2F2F2F;
+}
+
+.wpcp-wizard-video-finish-btn.components-button.is-primary {
+	border-radius: 2px;
+	border: 1px solid #19949E;
+	background: #19949E;
+	padding: 10px 24px;
+	font-size: 14px;
+	font-weight: 600;
+	color: #FFF;
+	line-height: 1;
+
+	&:hover {
+		background: #157a82;
+		border-color: #157a82;
+	}
+}
+
+/* Social select (inline in wizard) */
+.wpcp-wizard-canvas .wpcp-social-select {
+	position: relative;
+
+	.wpcp-social-select-control {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 8px 12px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		cursor: pointer;
+		min-height: 36px;
+		font-size: 13px;
+		color: #666;
+	}
+}
+
+/* Video source add popup (full wizard inside gallery edit) */
+.wpcp-video-source-add-popup {
+	max-width: 645px;
+	width: 95%;
+	max-height: calc(100vh - 48px);
+	overflow: hidden;
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+	padding: 40px 50px 30px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+
+	* {
+		box-sizing: border-box;
+	}
+
+	.wpcp-wizard-video-panels-wrap {
+		flex: 1;
+		min-height: 0;
+		max-height: 450px;
+	}
+}
+
+/* ── Video Accordion Panels ────────────────────────────────────────────── */
+
+.wpcp-wizard-video-panels-wrap {
+	width: 100%;
+	max-height: min(480px, calc(100vh - 350px));
+	min-height: 400px;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	scrollbar-width: thin;
+	scrollbar-color: #ccc transparent;
+
+	&::-webkit-scrollbar {
+		width: 2px;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: #ccc;
+		border-radius: 3px;
+	}
+}
+
+.wpcp-wizard-video-panel {
+	border: 1px solid #E0E0E0;
+	border-radius: 6px;
+	overflow: hidden;
+	background: #fff;
+	flex-shrink: 0;
+	transition: border-color 0.15s, box-shadow 0.15s;
+
+	&.is-expanded {
+		border-color: #CCE0E3;
+	}
+
+	&.is-dragging {
+		opacity: 0.5;
+		z-index: 100;
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+	}
+}
+
+.wpcp-wizard-video-panel-header {
+	display: flex;
+	align-items: center;
+	padding: 10px 14px;
+	background: #fafafa;
+	gap: 8px;
+	border-bottom: 1px solid transparent;
+
+	.is-expanded & {
+		border-bottom-color: #E0E0E0;
+	}
+}
+
+.wpcp-wizard-video-panel-drag {
+	cursor: grab;
+	color: #bbb;
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+
+	&:active {
+		cursor: grabbing;
+	}
+
+	&:hover {
+		color: #888;
+	}
+}
+
+.wpcp-wizard-video-panel-header-text {
+	flex: 1;
+	font-size: 14px;
+	font-weight: 500;
+	color: #2F2F2F;
+	cursor: pointer;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	min-width: 0;
+}
+
+.wpcp-wizard-video-panel-header-actions {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	flex-shrink: 0;
+}
+
+.wpcp-wizard-video-panel-action {
+	width: 26px;
+	height: 26px;
+	border: none;
+	background: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #999;
+	padding: 0;
+	border-radius: 3px;
+	transition: color 0.15s, background 0.15s;
+
+	&:hover {
+		color: #555;
+		background: #eee;
+	}
+}
+
+.wpcp-wizard-video-panel-body {
+	padding: 16px 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	text-align: left;
+}
+
+.wpcp-wizard-video-panel-subtitle {
+	font-size: 14px;
+	font-weight: 500;
+	color: #2F2F2F;
+	margin: 0;
+}
+
+.wpcp-wizard-video-panel-field {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+
+	label,
+	>span {
+		font-size: 13px;
+		font-weight: 500;
+		color: #2F2F2F;
+	}
+
+	input,
+	textarea {
+		padding: 8px 12px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		font-size: 13px;
+		color: #333;
+		outline: none;
+		resize: vertical;
+		width: 100%;
+		font-family: inherit;
+
+		&:focus {
+			border-color: #19949E;
+		}
+
+		&::placeholder {
+			color: #aaa;
+		}
+
+		&[aria-invalid='true'] {
+			border-color: #e53e3e;
+
+			&:focus {
+				border-color: #e53e3e;
+				box-shadow: 0 0 0 1px #e53e3e;
+			}
+		}
+	}
+}
+
+.wpcp-item-popup-url-error {
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.4;
+	color: #e53e3e;
+}
+
+.wpcp-wizard-video-panel-help {
+	font-size: 12px;
+	color: #19949E;
+	background: #f0fafb;
+	padding: 8px 12px;
+	margin: 0;
+	line-height: 1.5;
+	border-left: 1px solid #19949E;
+}
+
+.wpcp-wizard-video-panel-thumb-row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.wpcp-wizard-video-panel-thumb-label {
+	font-size: 13px;
+	font-weight: 500;
+	color: #2F2F2F;
+}
+
+.wpcp-wizard-video-panel-choose-image.components-button.is-secondary {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12px;
+	font-weight: 600;
+	padding: 6px 14px;
+	border-radius: 2px;
+	border: 1px solid #ddd;
+	background: #FFF;
+	color: #2F2F2F;
+	box-shadow: none;
+	transition: all 0.3s ease;
+
+	&:hover {
+		border-color: #19949E;
+		color: #19949E;
+		box-shadow: none;
+	}
+
+	.wpcp-wizard-video-thumb-mini {
+		width: 24px;
+		height: 24px;
+		border-radius: 100%;
+		object-fit: cover;
+	}
+}
+
+.wpcp-wizard-video-panel-remove-thumb {
+	width: 28px;
+	height: 28px;
+	border: 1px solid #ddd;
+	background: #fff;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #999;
+	padding: 0;
+	border-radius: 4px;
+	transition: color 0.15s, border-color 0.15s;
+
+	&:hover {
+		color: #e53e3e;
+		border-color: #e53e3e;
+	}
+}
+
+.wpcp-wizard-video-panel-toggle-info {
+	margin-left: auto;
+	background: none;
+	border: none;
+	color: #757575;
+	font-size: 13px;
+	font-weight: 400;
+	font-style: italic;
+	cursor: pointer;
+	padding: 0;
+	white-space: nowrap;
+
+	&:hover,
+	&.is-active {
+		color: #157a82;
+	}
+}
+
+.wpcp-wizard-video-panel-info {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding-top: 4px;
+	border-top: 1px solid #f0f0f0;
+}
+
+/* Reuse video source grid inside panels */
+.wpcp-wizard-video-panel-body .wpcp-wizard-video-source-grid {
+	padding: 4px 0;
+}
+
+.wpcp-wizard-video-panel-body .wpcp-wizard-media-buttons {
+	padding: 10px 0;
+}
+
+/* Social select inside video panels (works in both wizard and popup) */
+.wpcp-video-source-add-popup .wpcp-social-select,
+.wpcp-wizard-video-panel .wpcp-social-select {
+	position: relative;
+
+	.wpcp-social-select-control {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		padding: 8px 12px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		cursor: pointer;
+		min-height: 36px;
+		font-size: 13px;
+		color: #666;
+	}
+
+	.wpcp-social-select-values {
+		flex: 1;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+		align-items: center;
+		min-width: 0;
+	}
+
+	.wpcp-social-select-arrow {
+		display: inline-flex;
+		align-items: center;
+		flex-shrink: 0;
+		color: #999;
+	}
+}
+
+.wpcp-wizard-video-panel-field--social {
+	margin-top: 12px;
+}
+
+/* ── External Source Step ────────────────────────────────────────────────── */
+
+.wpcp-wizard-external-source-grid {
+	display: flex;
+	padding: 12px 0;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.wpcp-wizard-external-card.wpcp-wizard-card {
+	width: 115px;
+	padding: 14px 16px 12px;
+	gap: 10px;
+
+	.wpcp-wizard-card-icon {
+		width: 24px;
+		height: 24px;
+
+		svg {
+			width: 24px;
+			height: 24px;
+		}
+	}
+
+	.wpcp-wizard-card-label {
+		font-size: 13px;
+		font-weight: 500;
+	}
+}
+
+.wpcp-wizard-external-fields {
+	width: 100%;
+	text-align: left;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 8px 0 16px;
+}
+
+.wpcp-wizard-external-field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+
+	label {
+		font-size: 14px;
+		font-weight: 500;
+		color: #2F2F2F;
+	}
+
+	input {
+		width: 100%;
+		height: 42px;
+		border-radius: 4px;
+		border: 1px solid #E0E0E0;
+		padding: 0 14px;
+		font-size: 14px;
+		color: #111827;
+
+		&:focus {
+			outline: none;
+			border-color: #19949E;
+			box-shadow: 0 0 0 1px #19949E;
+		}
+
+		&::placeholder {
+			color: #aaa;
+		}
+	}
+}
+
+.wpcp-wizard-external-field-help {
+	font-size: 13px;
+	color: #949494;
+	margin: 0;
+	font-style: italic;
+
+	a,
+	.wpcp-wizard-external-field-action {
+		color: #19949E;
+		text-decoration: none;
+		font-style: normal;
+	}
+
+	a:hover,
+	.wpcp-wizard-external-field-action:hover {
+		color: #157a82;
+		text-decoration: underline;
+	}
+
+	.wpcp-wizard-external-field-action {
+		background: none;
+		border: 0;
+		padding: 0;
+		cursor: pointer;
+		font: inherit;
+
+		&:disabled {
+			cursor: progress;
+			opacity: 0.7;
+		}
+	}
+}
+
+/* ── External Feed Edit Popup ────────────────────────────────────────────── */
+
+.wpcp-gallery-edit-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 100000;
+}
+
+
+.wpcp-external-feed-edit-popup {
+	max-width: 580px;
+	width: 95%;
+}
+
+/* ── External Preview in Editor ────────────────────────────────────────────── */
+
+.wpcp-editor-external-preview {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 60px 40px;
+	background: linear-gradient(135deg, #f0fafb 0%, #e8f5f7 100%);
+	border: 2px dashed #CCE0E3;
+	border-radius: 8px;
+	text-align: center;
+	min-height: 200px;
+}
+
+.wpcp-editor-external-icon {
+	margin-bottom: 16px;
+
+	svg {
+		stroke: #19949E;
+	}
+}
+
+.wpcp-editor-external-label {
+	font-size: 18px;
+	font-weight: 600;
+	color: #19949E;
+	margin: 0 0 8px;
+}
+
+.wpcp-editor-external-info {
+	font-size: 14px;
+	color: #666;
+	margin: 0;
+}
+// Pro teaser cards in the source and orientation grids. The icon dim +
+// hover-reveal badge come from `components/pro/editor.scss`; this dims the
+// label to match (that file only knows about icons/images) and holds the
+// card's own hover treatment (teal border, lift, icon/label recolor) off so
+// the badge reads as the only feedback on a locked card.
+.wpcp-wizard-card.wpcp-pro-locked,
+.wpcp-wizard-orient-card.wpcp-pro-locked {
+	position: relative;
+	overflow: visible;
+
+	.wpcp-wizard-card-label {
+		opacity: 0.6;
+		transition: opacity 0.2s ease;
+	}
+
+	&:hover .wpcp-wizard-card-label {
+		// Matches $wpcp-pro-locked-opacity in components/pro/editor.scss.
+		opacity: 0.35;
+	}
+}

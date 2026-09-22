@@ -1,0 +1,480 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+ * CONTENT ORIENTATIONS
+ * ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Base overlay styles */
+.wpcp-item-inner.wpcp-has-overlay {
+	.wpcp-item-media {
+		position: relative;
+	}
+
+	.wpcp-item-content.wpcp-content-overlay {
+		position: absolute;
+		inset: 0;
+		max-height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		padding: 15px;
+		color: #fff;
+		z-index: 2;
+		overflow: hidden;
+
+		// .wpcp-item-title,
+		// .wpcp-item-desc {
+		// 	color: inherit;
+		// }
+
+		// .wpcp-read-more {
+		// 	color: #fff;
+		// }
+	}
+
+	&.wpcp-orientation-overlay {
+		.wpcp-item-content.wpcp-content-overlay[class*='wpcp-content-position--'] {
+			top: auto;
+			right: auto;
+			bottom: auto;
+			left: auto;
+			width: 100%;
+			max-width: 100%;
+			height: auto;
+			max-height: 100%;
+			transform: none;
+			translate: none;
+		}
+
+		/* The `.wpcp-content-overlay[class*=…]` reset above outranks a single
+		 * `.wpcp-content-position--*` class, so the anchor offsets must repeat
+		 * `.wpcp-content-overlay` to match its specificity and win on source order.
+		 * Without this the content stays pinned top-left for every option
+		 * (the slider works because its own `.wpcp-style-slider` ruleset re-applies
+		 * the offsets at equal specificity). */
+		.wpcp-item-content.wpcp-content-overlay.wpcp-content-position--top-left {
+			top: 0;
+			left: 0;
+		}
+
+		.wpcp-item-content.wpcp-content-overlay.wpcp-content-position--top-center {
+			top: 0;
+			left: 50%;
+			translate: -50%;
+		}
+
+		.wpcp-item-content.wpcp-content-overlay.wpcp-content-position--top-right {
+			top: 0;
+			right: 0;
+		}
+
+		.wpcp-item-content.wpcp-content-overlay.wpcp-content-position--center-left {
+			top: 50%;
+			left: 0;
+			translate: 0 -50%;
+		}
+
+		.wpcp-item-content.wpcp-content-overlay.wpcp-content-position--center-center {
+			top: 50%;
+			left: 50%;
+			translate: -50% -50%;
+		}
+
+		.wpcp-item-content.wpcp-content-overlay.wpcp-content-position--center-right {
+			top: 50%;
+			right: 0;
+			translate: 0 -50%;
+		}
+
+		.wpcp-item-content.wpcp-content-overlay.wpcp-content-position--bottom-left {
+			bottom: 0;
+			left: 0;
+		}
+
+		.wpcp-item-content.wpcp-content-overlay.wpcp-content-position--bottom-center {
+			bottom: 0;
+			left: 50%;
+			translate: -50%;
+		}
+
+		.wpcp-item-content.wpcp-content-overlay.wpcp-content-position--bottom-right {
+			right: 0;
+			bottom: 0;
+		}
+	}
+}
+
+/* Overlay orientation. The darkening tint is gated on `.wpcp-image-overlay`
+ * so the Image > Overlay toggle controls it — orientation alone must not
+ * force a tint the user turned off. */
+.wpcp-item-inner.wpcp-orientation-overlay {
+	.wpcp-item-media {
+		position: relative;
+
+		&.wpcp-image-overlay::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			background-color: rgba(0, 0, 0, 0.3);
+			opacity: 0.5;
+			pointer-events: none;
+			z-index: 1;
+		}
+	}
+
+	/* "Display Content on Hover Only": the darkening tint reveals per item on
+	 * hover alongside the content/icons, instead of sitting on every card. */
+	&.wpcp-content-hover-mode .wpcp-item-media.wpcp-image-overlay::before {
+		opacity: 0;
+		transition: opacity 0.2s ease;
+	}
+
+	&.wpcp-content-hover-mode:hover .wpcp-item-media.wpcp-image-overlay::before {
+		opacity: 0.5;
+	}
+
+	.wpcp-item-content.wpcp-content-overlay {
+		top: auto;
+		right: auto;
+		bottom: 0;
+		left: 0;
+		width: max-content;
+		max-width: 100%;
+		height: auto;
+		padding: 15px;
+
+		justify-content: flex-start;
+	}
+
+	.wpcp-item-content {
+		.wpcp-item-title {
+			color: var(--wpcp-content-title-color, #fff);
+		}
+
+		.wpcp-item-desc {
+			color: var(--wpcp-content-desc-color, #fff);
+		}
+
+		.wpcp-item-price {
+			color: var(--wpcp-content-price-color, #fff);
+
+			ins {
+				color: var(--wpcp-content-price-color, #fff);
+			}
+		}
+	}
+}
+
+/* Diagonal orientation */
+.wpcp-orientation-diagonal .wpcp-item-content {
+	padding: 0 !important;
+}
+
+.wpcp-orientation-diagonal {
+	.wpcp-item-content.wpcp-content-overlay {
+		background: none;
+		padding: 0;
+		overflow: visible;
+
+		.wpcp-diagonal-caption {
+			display: flex;
+			flex-direction: column;
+			gap: inherit;
+			width: 100%;
+			max-width: 100%;
+			margin-top: auto;
+			align-items: inherit;
+			justify-content: center;
+			text-align: inherit;
+			background: rgba(0, 0, 0, 0.7);
+			clip-path: polygon(0 0, 100% 15%, 100% 100%, 0 100%);
+		}
+
+		// Mirror the cut so the tall corner sits on the right.
+		.wpcp-diagonal-caption.wpcp-diagonal-right {
+			clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+		}
+
+		.wpcp-item-title {
+			color: var(--wpcp-content-title-color, #fff);
+		}
+
+		.wpcp-item-desc {
+			color: var(--wpcp-content-desc-color, #fff);
+		}
+
+		.wpcp-item-price {
+			color: var(--wpcp-content-price-color, #fff);
+		}
+	}
+}
+
+// Keep the existing diagonal caption angle for Slider and Thumbnails Slider.
+// Other carousel-style blocks use a shallower diagonal cut.
+// .wpcp-carousel-render:not(.wpcp-style-slider):not(.wpcp-style-thumbnails) {
+// 	.wpcp-orientation-diagonal .wpcp-item-content.wpcp-content-overlay .wpcp-diagonal-caption {
+// 		clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%);
+// 	}
+// }
+
+.wpcp-item-inner.wpcp-orientation-overlay,
+.wpcp-item-inner.wpcp-orientation-diagonal {
+	.wpcp-read-more.wpcp-btn-type-button {
+		color: #fff;
+		border-color: #fff;
+	}
+
+	.wpcp-read-more.wpcp-btn-type-link {
+		color: #fff;
+	}
+
+	.wpcp-content-slot--readmore:has(.wpcp-btn-type-link) {
+		line-height: 0;
+	}
+}
+
+/* =======================================================
+* Slider Content Style.
+* ===================================================== */
+
+.wpcp-carousel-render.wpcp-style-slider {
+
+	.wpcp-item-inner.wpcp-orientation-overlay {
+		.wpcp-item-content {
+			position: absolute;
+
+			&.wpcp-content-position--top-left {
+				top: 0;
+				left: 0;
+			}
+
+			&.wpcp-content-position--top-center {
+				top: 0;
+				left: 50%;
+				translate: -50%;
+			}
+
+			&.wpcp-content-position--top-right {
+				top: 0;
+				right: 0;
+			}
+
+			&.wpcp-content-position--center-left {
+				top: 50%;
+				left: 0;
+				translate: 0 -50%;
+			}
+
+			&.wpcp-content-position--center-center {
+				top: 50%;
+				left: 50%;
+				translate: -50% -50%;
+			}
+
+			&.wpcp-content-position--center-right {
+				top: 50%;
+				right: 0;
+				translate: 0 -50%;
+			}
+
+			&.wpcp-content-position--bottom-left {
+				bottom: 0;
+				left: 0;
+			}
+
+			&.wpcp-content-position--bottom-center {
+				bottom: 0;
+				left: 50%;
+				translate: -50%;
+			}
+
+			&.wpcp-content-position--bottom-right {
+				right: 0;
+				bottom: 0;
+			}
+		}
+	}
+
+}
+
+/* Click-action overlay icons — applies in every content orientation. */
+.wpcp-overlay-icons {
+	position: absolute;
+	display: flex;
+	gap: 8px;
+	z-index: 5;
+	opacity: 0;
+	transition: opacity 0.2s ease;
+	// Per-device offset arrives via this CSS variable; position classes reference it.
+	// --wpcp-overlay-offset: 12px;
+}
+
+// Global Lightbox Settings: iconVisible "always" — show without item hover.
+.wpcp-overlay-icons.wpcp-overlay-icons-visible-always {
+	opacity: 1;
+}
+
+// Default + iconVisible "hover": hidden until the card is hovered (see rules below).
+.wpcp-overlay-icons.wpcp-overlay-icons-visible-hover {
+	opacity: 0;
+}
+
+// Position classes — one per AlignmentMatrixControl anchor.
+// Class name format: wpcp-overlay-pos-<vertical>-<horizontal>.
+.wpcp-overlay-icons.wpcp-overlay-pos-top-left {
+	top: var(--wpcp-overlay-offset, 12px);
+	left: var(--wpcp-overlay-offset, 12px);
+}
+
+.wpcp-overlay-icons.wpcp-overlay-pos-top-center {
+	top: var(--wpcp-overlay-offset, 12px);
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.wpcp-overlay-icons.wpcp-overlay-pos-top-right {
+	top: var(--wpcp-overlay-offset, 12px);
+	right: var(--wpcp-overlay-offset, 12px);
+}
+
+.wpcp-overlay-icons.wpcp-overlay-pos-center-left {
+	top: 50%;
+	left: var(--wpcp-overlay-offset, 12px);
+	transform: translateY(-50%);
+}
+
+.wpcp-overlay-icons.wpcp-overlay-pos-center-center {
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.wpcp-overlay-icons.wpcp-overlay-pos-center-right {
+	top: 50%;
+	right: var(--wpcp-overlay-offset, 12px);
+	transform: translateY(-50%);
+}
+
+.wpcp-overlay-icons.wpcp-overlay-pos-bottom-left {
+	bottom: var(--wpcp-overlay-offset, 12px);
+	left: var(--wpcp-overlay-offset, 12px);
+}
+
+.wpcp-overlay-icons.wpcp-overlay-pos-bottom-center {
+	bottom: var(--wpcp-overlay-offset, 12px);
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.wpcp-overlay-icons.wpcp-overlay-pos-bottom-right {
+	bottom: var(--wpcp-overlay-offset, 12px);
+	right: var(--wpcp-overlay-offset, 12px);
+}
+
+// Show icons on hover of the item or its inner.
+.wpcp-item:hover .wpcp-overlay-icons,
+.wpcp-item-inner:hover .wpcp-overlay-icons {
+	opacity: 1;
+}
+
+.wpcp-overlay-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: var(--wpcp-click-icon-padding, 11px);
+	background: rgba(255, 255, 255, 0.95);
+	border-radius: var(--wpcp-click-icon-radius, 50%);
+	border-style: var(--wpcp-click-icon-border-style, none);
+	border-color: var(--wpcp-click-icon-border-color, currentcolor);
+	border-width: var(--wpcp-click-icon-border-width, medium);
+	cursor: pointer;
+	transition:
+		transform 0.15s ease,
+		background 0.15s ease;
+	text-decoration: none;
+	// Icon size variable — dynamic CSS overrides this per-instance/per-device.
+	// --wpcp-icon-size: 22px;
+
+	svg,
+	.wpcp-overlay-icon-img {
+		width: var(--wpcp-icon-size, 20px);
+		height: var(--wpcp-icon-size, 20px);
+		display: block;
+		// color: #333;
+		transition: color 0.15s ease;
+	}
+
+	// Fallback when global icon markup still uses `.wpcp-icon-container` (library SVG path).
+	.wpcp-icon-container {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: var(--wpcp-icon-size, 20px);
+		height: var(--wpcp-icon-size, 20px);
+
+		img {
+			width: 100%;
+			height: 100%;
+			max-width: 100%;
+			max-height: 100%;
+			object-fit: contain;
+			display: block;
+		}
+	}
+
+	// svg {
+	// 	stroke: currentColor;
+	// }
+
+	&:focus {
+		outline: none;
+	}
+
+	&:focus-visible {
+		outline: none;
+	}
+
+	&:hover {
+		transform: scale(1.1);
+		background: #fff;
+		border-style: var(--wpcp-click-icon-hover-border-style,
+				var(--wpcp-click-icon-border-style, none));
+		border-color: var(--wpcp-click-icon-hover-border-color,
+				var(--wpcp-click-icon-border-color, currentcolor));
+		border-width: var(--wpcp-click-icon-hover-border-width,
+				var(--wpcp-click-icon-border-width, medium));
+
+		color: var(--wpcp-click-lightbox-color-hover,
+				var(--wpcp-click-lightbox-color, #fff));
+
+		svg,
+		.wpcp-overlay-icon-img {
+			color: var(--wpcp-click-lightbox-color-hover,
+					var(--wpcp-click-lightbox-color, #fff));
+		}
+	}
+}
+
+.wpcp-lightbox-icon {
+	color: var(--wpcp-click-lightbox-color, #fff);
+	// Match `.wpcp-overlay-icon` static surface — `inherit` made the default
+	// global icon transparent when no `--wpcp-click-lightbox-bg` is emitted.
+	background-color: var(--wpcp-click-lightbox-bg, hsla(0, 0%, 100%, 0.7));
+
+	.wpcp-overlay-icon-img {
+		color: var(--wpcp-click-lightbox-color, #fff);
+	}
+}
+
+.wpcp-lightbox-icon:hover {
+	background-color: var(--wpcp-click-lightbox-bg-hover, var(--wpcp-click-lightbox-bg, hsla(0, 0%, 100%, 0.7)));
+
+	svg,
+	.wpcp-overlay-icon-img {
+		color: var(--wpcp-click-lightbox-color-hover,
+				var(--wpcp-click-lightbox-color, #fff));
+	}
+}
+
+

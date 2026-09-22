@@ -1,0 +1,50 @@
+/* Slider CSS — general slider fixes that lived at this cascade position in
+ * the original monolith, immediately before the slider-effects section. */
+.wpcp-carousel-render {
+
+	&.wpcp-style-slider {
+		.swiper-slide {
+			.wpcp-item-media img {
+				width: 100%;
+			}
+		}
+
+		.wpcp-item-media {
+			height: 100%;
+		}
+	}
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * SLIDER EFFECTS — Special Cases
+ * ════════════════════════════════════════════════════════════════════════════ */
+
+/* Cube Effect — the click-action icons must follow stage hover, not slide hover.
+ *
+ * Swiper rotates each cube face by a multiple of 90deg and counter-rotates the
+ * wrapper, so the face on screen is frontal. Chromium cannot hit-test a plane
+ * that is edge-on in its own parent's coordinate space, so every face whose own
+ * rotation is an odd multiple of 90deg (slides 2, 4, 6…) drops out of hit-testing
+ * and never receives `:hover` — the icons stayed hidden on every other slide.
+ * Cube shows exactly one full-bleed slide, so hovering the stage is hovering the
+ * active slide. `cubeFaceClicks.js` bridges the matching click. */
+.swiper-cube:hover .swiper-slide-active .wpcp-overlay-icons {
+	opacity: 1;
+}
+
+/* Editor notice for WebGL effects */
+.wpcp-editor-notice {
+	position: absolute;
+	top: 10px;
+	left: 40px;
+	background-color: #fff3cd;
+	border: 1px solid #ffeaa7;
+	border-radius: 4px;
+	padding: 8px 12px;
+	font-size: 13px;
+	color: #856404;
+	z-index: 10;
+	max-width: 300px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+

@@ -1,0 +1,1082 @@
+// Ticker (marquee) and panorama layout engines — EDITOR ONLY.
+//
+// Marquee and Panorama are Pro editor previews: they render nothing on the front
+// end, so their CSS must never reach `style.scss`, which compiles to the shared
+// `style-index.css` the front end loads. This partial is loaded only from
+// `editor-preview.scss` and deliberately lives outside `blocks/blocks/style/`
+// so it cannot be swept into that file's partial list.
+//
+// Everything is nested under `.wpcp-block-editor-wrap`, the editor canvas
+// wrapper that appears nowhere else. That scope is load-bearing twice over: it
+// keeps the rules off any Classic shortcode sharing the page, and the (0,1,0) it
+// adds is what lets them beat `style-index.css`, which the editor enqueues after
+// `index.css` (src/Blocks/AssetManager.php).
+//
+// Ported from Pro's `style/_carousel.scss` and `style/_variable-width.scss`.
+
+@use '../../style/mixins' as *;
+
+// Keyframe names are global regardless of nesting, so these sit at the top
+// level where they emit valid CSS. Classic uses neither name.
+@keyframes wpcpTickerVerticalScroll {
+	from {
+		transform: translate3d(0, 0, 0);
+	}
+
+	to {
+		transform: translate3d(0, calc(-50% - var(--wpcp-ticker-vertical-half-gap, 0px)), 0);
+	}
+}
+
+@keyframes wpcpTickerHorizontalScroll {
+	from {
+		transform: translate3d(0, 0, 0);
+	}
+
+	to {
+		transform: translate3d(-50%, 0, 0);
+	}
+}
+
+.wpcp-block-editor-wrap {
+	/* TICKER STYLE – continuous marquee scroll */
+	.wpcp-style-ticker {
+		overflow: hidden;
+
+		.wpcp-ticker-marquee {
+			display: flex;
+			align-items: stretch;
+		}
+
+		.wpcp-ticker-item {
+			flex-shrink: 0;
+		}
+
+		/* Match Swiper variable-width: each slide width follows content (horizontal ticker only). */
+		.wpcp-ticker-item--variable {
+			width: auto;
+			min-width: min-content;
+		}
+	}
+
+	/* TRIPLE STYLE – 3 synchronized Swipers (prev, main, next) */
+	/* Siwper Panorama */
+	.swiper-panorama {
+		overflow: visible;
+	}
+
+	&.alignwide .wpcp-style-panorama.wpcp-panorama-layout-style-two .wpcp-swiper.swiper-panorama {
+		--wpcp-panorama-bleed: min(var(--wpcp-panorama-side-margin, 14px), 14px);
+		width: calc(100% + 2 * var(--wpcp-panorama-bleed));
+		margin-left: calc(-1 * var(--wpcp-panorama-bleed));
+	}
+
+	/* Scoped to the Style 1 layout class so Style 2 and other carousel layouts
+	 * keep their existing block/editor design.
+	 */
+	.wpcp-style-panorama.wpcp-panorama-layout-style-one {
+		overflow: visible;
+
+		.wpcp-carousel-stage,
+		.wpcp-swiper,
+		.swiper-wrapper {
+			overflow: visible;
+		}
+
+		/* Vertical padding only needs to clear the slight overflow of the 3D-tilted
+		 * slides — the larger reserve the effect's rotated bounding boxes want is
+		 * mostly empty space, so keep this tight to avoid a dead gap above the cards
+		 * and below them before the pagination dots. The reflection variant re-adds
+		 * bottom room via its own override below. */
+		.wpcp-swiper.swiper-panorama {
+			padding: 26px 0;
+			overflow: hidden;
+			/* Bleed the panorama swiper outward so the foreshortened tilted edge cards
+			 * reach the container edges (they otherwise leave a side strip). The bleed
+			 * tracks the layout "Gap Between Items" value (per device, via the
+			 * dynamic-CSS token) but is capped at the edge-card foreshortening inset
+			 * (~20px) — that inset is roughly constant regardless of gap, so a larger
+			 * gap must NOT keep widening the bleed or the edge cards shoot off past the
+			 * container. Widen by 2× the bleed and pull left by 1× so it stays
+			 * symmetric. */
+			--wpcp-panorama-bleed: min(var(--wpcp-panorama-side-margin, 20px), 20px);
+		}
+
+		.swiper-slide {
+			text-align: center;
+			pointer-events: none;
+		}
+
+		.wpcp-item {
+			overflow: hidden;
+			display: inline-block;
+			vertical-align: middle;
+			float: none !important;
+			max-width: 100%;
+			width: 100%;
+		}
+
+		.wpcp-item-inner {
+			overflow: hidden;
+			display: inline-block;
+			vertical-align: middle;
+			width: 100%;
+			max-width: 100%;
+			gap: 0;
+			position: relative;
+			z-index: var(--wpcp-panorama-slide-z-index, 1);
+			pointer-events: auto;
+		}
+
+		.wpcp-item-media {
+			overflow: hidden;
+			text-align: center;
+			font-size: 0;
+			line-height: 0;
+			width: 100%;
+			pointer-events: auto;
+
+			a {
+				display: block;
+				text-align: center;
+			}
+
+			img.wpcp-item-img {
+				text-align: center;
+				transition: all 0.3s;
+			}
+		}
+
+		.wpcp-item-inner.wpcp-has-overlay:not(.wpcp-orientation-diagonal) {
+			position: relative;
+
+			/* Default (no Content Position chosen) pins the overlay to bottom-left.
+			 * When a `wpcp-content-position--*` class is present this rule would
+			 * otherwise outrank the shared 9-point offsets (its `:not()` pushes it to
+			 * 0,7,0), so exclude that case and let the shared rules position the
+			 * content — keeping panorama consistent with the carousel/slider. */
+			.wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']) {
+				top: auto;
+				right: auto;
+				bottom: 0;
+				left: 0;
+				width: max-content;
+				max-width: 100%;
+				justify-content: flex-start;
+			}
+		}
+
+		.wpcp-overlay-icons {
+			pointer-events: auto;
+		}
+	}
+
+	/* Scoped to the Style 2 layout class so it also gets full width like Style 1 */
+	.wpcp-style-panorama.wpcp-panorama-layout-style-two {
+		overflow: visible;
+
+		.wpcp-carousel-stage,
+		.wpcp-swiper,
+		.swiper-wrapper {
+			overflow: visible;
+		}
+
+		.wpcp-swiper.swiper-panorama {
+			padding: 15px 0;
+			overflow: hidden;
+
+			/* Style-two projects each slide through its own perspective() inside the
+			 * slide transform (see EffectPanorama). A shared container perspective
+			 * would magnify slide positions unevenly with distance from the center,
+			 * opening visibly wider gaps toward the edges. */
+			perspective: none;
+		}
+
+		.swiper-slide {
+			text-align: center;
+			pointer-events: none;
+		}
+
+		.wpcp-item {
+			overflow: hidden;
+			display: inline-block;
+			vertical-align: middle;
+			float: none !important;
+			max-width: 100%;
+			width: 100%;
+		}
+
+		.wpcp-item-inner {
+			overflow: hidden;
+			display: inline-block;
+			vertical-align: middle;
+			width: 100%;
+			max-width: 100%;
+			gap: 0;
+			position: relative;
+			z-index: var(--wpcp-panorama-slide-z-index, 1);
+			pointer-events: auto;
+		}
+
+		.wpcp-item-media {
+			overflow: hidden;
+			text-align: center;
+			font-size: 0;
+			line-height: 0;
+			width: 100%;
+			pointer-events: auto;
+
+			a {
+				display: block;
+				text-align: center;
+			}
+
+			img.wpcp-item-img {
+				text-align: center;
+				transition: all 0.3s;
+			}
+		}
+
+		.wpcp-item-inner.wpcp-has-overlay:not(.wpcp-orientation-diagonal) {
+			position: relative;
+
+			/* Default (no Content Position chosen) pins the overlay to bottom-left.
+			 * When a `wpcp-content-position--*` class is present this rule would
+			 * otherwise outrank the shared 9-point offsets (its `:not()` pushes it to
+			 * 0,7,0), so exclude that case and let the shared rules position the
+			 * content — keeping panorama consistent with the carousel/slider. */
+			.wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']) {
+				top: auto;
+				right: auto;
+				bottom: 0;
+				left: 0;
+				width: max-content;
+				max-width: 100%;
+				justify-content: flex-start;
+			}
+		}
+
+		.wpcp-overlay-icons {
+			pointer-events: auto;
+		}
+	}
+
+	/* Panorama reflection shared styles: editor + frontend.
+	 * Reflection stays absolutely positioned so card height, navigation and
+	 * pagination layout remain unchanged.
+	 */
+	.wpcp-carousel-render.wpcp-style-panorama.wpcp-panorama-has-reflection {
+		--wpcp-panorama-reflection-distance: 20px;
+		--wpcp-panorama-reflection-height: 30px;
+		--wpcp-panorama-content-box-reflection-offset: 104px;
+
+		&.wpcp-panorama-layout-style-one .wpcp-swiper.swiper-panorama {
+			padding-bottom: 60px;
+		}
+
+		&.wpcp-panorama-layout-style-two .wpcp-swiper.swiper-panorama {
+			padding-bottom: 60px;
+		}
+
+		.wpcp-carousel-stage,
+		.wpcp-carousel-container,
+		.swiper-wrapper,
+		.swiper-slide.wpcp-item {
+			overflow: visible;
+		}
+
+		.wpcp-swiper.swiper-panorama,
+		.wpcp-carousel-container.wpcp-swiper.swiper.swiper-panorama {
+			overflow: hidden;
+		}
+
+		.swiper-slide.wpcp-item {
+			position: relative;
+		}
+
+		.wpcp-panorama-reflection {
+			position: absolute;
+			top: calc(100% + var(--wpcp-panorama-reflection-distance));
+			right: 0;
+			left: 0;
+			height: var(--wpcp-panorama-reflection-height);
+			overflow: hidden;
+			pointer-events: none;
+			user-select: none;
+			opacity: 0.42;
+			z-index: 0;
+			mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0));
+			-webkit-mask-image: linear-gradient(to bottom,
+					rgba(0, 0, 0, 0.78),
+					rgba(0, 0, 0, 0));
+
+			* {
+				pointer-events: none !important;
+			}
+		}
+
+		&.content-box .wpcp-panorama-reflection,
+		&.wpcp-orientation-content-box .wpcp-panorama-reflection {
+			top: calc(100% - var(--wpcp-panorama-content-box-reflection-offset) + var(--wpcp-panorama-reflection-distance));
+		}
+
+		.wpcp-panorama-reflection__inner {
+			width: 100%;
+			transform: scaleY(-1) translateY(-100%);
+			transform-origin: top center;
+
+			.wpcp-item-inner {
+				width: 100%;
+				max-width: 100%;
+			}
+		}
+
+		&.content-box .wpcp-panorama-reflection__inner,
+		&.wpcp-orientation-content-box .wpcp-panorama-reflection__inner {
+			transform: scaleY(-1) translateY(calc(-100% + 20px));
+		}
+
+		@include wpcp-tablet-down {
+			--wpcp-panorama-content-box-reflection-offset: 84px;
+		}
+
+		@include wpcp-mobile {
+			--wpcp-panorama-content-box-reflection-offset: 64px;
+		}
+	}
+
+	/* Panorama custom media dimensions must beat the layout-wide `width: 100%`
+	 * rule so custom image height/width remains effective in editor and frontend.
+	 */
+	.wpcp-style-panorama {
+
+		/* The panorama effect places the centered slide at translateZ(-depth)
+		 * inside the swiper-3d preserve-3d context, so the flat swiper-wrapper
+		 * plane at Z=0 wins 3D hit-testing over it and swallows hover/click on
+		 * the middle item (lightbox icons never appear). Let the wrapper pass
+		 * pointer events through; Swiper drag is bound to the container instead
+		 * (touchEventsTarget: 'container' in the panorama Swiper config). */
+		.swiper-wrapper {
+			pointer-events: none;
+		}
+
+		.swiper-slide.wpcp-item {
+			pointer-events: none;
+		}
+
+		.swiper-slide.wpcp-item>.wpcp-item-inner {
+			pointer-events: auto;
+		}
+
+		.wpcp-item-content {
+			position: relative;
+			z-index: 2;
+		}
+
+		.wpcp-image-overlay.wpcp-item-media::before {
+			background-color: var(--wpcp-panorama-image-overlay-color, rgba(0, 0, 0, 0.3));
+			opacity: var(--wpcp-panorama-image-overlay-opacity, 0.5);
+			pointer-events: none;
+			z-index: 1;
+		}
+
+		.wpcp-fly-content,
+		.wpcp-taxonomy-wrapper.wpcp-taxonomy-over-img {
+			z-index: 3;
+		}
+
+		.wpcp-image-preloader-wrapper::after {
+			pointer-events: none;
+			z-index: 2;
+		}
+
+		.wpcp-item-content.wpcp-content-overlay,
+		.wpcp-item-media {
+			pointer-events: none;
+		}
+
+		.wpcp-item-content.wpcp-content-overlay>*,
+		.wpcp-item-media>*,
+		.wpcp-item-media a,
+		.wpcp-item-media button,
+		.wpcp-overlay-icons,
+		.wpcp-overlay-icon,
+		.wpcp-item-edit-btn,
+		.wpcp-item-content a,
+		.wpcp-item-content button,
+		.wpcp-item-content [role='button'],
+		.wpcp-item-content [data-action],
+		.wpcp-content-slot--readmore,
+		.wpcp-content-slot--social {
+			pointer-events: auto;
+		}
+
+		.wpcp-content-slot--readmore,
+		.wpcp-content-slot--readmore .wpcp-read-more {
+			position: relative;
+			z-index: 3;
+		}
+
+		.wpcp-item-media.wpcp-item-media--custom-rsp {
+			width: var(--wpcp-cmw-d);
+			height: var(--wpcp-cmh-d);
+			aspect-ratio: var(--wpcp-cmar-d);
+			min-height: var(--wpcp-cmmin-d);
+		}
+
+		.wpcp-item-inner,
+		.wpcp-item-media,
+		.wpcp-item-media img.wpcp-item-img,
+		.wpcp-item-media>a,
+		.wpcp-image-preloader-wrapper,
+		.wpcp-image-preloader-wrapper img.wpcp-item-img {
+			border-radius: 0;
+		}
+
+		/* Panorama-only content-box alignment override.
+		 *
+		 * Shared content-box CSS uses `align-self`, which does not move the box
+		 * horizontally in panorama cards. Scope the fix here so other blocks keep
+		 * their current design unchanged.
+		 */
+		.wpcp-item-inner.wpcp-orientation-content-box {
+			flex-direction: column;
+			align-items: stretch;
+
+			.wpcp-item-content {
+				margin-left: auto;
+				margin-right: auto;
+
+				&.wpcp-content-box-position--left {
+					margin-left: 0;
+					margin-right: auto;
+				}
+
+				&.wpcp-content-box-position--center {
+					margin-left: auto;
+					margin-right: auto;
+				}
+
+				&.wpcp-content-box-position--right {
+					margin-left: auto;
+					margin-right: 0;
+				}
+			}
+		}
+
+		@include wpcp-tablet-down {
+			.wpcp-item-media.wpcp-item-media--custom-rsp {
+				width: var(--wpcp-cmw-t);
+				height: var(--wpcp-cmh-t);
+				aspect-ratio: var(--wpcp-cmar-t);
+				min-height: var(--wpcp-cmmin-t);
+			}
+		}
+
+		@include wpcp-mobile {
+			.wpcp-item-media.wpcp-item-media--custom-rsp {
+				width: var(--wpcp-cmw-m);
+				height: var(--wpcp-cmh-m);
+				aspect-ratio: var(--wpcp-cmar-m);
+				min-height: var(--wpcp-cmmin-m);
+			}
+		}
+	}
+
+
+	/* Ticker vertical: duplicated strip + translateY(-50%), variable row heights, auto-scroll only */
+	.wpcp-ticker-vertical {
+		position: relative;
+		width: 100%;
+		overflow: hidden;
+		min-height: 0;
+		box-sizing: border-box;
+	}
+
+	.wpcp-ticker-vertical__track {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: nowrap;
+		gap: var(--wpcp-ticker-vertical-track-gap, 0px);
+		width: 100%;
+		will-change: transform;
+		animation-name: wpcpTickerVerticalScroll;
+		animation-duration: var(--wpcp-ticker-vertical-duration, 20s);
+		animation-timing-function: linear;
+		animation-iteration-count: infinite;
+	}
+
+	.wpcp-ticker-vertical--rtl .wpcp-ticker-vertical__track {
+		animation-direction: reverse;
+	}
+
+	.wpcp-ticker-vertical--pause-hover:hover .wpcp-ticker-vertical__track {
+		animation-play-state: paused;
+	}
+
+	.wpcp-ticker-vertical__strip {
+		display: flex;
+		flex-direction: column;
+		flex: 0 0 auto;
+		align-items: stretch;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	.wpcp-ticker-vertical__cell {
+		box-sizing: border-box;
+		min-width: 0;
+	}
+
+	.wpcp-ticker-vertical--gradient::before,
+	.wpcp-ticker-vertical--gradient::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		height: var(--wpcp-ticker-gradient-width, 100px);
+		pointer-events: none;
+		z-index: 2;
+	}
+
+	.wpcp-ticker-vertical--gradient::before {
+		top: 0;
+		background: linear-gradient(to bottom,
+				var(--wpcp-ticker-gradient-color, #fff),
+				rgba(255, 255, 255, 0));
+	}
+
+	.wpcp-ticker-vertical--gradient::after {
+		bottom: 0;
+		background: linear-gradient(to top,
+				var(--wpcp-ticker-gradient-color, #fff),
+				rgba(255, 255, 255, 0));
+	}
+
+	@include wpcp-reduced-motion {
+		.wpcp-ticker-vertical__track {
+			animation: none !important;
+			transform: none !important;
+		}
+
+		// Stop the motion AND collapse the duplicated fill column(s) so only a single
+		// static strip remains (otherwise the stopped clones stack visibly).
+		.wpcp-ticker-vertical__strip[aria-hidden='true'] {
+			display: none !important;
+		}
+	}
+
+	/* Ticker horizontal: duplicated row + translateX(-50%), shared by the front end and the editor preview (`TickerCarousel.jsx`). */
+	.wpcp-style-ticker .wpcp-ticker-horizontal {
+		position: relative;
+		width: 100%;
+		overflow: hidden;
+		min-height: 0;
+		box-sizing: border-box;
+
+		.wpcp-item-media--maxw-rsp img.wpcp-item-img,
+		.wpcp-item-media img.wpcp-item-img {
+			height: var(--wpcp-vw-image-height, auto);
+			max-height: var(--wpcp-vw-image-max-height, none);
+			width: auto;
+			max-width: 100%;
+		}
+	}
+
+	.wpcp-ticker-horizontal__track {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		width: max-content;
+		max-width: none;
+		will-change: transform;
+		animation-name: wpcpTickerHorizontalScroll;
+		animation-duration: var(--wpcp-ticker-horizontal-duration, 40s);
+		animation-timing-function: linear;
+		animation-iteration-count: infinite;
+	}
+
+	.wpcp-ticker-horizontal__strip {
+		display: flex;
+		flex-direction: row;
+		flex: 0 0 auto;
+		align-items: stretch;
+
+		&.wpcp-ticker-align-center {
+			align-items: center;
+		}
+
+		&.wpcp-ticker-align-flex-start {
+			align-items: flex-start;
+		}
+
+		&.wpcp-ticker-align-flex-end {
+			align-items: flex-end;
+		}
+	}
+
+	.wpcp-ticker-horizontal--rtl .wpcp-ticker-horizontal__track {
+		animation-direction: reverse;
+	}
+
+	.wpcp-ticker-horizontal--pause-hover:hover .wpcp-ticker-horizontal__track {
+		animation-play-state: paused;
+	}
+
+	.wpcp-ticker-horizontal--gradient::before,
+	.wpcp-ticker-horizontal--gradient::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: var(--wpcp-ticker-gradient-width, 100px);
+		pointer-events: none;
+		z-index: 2;
+	}
+
+	.wpcp-ticker-horizontal--gradient::before {
+		left: 0;
+		background: linear-gradient(to right,
+				var(--wpcp-ticker-gradient-color, #fff),
+				rgba(255, 255, 255, 0));
+	}
+
+	.wpcp-ticker-horizontal--gradient::after {
+		right: 0;
+		background: linear-gradient(to left,
+				var(--wpcp-ticker-gradient-color, #fff),
+				rgba(255, 255, 255, 0));
+	}
+
+	@include wpcp-reduced-motion {
+		.wpcp-ticker-horizontal__track {
+			animation: none !important;
+			transform: none !important;
+		}
+
+		// Stop the motion AND collapse the duplicated fill strip(s) so only a single
+		// static strip remains (otherwise the stopped clones stack visibly).
+		.wpcp-ticker-horizontal__strip[aria-hidden='true'] {
+			display: none !important;
+		}
+	}
+
+	/* ──────────────────────────────────────────────────────────────────────────
+	 * Marquee accessibility (continuous-motion controls — WCAG 2.2.2)
+	 * ────────────────────────────────────────────────────────────────────────── */
+
+	// Pause on keyboard focus within the scrolling track. The control button sits
+	// outside the track, so it can resume motion without needing to lose focus.
+	.wpcp-ticker-horizontal--pause-focus .wpcp-ticker-horizontal__track:focus-within,
+	.wpcp-ticker-vertical--pause-focus .wpcp-ticker-vertical__track:focus-within {
+		animation-play-state: paused;
+	}
+
+	// Explicit Pause/Play button — JS toggles `wpcp-ticker-paused` on the container.
+	.wpcp-ticker-paused .wpcp-ticker-horizontal__track,
+	.wpcp-ticker-paused .wpcp-ticker-vertical__track {
+		animation-play-state: paused;
+	}
+
+	// Pause off-screen instances (IntersectionObserver-driven) to save CPU.
+	.wpcp-ticker-horizontal.wpcp-ticker-offscreen .wpcp-ticker-horizontal__track,
+	.wpcp-ticker-vertical.wpcp-ticker-offscreen .wpcp-ticker-vertical__track {
+		animation-play-state: paused;
+	}
+
+	.wpcp-ticker-playpause {
+		position: absolute;
+		right: 10px;
+		bottom: 10px;
+		z-index: 5;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 32px;
+		height: 32px;
+		padding: 0;
+		border: none;
+		border-radius: 50%;
+		background: rgba(0, 0, 0, 0.55);
+		color: #fff;
+		cursor: pointer;
+		line-height: 0;
+
+		&:focus-visible {
+			outline: 2px solid #fff;
+			outline-offset: 2px;
+		}
+
+		svg {
+			width: 16px;
+			height: 16px;
+			fill: currentColor;
+		}
+
+		.wpcp-ticker-playpause__play {
+			display: none;
+		}
+	}
+
+	.wpcp-ticker-paused .wpcp-ticker-playpause__play {
+		display: block;
+	}
+
+	.wpcp-ticker-paused .wpcp-ticker-playpause__pause {
+		display: none;
+	}
+
+	/* Ported from Pro's `style/_slider-effects.scss`, whose Free counterpart
+	 * ships to the front end and so must not carry a ticker rule. */
+	.wpcp-carousel-render .wpcp-ticker-playpause:focus {
+		outline: none;
+	}
+
+	/* ── Panorama editor-preview chrome ──────────────────────────────────
+	 * Ported from Pro's `shared/styles/editor-preview.scss`, which is already
+	 * editor-only there. The reflection clone lives here rather than in the
+	 * shared sheet because only the editor ever draws one. */
+
+
+	/* Panorama cards should not inherit the generic item radius. */
+	.wpcp-carousel-render.wpcp-style-panorama {
+		.swiper-slide.wpcp-item {
+			pointer-events: none;
+		}
+
+		.swiper-slide.wpcp-item>.wpcp-item-inner {
+			pointer-events: auto;
+		}
+
+		.wpcp-item-content {
+			position: relative;
+			z-index: 2;
+		}
+
+		.wpcp-image-overlay.wpcp-item-media::before {
+			background-color: rgba(0, 0, 0, 0.3);
+			opacity: 0.5;
+			pointer-events: none;
+			z-index: 1;
+			transition: background-color 0.3s ease, opacity 0.3s ease;
+		}
+
+		/* Tint gated on `.wpcp-image-overlay` so the Image > Overlay toggle controls
+		 * it — orientation alone must not force a tint (mirrors style.scss). */
+		.wpcp-item-inner.wpcp-orientation-overlay .wpcp-item-media.wpcp-image-overlay::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			background-color: rgba(0, 0, 0, 0.3);
+			opacity: 0.5;
+			pointer-events: none;
+			z-index: 1;
+		}
+
+		/* "Display Content on Hover Only": reveal the tint per item on hover with the
+		 * content/icons (mirrors the frontend rule in style.scss). */
+		.wpcp-item-inner.wpcp-orientation-overlay.wpcp-content-hover-mode .wpcp-item-media.wpcp-image-overlay::before {
+			opacity: 0;
+			transition: opacity 0.2s ease;
+		}
+
+		.wpcp-item-inner.wpcp-orientation-overlay.wpcp-content-hover-mode:hover .wpcp-item-media.wpcp-image-overlay::before {
+			opacity: 0.5;
+		}
+
+		.wpcp-fly-content,
+		.wpcp-taxonomy-wrapper.wpcp-taxonomy-over-img {
+			z-index: 3;
+		}
+
+		.wpcp-image-preloader-wrapper::after {
+			pointer-events: none;
+			z-index: 2;
+		}
+
+		.wpcp-item-content.wpcp-content-overlay,
+		.wpcp-item-media {
+			pointer-events: none;
+		}
+
+		.wpcp-item-content.wpcp-content-overlay>*,
+		.wpcp-item-media>*,
+		.wpcp-item-media a,
+		.wpcp-item-media button,
+		.wpcp-overlay-icons,
+		.wpcp-overlay-icon,
+		.wpcp-item-edit-btn,
+		.wpcp-item-content a,
+		.wpcp-item-content button,
+		.wpcp-item-content [role='button'],
+		.wpcp-item-content [data-action],
+		.wpcp-content-slot--readmore,
+		.wpcp-content-slot--social {
+			pointer-events: auto;
+		}
+
+		.wpcp-content-slot--readmore,
+		.wpcp-content-slot--readmore .wpcp-read-more {
+			position: relative;
+			z-index: 3;
+		}
+
+		.wpcp-item-inner,
+		.wpcp-item-media,
+		.wpcp-item-media img.wpcp-item-img,
+		.wpcp-item-media>a,
+		.wpcp-image-preloader-wrapper,
+		.wpcp-image-preloader-wrapper img.wpcp-item-img {
+			border-radius: 0;
+		}
+	}
+
+
+	/* Panorama editor-only reflection.
+	 *
+	 * The reflected item is an absolutely-positioned visual clone. It must not
+	 * participate in slide/card height, otherwise Swiper height changes and the
+	 * navigation/pagination controls drift away from the main card area.
+	 */
+	.wpcp-carousel-render.wpcp-style-panorama.wpcp-panorama-has-reflection {
+		--wpcp-panorama-reflection-distance: 20px;
+		--wpcp-panorama-reflection-height: 30px;
+		--wpcp-panorama-content-box-reflection-offset: 120px;
+
+		// Gutter grows with Reflection Height (>20) via the dynamic
+		// --wpcp-panorama-reflection-padding token; the 60px fallback covers the
+		// default and any height at or below 20.
+		&.wpcp-panorama-layout-style-one .wpcp-swiper.swiper-panorama {
+			padding-bottom: var(--wpcp-panorama-reflection-padding, 60px);
+		}
+
+		&.wpcp-panorama-layout-style-two .wpcp-swiper.swiper-panorama {
+			padding-bottom: var(--wpcp-panorama-reflection-padding, 60px);
+		}
+
+		.wpcp-carousel-stage,
+		.swiper-wrapper,
+		.swiper-slide.wpcp-item {
+			overflow: visible;
+		}
+
+		.wpcp-swiper.swiper-panorama {
+			overflow: hidden;
+		}
+
+		.swiper-slide.wpcp-item {
+			position: relative;
+		}
+
+		.wpcp-panorama-reflection {
+			position: absolute;
+			top: calc(100% + var(--wpcp-panorama-reflection-distance));
+			right: 0;
+			left: 0;
+			height: var(--wpcp-panorama-reflection-height);
+			overflow: hidden;
+			pointer-events: none;
+			user-select: none;
+			opacity: 0.42;
+			z-index: 0;
+			mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0));
+			-webkit-mask-image: linear-gradient(to bottom,
+					rgba(0, 0, 0, 0.78),
+					rgba(0, 0, 0, 0));
+
+			* {
+				pointer-events: none !important;
+			}
+		}
+
+		&.content-box .wpcp-panorama-reflection,
+		&.wpcp-orientation-content-box .wpcp-panorama-reflection {
+			top: calc(100% - var(--wpcp-panorama-content-box-reflection-offset) + var(--wpcp-panorama-reflection-distance));
+		}
+
+		.wpcp-panorama-reflection__inner {
+			width: 100%;
+			transform: scaleY(-1) translateY(-100%);
+			transform-origin: top center;
+
+			.wpcp-item-inner {
+				width: 100%;
+				max-width: 100%;
+			}
+		}
+
+		&.content-box .wpcp-panorama-reflection__inner,
+		&.wpcp-orientation-content-box .wpcp-panorama-reflection__inner {
+			transform: scaleY(-1) translateY(calc(-100% + 20px));
+		}
+
+		@media (max-width: 1023px) {
+			--wpcp-panorama-content-box-reflection-offset: 84px;
+		}
+
+		@media (max-width: 599px) {
+			--wpcp-panorama-content-box-reflection-offset: 64px;
+		}
+	}
+	/* ── Content Box orientation ─────────────────────────────────────────────
+	 *
+	 * Ported from Pro's `style/_orientations.scss`. Selected by class alone
+	 * rather than by block, because `.wpcp-orientation-content-box` can only
+	 * reach the DOM from a Pro editor preview — `resolveContentOrientation()`
+	 * resolves the value away for every block that has a PHP renderer. Unlock
+	 * Content Box on a Free block and this would style the editor while the
+	 * front end kept rendering the fallback, so unlock the CSS with it.
+	 */
+	.wpcp-item-inner.wpcp-orientation-content-box {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		max-width: 100%;
+		overflow: hidden;
+
+		.wpcp-item-media {
+			flex: 0 0 100%;
+			width: 100%;
+			max-width: 100%;
+		}
+
+		.wpcp-item-content {
+			width: 80%;
+			z-index: 10;
+			/* Content Box ships fully opaque; the shared translucent background
+			 * belongs to Overlay Box, which Free never unlocks. */
+			background: rgb(0, 0, 0);
+			/* Fixed-pixel lift keeps every box top at the same height regardless
+			 * of how much text a card holds; a percentage would lift taller boxes
+			 * further and misalign the row. */
+			transform: translateY(-60px);
+			/* The lift is visual only — the untransformed flow height still
+			 * reserves space below the card, which would push pagination down as
+			 * content grows. `useContentBoxFlowShift` measures the real offset
+			 * into this variable. */
+			margin-bottom: calc(var(--wpcp-content-box-flow-shift, 0px) * -1);
+
+			&.wpcp-content-box-position--left {
+				align-self: flex-start;
+			}
+
+			&.wpcp-content-box-position--center {
+				align-self: center;
+			}
+
+			&.wpcp-content-box-position--right {
+				align-self: flex-end;
+			}
+
+			.wpcp-item-title {
+				color: var(--wpcp-content-title-color, #fff);
+			}
+
+			.wpcp-item-desc {
+				color: var(--wpcp-content-desc-color, #fff);
+			}
+
+			.wpcp-read-more {
+				color: #fff;
+				border-color: #fff;
+			}
+
+			.wpcp-read-more.wpcp-btn-type-link {
+				border-color: transparent;
+			}
+
+			.wpcp-content-slot--readmore:has(.wpcp-btn-type-link) {
+				line-height: 0;
+			}
+		}
+	}
+	/* ── Fly Content orientation ─────────────────────────────────────────────
+	 *
+	 * Ported from Pro's `style/_orientations.scss`. Same class-only scoping as
+	 * Content Box above, and the same reason: `fly-content` cannot survive
+	 * `resolveContentOrientation()` on any block with a PHP renderer.
+	 *
+	 * Free carries only the floating bubble — Pro also emits a hidden per-item
+	 * source its frontend runtime clones from, which is dead weight here since
+	 * neither preview block reaches the front end.
+	 */
+	.wpcp-orientation-fly-content {
+		&.wpcp-item-inner {
+			overflow: visible;
+		}
+
+		.wpcp-item-media {
+			cursor: pointer;
+		}
+	}
+
+	/* Styled by its own class rather than through the orientation ancestor: the
+	 * bubble is mounted a level up in `.wpcp-block-inner`, so no
+	 * `.wpcp-orientation-fly-content` ancestor is in scope. */
+	.wpcp-fly-content {
+		position: absolute;
+		z-index: 10;
+		height: auto;
+		padding: 24px;
+		pointer-events: none;
+		background: rgb(0, 0, 0);
+		color: #fff;
+		border-radius: var(--wpcp-content-radius, 4px);
+		border: var(--wpcp-content-border-width, 0) var(--wpcp-content-border-style, none)
+			var(--wpcp-content-border-color, transparent);
+		box-shadow: var(--wpcp-content-shadow, 0 4px 20px rgba(0, 0, 0, 0.2));
+		/* Width comes from the runtime as a fraction of the hovered item (60% by
+		 * default) — a CSS percentage would resolve against the whole block from
+		 * this mount point. See `utils/flyContentWidth.js`. */
+
+		/* The top-left corner is pinned to the cursor; the bubble only fades.
+		 * `visibility` is delayed out so the fade-out plays before it leaves
+		 * hit-testing. */
+		opacity: 0;
+		visibility: hidden;
+		transition:
+			opacity 0.3s ease-in-out,
+			visibility 0s linear 0.3s;
+
+		&.wpcp-fly-visible {
+			opacity: 1;
+			visibility: visible;
+			transition:
+				opacity 0.3s ease-in-out,
+				visibility 0s linear 0s;
+		}
+
+		&.wpcp-content-align--left {
+			text-align: left;
+		}
+
+		&.wpcp-content-align--center {
+			text-align: center;
+		}
+
+		&.wpcp-content-align--right {
+			text-align: right;
+		}
+
+		.wpcp-item-title {
+			margin: var(--wpcp-content-title-margin, 0 0 4px);
+			font-size: 14px;
+			font-weight: 600;
+			color: var(--wpcp-content-title-color, #fff);
+		}
+
+		.wpcp-item-desc {
+			font-size: 12px;
+			color: var(--wpcp-content-desc-color, rgba(255, 255, 255, 0.85));
+		}
+	}
+
+	.wpcp-fly-floating .wpcp-item-content {
+		padding: 0;
+		background: transparent;
+		box-shadow: none;
+	}
+}

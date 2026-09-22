@@ -1,0 +1,210 @@
+@use 'mixins' as *;
+
+// Hover Animations effect library (Premade / Overlay / Content axes) —
+// built as a conditionally-enqueued chunk (build:style-chunks →
+// wpcp-blocks-chunk-hover-anim). The always-needed Image Hover axis lives in
+// _hover-image.scss in the base sheet; the class contract for all axes is
+// documented there.
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * 2) CONTENT EFFECTS — reveal the overlay text on hover (reversible on mouse-out).
+ * The opacity reveal comes from .wpcp-content-hover (Display-on-Hover); these add
+ * movement + a title→excerpt→button stagger. Gated: class only present when the
+ * orientation is non-Classic AND Display-on-Hover is on.
+ * ────────────────────────────────────────────────────────────────────────── */
+.wpcp-item-content[class*="wpcp-content-anim-"] {
+	transition: opacity 300ms ease;
+}
+
+/* Positioning and movement are deliberately kept on SEPARATE CSS properties so a
+ * content effect can never disturb where a Content-Position anchor places the
+ * overlay text:
+ *   - Content-Position centering lives on the independent `translate` property
+ *     (`_orientations.scss`), NOT the `transform` shorthand.
+ *   - The transition-based reveals below animate the `.wpcp-content-slot`
+ *     children, never the wrapper.
+ *   - The keyframe Attention-Seekers (bounce / shake / pulse …) animate the
+ *     wrapper's `transform`, which composes with — rather than overrides — the
+ *     wrapper's `translate` centering.
+ * So a centered anchor (top-center, center-*, bottom-center) stays put while any
+ * content effect plays, in every orientation.
+ *
+ * Slot selectors use the DESCENDANT combinator (not `>`): the diagonal
+ * orientation wraps its slots in an extra `.wpcp-diagonal-caption` div, so a
+ * direct-child selector would silently skip diagonal. Slots only ever sit at
+ * those two depths. */
+.wpcp-item-content[class*="wpcp-content-anim-"] .wpcp-content-slot {
+	opacity: 0;
+	transition:
+		opacity 300ms ease,
+		transform 300ms ease;
+}
+.wpcp-item-content[class*="wpcp-content-anim-"] .wpcp-content-slot:nth-child(2) { transition-delay: 70ms; }
+.wpcp-item-content[class*="wpcp-content-anim-"] .wpcp-content-slot:nth-child(3) { transition-delay: 140ms; }
+.wpcp-item-content[class*="wpcp-content-anim-"] .wpcp-content-slot:nth-child(n + 4) { transition-delay: 200ms; }
+.wpcp-item-inner:hover .wpcp-item-content[class*="wpcp-content-anim-"] .wpcp-content-slot,
+.wpcp-item-inner:has(:focus-visible) .wpcp-item-content[class*="wpcp-content-anim-"] .wpcp-content-slot {
+	opacity: 1;
+	transform: none;
+}
+
+/* Transition-based content reveals (reversible) — resting offset on each slot →
+ * natural on hover. Free ships the four Zoom In reveals; the rest of the
+ * content-animation catalog is Pro. */
+.wpcp-item-content.wpcp-content-anim-zoomIn .wpcp-content-slot { transform: scale3d(0.3, 0.3, 0.3); }
+.wpcp-item-content.wpcp-content-anim-zoomInDown .wpcp-content-slot { transform: scale3d(0.3, 0.3, 0.3) translate3d(0, -60px, 0); }
+.wpcp-item-content.wpcp-content-anim-zoomInLeft .wpcp-content-slot { transform: scale3d(0.3, 0.3, 0.3) translate3d(-60px, 0, 0); }
+.wpcp-item-content.wpcp-content-anim-zoomInRight .wpcp-content-slot { transform: scale3d(0.3, 0.3, 0.3) translate3d(60px, 0, 0); }
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * 3) OVERLAY EFFECTS — animate the overlay layer (`.wpcp-overlay-anim-layer`)
+ * over the media; the text is unaffected. Gated: layer is only rendered when the
+ * orientation is non-Classic AND Display-on-Hover is on. Free ships Zoom Out
+ * and Zoom In — the rest of the overlay-effect catalog is Pro.
+ * ────────────────────────────────────────────────────────────────────────── */
+.wpcp-has-overlay-anim .wpcp-overlay-anim-layer {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	overflow: hidden;
+	pointer-events: none;
+	opacity: 0;
+	transition:
+		transform 300ms ease,
+		opacity 300ms ease,
+		clip-path 300ms ease,
+		border-radius 300ms ease,
+		filter 300ms ease;
+}
+/* The tint lives on a ::before so a gradient overlay can carry its own opacity
+ * via --wpcp-overlay-anim-tint-opacity — the layer's `opacity` is reserved for
+ * the effect reveal (fade/split/zoom). A solid tint bakes its opacity into the
+ * rgba alpha and leaves the var at its 1 default, so its rendered output is
+ * unchanged. `overflow: hidden` on the layer clips the ::before; `pointer-events`
+ * inherits `none`. The pseudo-element split effect below paints the tint on its
+ * own `::before`/`::after` elements instead — it reads the same var there and
+ * drops/repurposes this `::before`. */
+.wpcp-has-overlay-anim .wpcp-overlay-anim-layer::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: var(--wpcp-overlay-anim-color, rgba(6, 6, 16, 0.82));
+	opacity: var(--wpcp-overlay-anim-tint-opacity, 1);
+}
+/* The animated layer owns the tint; suppress the static overlay-orientation
+ * ::before tint whenever an overlay effect is active so they never double up. */
+.wpcp-item-inner.wpcp-has-overlay-anim .wpcp-item-media::before { display: none; }
+/* Keep the overlay text above the animated layer. */
+.wpcp-item-inner.wpcp-has-overlay-anim .wpcp-item-content { z-index: 2; }
+/* Default reveal: fade the layer in on hover/focus (baseline + safe fallback). */
+.wpcp-item-inner.wpcp-has-overlay-anim:hover .wpcp-overlay-anim-layer,
+.wpcp-item-inner.wpcp-has-overlay-anim:has(:focus-visible) .wpcp-overlay-anim-layer { opacity: 1; }
+
+/* Zoom Out and Zoom In — the layer scales to its resting size on hover. The
+ * rest of the overlay-effect catalog is Pro. */
+.wpcp-overlay-anim-zoomOut .wpcp-overlay-anim-layer { transform: scale(1.6); }
+.wpcp-overlay-anim-zoomInCenter .wpcp-overlay-anim-layer { transform: scale(0); border-radius: 50%; }
+.wpcp-item-inner.wpcp-overlay-anim-zoomOut:hover .wpcp-overlay-anim-layer,
+.wpcp-item-inner.wpcp-overlay-anim-zoomOut:has(:focus-visible) .wpcp-overlay-anim-layer { transform: scale(1); }
+.wpcp-item-inner.wpcp-overlay-anim-zoomInCenter:hover .wpcp-overlay-anim-layer,
+.wpcp-item-inner.wpcp-overlay-anim-zoomInCenter:has(:focus-visible) .wpcp-overlay-anim-layer { transform: scale(1); border-radius: 0; }
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * 4) PREMADE PRESETS — the Move image transforms. They work in every
+ * orientation and leave the content card untouched. Every other premade
+ * effect is Pro.
+ * ────────────────────────────────────────────────────────────────────────── */
+.wpcp-item-inner[class*="wpcp-anim-"] .wpcp-item-img {
+	transition:
+		transform 300ms ease,
+		opacity 300ms ease,
+		filter 300ms ease;
+}
+.wpcp-anim-move-left .wpcp-item-img { transform: translateX(3%) scale(1.08); }
+.wpcp-anim-move-right .wpcp-item-img { transform: translateX(-3%) scale(1.08); }
+.wpcp-anim-move-top .wpcp-item-img { transform: translateY(3%) scale(1.08); }
+.wpcp-anim-move-bottom .wpcp-item-img { transform: translateY(-3%) scale(1.08); }
+
+.wpcp-anim-move-left:hover .wpcp-item-img { transform: translateX(-3%) scale(1.08); }
+.wpcp-anim-move-right:hover .wpcp-item-img { transform: translateX(3%) scale(1.08); }
+.wpcp-anim-move-top:hover .wpcp-item-img { transform: translateY(-3%) scale(1.08); }
+.wpcp-anim-move-bottom:hover .wpcp-item-img { transform: translateY(3%) scale(1.08); }
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * 5) ACCESSIBILITY & PERFORMANCE
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/* Limit repaint scope to the media box while an overlay animation is active. */
+.wpcp-item-inner.wpcp-has-overlay-anim .wpcp-item-media { contain: layout paint; }
+
+/* Contrast scrim: legibility over the animated tint — only when the overlay is
+ * revealed (hover/focus). Applying it on selection alone made visible caption
+ * text pick up a shadow before the tint animates in. */
+.wpcp-item-inner.wpcp-has-overlay-anim:hover .wpcp-item-content.wpcp-content-overlay,
+.wpcp-item-inner.wpcp-has-overlay-anim:has(:focus-visible) .wpcp-item-content.wpcp-content-overlay {
+	text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+}
+
+/* Touch / coarse pointers can't hover — always reveal the overlay text + tint so
+ * content stays reachable without a mouse (Image Hover movement is harmless).
+ * Revealing `.wpcp-content-hover` itself is the base sheet's job (_item-card),
+ * since it must work on a block that loads no chunk at all. */
+@media (hover: none), (pointer: coarse) {
+	.wpcp-item-inner.wpcp-has-overlay-anim .wpcp-item-content.wpcp-content-overlay {
+		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+	}
+	.wpcp-item-content[class*="wpcp-content-anim-"],
+	.wpcp-item-content[class*="wpcp-content-anim-"] .wpcp-content-slot {
+		opacity: 1;
+		transform: none;
+	}
+	.wpcp-item-inner.wpcp-has-overlay-anim .wpcp-overlay-anim-layer {
+		opacity: 1;
+		transform: none;
+		clip-path: none;
+		filter: none;
+	}
+	.wpcp-item-inner.wpcp-has-overlay-anim .wpcp-overlay-anim-layer::before,
+	.wpcp-item-inner.wpcp-has-overlay-anim .wpcp-overlay-anim-layer::after {
+		transform: none;
+	}
+}
+
+/* Reduced motion: drop all movement (transform / clip-path / 3D / heavy filters
+ * and keyframes); keep opacity/colour fades as the safe baseline. Every overlay
+ * effect (including spin / ripple) collapses to a plain tint fade. */
+@include wpcp-reduced-motion {
+	.wpcp-item-inner[class*="wpcp-anim-"] .wpcp-item-img,
+	.wpcp-item-inner:not(.wpcp-orientation-image-top)[class*="wpcp-anim-"] .wpcp-item-content,
+	.wpcp-item-inner[class*="wpcp-anim-"] .wpcp-item-media::before,
+	.wpcp-item-inner[class*="wpcp-anim-"] .wpcp-item-media::after,
+	.wpcp-item-content[class*="wpcp-content-anim-"],
+	.wpcp-item-content[class*="wpcp-content-anim-"] .wpcp-content-slot {
+		transform: none !important;
+		clip-path: none !important;
+		filter: none !important;
+		animation: none !important;
+		transition-property: opacity !important;
+	}
+	/* Force every overlay layer to a plain opacity fade (no transform/clip/filter). */
+	.wpcp-item-inner.wpcp-has-overlay-anim .wpcp-overlay-anim-layer {
+		opacity: 0 !important;
+		transform: none !important;
+		clip-path: none !important;
+		filter: none !important;
+		animation: none !important;
+		transition: opacity 300ms ease !important;
+	}
+	.wpcp-item-inner.wpcp-has-overlay-anim:hover .wpcp-overlay-anim-layer,
+	.wpcp-item-inner.wpcp-has-overlay-anim:has(:focus-visible) .wpcp-overlay-anim-layer {
+		opacity: 1 !important;
+	}
+	.wpcp-item-inner.wpcp-has-overlay-anim .wpcp-overlay-anim-layer::before,
+	.wpcp-item-inner.wpcp-has-overlay-anim .wpcp-overlay-anim-layer::after {
+		transform: none !important;
+		animation: none !important;
+		transition: none !important;
+	}
+
+}

@@ -1,0 +1,175 @@
+.wpcp-toggle-button-group {
+  border-color: #d7dade !important;
+
+  &.sp-negative-space {
+    margin-top: -5px;
+  }
+
+  &:focus-within {
+    box-shadow: none !important;
+    border-color: #d7dade !important;
+  }
+
+  &-list {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+
+    >div {
+      flex: 1;
+      display: flex;
+    }
+
+    button {
+      width: 100%;
+      justify-content: center;
+      border-radius: 0;
+      padding: 0;
+      color: #424040;
+      position: relative;
+    }
+
+    // The wrapper suppresses the WP container focus ring (below); restore a
+    // visible keyboard indicator on the focused option itself.
+    button:focus-visible {
+      outline: 2px solid var(--wpcp-primary-color, #19949e);
+      outline-offset: -2px;
+    }
+
+    // &:last-child button::after {
+    //   display: none;
+    // }
+    button.active {
+      color: var(--wpcp-carousel-primary-2-800);
+      // svg {
+      //   fill: var(--wpcp-carousel-primary-2-600);
+      //   path {
+      //     stroke: var(--wpcp-carousel-primary-2-600);
+      //   }
+      // }
+    }
+    button.active:hover {
+      color: var(--wpcp-carousel-primary-2-800) !important;
+    }
+
+    button:hover {
+      color: inherit
+    }
+  }
+
+  .wpcp-toggle-button-group.wpcp-d-flex {
+    width: 100%;
+
+    .components-toggle-group-control__container {
+      display: flex;
+      width: 100%;
+      align-items: stretch;
+    }
+  }
+
+  &::before {
+    background: var(--wpcp-carousel-primary-2-50) !important;
+    border: 1px solid var(--wpcp-carousel-primary-2-100) !important;
+    border-radius: 2px !important;
+  }
+
+  &:focus-within {
+    box-shadow: none;
+    border-color: #d7dade;
+  }
+
+  &:hover {
+    border-color: #d7dade;
+  }
+
+  button {
+    svg {
+      fill: #777;
+    }
+  }
+
+  .sp-svg-rotate-90 svg {
+    transform: rotate(90deg);
+  }
+}
+
+.components-base-control {
+  .components-base-control__label {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    text-transform: capitalize;
+    color: #1E1E1E;
+    margin-top: -4px;
+    margin-bottom: 9px;
+  }
+}
+
+.wpcp-toggle-button-group .wpcp-toggle-button-group-list.sp-has-divider {
+  div:not(:last-child) button:not(.active)::after {
+    position: absolute;
+    content: '';
+    right: 0;
+    top: 50%;
+    width: 1px;
+    height: 60%;
+    background: #ddd;
+    transform: translateY(-50%);
+  }
+
+  >div:has(+ div > button.active)>button::after {
+    display: none;
+  }
+}
+
+.wpcp-toggle-button-group-wrapper {
+  .wpcp-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+
+    .wpcp-component-title {
+      margin: 0;
+    }
+  }
+}
+
+// Give the Click Action Type labels (Lightbox is the longest) horizontal
+// breathing room so the text never sits flush against the segment edges.
+.wpcp-toggle-button-group .wpcp-toggle-button-group-list.wpcp-click-action-type div:first-of-type {
+  button:not(.active)::after {
+    right: -4px;
+  }
+
+  padding: 0 6px;
+}
+
+.wpcp-toggle-button-group-list.wpcp-svg-rotate-90 svg {
+  transform: rotate(90deg);
+}
+
+.wpcp-toggle-button-group-list.wpcp-svg-rotate-90-reverse svg {
+  transform: rotate(-90deg);
+}
+
+.wpcp-drawer-wp-toggle-group .components-toggle-group-control:focus-within,
+.wpcp-toggle-button-group-wrapper .wpcp-toggle-button-group:focus-within {
+  outline: none;
+}
+
+.wp-admin[class*=" version-7"] {
+
+  .wpcp-toggle-button-group.components-toggle-group-control::before,
+  .wpcp-drawer-wp-toggle-group .components-toggle-group-control::before {
+    top: 3px;
+    left: 2px;
+    width: calc(calc(var(--selected-width, 0) * 1px) - 6px);
+    height: calc(calc(var(--selected-height, 0) * 1px) - 6px);
+  }
+}
+
+.wpcp-drawer-wp-toggle-group .components-toggle-group-control::before {
+  background: var(--wpcp-carousel-primary-2-50) !important;
+  border: 1px solid var(--wpcp-carousel-primary-2-100) !important;
+  border-radius: 2px !important;
+}

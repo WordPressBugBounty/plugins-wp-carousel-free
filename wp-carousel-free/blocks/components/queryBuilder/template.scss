@@ -1,0 +1,19 @@
+// taxonomy component css
+.wpcp-taxonomy-panel-container {
+  .wpcp-taxonomies:not(:first-child) {
+    margin-top: 12px;
+  }
+
+  .wpcp-taxonomy-add-button {
+    margin-top: 12px;
+    background-color: var(--wpcp-carousel-primary-2-400);
+    color: #fff;
+    padding: 8px 12px 8px 12px;
+    border-radius: 2px;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 400;
+    border: none;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,101 @@
+.wpcp-show-media-control__wrapper {
+    height: 130px;
+    border-radius: 3px;
+    border: 1px solid #FDCFC1;
+    position: relative;
+    background-color: #FAEAE9;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-display: flex;
+    -moz-display: flex;
+    -ms-display: flex;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    .wpcp-show-media-video {
+        position: absolute;
+        top: 42%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 45px;
+        color: #2f8db4;
+    }
+}
+
+.wpcp-show-media-control__clickable {
+    cursor: pointer;
+    border: unset;
+    color: transparent;
+    background-color: transparent;
+}
+
+.wpcp-show-media-control__button {
+    width: 30px;
+    height: 30px;
+    -webkit-display: flex;
+    -moz-display: flex;
+    -ms-display: flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.wpcp-show-media-control__button--add {
+    background-color: #ccc;
+}
+
+.wpcp-show-media-control__clickable--add {
+    width: 100%;
+    height: 100%;
+    -webkit-display: flex;
+    -moz-display: flex;
+    -ms-display: flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.wpcp-show-media-control__clickable--replace {
+    width: 100%;
+    height: 25px;
+    color: #50575e;
+    background-color: #f0f0f1;
+    position: absolute;
+    bottom: -1px;
+    -webkit-display: flex;
+    -moz-display: flex;
+    -ms-display: flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.wpcp-show-media-control__button--close {
+    background-color: #f0f0f1;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.wpcp-show-media-control__clickable--add span,
+.wpcp-show-media-control__clickable--close span {
+    color: #50575e;
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: -3px;
+}
+
+.wpcp-show-infobox .wpcp-show-infobox-num,
+.wpcp-show-infobox .wpcp-show-infobox-icon {
+    line-height: 0;
+}
+
+.wpcp-show-infobox .wpcp-show-infobox-image {
+    flex-shrink: 0;
+}

@@ -6612,3 +6612,8 @@ div:is(#sp_wpcp_notice, #sp_wpcp_display_builders, #sp_wpcp_display_shortcodes).
 .wpcf-field-radio input {
     margin: 0 4px;
 }
+
+/* Live Demo buttons are hidden; the upgrade CTA shares the class and stays. */
+.sp_wpcp-open-live-demo:not(.sp_wpcp-upgrade) {
+	display: none !important;
+}

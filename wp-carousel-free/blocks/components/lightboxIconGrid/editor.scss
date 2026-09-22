@@ -1,0 +1,117 @@
+/**
+ * Inline icon-grid picker (lightbox + URL/link icon). Shared by the global
+ * Lightbox module settings and the block Click Action panel. Figma 5552-65071.
+ */
+
+.wpcp-lightbox-icon-picker {
+	display: flex;
+	width: 100%;
+}
+
+.wpcp-lightbox-icon-picker__presets {
+	// display: flex;
+	// flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	width: 100%;
+	padding: 5px 5.5px;
+	border: 1px solid #ddd;
+	border-radius: 2px;
+	background: #fff;
+	display: grid;
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.wpcp-lightbox-icon-preset {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	padding: 3px 4px;
+	border: 1px solid #e7e7e7;
+	border-radius: 2px;
+	background: #fff;
+	color: #2f2f2f;
+	cursor: pointer;
+	transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+
+	svg {
+		width: 20px;
+		height: 20px;
+	}
+
+	&:hover {
+		border-color: var(--wpcp-primary-color, #19949e);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--wpcp-primary-color, #19949e);
+		outline-offset: 2px;
+	}
+
+	&.is-active {
+		border-color: var(--wpcp-primary-color, #19949e);
+		background: var(--wpcp-primary-color, #19949e);
+		color: #fff;
+	}
+}
+
+.wpcp-lightbox-icon-picker__upload {
+	display: none;
+}
+
+.wpcp-lightbox-icon-picker__upload-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	border: 1px solid #e7e7e7;
+	border-radius: 2px;
+	background-color: #fff;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	color: #2f2f2f;
+	cursor: pointer;
+
+	&:hover {
+		border-color: var(--wpcp-primary-color, #19949e);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--wpcp-primary-color, #19949e);
+		outline-offset: 2px;
+	}
+}
+
+.wpcp-lightbox-icon-picker__upload.is-active .wpcp-lightbox-icon-picker__upload-button {
+	border-color: var(--wpcp-primary-color, #19949e);
+	box-shadow: 0 0 0 1px var(--wpcp-primary-color, #19949e);
+}
+
+.wpcp-lightbox-icon-picker__remove {
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	padding: 0;
+	border: 1px solid #dcdcde;
+	border-radius: 50%;
+	background: #fff;
+	color: #50575e;
+	cursor: pointer;
+	font-size: 14px;
+	line-height: 1;
+
+	&:focus-visible {
+		outline: 2px solid var(--wpcp-primary-color, #19949e);
+		outline-offset: 1px;
+	}
+}

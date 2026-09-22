@@ -1,0 +1,127 @@
+// Inspector header: Documentation link + Ready Patterns / Block Preview buttons.
+// Matches the "Block Description" Figma spec (node 331:30072).
+.wpcp-tab-panel {
+  .components-panel__body {
+    transition: box-shadow 0.6s ease;
+  }
+
+  .components-panel__body.is-opened {
+    padding: 16px;
+    scroll-margin-top: unset;
+  }
+
+  &.wpcp-flash {
+    .components-panel__body.is-opened {
+      position: relative;
+      padding: 16px;
+      scroll-margin-top: 51px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        animation: wpcpFadeBoxShadow 1s forwards;
+        animation-delay: 1s;
+        pointer-events: none;
+      }
+    }
+  }
+
+  @keyframes wpcpFadeBoxShadow {
+    0% {
+      box-shadow: inset 0 0 0 2px #037fff;
+    }
+
+    100% {
+      box-shadow: inset 0 0 0 0 transparent;
+    }
+  }
+
+  // Documentation link sits just below Gutenberg's auto-rendered block description.
+  // Negative top margin tucks it under the description text; left padding aligns with
+  // `.block-editor-block-card__description` in the content column (past the block icon).
+  .wpcp-tab-panel-doc-link-wrapper {
+    padding: 0 16px 0 52px;
+    margin-top: -8px;
+    margin-bottom: 12px;
+
+    .wpcp-block-doc-link a {
+      display: inline-flex;
+      align-items: center;
+      column-gap: 2px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 16px;
+      color: #2271b1;
+      text-decoration: none;
+      width: fit-content;
+
+      &:focus {
+        box-shadow: none;
+        outline: none;
+      }
+
+      svg {
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  .wpcp-tab-panel-header-btn-wrapper {
+    padding: 0 18px 18px;
+
+    .wpcp-btn-group {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+
+      .wpcp-btn-item {
+        display: flex;
+        flex: 1 0 0;
+        align-self: stretch;
+        justify-content: center;
+        align-items: center;
+        padding: 12px 7px;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 18px;
+        text-decoration: none;
+        cursor: pointer;
+        user-select: none;
+        border-radius: 2px;
+        transition: filter 0.2s ease-in-out;
+        font-family: inherit;
+
+        &:is(button) {
+          width: 100%;
+        }
+
+        &:hover {
+          color: #fff;
+          filter: brightness(1.08);
+        }
+
+        &:focus {
+          box-shadow: none;
+          outline: none;
+        }
+      }
+
+      // Block Preview – blue/secondary (matches Figma "Secondary Color").
+      .wpcp-block-preview {
+        background: #1a74e4;
+        border: 1px solid #1a74e4;
+      }
+    }
+  }
+}
+
+.wp-admin[class*="version-7-"] {
+  .wpcp-tab-panel-doc-link-wrapper {
+    padding: 0 16px 0 16px;
+  }
+}

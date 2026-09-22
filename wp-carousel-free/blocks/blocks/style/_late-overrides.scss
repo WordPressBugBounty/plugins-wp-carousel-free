@@ -1,0 +1,55 @@
+/* .f-html is a Fancybox vendor class (lightbox iframe host) — not ours to
+ * rename under the wpcp- prefix. */
+.f-html {
+	background: #000 !important;
+}
+
+/* Slider block: pagination dots overlay the image bottom (hero style).
+ *
+ * Side-centered nav layouts normally reserve a 40px strip below the image for
+ * the pagination row (`.wpcp-carousel-stage` padding-bottom, with side arrows
+ * shortened to match). For the slider we want the dots on the image instead of
+ * in that strip, so drop the reserve (and restore full-height side arrows) and
+ * overlay the dots on the stage.
+ *
+ * Slider-only via `.wpcp-style-slider`, which co-occurs with
+ * `.wpcp-carousel-render` on the same root in both the editor preview and the
+ * PHP frontend; parity holds because both contexts emit the same
+ * `wpcp-pagination--vpos-bottom` / nav-position classes. */
+.wpcp-carousel-render.wpcp-style-slider {
+
+	&.nav-vertical-center:not(.wpcp-vertical):has(.wpcp-pagination),
+	&.nav-vertical-center-inner:not(.wpcp-vertical):has(.wpcp-pagination),
+	&.nav-vertically-inner-and-outer:not(.wpcp-vertical):has(.wpcp-pagination) {
+		.wpcp-carousel-stage {
+			padding-bottom: 0;
+			margin-bottom: 0;
+		}
+
+		.wpcp-nav-arrows {
+			height: 100%;
+		}
+	}
+
+	.wpcp-pagination.swiper-pagination.wpcp-pagination--vpos-bottom {
+		position: absolute;
+		bottom: 15px;
+		left: 0 !important;
+		right: 0 !important;
+		z-index: 10;
+	}
+}
+
+.wpcp-video-iframe-wrapper {
+	border: none;
+}
+
+/* Fancybox lightbox caption (`.f-caption` is a vendor class) — centered,
+ * width-capped layout for the caption shown in the lightbox toolbar. */
+.wpcp-lightbox .fancybox__viewport {
+	.f-caption {
+		width: 100%;
+		max-width: 900px;
+		text-align: center;
+	}
+}

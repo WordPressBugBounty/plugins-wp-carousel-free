@@ -1,0 +1,96 @@
+/*
+ * The content-area card is orientation-routed: the content box for
+ * overlay-style orientations, the diagonal caption, the styled audio cards,
+ * and the whole item for the image-top (classic) orientation — mirroring the
+ * legacy contentAreaStyleSelector. Every card token rule (border / shadow /
+ * radius, normal + hover) must hit this exact selector set, so the two mixins
+ * below are the single source of truth for it.
+ */
+@mixin wpcp-content-card-targets {
+	.wpcp-item-inner:not(.wpcp-orientation-image-top):not(.wpcp-orientation-diagonal) .wpcp-item-content,
+	.wpcp-item-inner.wpcp-orientation-diagonal .wpcp-diagonal-caption,
+	.wpcp-item>.wpcp-item-inner--audio-style2>.wpcp-audio-card,
+	.wpcp-item>.wpcp-item-inner--audio-style3>.wpcp-audio-card,
+	.wpcp-item>.wpcp-item-inner--audio-style4>.wpcp-audio-card,
+	.wpcp-item:has(> .wpcp-item-inner.wpcp-orientation-image-top) {
+		@content;
+	}
+}
+
+@mixin wpcp-content-card-targets-hover {
+	.wpcp-item:hover .wpcp-item-inner:not(.wpcp-orientation-image-top):not(.wpcp-orientation-diagonal) .wpcp-item-content,
+	.wpcp-item:hover .wpcp-item-inner.wpcp-orientation-diagonal .wpcp-diagonal-caption,
+	.wpcp-item:hover>.wpcp-item-inner--audio-style2>.wpcp-audio-card,
+	.wpcp-item:hover>.wpcp-item-inner--audio-style3>.wpcp-audio-card,
+	.wpcp-item:hover>.wpcp-item-inner--audio-style4>.wpcp-audio-card,
+	.wpcp-item:has(> .wpcp-item-inner.wpcp-orientation-image-top):hover {
+		@content;
+	}
+}
+
+/*
+ * Image border (token-driven). The dynamic layer sets --wpcp-img-border-* on the
+ * block wrapper only when a border is configured; the fallbacks here are the CSS
+ * initial values, so this rule is a no-op until a token is present. Border
+ * Normal/Hover rule: style + width are shared across states — only the color
+ * carries a -hover token, which falls back to the normal color (no change on hover
+ * unless a hover color is set). Mirrors the legacy image_media_selector output.
+ */
+.wpcp-item-media,
+.wpcp-audio-card__media,
+.wpcp-audio-card__thumb {
+	border-style: var(--wpcp-img-border-style, none);
+	border-color: var(--wpcp-img-border-color, currentcolor);
+	border-width: var(--wpcp-img-border-width, medium);
+}
+
+.wpcp-item:hover .wpcp-item-media,
+.wpcp-item:hover .wpcp-audio-card__media,
+.wpcp-item:hover .wpcp-audio-card__thumb {
+	border-color: var(--wpcp-img-border-color-hover, var(--wpcp-img-border-color, currentcolor));
+}
+
+/*
+ * Content-area card border (token-driven). The dynamic layer sets
+ * --wpcp-content-border-* on the block wrapper only when a border is
+ * configured. The card border is a single always-on color (no Normal/Hover
+ * state). Fallbacks are CSS initials, so this is a no-op until a token is
+ * present.
+ */
+@include wpcp-content-card-targets {
+	border-style: var(--wpcp-content-border-style, none);
+	border-color: var(--wpcp-content-border-color, currentcolor);
+	border-width: var(--wpcp-content-border-width, medium);
+	/* See `.wpcp-item` above — the image-top card is the slide itself, so exclude
+	 * layout geometry or a slide re-layout animates its width. */
+	transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease,
+		color 0.3s ease, opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+}
+
+@include wpcp-content-card-targets-hover {
+	border-color: var(--wpcp-content-border-color-hover, var(--wpcp-content-border-color, currentcolor));
+}
+
+/*
+ * Content-area card box-shadow. --wpcp-content-shadow{,-hover} are set on the
+ * wrapper only when the matching enable flag is on; the `none` fallback is the
+ * default (neither .wpcp-item nor .wpcp-item-content has a static shadow).
+ * Hover falls back to the normal shadow so it persists on hover when no hover
+ * shadow is set.
+ */
+@include wpcp-content-card-targets {
+	box-shadow: var(--wpcp-content-shadow, none);
+}
+
+@include wpcp-content-card-targets-hover {
+	box-shadow: var(--wpcp-content-shadow-hover, var(--wpcp-content-shadow, none));
+}
+
+/*
+ * Content-area card border-radius. --wpcp-content-radius is set on the wrapper
+ * per device only when a radius is configured; the `0` fallback is the schema
+ * default.
+ */
+@include wpcp-content-card-targets {
+	border-radius: var(--wpcp-content-radius, 0);
+}

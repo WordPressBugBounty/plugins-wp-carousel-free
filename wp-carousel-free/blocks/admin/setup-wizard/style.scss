@@ -1,0 +1,1274 @@
+/* ==========================================================================
+   Setup wizard — ported from Pro, minus its License Key step (Free has no
+   license). Class prefix is Free's own; the design is Pro's.
+   ========================================================================== */
+
+/* ==========================================================================
+   SETUP WIZARD
+   ========================================================================== */
+
+#wpcontent:has(.wpcpf-sw-wrapper) {
+	background: #f3f8f8;
+}
+
+.wpcpf-sw-wrapper {
+	min-height: 100vh;
+	padding: 80px 20px;
+	position: relative;
+}
+
+.wpcpf-sw-inner {
+	max-width: 1140px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+}
+
+// Centred by auto margins on a shrink-to-fit box rather than by
+// justify-content alone: the minifier drops justify-content from this rule, and
+// centring the box works regardless. Wraps instead of scrolling when it is tight.
+.wpcpf-sw-navigation {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 28px;
+	align-items: center;
+	justify-content: center;
+	width: fit-content;
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+.wpcpf-sw-step {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	flex-shrink: 0;
+}
+
+.wpcpf-sw-step-number {
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 9999px;
+	font-family: 'Inter', sans-serif;
+	font-size: 16px;
+	font-weight: 600;
+	padding: 8px 9px;
+}
+
+.wpcpf-sw-step.current .wpcpf-sw-step-number {
+	background: #fff;
+	border: 1.5px solid var(--wpcpf-primary-color);
+	color: var(--wpcpf-primary-color);
+}
+
+.wpcpf-sw-step.next .wpcpf-sw-step-number {
+	background: #e1f4f6;
+	color: #1e1e1e;
+}
+
+.wpcpf-sw-step.completed .wpcpf-sw-step-number {
+	background: var(--wpcpf-primary-color);
+	color: #fff;
+	border: none;
+}
+
+.wpcpf-sw-step-label {
+	font-family: 'Inter', sans-serif;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 1.3;
+	color: #1e1e1e;
+	white-space: nowrap;
+}
+
+.wpcpf-sw-step.current .wpcpf-sw-step-label {
+	color: #1e1e1e;
+}
+
+.wpcpf-sw-arrow {
+	flex-shrink: 0;
+}
+
+.wpcpf-sw-content-card {
+	background: #fff;
+	padding: 48px;
+	border-radius: 12px;
+	box-shadow:
+		0 16px 32px -4px rgba(12, 12, 13, 0.05),
+		0 4px 4px -4px rgba(12, 12, 13, 0.02);
+	width: 100%;
+	height: 515px;
+	overflow: hidden;
+}
+
+.wpcpf-sw-about-section {
+	display: flex;
+	gap: 24px;
+	height: 410px;
+	align-items: flex-start;
+}
+
+.wpcpf-sw-text-area {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	justify-content: center;
+	padding: 24px 0;
+}
+
+.wpcpf-sw-title-section {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.wpcpf-sw-greeting {
+	font-family: 'Inter', sans-serif;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 1.3;
+	color: #2c2d2f;
+	margin: 0;
+}
+
+.wpcpf-sw-welcome-title {
+	font-family: 'Inter', sans-serif;
+	font-size: 28px;
+	font-weight: 600;
+	line-height: 1.3;
+	color: #2c2d2f;
+	margin: 0;
+}
+
+.wpcpf-sw-gradient-text {
+	background: linear-gradient(to right, #157692, #21acb8);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+
+.wpcpf-sw-description {
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.6;
+	color: #4e4f52;
+	margin: 0;
+}
+
+.wpcpf-sw-features-section {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.wpcpf-sw-features-intro {
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.6;
+	color: #4e4f52;
+	margin: 0;
+}
+
+.wpcpf-sw-highlight {
+	font-weight: 600;
+	color: #2f2f2f;
+}
+
+.wpcpf-sw-features-grid {
+	display: flex;
+	gap: 5px;
+}
+
+.wpcpf-sw-features-list {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.wpcpf-sw-feature-item {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.6;
+	color: #2f2f2f;
+	white-space: nowrap;
+}
+
+.wpcpf-sw-bullet-icon {
+	flex-shrink: 0;
+}
+
+.wpcpf-sw-video-section {
+	flex: 1;
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+
+.wpcpf-sw-video-thumbnail {
+	width: 510px;
+	height: 410px;
+	position: relative;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+.wpcpf-sw-video-iframe {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	border: none;
+}
+
+.wpcpf-sw-video-image {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, #167496, #21acb8);
+}
+
+.wpcpf-sw-video-overlay {
+	position: absolute;
+	inset: 0;
+
+	&::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.25);
+	}
+}
+
+.wpcpf-sw-video-overlay-img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.wpcpf-sw-play-button {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 60px;
+	height: 60px;
+	border-radius: 9999px;
+	background: #fff;
+	border: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	transition: all 0.2s ease;
+
+	&:hover {
+		transform: translate(-50%, -50%) scale(1.1);
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+		animation: pulse 2s ease-in-out infinite;
+	}
+
+	svg {
+		width: 22px;
+		height: 22px;
+	}
+}
+
+@keyframes pulse {
+	0%, 100% {
+		box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+	}
+	50% {
+		box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+	}
+}
+
+@keyframes play-icon-bounce {
+	0%, 100% {
+		transform: translateX(0);
+	}
+	50% {
+		transform: translateX(2px);
+	}
+}
+
+.wpcpf-sw-nav-buttons {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	justify-content: flex-end;
+	padding-top: 8px;
+}
+
+.wpcpf-sw-skip-button {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 8px 20px;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: 'Inter', sans-serif;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.6;
+	color: #2f2f2f;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: all 0.2s ease;
+
+	&:hover {
+		background: #f5f5f5;
+	}
+}
+
+.wpcpf-sw-next-button {
+	background: #1a74e4;
+	border: none;
+	border-radius: 4px;
+	padding: 8px 16px;
+	height: 48px;
+	display: flex;
+	gap: 2px;
+	align-items: center;
+	justify-content: center;
+	font-family: 'Inter', sans-serif;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.6;
+	color: #fff;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: all 0.2s ease;
+
+	&:hover {
+		background: #155dc0;
+	}
+
+	svg {
+		width: 17px;
+		height: 17px;
+	}
+}
+
+/* ==========================================================================
+   BLOCKS PAGE
+   ========================================================================== */
+
+.wpcpf-sw-blocks-page {
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+	align-items: flex-start;
+	min-height: 0;
+	max-height: 100%;
+	overflow-y: auto;
+	padding: 48px 0;
+}
+
+.wpcpf-sw-blocks-header {
+	width: 100%;
+	text-align: center;
+}
+
+.wpcpf-sw-blocks-title {
+	font-family: 'Inter', sans-serif;
+	font-size: 24px;
+	font-weight: 600;
+	line-height: 1.3;
+	color: #1e1e1e;
+	margin: 0 0 8px 0;
+}
+
+.wpcpf-sw-blocks-description {
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.6;
+	color: #4e4f52;
+	margin: 0;
+}
+
+.wpcpf-sw-blocks-section {
+	width: 100%;
+	padding: 0 48px;
+}
+
+.wpcpf-sw-blocks-section-title {
+	font-family: 'Inter', sans-serif;
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 1.3;
+	color: #1e1e1e;
+	margin: 0 0 16px 0;
+}
+
+.wpcpf-sw-blocks-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 24px;
+	width: 100%;
+
+	/* Use existing block card styles from dashboard */
+	.wpcpf-block-card {
+		background: #fff;
+		border: 1px solid #ddd;
+		border-radius: 12px;
+		padding: 18px;
+		display: flex;
+		gap: 12px;
+		align-items: center;
+		transition: all 0.2s ease;
+
+		&:hover {
+			border-color: #c5dfe0;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+		}
+	}
+
+	.wpcpf-block-card-icon {
+		width: 48px;
+		height: 48px;
+		border: 1px solid #c5dfe0;
+		border-radius: 6px;
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		svg {
+			width: 28px;
+			height: 28px;
+		}
+	}
+
+	.wpcpf-block-card-content {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		min-width: 0;
+	}
+
+	.wpcpf-block-card-title-section {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		min-width: 0;
+	}
+
+	.wpcpf-block-card-title {
+		font-family: 'Inter', sans-serif;
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 1.25;
+		color: #1e1e1e;
+		margin: 0;
+		text-transform: capitalize;
+	}
+
+	.wpcpf-block-card-links {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+	}
+
+	.wpcpf-block-card-link {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		font-family: 'Inter', sans-serif;
+		font-size: 12px;
+		font-weight: 400;
+		line-height: 1.67;
+		color: #757575;
+		text-decoration: none;
+		white-space: nowrap;
+		transition: all 0.2s ease;
+
+		svg {
+			width: 14px;
+			height: 14px;
+			flex-shrink: 0;
+		}
+
+		&:hover {
+			color: #167496;
+			text-decoration: underline;
+		}
+	}
+
+	.wpcpf-block-toggle {
+		position: relative;
+		display: inline-block;
+		width: 36px;
+		height: 18px;
+		flex-shrink: 0;
+		cursor: pointer;
+
+		input {
+			opacity: 0;
+			width: 0;
+			height: 0;
+
+			&::before {
+				display: none !important;
+			}
+
+			&:checked + .wpcpf-block-toggle-slider {
+				background-color: var(--wpcpf-primary-color);
+				border-color: var(--wpcpf-primary-color);
+			}
+
+			&:disabled + .wpcpf-block-toggle-slider {
+				opacity: 0.6;
+				cursor: not-allowed;
+			}
+		}
+	}
+
+	.wpcpf-block-toggle-slider {
+		position: absolute;
+		cursor: pointer;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #bbb;
+		border: 1px solid #bbb;
+		border-radius: 100px;
+		transition: all 0.2s ease;
+
+		&::before {
+			position: absolute;
+			content: "";
+			height: 12px;
+			width: 12px;
+			left: 3px;
+			bottom: 2px;
+			background-color: #fff;
+			border-radius: 50%;
+			transition: all 0.2s ease;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+		}
+
+		input:checked + &::before {
+			transform: translateX(18px);
+		}
+	}
+}
+
+/* ==========================================================================
+   LICENSE KEY PAGE
+   ========================================================================== */
+
+.wpcpf-sw-modules-page {
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+	align-items: flex-start;
+	min-height: 0;
+	max-height: 100%;
+	overflow-y: auto;
+	padding: 48px 0;
+}
+
+.wpcpf-sw-modules-header {
+	width: 100%;
+	text-align: center;
+}
+
+.wpcpf-sw-modules-title {
+	font-family: 'Inter', sans-serif;
+	font-size: 24px;
+	font-weight: 600;
+	line-height: 1.3;
+	color: #1e1e1e;
+	margin: 0 0 8px 0;
+}
+
+.wpcpf-sw-modules-description {
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.6;
+	color: #4e4f52;
+	margin: 0;
+}
+
+.wpcpf-sw-modules-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 24px;
+	width: 100%;
+	padding: 0 48px;
+}
+
+.wpcpf-sw-module-card {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 12px;
+	padding: 18px;
+	display: flex;
+	align-items: center;
+	transition: all 0.2s ease;
+
+	&:hover {
+		border-color: #c5dfe0;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	}
+}
+
+.wpcpf-sw-module-card-inner {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	width: 100%;
+}
+
+.wpcpf-sw-module-icon {
+	width: 44px;
+	height: 44px;
+	border-radius: 5.5px;
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	svg {
+		width: 28px;
+		height: 28px;
+	}
+}
+
+.wpcpf-sw-module-title {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	min-width: 0;
+
+	span {
+		font-family: 'Inter', sans-serif;
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 20px;
+		color: #1e1e1e;
+	}
+}
+
+// A Pro module shows the badge where the toggle would be, so the row keeps its
+// height and alignment without a control.
+.wpcpf-sw-module-card--pro {
+	background: #fbfbfc;
+}
+
+.wpcpf-sw-module-toggle {
+	position: relative;
+	display: inline-block;
+	width: 36px;
+	height: 18px;
+	flex-shrink: 0;
+	cursor: pointer;
+
+	input {
+		opacity: 0;
+		width: 0;
+		height: 0;
+
+		&::before {
+			display: none !important;
+		}
+
+		&:checked + .wpcpf-sw-module-toggle-slider {
+			background-color: var(--wpcpf-primary-color);
+			border-color: var(--wpcpf-primary-color);
+		}
+
+		&:disabled + .wpcpf-sw-module-toggle-slider {
+			opacity: 0.6;
+			cursor: not-allowed;
+		}
+	}
+}
+
+.wpcpf-sw-module-toggle-slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #bbb;
+	border: 1px solid #bbb;
+	border-radius: 100px;
+	transition: all 0.2s ease;
+
+	&::before {
+		position: absolute;
+		content: "";
+		height: 12px;
+		width: 12px;
+		left: 3px;
+		bottom: 3px;
+		background-color: #fff;
+		border-radius: 50%;
+		transition: all 0.2s ease;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+	}
+
+	input:checked + &::before {
+		transform: translateX(18px);
+	}
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media screen and (max-width: 1023px) {
+	.wpcpf-sw-about-section {
+		flex-direction: column;
+		height: auto;
+	}
+
+	.wpcpf-sw-video-thumbnail {
+		width: 100%;
+		max-width: 510px;
+		height: auto;
+		aspect-ratio: 510 / 410;
+	}
+
+	.wpcpf-sw-text-area {
+		padding: 0;
+	}
+
+	.wpcpf-sw-features-grid {
+		flex-direction: column;
+		gap: 0;
+	}
+
+	.wpcpf-sw-features-list {
+		gap: 12px;
+	}
+
+	.wpcpf-sw-navigation {
+		flex-wrap: wrap;
+		gap: 16px;
+	}
+
+	.wpcpf-sw-blocks-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.wpcpf-sw-modules-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media screen and (max-width: 768px) {
+	#wpcontent .wpcpf-sw-wrapper {
+		padding: 40px 16px;
+	}
+
+	.wpcpf-sw-content-card {
+		padding: 24px;
+	}
+
+	.wpcpf-sw-welcome-title {
+		font-size: 24px;
+	}
+
+	.wpcpf-sw-step-label {
+		font-size: 16px;
+	}
+
+	.wpcpf-sw-nav-buttons {
+		flex-direction: column;
+		width: 100%;
+
+		button {
+			width: 100%;
+		}
+	}
+
+	.wpcpf-sw-blocks-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.wpcpf-sw-modules-grid {
+		grid-template-columns: 1fr;
+	}
+
+}
+/* ==========================================================================
+   FINISH PAGE
+   ========================================================================== */
+
+.wpcpf-sw-finish-page {
+	display: flex;
+	flex-direction: column;
+	gap: 36px;
+	align-items: flex-start;
+	flex: 1;
+}
+
+.wpcpf-sw-finish-top {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 100%;
+}
+
+.wpcpf-sw-celebration {
+	height: 128px;
+	width: 244px;
+	flex-shrink: 0;
+
+	img {
+		width: 100%;
+		height: auto;
+	}
+}
+
+.wpcpf-sw-finish-header {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	align-items: center;
+	text-align: center;
+	width: 636px;
+}
+
+.wpcpf-sw-finish-title {
+	font-family: 'Inter', sans-serif;
+	font-size: 24px;
+	font-weight: 600;
+	line-height: 1.3;
+	color: #2c2d2f;
+	margin: 0;
+}
+
+.wpcpf-sw-finish-description {
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.6;
+	color: #2f2f2f;
+	margin: 0;
+}
+
+.wpcpf-sw-finish-btn {
+	background: #167496;
+	border: none;
+	border-radius: 4px;
+	padding: 17px 24px;
+	color: #fff;
+	font-family: 'Inter', sans-serif;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 20px;
+	cursor: pointer;
+	white-space: nowrap;
+	flex-shrink: 0;
+	transition: all 0.2s ease;
+	text-transform: capitalize;
+
+	&:hover {
+		background: #135f7c;
+	}
+}
+
+/* Patterns Card */
+// Upgrade CTA on the Finish step — Figma 4427:191528. The slide stack is
+// decorative: fixed sizes and one shared transform, clipped by the card.
+.wpcpf-sw-upgrade-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	align-items: flex-start;
+	width: 100%;
+	flex-shrink: 0;
+	padding: 48px;
+	background: #e1f4f6;
+	border: 1px solid #b4e3ea;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.wpcpf-sw-upgrade-title {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	max-width: 394px;
+}
+
+.wpcpf-sw-upgrade-heading {
+	margin: 0;
+	font-family: 'Inter', sans-serif;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 1.3;
+	color: #2c2d2f;
+}
+
+.wpcpf-sw-upgrade-text {
+	margin: 0;
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.6;
+	color: #2f2f2f;
+
+	strong {
+		font-weight: 600;
+	}
+}
+
+.wpcpf-sw-upgrade-btn {
+	position: relative;
+	z-index: 1;
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
+	justify-content: center;
+	height: 48px;
+	padding: 8px 24px;
+	background: #159e2e;
+	border-radius: 4px;
+	color: #fff;
+	font-family: 'Inter', sans-serif;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.6;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: background 0.2s ease;
+
+	&:hover,
+	&:focus {
+		background: #128627;
+		color: #fff;
+	}
+
+	svg {
+		flex-shrink: 0;
+	}
+}
+
+// The design starts the stack 477px into a 1121px card — 42.6%. Kept
+// proportional rather than absolute so it clears the copy on a narrower card;
+// whatever runs past the right edge is clipped, as it already is top and bottom.
+.wpcpf-sw-upgrade-slides {
+	position: absolute;
+	top: 16px;
+	left: 42.6%;
+	width: 645px;
+	height: 332px;
+	pointer-events: none;
+}
+
+.wpcpf-sw-upgrade-slide {
+	position: absolute;
+	top: 0;
+	display: block;
+	width: 208px;
+	height: 302px;
+	border-radius: 4px;
+	transform: rotate( -15.75deg ) skewX( 8.41deg );
+	overflow: hidden;
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+// The two blank cards only show as edges behind the leftmost slide.
+.wpcpf-sw-upgrade-slide--blank-back,
+.wpcpf-sw-upgrade-slide--blank-front {
+	background: #fff;
+	box-shadow: -10px 20px 29px rgba( 0, 0, 0, 0.08 );
+}
+
+.wpcpf-sw-upgrade-slide--blank-back {
+	top: 33px;
+	left: 0;
+}
+
+.wpcpf-sw-upgrade-slide--blank-front {
+	top: 16px;
+	left: 9px;
+}
+
+.wpcpf-sw-upgrade-slide--left {
+	top: 0;
+	left: 17px;
+	box-shadow:
+		8px 10px 12px rgba( 0, 0, 0, 0.12 ),
+		-10px 20px 29px rgba( 0, 0, 0, 0.08 );
+}
+
+.wpcpf-sw-upgrade-slide--mid {
+	top: 1px;
+	left: 182px;
+	box-shadow:
+		8px 10px 12px rgba( 0, 0, 0, 0.12 ),
+		-10px 20px 29px rgba( 0, 0, 0, 0.51 );
+}
+
+.wpcpf-sw-upgrade-slide--right {
+	top: 19px;
+	left: 345px;
+	width: 207px;
+	height: 245px;
+	border-radius: 3.5px;
+	box-shadow:
+		-5px 25px 29px rgba( 0, 0, 0, 0.51 ),
+		-8px 0 20px rgba( 0, 0, 0, 0.08 );
+}
+
+/* Footer */
+.wpcpf-sw-finish-footer {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	justify-content: center;
+	height: 22px;
+	width: 100%;
+	flex-shrink: 0;
+}
+
+.wpcpf-sw-footer-checkbox {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	flex-shrink: 0;
+
+	input {
+		display: none;
+	}
+}
+
+.wpcpf-sw-footer-checkbox-box {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 16px;
+	background: #fff;
+	border: 1.5px solid #949494;
+	border-radius: 2px;
+	transition: all 0.2s ease;
+
+	input:checked ~ & {
+		background: #949494;
+		border-color: #949494;
+
+		svg {
+			display: block;
+		}
+	}
+
+	svg {
+		display: none;
+		transform: translateY(1px);
+	}
+}
+
+.wpcpf-sw-footer-text {
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.6;
+	color: #2f2f2f;
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.wpcpf-sw-footer-link {
+	color: #2f2f2f;
+	text-decoration: underline;
+	font-weight: 600;
+	cursor: pointer;
+
+	&:hover {
+		color: #167496;
+	}
+}
+
+/* ==========================================================================
+   MODAL
+   ========================================================================== */
+
+.wpcpf-sw-modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+	padding: 20px;
+}
+
+.wpcpf-sw-modal {
+	background: #fff;
+	border-radius: 4px;
+	padding: 32px;
+	width: 100%;
+	max-width: 550px;
+	box-shadow: 0 2px 2.5px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.wpcpf-sw-modal-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.wpcpf-sw-modal-title {
+	font-family: 'Inter', sans-serif;
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 1.3;
+	color: #2f2f2f;
+	margin: 0;
+	white-space: nowrap;
+}
+
+.wpcpf-sw-modal-close {
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 2px;
+	transition: all 0.2s ease;
+
+	&:hover {
+		background: #f5f5f5;
+	}
+}
+
+.wpcpf-sw-modal-divider {
+	height: 1px;
+	background: #ecedf0;
+}
+
+.wpcpf-sw-modal-content {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.wpcpf-sw-modal-text {
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.6;
+	color: #4e4f52;
+	margin: 0;
+
+	&.wpcpf-sw-modal-text-bold {
+		font-weight: 600;
+		color: #2c2d2f;
+	}
+}
+
+.wpcpf-sw-modal-list {
+	margin: 0;
+	padding-left: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	list-style-type: disc;
+
+	li {
+		font-family: 'Inter', sans-serif;
+		font-size: 14px;
+		font-weight: 400;
+		line-height: 1.6;
+		color: #4e4f52;
+	}
+}
+
+.wpcpf-sw-modal-btn {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 5px;
+	height: 48px;
+}
+
+.wpcpf-sw-modal-btn-text {
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.6;
+	color: #4e4f52;
+}
+
+.wpcpf-sw-modal-btn-link {
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.6;
+	color: #4e4f52;
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	transition: all 0.2s ease;
+
+	&:hover {
+		color: #167496;
+
+		svg path {
+			fill: #167496;
+		}
+	}
+
+	svg {
+		flex-shrink: 0;
+	}
+}

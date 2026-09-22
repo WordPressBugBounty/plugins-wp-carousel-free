@@ -1,0 +1,47 @@
+/* Read More icon reveal-on-hover + position margins. Self-contained to the
+ * button, so it must NOT be scoped under `.wpcp-carousel-render`: the Tiles
+ * editor preview roots on `.wpcp-tiles-grid` and never adds that wrapper class
+ * (unlike every other layout and the PHP frontend), which left the hover icon
+ * stuck visible in the Tiles editor. The icon classes are block-only
+ * (`.wpcp-read-more`/`.wpcp-readmore-icon`/`.wpcp-icon-on-hover`); the classic
+ * shortcode uses `.sp-wpcp-read-more`, so top-level scoping cannot leak there. */
+.wpcp-read-more {
+	&.wpcp-icon-on-hover {
+		.wpcp-readmore-icon {
+			margin: 0;
+			max-width: 0;
+			opacity: 0;
+			transition: max-width .3s ease-in-out, opacity .3s ease-in-out, margin-left .3s ease-in-out;
+			visibility: hidden;
+		}
+	}
+
+	&.wpcp-icon-on-hover:hover {
+		.wpcp-readmore-icon {
+			display: flex;
+			justify-content: center;
+			margin: auto;
+			max-width: 50px;
+			opacity: 1;
+			visibility: visible;
+		}
+
+		&.wpcp-icon-position-left .wpcp-readmore-icon {
+			margin-right: 8px;
+		}
+
+		&.wpcp-icon-position-right .wpcp-readmore-icon {
+			margin-left: 8px;
+		}
+	}
+
+	&:not(.wpcp-icon-on-hover) {
+		&.wpcp-icon-position-left .wpcp-readmore-icon {
+			margin-right: 8px;
+		}
+
+		&.wpcp-icon-position-right .wpcp-readmore-icon {
+			margin-left: 8px;
+		}
+	}
+}

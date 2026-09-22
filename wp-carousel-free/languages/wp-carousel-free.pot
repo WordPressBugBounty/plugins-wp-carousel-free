@@ -1,7 +1,8 @@
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: WordPress Carousel 3.0.0\n"
-"POT-Creation-Date: 2024-10-23 14:19+0600\n"
+"POT-Creation-Date: 2026-09-22 19:36+0600\n"
 "PO-Revision-Date: 2022-04-30 11:07+0600\n"
 "Last-Translator: \n"
 "Language-Team: ShapedPlugin <support@shapedplugin.com>\n"
@@ -10,47 +11,56 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_x;esc_html__;esc_html_e;esc_html_x;esc_attr__;"
 "esc_attr_e;esc_attr_x\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin/ElementAddons/Wp_Carousel_Shortcode_Widget.php:29
+#: admin/ElementAddons/Wp_Carousel_Shortcode_Widget.php:35
 msgid "WP Carousel Free"
 msgstr ""
 
-#: admin/ElementAddons/Wp_Carousel_Shortcode_Widget.php:88
+#: admin/ElementAddons/Wp_Carousel_Shortcode_Widget.php:94
 #: admin/views/metabox-config.php:127 admin/views/metabox-config.php:146
-#: admin/views/metabox-config.php:165
 msgid "Content"
 msgstr ""
 
-#: admin/ElementAddons/Wp_Carousel_Shortcode_Widget.php:96
+#: admin/ElementAddons/Wp_Carousel_Shortcode_Widget.php:102
 msgid "WP Carousel Shortcode(s)"
 msgstr ""
 
-#: admin/GutenbergBlock/src/index.js:16 admin/GutenbergBlock/src/index.js:83
-#: admin/GutenbergBlock/src/index.js:115 admin/help-page/help.php:107
-#: admin/help-page/help.php:114
+#: admin/GutenbergBlock/src/index.js:30 admin/GutenbergBlock/src/index.js:161
+#: admin/GutenbergBlock/src/index.js:191
+#: blocks/admin/pages/about-us/index.js:149
+#: blocks/admin/setup-wizard/pages/finish.js:183
 #: includes/class-wp-carousel-free-post-types.php:77
 #: includes/class-wp-carousel-free-post-types.php:87
+#: src/Admin/Dashboard/Diagnostics.php:289
+#: src/Admin/PageBuilders/Beaver/wp-carousel-beaver-module.php:41
+#: src/Admin/PageBuilders/Beaver/wp-carousel-beaver-module.php:101
+#: src/Admin/PageBuilders/Bricks/bricksbuilder.php:65
+#: src/Admin/PageBuilders/Divi/Divi_Module.php:69
+#: src/Admin/PageBuilders/Oxygen/oxygen.php:49
+#: src/Admin/PageBuilders/WPBakery/WPBakery_Builder.php:42
+#: src/Admin/PageBuilders/WPBakery/WPBakery_Builder.php:45
+#: src/Blocks/BlockCategories.php:53
 msgid "WP Carousel"
 msgstr ""
 
-#: admin/GutenbergBlock/src/index.js:18
+#: admin/GutenbergBlock/src/index.js:32
 msgid "Use WP Carousel to insert a carousel or gallery in your page."
 msgstr ""
 
-#: admin/GutenbergBlock/src/index.js:86
+#: admin/GutenbergBlock/src/index.js:164
 msgid "No shortcode found. "
 msgstr ""
 
-#: admin/GutenbergBlock/src/index.js:88
+#: admin/GutenbergBlock/src/index.js:166
 msgid "Create a shortcode now!"
 msgstr ""
 
-#: admin/GutenbergBlock/src/index.js:117
+#: admin/GutenbergBlock/src/index.js:193
 msgid "Select a shortcode"
 msgstr ""
 
@@ -84,7 +94,10 @@ msgid "Caption"
 msgstr ""
 
 #: admin/Media_View/class-wp-carousel-free-media-view.php:172
-#: admin/views/metabox-config.php:1830
+#: admin/views/metabox-config.php:1565
+#: blocks/blocks/shared/inspector/panels/cardContent/sourceAccessors/image.js:86
+#: blocks/blocks/shared/inspector/panels/cardContent/sourceAccessors/post.js:160
+#: blocks/blocks/shared/inspector/panels/cardContent/sourceAccessors/product.js:184
 msgid "Description"
 msgstr ""
 
@@ -107,9 +120,8 @@ msgid "Open a New Tab"
 msgstr ""
 
 #: admin/Media_View/class-wp-carousel-free-media-view.php:218
-#: admin/class-wp-carousel-free-admin.php:240
-#: admin/views/metabox-config.php:783 admin/views/metabox-config.php:1799
-#: admin/views/metabox-config.php:1813
+#: admin/class-wp-carousel-free-admin.php:244
+#: admin/views/metabox-config.php:724 admin/views/metabox-config.php:1553
 msgid "Title"
 msgstr ""
 
@@ -173,125 +185,88 @@ msgstr ""
 msgid "Opens your image links in a new browser window / tab."
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:70
-#: admin/class-wp-carousel-free-admin.php:103
-#: admin/class-wp-carousel-free-admin.php:172
+#: admin/class-wp-carousel-free-admin.php:74
+#: admin/class-wp-carousel-free-admin.php:107
+#: admin/class-wp-carousel-free-admin.php:176
 msgid "You are not allowed to edit sliders."
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:99
+#: admin/class-wp-carousel-free-admin.php:103
 msgid "Invalid Post ID."
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:177
+#: admin/class-wp-carousel-free-admin.php:181
 msgid "Invalid Attachment ID."
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:184
+#: admin/class-wp-carousel-free-admin.php:188
 msgid "Edit Image on Media Library"
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:219
-#: admin/class-wp-carousel-free-admin.php:222
+#: admin/class-wp-carousel-free-admin.php:223
+#: admin/class-wp-carousel-free-admin.php:226
 msgid "Carousel updated."
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:224
+#: admin/class-wp-carousel-free-admin.php:228
 msgid "Carousel published."
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:225
+#: admin/class-wp-carousel-free-admin.php:229
 msgid "Carousel saved."
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:226
+#: admin/class-wp-carousel-free-admin.php:230
 msgid "Carousel submitted."
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:227
+#: admin/class-wp-carousel-free-admin.php:231
 msgid "M j, Y @ G:i"
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:228
+#: admin/class-wp-carousel-free-admin.php:232
 msgid "Carousel draft updated."
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:241
+#: admin/class-wp-carousel-free-admin.php:245
 msgid "Shortcode"
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:242
+#: admin/class-wp-carousel-free-admin.php:246
 #: admin/views/metabox-config.php:102
 msgid "Source Type"
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:243
-#: admin/views/metabox-config.php:781 admin/views/metabox-config.php:1561
+#: admin/class-wp-carousel-free-admin.php:247
+#: admin/views/metabox-config.php:722 admin/views/metabox-config.php:1362
 msgid "Date"
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:283
+#: admin/class-wp-carousel-free-admin.php:291
 #: admin/views/sp-framework/fields/group/group.php:53
+#: blocks/components/queryBuilder/filterByCustomFields.js:236
 #: includes/class-wp-carousel-free-post-types.php:78
 msgid "Add New"
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:313
-#: admin/views/metabox-config.php:1314 admin/views/metabox-config.php:1406
-#: admin/views/metabox-config.php:3118
+#: admin/class-wp-carousel-free-admin.php:344
+#: admin/views/metabox-config.php:1203 admin/views/metabox-config.php:1218
+#: admin/views/metabox-config.php:2787
 msgid "Live Demo"
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:314
+#: admin/class-wp-carousel-free-admin.php:345
 msgid "View WP Carousel Video Tutorials"
 msgstr ""
 
-#: admin/class-wp-carousel-free-admin.php:314
+#: admin/class-wp-carousel-free-admin.php:345
 msgid "Docs & Video Tutorials"
 msgstr ""
 
-#: admin/help-page/help.php:108
-msgid "Recommended"
-msgstr ""
-
-#: admin/help-page/help.php:115
-msgid "Lite vs Pro"
-msgstr ""
-
-#: admin/help-page/help.php:121
-msgid "WP Carousel Help"
-msgstr ""
-
-#: admin/help-page/help.php:122
-msgid "Get Help"
-msgstr ""
-
-#: admin/help-page/help.php:242
-msgid "Activate"
-msgstr ""
-
-#: admin/help-page/help.php:249
-msgid "Install Now"
-msgstr ""
-
-#: admin/help-page/help.php:255
-msgid "More Details"
-msgstr ""
-
-#: admin/help-page/help.php:287
-msgid "Version:"
-msgstr ""
-
-#: admin/help-page/help.php:296
-msgid "+ Active Installations"
-msgstr ""
-
-#: admin/help-page/help.php:304
-msgid "Last Updated:"
-msgstr ""
-
-#: admin/help-page/help.php:305
-msgid "ago"
+#: admin/preview/class-wp-carousel-free-preview.php:51
+#: admin/views/sp-framework/functions/actions.php:30
+#: admin/views/sp-framework/functions/actions.php:67
+msgid "Error: You do not have permission to do that."
 msgstr ""
 
 #: admin/views/metabox-config.php:52
@@ -302,7 +277,9 @@ msgstr ""
 msgid "WordPress Carousel"
 msgstr ""
 
-#: admin/views/metabox-config.php:106 admin/views/metabox-config.php:1244
+#: admin/views/metabox-config.php:106 admin/views/metabox-config.php:1120
+#: blocks/components/background/background.js:62
+#: blocks/components/mediaUpload/image.js:13
 msgid "Image"
 msgstr ""
 
@@ -314,11 +291,17 @@ msgstr ""
 msgid "Product"
 msgstr ""
 
-#: admin/views/metabox-config.php:118 admin/views/metabox-config.php:310
+#: admin/views/metabox-config.php:118 admin/views/metabox-config.php:306
+#: blocks/blocks/shared/ready-patterns/constants.js:125
+#: blocks/components/background/background.js:63
+#: blocks/components/background/background.js:190
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:103
 msgid "Video"
 msgstr ""
 
 #: admin/views/metabox-config.php:122 admin/views/metabox-config.php:156
+#: blocks/blocks/shared/ready-patterns/constants.js:147
+#: blocks/blocks/shared/ready-patterns/requirements.js:51
 msgid "Audio"
 msgstr ""
 
@@ -330,7 +313,7 @@ msgstr ""
 msgid "External"
 msgstr ""
 
-#: admin/views/metabox-config.php:147 admin/views/metabox-config.php:166
+#: admin/views/metabox-config.php:147 admin/views/metabox-config.php:164
 msgid "Add Content"
 msgstr ""
 
@@ -338,321 +321,339 @@ msgstr ""
 msgid "Add Audio"
 msgstr ""
 
-#: admin/views/metabox-config.php:177 admin/views/metabox-config.php:180
+#: admin/views/metabox-config.php:163
+msgid "Mix Content"
+msgstr ""
+
+#: admin/views/metabox-config.php:173 admin/views/metabox-config.php:176
 msgid "Feeds URL"
 msgstr ""
 
-#: admin/views/metabox-config.php:178
+#: admin/views/metabox-config.php:174
 msgid ""
-"Write your feeds URL. <a href=\"https://docs.shapedplugin.com/docs/wordpress-"
-"carousel-pro/how-to-find-the-rss-feed-url-of-a-site/\" target=\"_blank\">Get "
-"help</a>"
+"Write your feeds URL. <a href=\"https://docs.wpcarousel.io/guide/external-"
+"feeds/rss\" target=\"_blank\">Get help</a>"
 msgstr ""
 
-#: admin/views/metabox-config.php:189 admin/views/metabox-config.php:263
-#: admin/views/metabox-config.php:298 admin/views/metabox-config.php:1671
-#: admin/views/metabox-config.php:1845
+#: admin/views/metabox-config.php:185 admin/views/metabox-config.php:256
+#: admin/views/metabox-config.php:294 admin/views/metabox-config.php:1580
 msgid "Limit"
 msgstr ""
 
-#: admin/views/metabox-config.php:207
+#: admin/views/metabox-config.php:201
+#: blocks/blocks/shared/ready-patterns/constants.js:143
+#: blocks/blocks/shared/ready-patterns/requirements.js:47
 msgid "Images"
 msgstr ""
 
-#: admin/views/metabox-config.php:209
+#: admin/views/metabox-config.php:203
 msgid "ADD IMAGE"
 msgstr ""
 
-#: admin/views/metabox-config.php:210
+#: admin/views/metabox-config.php:204
 msgid "EDIT IMAGE"
 msgstr ""
 
-#: admin/views/metabox-config.php:211
+#: admin/views/metabox-config.php:205
 msgid "REMOVE ALL"
 msgstr ""
 
-#: admin/views/metabox-config.php:218
+#: admin/views/metabox-config.php:212
 msgid "Post Type"
 msgstr ""
 
-#: admin/views/metabox-config.php:221
+#: admin/views/metabox-config.php:215
+#: blocks/blocks/shared/ready-patterns/constants.js:144
+#: blocks/blocks/shared/ready-patterns/requirements.js:48
 msgid "Posts"
 msgstr ""
 
-#: admin/views/metabox-config.php:224
-msgid "Pages (Pro)"
+#: admin/views/metabox-config.php:218
+msgid "Pages"
 msgstr ""
 
-#: admin/views/metabox-config.php:228
+#: admin/views/metabox-config.php:221
 msgid "Custom Post Types (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:232
+#: admin/views/metabox-config.php:225
 msgid "Multiple Post Types (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:242
+#: admin/views/metabox-config.php:235
 msgid "Filter Posts"
 msgstr ""
 
-#: admin/views/metabox-config.php:245 admin/views/metabox-config.php:276
+#: admin/views/metabox-config.php:238 admin/views/metabox-config.php:269
 msgid "Latest"
 msgstr ""
 
-#: admin/views/metabox-config.php:248
+#: admin/views/metabox-config.php:241
 msgid "Taxonomy (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:252 admin/views/metabox-config.php:283
+#: admin/views/metabox-config.php:245 admin/views/metabox-config.php:279
 msgid "Specific (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:273
+#: admin/views/metabox-config.php:266
 msgid "Filter Products"
 msgstr ""
 
-#: admin/views/metabox-config.php:279
+#: admin/views/metabox-config.php:272
+msgid "Featured"
+msgstr ""
+
+#: admin/views/metabox-config.php:275
 msgid "Category (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:287
+#: admin/views/metabox-config.php:283
 msgid "On Sale (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:311
+#: admin/views/metabox-config.php:307
 msgid "<i class=\"fa fa-plus-circle\"></i> Add Video"
 msgstr ""
 
-#: admin/views/metabox-config.php:312
+#: admin/views/metabox-config.php:308
 msgid "Video:"
 msgstr ""
 
-#: admin/views/metabox-config.php:315
-#, php-format
-msgid ""
-"Maximum display limit 6 videos. To show unlimited videos from different "
-"video platforms, %1$sUpgrade to Pro!%2$s"
-msgstr ""
-
-#: admin/views/metabox-config.php:329
+#: admin/views/metabox-config.php:319 blocks/admin/templates/Footer.js:44
 msgid "YouTube"
 msgstr ""
 
-#: admin/views/metabox-config.php:333
+#: admin/views/metabox-config.php:323
 msgid "Vimeo"
 msgstr ""
 
-#: admin/views/metabox-config.php:338
+#: admin/views/metabox-config.php:328
 msgid "TikTok"
 msgstr ""
 
-#: admin/views/metabox-config.php:343
+#: admin/views/metabox-config.php:333
 msgid "Twitch"
 msgstr ""
 
-#: admin/views/metabox-config.php:348
+#: admin/views/metabox-config.php:338
 msgid "Dailymotion"
 msgstr ""
 
-#: admin/views/metabox-config.php:353
+#: admin/views/metabox-config.php:343
 msgid "Wistia"
 msgstr ""
 
-#: admin/views/metabox-config.php:358
+#: admin/views/metabox-config.php:348
 msgid "Self Hosted"
 msgstr ""
 
-#: admin/views/metabox-config.php:368
+#: admin/views/metabox-config.php:358
 msgid "Video ID"
 msgstr ""
 
-#: admin/views/metabox-config.php:369
+#: admin/views/metabox-config.php:359
 msgid ""
 "The last part of the URL is the ID e.g: //youtube.com/watch?"
 "v=<b><i>eKFTSSKCzWA</i></b> <br>//vimeo.com/<b><i>95746815</i></b>"
 msgstr ""
 
-#: admin/views/metabox-config.php:375
+#: admin/views/metabox-config.php:365
 msgid "Title & Description (optional)"
 msgstr ""
 
-#: admin/views/metabox-config.php:397
+#: admin/views/metabox-config.php:387
 msgid "Shortcode Section"
 msgstr ""
 
-#: admin/views/metabox-config.php:412
+#: admin/views/metabox-config.php:402
 msgid "General Settings"
 msgstr ""
 
-#: admin/views/metabox-config.php:419
+#: admin/views/metabox-config.php:409
 msgid "Layout Preset"
 msgstr ""
 
-#: admin/views/metabox-config.php:420
+#: admin/views/metabox-config.php:410
 msgid "Choose a layout preset."
 msgstr ""
 
-#: admin/views/metabox-config.php:423
+#: admin/views/metabox-config.php:413
 #, php-format
 msgid ""
-"Want to create engaging %1$slayouts%2$s and advanced customizations? "
-"%3$sUpgrade to Pro!%4$s"
+"Want to create additional layouts and customizations? %3$sUpgrade to Pro!%4$s"
 msgstr ""
 
-#: admin/views/metabox-config.php:432
+#: admin/views/metabox-config.php:422
+#: blocks/admin/pages/blocks/block-data.js:37
+#: src/Admin/Dashboard/Dashboard.php:105
 msgid "Carousel"
 msgstr ""
 
-#: admin/views/metabox-config.php:437
+#: admin/views/metabox-config.php:427
+#: blocks/admin/pages/blocks/block-data.js:46
+#: src/Admin/Dashboard/Dashboard.php:106
 msgid "Slider"
 msgstr ""
 
-#: admin/views/metabox-config.php:442
+#: admin/views/metabox-config.php:432
+#: blocks/admin/pages/blocks/block-data.js:95
 msgid "Grid"
 msgstr ""
 
-#: admin/views/metabox-config.php:447
+#: admin/views/metabox-config.php:437
 msgid "Thumbs Slider"
 msgstr ""
 
-#: admin/views/metabox-config.php:453
+#: admin/views/metabox-config.php:443
+#: blocks/admin/pages/blocks/block-data.js:61
+#: src/Admin/Dashboard/Dashboard.php:108
 msgid "Tiles"
 msgstr ""
 
-#: admin/views/metabox-config.php:459
+#: admin/views/metabox-config.php:449
 msgid "Masonry"
 msgstr ""
 
-#: admin/views/metabox-config.php:465
+#: admin/views/metabox-config.php:455
 msgid "Justified"
 msgstr ""
 
-#: admin/views/metabox-config.php:476
+#: admin/views/metabox-config.php:466
 msgid "Carousel Style"
 msgstr ""
 
-#: admin/views/metabox-config.php:477
+#: admin/views/metabox-config.php:467
 msgid "Choose a carousel style."
 msgstr ""
 
-#: admin/views/metabox-config.php:492
+#: admin/views/metabox-config.php:471
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:122
 msgid "Standard"
 msgstr ""
 
-#: admin/views/metabox-config.php:496
+#: admin/views/metabox-config.php:475
+#: blocks/admin/modules/config/lightboxConfig.js:14
 msgid "Center"
 msgstr ""
 
-#: admin/views/metabox-config.php:500
+#: admin/views/metabox-config.php:479
 msgid "Ticker"
 msgstr ""
 
-#: admin/views/metabox-config.php:505
+#: admin/views/metabox-config.php:484
 msgid "Multi Row"
 msgstr ""
 
-#: admin/views/metabox-config.php:510
+#: admin/views/metabox-config.php:489
+#: blocks/admin/pages/blocks/block-data.js:86
 msgid "3D Carousel"
 msgstr ""
 
-#: admin/views/metabox-config.php:515
+#: admin/views/metabox-config.php:494
 msgid "Panorama"
 msgstr ""
 
-#: admin/views/metabox-config.php:520
+#: admin/views/metabox-config.php:499
 msgid "Triple"
 msgstr ""
 
-#: admin/views/metabox-config.php:525
+#: admin/views/metabox-config.php:504
 msgid "Spring"
 msgstr ""
 
-#: admin/views/metabox-config.php:536
+#: admin/views/metabox-config.php:515
 msgid "Slider Style"
 msgstr ""
 
-#: admin/views/metabox-config.php:537
+#: admin/views/metabox-config.php:516
 msgid "Choose a slider style."
 msgstr ""
 
-#: admin/views/metabox-config.php:541 admin/views/metabox-config.php:639
-#: admin/views/metabox-config.php:2383 admin/views/metabox-config.php:2402
+#: admin/views/metabox-config.php:520 admin/views/metabox-config.php:589
+#: admin/views/metabox-config.php:2087 admin/views/metabox-config.php:2106
+#: blocks/admin/modules/config/lightboxConfig.js:29
 msgid "Slide"
 msgstr ""
 
-#: admin/views/metabox-config.php:545 admin/views/metabox-config.php:641
+#: admin/views/metabox-config.php:524 admin/views/metabox-config.php:591
 msgid "Flip"
 msgstr ""
 
-#: admin/views/metabox-config.php:549 admin/views/metabox-config.php:2382
-#: admin/views/metabox-config.php:2401
+#: admin/views/metabox-config.php:528 admin/views/metabox-config.php:2086
+#: admin/views/metabox-config.php:2105
+#: blocks/admin/modules/config/lightboxConfig.js:28
 msgid "Fade"
 msgstr ""
 
-#: admin/views/metabox-config.php:554
+#: admin/views/metabox-config.php:533
 msgid "Ken Burns"
 msgstr ""
 
-#: admin/views/metabox-config.php:559
+#: admin/views/metabox-config.php:538
 msgid "Shaders"
 msgstr ""
 
-#: admin/views/metabox-config.php:564
+#: admin/views/metabox-config.php:543
 msgid "Slicer"
 msgstr ""
 
-#: admin/views/metabox-config.php:569
+#: admin/views/metabox-config.php:548
 msgid "Shutters"
 msgstr ""
 
-#: admin/views/metabox-config.php:574
+#: admin/views/metabox-config.php:553
 msgid "Fashion"
 msgstr ""
 
-#: admin/views/metabox-config.php:579
+#: admin/views/metabox-config.php:558
 msgid "Coverflow"
 msgstr ""
 
-#: admin/views/metabox-config.php:584
+#: admin/views/metabox-config.php:563
 msgid "Cube"
 msgstr ""
 
-#: admin/views/metabox-config.php:626
+#: admin/views/metabox-config.php:575
 msgid "Slide Effect"
 msgstr ""
 
-#: admin/views/metabox-config.php:630
+#: admin/views/metabox-config.php:576
+msgid "Select a slide transition effect."
+msgstr ""
+
+#: admin/views/metabox-config.php:580
 #, php-format
 msgid ""
 "%1$sSlide Effect%2$sEnhance your slide transition with charming Slide "
 "Effects to add elegance and dynamic motion to your slides.%3$sLive Demo%4$s"
 msgstr ""
 
-#: admin/views/metabox-config.php:644
+#: admin/views/metabox-config.php:594
 msgid "Fade (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:648
+#: admin/views/metabox-config.php:598
 msgid "Coverflow (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:652
+#: admin/views/metabox-config.php:602
 msgid "Cube (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:656
+#: admin/views/metabox-config.php:606
 msgid "Ken Burns (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:675
+#: admin/views/metabox-config.php:618
 msgid "Columns"
 msgstr ""
 
-#: admin/views/metabox-config.php:676
+#: admin/views/metabox-config.php:619
 msgid "Set number of column on devices."
 msgstr ""
 
-#: admin/views/metabox-config.php:689
+#: admin/views/metabox-config.php:631
 #, php-format
 msgid ""
 "\n"
@@ -663,79 +664,115 @@ msgid ""
 "\t\t\t\t\t\t%7$s MOBILE %2$s - Screens smaller than 480px.%3$s"
 msgstr ""
 
-#: admin/views/metabox-config.php:712 admin/views/metabox-config.php:714
+#: admin/views/metabox-config.php:654 admin/views/metabox-config.php:656
 msgid "Space"
 msgstr ""
 
-#: admin/views/metabox-config.php:713
+#: admin/views/metabox-config.php:655
 msgid "Set a space between the items."
 msgstr ""
 
-#: admin/views/metabox-config.php:742
+#: admin/views/metabox-config.php:684
 msgid "Click Action Type"
 msgstr ""
 
-#: admin/views/metabox-config.php:756
+#: admin/views/metabox-config.php:697
 msgid "Set a click action type for the items."
 msgstr ""
 
-#: admin/views/metabox-config.php:765 admin/views/metabox-config.php:777
+#: admin/views/metabox-config.php:706 admin/views/metabox-config.php:718
 msgid "Order By"
 msgstr ""
 
-#: admin/views/metabox-config.php:766
+#: admin/views/metabox-config.php:707
 msgid "Set an order by option."
 msgstr ""
 
-#: admin/views/metabox-config.php:768
+#: admin/views/metabox-config.php:709
 msgid "Drag & Drop"
 msgstr ""
 
-#: admin/views/metabox-config.php:769 admin/views/metabox-config.php:782
+#: admin/views/metabox-config.php:710 admin/views/metabox-config.php:723
 msgid "Random"
 msgstr ""
 
-#: admin/views/metabox-config.php:778
+#: admin/views/metabox-config.php:719
 msgid "Select an order by option."
 msgstr ""
 
-#: admin/views/metabox-config.php:780
+#: admin/views/metabox-config.php:721
 msgid "ID"
 msgstr ""
 
-#: admin/views/metabox-config.php:784
+#: admin/views/metabox-config.php:725
 msgid "Modified"
 msgstr ""
 
-#: admin/views/metabox-config.php:785
+#: admin/views/metabox-config.php:726
 msgid "Menu Order"
 msgstr ""
 
-#: admin/views/metabox-config.php:793
+#: admin/views/metabox-config.php:734
 msgid "Order"
 msgstr ""
 
-#: admin/views/metabox-config.php:794
+#: admin/views/metabox-config.php:735
 msgid "Select an order option."
 msgstr ""
 
-#: admin/views/metabox-config.php:796
+#: admin/views/metabox-config.php:737
 msgid "Ascending"
 msgstr ""
 
-#: admin/views/metabox-config.php:797
+#: admin/views/metabox-config.php:738
 msgid "Descending"
 msgstr ""
 
-#: admin/views/metabox-config.php:806
+#: admin/views/metabox-config.php:746
+msgid "Preloader"
+msgstr ""
+
+#: admin/views/metabox-config.php:747
+msgid "Items will be hidden until page load completed."
+msgstr ""
+
+#: admin/views/metabox-config.php:748 admin/views/metabox-config.php:769
+#: admin/views/metabox-config.php:783 admin/views/metabox-config.php:794
+#: admin/views/metabox-config.php:1102 admin/views/metabox-config.php:1205
+#: admin/views/metabox-config.php:1213 admin/views/metabox-config.php:1226
+#: admin/views/metabox-config.php:1943 admin/views/metabox-config.php:2038
+#: admin/views/metabox-config.php:2062 admin/views/metabox-config.php:2073
+#: admin/views/metabox-config.php:2239 admin/views/metabox-config.php:2336
+#: admin/views/metabox-config.php:2378 admin/views/metabox-config.php:2388
+#: admin/views/metabox-config.php:2446 admin/views/metabox-config.php:2766
+#: admin/views/metabox-config.php:2776 admin/views/metabox-config.php:2789
+#: admin/views/metabox-config.php:2798 admin/views/option-config.php:181
+msgid "Enabled"
+msgstr ""
+
+#: admin/views/metabox-config.php:749 admin/views/metabox-config.php:770
+#: admin/views/metabox-config.php:784 admin/views/metabox-config.php:795
+#: admin/views/metabox-config.php:1103 admin/views/metabox-config.php:1206
+#: admin/views/metabox-config.php:1214 admin/views/metabox-config.php:1227
+#: admin/views/metabox-config.php:1944 admin/views/metabox-config.php:2039
+#: admin/views/metabox-config.php:2063 admin/views/metabox-config.php:2074
+#: admin/views/metabox-config.php:2240 admin/views/metabox-config.php:2337
+#: admin/views/metabox-config.php:2379 admin/views/metabox-config.php:2389
+#: admin/views/metabox-config.php:2447 admin/views/metabox-config.php:2767
+#: admin/views/metabox-config.php:2777 admin/views/metabox-config.php:2790
+#: admin/views/metabox-config.php:2799 admin/views/option-config.php:182
+msgid "Disabled"
+msgstr ""
+
+#: admin/views/metabox-config.php:757
 msgid "Scheduling"
 msgstr ""
 
-#: admin/views/metabox-config.php:807
+#: admin/views/metabox-config.php:758
 msgid "Schedule sliders or galleries to show at specific time intervals."
 msgstr ""
 
-#: admin/views/metabox-config.php:810
+#: admin/views/metabox-config.php:761
 #, php-format
 msgid ""
 "%1$sScheduling%2$sEnable the scheduling feature to set the specific date and "
@@ -743,518 +780,441 @@ msgid ""
 "highlighting time-sensitive content).%3$sOpen Docs%4$sLive Demo%5$s"
 msgstr ""
 
-#: admin/views/metabox-config.php:818 admin/views/metabox-config.php:827
-#: admin/views/metabox-config.php:842 admin/views/metabox-config.php:853
-#: admin/views/metabox-config.php:1130 admin/views/metabox-config.php:1294
-#: admin/views/metabox-config.php:1316 admin/views/metabox-config.php:1401
-#: admin/views/metabox-config.php:1414 admin/views/metabox-config.php:2199
-#: admin/views/metabox-config.php:2223 admin/views/metabox-config.php:2234
-#: admin/views/metabox-config.php:2273 admin/views/metabox-config.php:2512
-#: admin/views/metabox-config.php:2620 admin/views/metabox-config.php:2695
-#: admin/views/metabox-config.php:2705 admin/views/metabox-config.php:2730
-#: admin/views/metabox-config.php:3097 admin/views/metabox-config.php:3107
-#: admin/views/metabox-config.php:3120 admin/views/metabox-config.php:3129
-#: admin/views/option-config.php:182
-msgid "Enabled"
-msgstr ""
-
-#: admin/views/metabox-config.php:819 admin/views/metabox-config.php:828
-#: admin/views/metabox-config.php:843 admin/views/metabox-config.php:854
-#: admin/views/metabox-config.php:1131 admin/views/metabox-config.php:1295
-#: admin/views/metabox-config.php:1317 admin/views/metabox-config.php:1402
-#: admin/views/metabox-config.php:1415 admin/views/metabox-config.php:2200
-#: admin/views/metabox-config.php:2224 admin/views/metabox-config.php:2235
-#: admin/views/metabox-config.php:2274 admin/views/metabox-config.php:2513
-#: admin/views/metabox-config.php:2621 admin/views/metabox-config.php:2696
-#: admin/views/metabox-config.php:2706 admin/views/metabox-config.php:2731
-#: admin/views/metabox-config.php:3098 admin/views/metabox-config.php:3108
-#: admin/views/metabox-config.php:3121 admin/views/metabox-config.php:3130
-#: admin/views/option-config.php:183
-msgid "Disabled"
-msgstr ""
-
-#: admin/views/metabox-config.php:825
-msgid "Preloader"
-msgstr ""
-
-#: admin/views/metabox-config.php:826
-msgid "Items will be hidden until page load completed."
-msgstr ""
-
-#: admin/views/metabox-config.php:835 admin/views/metabox-config.php:845
-#: admin/views/metabox-config.php:856 admin/views/metabox-config.php:2939
-#: admin/views/metabox-config.php:2951
+#: admin/views/metabox-config.php:776 admin/views/metabox-config.php:786
+#: admin/views/metabox-config.php:797 admin/views/metabox-config.php:2622
+#: admin/views/metabox-config.php:2634
 msgid "Pagination"
 msgstr ""
 
-#: admin/views/metabox-config.php:846 admin/views/metabox-config.php:857
+#: admin/views/metabox-config.php:787 admin/views/metabox-config.php:798
 msgid "Enable to show pagination."
 msgstr ""
 
-#: admin/views/metabox-config.php:865 admin/views/metabox-config.php:880
+#: admin/views/metabox-config.php:806 admin/views/metabox-config.php:821
 msgid "Pagination Type"
 msgstr ""
 
-#: admin/views/metabox-config.php:866 admin/views/metabox-config.php:881
+#: admin/views/metabox-config.php:807 admin/views/metabox-config.php:822
 msgid "Select pagination type."
 msgstr ""
 
-#: admin/views/metabox-config.php:868
+#: admin/views/metabox-config.php:809
 msgid "Load More Button (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:869
+#: admin/views/metabox-config.php:810
 msgid "Load More on Infinite Scroll (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:870
+#: admin/views/metabox-config.php:811
 msgid "Ajax Number Pagination (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:871
+#: admin/views/metabox-config.php:812
 msgid "Normal Pagination"
 msgstr ""
 
-#: admin/views/metabox-config.php:883
+#: admin/views/metabox-config.php:824
 msgid "Load More Button (Ajax)"
 msgstr ""
 
-#: admin/views/metabox-config.php:884
+#: admin/views/metabox-config.php:825
 msgid "Load More on Infinite Scroll (Ajax)"
 msgstr ""
 
-#: admin/views/metabox-config.php:885
+#: admin/views/metabox-config.php:826
 msgid "Number Pagination (Ajax)"
 msgstr ""
 
-#: admin/views/metabox-config.php:893
+#: admin/views/metabox-config.php:834
 msgid "Items To Show Per Page"
 msgstr ""
 
-#: admin/views/metabox-config.php:894 admin/views/metabox-config.php:905
+#: admin/views/metabox-config.php:835 admin/views/metabox-config.php:846
 msgid "Set items to show per page."
 msgstr ""
 
-#: admin/views/metabox-config.php:904
+#: admin/views/metabox-config.php:845
 msgid "Items To Show Per Page (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:915
+#: admin/views/metabox-config.php:856
 msgid "Items To Show Per Click (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:916
+#: admin/views/metabox-config.php:857
 msgid "Set items to show per click."
 msgstr ""
 
-#: admin/views/metabox-config.php:925 admin/views/metabox-config.php:939
+#: admin/views/metabox-config.php:867
 msgid "Alignment"
 msgstr ""
 
-#: admin/views/metabox-config.php:926 admin/views/metabox-config.php:940
+#: admin/views/metabox-config.php:868
 msgid "Choose pagination alignment."
 msgstr ""
 
-#: admin/views/metabox-config.php:952 admin/views/metabox-config.php:957
-#: admin/views/metabox-config.php:977 admin/views/metabox-config.php:982
-#: admin/views/metabox-config.php:2247 admin/views/metabox-config.php:2358
-#: admin/views/metabox-config.php:2891 admin/views/metabox-config.php:2912
-#: admin/views/metabox-config.php:3046
+#: admin/views/metabox-config.php:881 admin/views/metabox-config.php:886
+#: admin/views/metabox-config.php:1926 admin/views/metabox-config.php:2019
+#: admin/views/metabox-config.php:2548 admin/views/metabox-config.php:2569
+#: admin/views/metabox-config.php:2715
 #: admin/views/sp-framework/fields/border/border.php:155
+#: blocks/controls/constants.js:283
 msgid "Color"
 msgstr ""
 
-#: admin/views/metabox-config.php:953 admin/views/metabox-config.php:978
+#: admin/views/metabox-config.php:882
 msgid "Set pagination color."
 msgstr ""
 
-#: admin/views/metabox-config.php:958 admin/views/metabox-config.php:983
-#: admin/views/metabox-config.php:2248 admin/views/metabox-config.php:2359
-#: admin/views/metabox-config.php:2892 admin/views/metabox-config.php:2913
+#: admin/views/metabox-config.php:887 admin/views/metabox-config.php:1927
+#: admin/views/metabox-config.php:2020 admin/views/metabox-config.php:2549
+#: admin/views/metabox-config.php:2570
 msgid "Hover Color"
 msgstr ""
 
-#: admin/views/metabox-config.php:959 admin/views/metabox-config.php:984
-#: admin/views/metabox-config.php:2249 admin/views/metabox-config.php:2360
-#: admin/views/metabox-config.php:2887
+#: admin/views/metabox-config.php:888 admin/views/metabox-config.php:1928
+#: admin/views/metabox-config.php:2021 admin/views/metabox-config.php:2544
 msgid "Background"
 msgstr ""
 
-#: admin/views/metabox-config.php:960 admin/views/metabox-config.php:985
-#: admin/views/metabox-config.php:2250 admin/views/metabox-config.php:2361
+#: admin/views/metabox-config.php:889 admin/views/metabox-config.php:1929
+#: admin/views/metabox-config.php:2022
 msgid "Hover Background"
 msgstr ""
 
-#: admin/views/metabox-config.php:961 admin/views/metabox-config.php:986
+#: admin/views/metabox-config.php:890
 msgid "Border"
 msgstr ""
 
-#: admin/views/metabox-config.php:962 admin/views/metabox-config.php:987
+#: admin/views/metabox-config.php:891
 msgid "Hover Border"
 msgstr ""
 
-#: admin/views/metabox-config.php:1004
+#: admin/views/metabox-config.php:908
 #, php-format
 msgid ""
 "Want to unleash the power of Ajax Paginations and take your website UX to "
 "the next level? %1$sUpgrade to Pro!%2$s"
 msgstr ""
 
-#: admin/views/metabox-config.php:1021
+#: admin/views/metabox-config.php:925
 msgid "Display Settings"
 msgstr ""
 
-#: admin/views/metabox-config.php:1030
+#: admin/views/metabox-config.php:934
 msgid "Item Styles"
 msgstr ""
 
-#: admin/views/metabox-config.php:1036
+#: admin/views/metabox-config.php:940
 msgid "Section Title"
 msgstr ""
 
-#: admin/views/metabox-config.php:1037
+#: admin/views/metabox-config.php:941
 msgid "Show/Hide the section title."
 msgstr ""
 
-#: admin/views/metabox-config.php:1039 admin/views/metabox-config.php:1246
-#: admin/views/metabox-config.php:1426 admin/views/metabox-config.php:1459
-#: admin/views/metabox-config.php:1481 admin/views/metabox-config.php:1524
-#: admin/views/metabox-config.php:1552 admin/views/metabox-config.php:1563
-#: admin/views/metabox-config.php:1574 admin/views/metabox-config.php:1586
-#: admin/views/metabox-config.php:1600 admin/views/metabox-config.php:1616
-#: admin/views/metabox-config.php:1635 admin/views/metabox-config.php:1693
-#: admin/views/metabox-config.php:1704 admin/views/metabox-config.php:1715
-#: admin/views/metabox-config.php:1727 admin/views/metabox-config.php:1743
-#: admin/views/metabox-config.php:1771 admin/views/metabox-config.php:1801
-#: admin/views/metabox-config.php:1832 admin/views/metabox-config.php:1864
-#: admin/views/metabox-config.php:2432 admin/views/metabox-config.php:2451
-#: admin/views/metabox-config.php:2470 admin/views/metabox-config.php:2489
-#: admin/views/metabox-config.php:2501 admin/views/metabox-config.php:2529
-#: admin/views/metabox-config.php:2540 admin/views/metabox-config.php:2551
-#: admin/views/metabox-config.php:2562 admin/views/metabox-config.php:2573
-#: admin/views/metabox-config.php:2584 admin/views/metabox-config.php:2765
-#: admin/views/metabox-config.php:2954
+#: admin/views/metabox-config.php:943 admin/views/metabox-config.php:1122
+#: admin/views/metabox-config.php:1189 admin/views/metabox-config.php:1260
+#: admin/views/metabox-config.php:1282 admin/views/metabox-config.php:1325
+#: admin/views/metabox-config.php:1353 admin/views/metabox-config.php:1364
+#: admin/views/metabox-config.php:1375 admin/views/metabox-config.php:1387
+#: admin/views/metabox-config.php:1401 admin/views/metabox-config.php:1417
+#: admin/views/metabox-config.php:1436 admin/views/metabox-config.php:1447
+#: admin/views/metabox-config.php:1458 admin/views/metabox-config.php:1469
+#: admin/views/metabox-config.php:1481 admin/views/metabox-config.php:1497
+#: admin/views/metabox-config.php:1525 admin/views/metabox-config.php:1555
+#: admin/views/metabox-config.php:1567 admin/views/metabox-config.php:1599
+#: admin/views/metabox-config.php:1953 admin/views/metabox-config.php:2159
+#: admin/views/metabox-config.php:2178 admin/views/metabox-config.php:2197
+#: admin/views/metabox-config.php:2216 admin/views/metabox-config.php:2228
+#: admin/views/metabox-config.php:2256 admin/views/metabox-config.php:2267
+#: admin/views/metabox-config.php:2278 admin/views/metabox-config.php:2289
+#: admin/views/metabox-config.php:2300 admin/views/metabox-config.php:2481
+#: admin/views/metabox-config.php:2637
 msgid "Show"
 msgstr ""
 
-#: admin/views/metabox-config.php:1040 admin/views/metabox-config.php:1247
-#: admin/views/metabox-config.php:1427 admin/views/metabox-config.php:1460
-#: admin/views/metabox-config.php:1482 admin/views/metabox-config.php:1525
-#: admin/views/metabox-config.php:1553 admin/views/metabox-config.php:1564
-#: admin/views/metabox-config.php:1575 admin/views/metabox-config.php:1587
-#: admin/views/metabox-config.php:1601 admin/views/metabox-config.php:1617
-#: admin/views/metabox-config.php:1636 admin/views/metabox-config.php:1662
-#: admin/views/metabox-config.php:1694 admin/views/metabox-config.php:1705
-#: admin/views/metabox-config.php:1716 admin/views/metabox-config.php:1728
-#: admin/views/metabox-config.php:1744 admin/views/metabox-config.php:1772
-#: admin/views/metabox-config.php:1802 admin/views/metabox-config.php:1833
-#: admin/views/metabox-config.php:1865 admin/views/metabox-config.php:2433
-#: admin/views/metabox-config.php:2452 admin/views/metabox-config.php:2471
-#: admin/views/metabox-config.php:2490 admin/views/metabox-config.php:2502
-#: admin/views/metabox-config.php:2530 admin/views/metabox-config.php:2541
-#: admin/views/metabox-config.php:2552 admin/views/metabox-config.php:2563
-#: admin/views/metabox-config.php:2574 admin/views/metabox-config.php:2585
-#: admin/views/metabox-config.php:2766 admin/views/metabox-config.php:2955
+#: admin/views/metabox-config.php:944 admin/views/metabox-config.php:1123
+#: admin/views/metabox-config.php:1190 admin/views/metabox-config.php:1261
+#: admin/views/metabox-config.php:1283 admin/views/metabox-config.php:1326
+#: admin/views/metabox-config.php:1354 admin/views/metabox-config.php:1365
+#: admin/views/metabox-config.php:1376 admin/views/metabox-config.php:1388
+#: admin/views/metabox-config.php:1402 admin/views/metabox-config.php:1418
+#: admin/views/metabox-config.php:1437 admin/views/metabox-config.php:1448
+#: admin/views/metabox-config.php:1459 admin/views/metabox-config.php:1470
+#: admin/views/metabox-config.php:1482 admin/views/metabox-config.php:1498
+#: admin/views/metabox-config.php:1526 admin/views/metabox-config.php:1556
+#: admin/views/metabox-config.php:1568 admin/views/metabox-config.php:1600
+#: admin/views/metabox-config.php:1954 admin/views/metabox-config.php:2160
+#: admin/views/metabox-config.php:2179 admin/views/metabox-config.php:2198
+#: admin/views/metabox-config.php:2217 admin/views/metabox-config.php:2229
+#: admin/views/metabox-config.php:2257 admin/views/metabox-config.php:2268
+#: admin/views/metabox-config.php:2279 admin/views/metabox-config.php:2290
+#: admin/views/metabox-config.php:2301 admin/views/metabox-config.php:2482
+#: admin/views/metabox-config.php:2638
 msgid "Hide"
 msgstr ""
 
-#: admin/views/metabox-config.php:1048
+#: admin/views/metabox-config.php:952
 msgid "Items Style"
 msgstr ""
 
-#: admin/views/metabox-config.php:1049
+#: admin/views/metabox-config.php:953
 msgid "Select an item style for the title, description, meta etc."
 msgstr ""
 
-#: admin/views/metabox-config.php:1053
+#: admin/views/metabox-config.php:957
 msgid "Classic"
 msgstr ""
 
-#: admin/views/metabox-config.php:1057
-msgid "Overlay"
-msgstr ""
-
-#: admin/views/metabox-config.php:1062
+#: admin/views/metabox-config.php:961
 msgid "Caption Full"
 msgstr ""
 
-#: admin/views/metabox-config.php:1067
+#: admin/views/metabox-config.php:966 blocks/controls/constants.js:263
+msgid "Overlay"
+msgstr ""
+
+#: admin/views/metabox-config.php:971
 msgid "Caption Part"
 msgstr ""
 
-#: admin/views/metabox-config.php:1072
+#: admin/views/metabox-config.php:976
 msgid "Diagonal"
 msgstr ""
 
-#: admin/views/metabox-config.php:1077
+#: admin/views/metabox-config.php:981
 msgid "Content Box"
 msgstr ""
 
-#: admin/views/metabox-config.php:1082
+#: admin/views/metabox-config.php:986
 msgid "Moving"
 msgstr ""
 
-#: admin/views/metabox-config.php:1093
+#: admin/views/metabox-config.php:997
 msgid "Content Position"
 msgstr ""
 
-#: admin/views/metabox-config.php:1094
+#: admin/views/metabox-config.php:998
 msgid "Set a position for the content."
 msgstr ""
 
-#: admin/views/metabox-config.php:1097
+#: admin/views/metabox-config.php:1001
 #, php-format
 msgid ""
-"Want to unlock amazing %1$sItem Styles%2$s and unleash your creativity? "
+"Want to unlock additional Item Styles and unleash your creativity? "
 "%3$sUpgrade to Pro!%2$s"
 msgstr ""
 
-#: admin/views/metabox-config.php:1105 admin/views/metabox-config.php:1148
+#: admin/views/metabox-config.php:1009 admin/views/metabox-config.php:1039
 msgid "Bottom"
 msgstr ""
 
-#: admin/views/metabox-config.php:1109 admin/views/metabox-config.php:1146
+#: admin/views/metabox-config.php:1013 admin/views/metabox-config.php:1037
 msgid "Top"
 msgstr ""
 
-#: admin/views/metabox-config.php:1113
+#: admin/views/metabox-config.php:1017
 msgid "Right"
 msgstr ""
 
-#: admin/views/metabox-config.php:1118
+#: admin/views/metabox-config.php:1022
 msgid "Left"
 msgstr ""
 
-#: admin/views/metabox-config.php:1129
-msgid "Enable Equal Height"
-msgstr ""
-
-#: admin/views/metabox-config.php:1132
-msgid "Enable to make all items or slides equal to the tallest one."
-msgstr ""
-
-#: admin/views/metabox-config.php:1133
-msgid "Equal Height"
-msgstr ""
-
-#: admin/views/metabox-config.php:1133 admin/views/metabox-config.php:1314
-#: admin/views/metabox-config.php:1406
-msgid "Open Docs"
-msgstr ""
-
-#: admin/views/metabox-config.php:1142
+#: admin/views/metabox-config.php:1033
 msgid "Items Vertical Alignment"
 msgstr ""
 
-#: admin/views/metabox-config.php:1143
+#: admin/views/metabox-config.php:1034
 msgid "Select a vertical alignment for the items."
 msgstr ""
 
-#: admin/views/metabox-config.php:1144
+#: admin/views/metabox-config.php:1035
 msgid "Slider Vertical Alignment"
 msgstr ""
 
-#: admin/views/metabox-config.php:1147 admin/views/metabox-config.php:2315
+#: admin/views/metabox-config.php:1038 admin/views/metabox-config.php:1980
 msgid "Middle"
 msgstr ""
 
-#: admin/views/metabox-config.php:1157
+#: admin/views/metabox-config.php:1047
 msgid "Item Border"
 msgstr ""
 
-#: admin/views/metabox-config.php:1158
+#: admin/views/metabox-config.php:1048
 msgid "Set border for the items."
 msgstr ""
 
-#: admin/views/metabox-config.php:1160
+#: admin/views/metabox-config.php:1050
 msgid "Items Border"
 msgstr ""
 
-#: admin/views/metabox-config.php:1173
+#: admin/views/metabox-config.php:1063
 msgid "Slide Background"
 msgstr ""
 
-#: admin/views/metabox-config.php:1174
+#: admin/views/metabox-config.php:1064
 msgid "Set background color for the slide."
 msgstr ""
 
-#: admin/views/metabox-config.php:1181
+#: admin/views/metabox-config.php:1071
 msgid "Items Box-Shadow"
 msgstr ""
 
-#: admin/views/metabox-config.php:1182
+#: admin/views/metabox-config.php:1072
 msgid "Set Box-Shadow for the items."
 msgstr ""
 
-#: admin/views/metabox-config.php:1184
+#: admin/views/metabox-config.php:1074
 #: admin/views/sp-framework/fields/border/border.php:90
 #: admin/views/sp-framework/fields/dimensions_advanced/dimensions_advanced.php:88
 msgid "Outset"
 msgstr ""
 
-#: admin/views/metabox-config.php:1185
+#: admin/views/metabox-config.php:1075
 #: admin/views/sp-framework/fields/border/border.php:89
 #: admin/views/sp-framework/fields/dimensions_advanced/dimensions_advanced.php:87
 msgid "Inset"
 msgstr ""
 
-#: admin/views/metabox-config.php:1186 admin/views/metabox-config.php:1375
-#: admin/views/metabox-config.php:2388 admin/views/metabox-config.php:2407
+#: admin/views/metabox-config.php:1076 admin/views/metabox-config.php:1164
+#: admin/views/metabox-config.php:2092 admin/views/metabox-config.php:2111
 #: admin/views/sp-framework/fields/border/border.php:93
 #: admin/views/sp-framework/fields/dimensions_advanced/dimensions_advanced.php:91
 #: admin/views/sp-framework/fields/typography/typography.php:249
+#: blocks/admin/modules/config/lightboxConfig.js:34
+#: blocks/blocks/shared/inspector/constants.js:74
 msgid "None"
 msgstr ""
 
-#: admin/views/metabox-config.php:1193
+#: admin/views/metabox-config.php:1083
 msgid "Box-Shadow Values"
 msgstr ""
 
-#: admin/views/metabox-config.php:1194
+#: admin/views/metabox-config.php:1084
 msgid "Set box-shadow property values for the item."
 msgstr ""
 
-#: admin/views/metabox-config.php:1238
+#: admin/views/metabox-config.php:1101
+msgid "Enable Equal Height"
+msgstr ""
+
+#: admin/views/metabox-config.php:1104
+msgid "Enable to make all items or slides equal to the tallest one."
+msgstr ""
+
+#: admin/views/metabox-config.php:1105
+msgid "Equal Height"
+msgstr ""
+
+#: admin/views/metabox-config.php:1105 admin/views/metabox-config.php:1203
+#: admin/views/metabox-config.php:1218
+msgid "Open Docs"
+msgstr ""
+
+#: admin/views/metabox-config.php:1114
 msgid "Image Styles"
 msgstr ""
 
-#: admin/views/metabox-config.php:1245
+#: admin/views/metabox-config.php:1121
 msgid "Show/Hide slide image."
 msgstr ""
 
-#: admin/views/metabox-config.php:1256
+#: admin/views/metabox-config.php:1132
 msgid "Dimensions"
 msgstr ""
 
-#: admin/views/metabox-config.php:1258
+#: admin/views/metabox-config.php:1134
 msgid "Set dimensions for the image."
 msgstr ""
 
-#: admin/views/metabox-config.php:1264 admin/views/option-config.php:179
-msgid "Custom Size"
-msgstr ""
-
-#: admin/views/metabox-config.php:1266
-msgid "Set width and height of the image."
-msgstr ""
-
-#: admin/views/metabox-config.php:1298
-msgid "Load 2x Resolution Image in Retina Display"
-msgstr ""
-
-#: admin/views/metabox-config.php:1302
-msgid "You should upload 2x sized images to show in retina display."
-msgstr ""
-
-#: admin/views/metabox-config.php:1312 admin/views/metabox-config.php:1314
-msgid "Variable Width"
-msgstr ""
-
-#: admin/views/metabox-config.php:1313
-msgid "Enable/Disable variable width."
-msgstr ""
-
-#: admin/views/metabox-config.php:1324
-msgid "Image Mode"
-msgstr ""
-
-#: admin/views/metabox-config.php:1325
-msgid "Set a mode for the images."
-msgstr ""
-
-#: admin/views/metabox-config.php:1327
-msgid "Original"
-msgstr ""
-
-#: admin/views/metabox-config.php:1329
-msgid "Grayscale and original on hover (Pro)"
-msgstr ""
-
-#: admin/views/metabox-config.php:1333
-msgid "Grayscale on hover (Pro)"
-msgstr ""
-
-#: admin/views/metabox-config.php:1337
-msgid "Always grayscale (Pro)"
-msgstr ""
-
-#: admin/views/metabox-config.php:1341
-msgid "Custom Color (Pro)"
-msgstr ""
-
-#: admin/views/metabox-config.php:1351
+#: admin/views/metabox-config.php:1140
 msgid "Lazy Load"
 msgstr ""
 
-#: admin/views/metabox-config.php:1352
+#: admin/views/metabox-config.php:1141
 msgid "Set lazy load option for the image."
 msgstr ""
 
-#: admin/views/metabox-config.php:1354
-#: admin/views/sp-framework/fields/switcher/switcher.php:47
+#: admin/views/metabox-config.php:1143
+#: admin/views/sp-framework/fields/switcher/switcher.php:48
 msgid "Off"
 msgstr ""
 
-#: admin/views/metabox-config.php:1355
+#: admin/views/metabox-config.php:1144
 msgid "On Demand"
 msgstr ""
 
-#: admin/views/metabox-config.php:1364
+#: admin/views/metabox-config.php:1153
 msgid "Zoom Effect"
 msgstr ""
 
-#: admin/views/metabox-config.php:1365
+#: admin/views/metabox-config.php:1154
 msgid "Set a zoom effect on hover the image."
 msgstr ""
 
-#: admin/views/metabox-config.php:1368
+#: admin/views/metabox-config.php:1157
 #, php-format
 msgid ""
 "%1$sZoom%2$sThis feature lets you choose a specific zoom effect when "
 "hovering over an image for an engaging experience.%3$sLive Demo%4$s"
 msgstr ""
 
-#: admin/views/metabox-config.php:1376
+#: admin/views/metabox-config.php:1165
+#: blocks/blocks/shared/inspector/constants.js:108
 msgid "Zoom In"
 msgstr ""
 
-#: admin/views/metabox-config.php:1377
+#: admin/views/metabox-config.php:1166
 msgid "Zoom Out"
 msgstr ""
 
-#: admin/views/metabox-config.php:1386
+#: admin/views/metabox-config.php:1175
 msgid "Image Border"
 msgstr ""
 
-#: admin/views/metabox-config.php:1387
+#: admin/views/metabox-config.php:1176
 msgid "Set border for the product image."
 msgstr ""
 
-#: admin/views/metabox-config.php:1404 admin/views/metabox-config.php:1406
-msgid "Watermark"
-msgstr ""
-
-#: admin/views/metabox-config.php:1405
-msgid "Enable to add watermark to the image."
-msgstr ""
-
-#: admin/views/metabox-config.php:1417
-msgid "Image Protection"
-msgstr ""
-
-#: admin/views/metabox-config.php:1418
-msgid "Enable to protect image downloading from right-click."
-msgstr ""
-
-#: admin/views/metabox-config.php:1428
+#: admin/views/metabox-config.php:1191
 msgid "Image Title Attribute"
 msgstr ""
 
-#: admin/views/metabox-config.php:1429
+#: admin/views/metabox-config.php:1192
 msgid "Show/Hide image title attribute."
 msgstr ""
 
-#: admin/views/metabox-config.php:1440
+#: admin/views/metabox-config.php:1201 admin/views/metabox-config.php:1203
+msgid "Variable Width"
+msgstr ""
+
+#: admin/views/metabox-config.php:1202
+msgid "Enable/Disable variable width."
+msgstr ""
+
+#: admin/views/metabox-config.php:1216 admin/views/metabox-config.php:1218
+#: blocks/admin/modules/config/moduleSettingsRegistry.js:19
+#: blocks/admin/pages/modules/module-data.js:34
+#: src/Admin/Dashboard/Dashboard.php:154
+msgid "Watermark"
+msgstr ""
+
+#: admin/views/metabox-config.php:1217
+msgid "Enable to add watermark to the image."
+msgstr ""
+
+#: admin/views/metabox-config.php:1229
+msgid "Image Protection"
+msgstr ""
+
+#: admin/views/metabox-config.php:1230
+msgid "Enable to protect image downloading from right-click."
+msgstr ""
+
+#: admin/views/metabox-config.php:1241
 #, php-format
 msgid ""
 "Want to take your image editing experience to the next level with %1$sImage "
@@ -1262,778 +1222,779 @@ msgid ""
 "Color, and Custom Size? %2$sUpgrade to Pro!%3$s"
 msgstr ""
 
-#: admin/views/metabox-config.php:1450 admin/views/metabox-config.php:1479
+#: admin/views/metabox-config.php:1251 admin/views/metabox-config.php:1280
 msgid "Post Content"
 msgstr ""
 
-#: admin/views/metabox-config.php:1457
+#: admin/views/metabox-config.php:1258
 msgid "Post Title"
 msgstr ""
 
-#: admin/views/metabox-config.php:1458
+#: admin/views/metabox-config.php:1259
 msgid "Show/Hide post title."
 msgstr ""
 
-#: admin/views/metabox-config.php:1469 admin/views/metabox-config.php:1645
+#: admin/views/metabox-config.php:1270
 msgid "Length"
 msgstr ""
 
-#: admin/views/metabox-config.php:1470
+#: admin/views/metabox-config.php:1271
 msgid "Leave empty to show full post title."
 msgstr ""
 
-#: admin/views/metabox-config.php:1480
+#: admin/views/metabox-config.php:1281
 msgid "Show/Hide post content."
 msgstr ""
 
-#: admin/views/metabox-config.php:1491
+#: admin/views/metabox-config.php:1292
 msgid "Content Display Type"
 msgstr ""
 
-#: admin/views/metabox-config.php:1492
+#: admin/views/metabox-config.php:1293
 msgid "Select a content display type."
 msgstr ""
 
-#: admin/views/metabox-config.php:1496
+#: admin/views/metabox-config.php:1297
+#: blocks/blocks/shared/inspector/panels/cardContent/sourceAccessors/post.js:161
 msgid "Excerpt"
 msgstr ""
 
-#: admin/views/metabox-config.php:1499
+#: admin/views/metabox-config.php:1300
 msgid "Full Content"
 msgstr ""
 
-#: admin/views/metabox-config.php:1502
+#: admin/views/metabox-config.php:1303
 msgid "Content with Limit"
 msgstr ""
 
-#: admin/views/metabox-config.php:1512 admin/views/metabox-config.php:1853
+#: admin/views/metabox-config.php:1313 admin/views/metabox-config.php:1588
 msgid "Words Limit"
 msgstr ""
 
-#: admin/views/metabox-config.php:1513
+#: admin/views/metabox-config.php:1314
 msgid "Set post content words limit. Default value is 30 words."
 msgstr ""
 
-#: admin/views/metabox-config.php:1522 admin/views/metabox-config.php:1862
+#: admin/views/metabox-config.php:1323 admin/views/metabox-config.php:1597
 msgid "Read More Button"
 msgstr ""
 
-#: admin/views/metabox-config.php:1523
+#: admin/views/metabox-config.php:1324
 msgid "Show/Hide content read more button."
 msgstr ""
 
-#: admin/views/metabox-config.php:1534 admin/views/metabox-config.php:1873
+#: admin/views/metabox-config.php:1335 admin/views/metabox-config.php:1608
 msgid "Read More Button Label"
 msgstr ""
 
-#: admin/views/metabox-config.php:1535 admin/views/metabox-config.php:1683
-#: admin/views/metabox-config.php:1874
+#: admin/views/metabox-config.php:1336 admin/views/metabox-config.php:1609
 msgid "Change the read more button label text."
 msgstr ""
 
-#: admin/views/metabox-config.php:1541
+#: admin/views/metabox-config.php:1342
 msgid "Post Meta"
 msgstr ""
 
-#: admin/views/metabox-config.php:1550
+#: admin/views/metabox-config.php:1351
 msgid "Author"
 msgstr ""
 
-#: admin/views/metabox-config.php:1551
+#: admin/views/metabox-config.php:1352
 msgid "Show/Hide post author name."
 msgstr ""
 
-#: admin/views/metabox-config.php:1562
+#: admin/views/metabox-config.php:1363
 msgid "Show/Hide post date."
 msgstr ""
 
-#: admin/views/metabox-config.php:1572
+#: admin/views/metabox-config.php:1373
 msgid "Comment"
 msgstr ""
 
-#: admin/views/metabox-config.php:1573
+#: admin/views/metabox-config.php:1374
 msgid "Show/Hide post comment number."
 msgstr ""
 
-#: admin/views/metabox-config.php:1584
+#: admin/views/metabox-config.php:1385
 msgid "Category"
 msgstr ""
 
-#: admin/views/metabox-config.php:1585
+#: admin/views/metabox-config.php:1386
 msgid "Show/Hide post category name."
 msgstr ""
 
-#: admin/views/metabox-config.php:1597
+#: admin/views/metabox-config.php:1398
 msgid "Tag"
 msgstr ""
 
-#: admin/views/metabox-config.php:1598
+#: admin/views/metabox-config.php:1399
 msgid "Show/Hide post tags."
 msgstr ""
 
-#: admin/views/metabox-config.php:1607 admin/views/metabox-config.php:1614
-#: admin/views/metabox-config.php:1725
+#: admin/views/metabox-config.php:1408 admin/views/metabox-config.php:1415
+#: admin/views/metabox-config.php:1479
 msgid "Social Share"
 msgstr ""
 
-#: admin/views/metabox-config.php:1615 admin/views/metabox-config.php:1726
+#: admin/views/metabox-config.php:1416 admin/views/metabox-config.php:1480
 msgid "Show/Hide post social share."
 msgstr ""
 
-#: admin/views/metabox-config.php:1627
+#: admin/views/metabox-config.php:1428
 msgid "Product Info"
 msgstr ""
 
-#: admin/views/metabox-config.php:1633
+#: admin/views/metabox-config.php:1434
 msgid "Product Name"
 msgstr ""
 
-#: admin/views/metabox-config.php:1634
+#: admin/views/metabox-config.php:1435
 msgid "Show/Hide product name."
 msgstr ""
 
-#: admin/views/metabox-config.php:1646
-msgid "Leave empty to show full product name."
-msgstr ""
-
-#: admin/views/metabox-config.php:1656
-msgid "Product Description"
-msgstr ""
-
-#: admin/views/metabox-config.php:1657 admin/views/metabox-config.php:1842
-msgid "Choose the description display type."
-msgstr ""
-
-#: admin/views/metabox-config.php:1660 admin/views/metabox-config.php:1844
-msgid "Full"
-msgstr ""
-
-#: admin/views/metabox-config.php:1661
-msgid "Short"
-msgstr ""
-
-#: admin/views/metabox-config.php:1672
-msgid "Leave empty to show full product description."
-msgstr ""
-
-#: admin/views/metabox-config.php:1682
-msgid "Read More Label"
-msgstr ""
-
-#: admin/views/metabox-config.php:1691
+#: admin/views/metabox-config.php:1445
 msgid "Product Price"
 msgstr ""
 
-#: admin/views/metabox-config.php:1692
+#: admin/views/metabox-config.php:1446
 msgid "Show/Hide product price."
 msgstr ""
 
-#: admin/views/metabox-config.php:1702
+#: admin/views/metabox-config.php:1456
 msgid "Product Rating"
 msgstr ""
 
-#: admin/views/metabox-config.php:1703
+#: admin/views/metabox-config.php:1457
 msgid "Show/Hide product rating."
 msgstr ""
 
-#: admin/views/metabox-config.php:1713
+#: admin/views/metabox-config.php:1467
 msgid "Add to Cart Button"
 msgstr ""
 
-#: admin/views/metabox-config.php:1714
+#: admin/views/metabox-config.php:1468
 msgid "Show/Hide add to cart button."
 msgstr ""
 
-#: admin/views/metabox-config.php:1735
+#: admin/views/metabox-config.php:1489
 msgid "Product Brands"
 msgstr ""
 
-#: admin/views/metabox-config.php:1741
+#: admin/views/metabox-config.php:1495
 msgid "Show Brands"
 msgstr ""
 
-#: admin/views/metabox-config.php:1742
+#: admin/views/metabox-config.php:1496
 msgid "Show/Hide product brands."
 msgstr ""
 
-#: admin/views/metabox-config.php:1754
+#: admin/views/metabox-config.php:1508
 #, php-format
 msgid ""
 "To Enable Product Brands feature, you must Install and Activate the "
 "%1$sSmart Brands for WooCommerce%2$s plugin. %3$s"
 msgstr ""
 
-#: admin/views/metabox-config.php:1763
+#: admin/views/metabox-config.php:1517
 msgid "Quick View Button"
 msgstr ""
 
-#: admin/views/metabox-config.php:1769
+#: admin/views/metabox-config.php:1523
 msgid "Show Quick View Button"
 msgstr ""
 
-#: admin/views/metabox-config.php:1770
+#: admin/views/metabox-config.php:1524
 msgid "Show/Hide quick view button."
 msgstr ""
 
-#: admin/views/metabox-config.php:1782
+#: admin/views/metabox-config.php:1536
 #, php-format
 msgid ""
 "To Enable Quick view feature, you must Install and Activate the %1$sQuick "
 "View for WooCommerce%2$s plugin. %3$s"
 msgstr ""
 
-#: admin/views/metabox-config.php:1793
+#: admin/views/metabox-config.php:1547
 msgid "Title & Description"
 msgstr ""
 
-#: admin/views/metabox-config.php:1800
+#: admin/views/metabox-config.php:1554
 msgid "Show/Hide title for the image."
 msgstr ""
 
-#: admin/views/metabox-config.php:1810
-msgid "Title Source"
-msgstr ""
-
-#: admin/views/metabox-config.php:1811
-msgid "Choose a title source."
-msgstr ""
-
-#: admin/views/metabox-config.php:1815
-msgid "Caption(Pro)"
-msgstr ""
-
-#: admin/views/metabox-config.php:1819
-msgid "Alt Text(Pro)"
-msgstr ""
-
-#: admin/views/metabox-config.php:1831
+#: admin/views/metabox-config.php:1566
 msgid "Show/Hide description for image."
 msgstr ""
 
-#: admin/views/metabox-config.php:1841
+#: admin/views/metabox-config.php:1576
 msgid "Display Type"
 msgstr ""
 
-#: admin/views/metabox-config.php:1854
+#: admin/views/metabox-config.php:1577
+msgid "Choose the description display type."
+msgstr ""
+
+#: admin/views/metabox-config.php:1579
+msgid "Full"
+msgstr ""
+
+#: admin/views/metabox-config.php:1589
 msgid "Set description words limit."
 msgstr ""
 
-#: admin/views/metabox-config.php:1863
+#: admin/views/metabox-config.php:1598
 msgid "Show/Hide description read more button."
 msgstr ""
 
-#: admin/views/metabox-config.php:1883
+#: admin/views/metabox-config.php:1618
 #, php-format
 msgid ""
 "To show the Image Description, Limit Words, and Read More button, "
 "%1$sUpgrade to Pro!%2$s"
 msgstr ""
 
-#: admin/views/metabox-config.php:1892
-msgid "Typographpy"
+#: admin/views/metabox-config.php:1627
+#: blocks/components/typography/typography.js:319
+msgid "Typography"
 msgstr ""
 
-#: admin/views/metabox-config.php:1901
+#: admin/views/metabox-config.php:1636
 #, php-format
 msgid ""
 "Want to customize everything %1$s(Colors and Typography)%2$s easily? "
 "%3$sUpgrade to Pro!%4$s"
 msgstr ""
 
-#: admin/views/metabox-config.php:1912
+#: admin/views/metabox-config.php:1647
 msgid "Load Section Title Font"
 msgstr ""
 
-#: admin/views/metabox-config.php:1913
+#: admin/views/metabox-config.php:1648
 msgid "On/Off google font for the section title."
 msgstr ""
 
-#: admin/views/metabox-config.php:1921
+#: admin/views/metabox-config.php:1656
 msgid "Section Title Font"
 msgstr ""
 
-#: admin/views/metabox-config.php:1922
+#: admin/views/metabox-config.php:1657
 msgid "Set the section title font properties."
 msgstr ""
 
-#: admin/views/metabox-config.php:1945
+#: admin/views/metabox-config.php:1680
 msgid "Load Caption Font"
 msgstr ""
 
-#: admin/views/metabox-config.php:1946
+#: admin/views/metabox-config.php:1681
 msgid "On/Off google font for the image caption."
 msgstr ""
 
-#: admin/views/metabox-config.php:1955
+#: admin/views/metabox-config.php:1689
 msgid "Caption Font"
 msgstr ""
 
-#: admin/views/metabox-config.php:1956
+#: admin/views/metabox-config.php:1690
 msgid "Set caption font properties."
 msgstr ""
 
-#: admin/views/metabox-config.php:1976
+#: admin/views/metabox-config.php:1710
 msgid "Load Description Font"
 msgstr ""
 
-#: admin/views/metabox-config.php:1977
+#: admin/views/metabox-config.php:1711
 msgid "On/Off google font for the image description."
 msgstr ""
 
-#: admin/views/metabox-config.php:1986
+#: admin/views/metabox-config.php:1720
 msgid "Description Font"
 msgstr ""
 
-#: admin/views/metabox-config.php:1987
+#: admin/views/metabox-config.php:1721
 msgid "Set description font properties."
 msgstr ""
 
-#: admin/views/metabox-config.php:2007
+#: admin/views/metabox-config.php:1740
 msgid "Load Title Font"
 msgstr ""
 
-#: admin/views/metabox-config.php:2008
+#: admin/views/metabox-config.php:1741
 msgid "On/Off google font for the slide title."
 msgstr ""
 
-#: admin/views/metabox-config.php:2017
+#: admin/views/metabox-config.php:1750
 msgid "Post Title Font"
 msgstr ""
 
-#: admin/views/metabox-config.php:2018
+#: admin/views/metabox-config.php:1751
 msgid "Set title font properties."
 msgstr ""
 
-#: admin/views/metabox-config.php:2039
+#: admin/views/metabox-config.php:1772
 msgid "Post Content Font Load"
 msgstr ""
 
-#: admin/views/metabox-config.php:2040
+#: admin/views/metabox-config.php:1773
 msgid "On/Off google font for post the content."
 msgstr ""
 
-#: admin/views/metabox-config.php:2049
+#: admin/views/metabox-config.php:1782
 msgid "Post Content Font"
 msgstr ""
 
-#: admin/views/metabox-config.php:2050
+#: admin/views/metabox-config.php:1783
 msgid "Set post content font properties."
 msgstr ""
 
-#: admin/views/metabox-config.php:2067
+#: admin/views/metabox-config.php:1800
 msgid "Post Meta Font Load"
 msgstr ""
 
-#: admin/views/metabox-config.php:2068
+#: admin/views/metabox-config.php:1801
 msgid "On/Off google font for the post meta."
 msgstr ""
 
-#: admin/views/metabox-config.php:2077
+#: admin/views/metabox-config.php:1810
 msgid "Post Meta Font"
 msgstr ""
 
-#: admin/views/metabox-config.php:2078
+#: admin/views/metabox-config.php:1811
 msgid "Set post meta font properties."
 msgstr ""
 
-#: admin/views/metabox-config.php:2097
+#: admin/views/metabox-config.php:1830
 msgid "Product Name Font Load"
 msgstr ""
 
-#: admin/views/metabox-config.php:2098
+#: admin/views/metabox-config.php:1831
 msgid "On/Off google font for the product name."
 msgstr ""
 
-#: admin/views/metabox-config.php:2107
+#: admin/views/metabox-config.php:1840
 msgid "Product Name Font"
 msgstr ""
 
-#: admin/views/metabox-config.php:2108
+#: admin/views/metabox-config.php:1841
 msgid "Set product name font properties."
 msgstr ""
 
-#: admin/views/metabox-config.php:2128
+#: admin/views/metabox-config.php:1861
 msgid "Product Price Font Load"
 msgstr ""
 
-#: admin/views/metabox-config.php:2129
+#: admin/views/metabox-config.php:1862
 msgid "On/Off google font for the product price."
 msgstr ""
 
-#: admin/views/metabox-config.php:2139
+#: admin/views/metabox-config.php:1872
 msgid "Product Price Font"
 msgstr ""
 
-#: admin/views/metabox-config.php:2140
+#: admin/views/metabox-config.php:1873
 msgid "Set product price font properties."
 msgstr ""
 
-#: admin/views/metabox-config.php:2168
+#: admin/views/metabox-config.php:1901
 msgid "Lightbox Settings"
 msgstr ""
 
-#: admin/views/metabox-config.php:2176
-msgid "General (Pro)"
+#: admin/views/metabox-config.php:1909
+#: src/Admin/PageBuilders/Beaver/wp-carousel-beaver-module.php:98
+msgid "General"
 msgstr ""
 
-#: admin/views/metabox-config.php:2185
-#, php-format
-msgid ""
-"The basic lightbox works in the Lite version. To unleash the full potential "
-"of your images with %1$s28+ Pro Lightbox%2$s options, %3$sUpgrade to Pro!%4$s"
-msgstr ""
-
-#: admin/views/metabox-config.php:2196
-msgid "AutoPlay "
-msgstr ""
-
-#: admin/views/metabox-config.php:2197
-msgid "Enable to automatically start slideshow."
-msgstr ""
-
-#: admin/views/metabox-config.php:2207
-msgid "Speed"
-msgstr ""
-
-#: admin/views/metabox-config.php:2208
-msgid "The timeout between sliding to the next slide in milliseconds."
-msgstr ""
-
-#: admin/views/metabox-config.php:2221
-msgid "Loop"
-msgstr ""
-
-#: admin/views/metabox-config.php:2222
-msgid "Enable/Disable infinite gallery navigation."
-msgstr ""
-
-#: admin/views/metabox-config.php:2232
-msgid "Keyboard Navigation"
-msgstr ""
-
-#: admin/views/metabox-config.php:2233
-msgid "Enable/Disable keyboard navigation for the lightbox image."
-msgstr ""
-
-#: admin/views/metabox-config.php:2243
-msgid "Lightbox Navigation Arrow"
-msgstr ""
-
-#: admin/views/metabox-config.php:2244
-msgid "Set navigation color for the lightbox."
-msgstr ""
-
-#: admin/views/metabox-config.php:2263
+#: admin/views/metabox-config.php:1915
 msgid "Overlay Background Color"
 msgstr ""
 
-#: admin/views/metabox-config.php:2264
+#: admin/views/metabox-config.php:1916
 msgid "Set overlay background color for lightbox."
 msgstr ""
 
-#: admin/views/metabox-config.php:2271
+#: admin/views/metabox-config.php:1922
+msgid "Lightbox Navigation Arrow"
+msgstr ""
+
+#: admin/views/metabox-config.php:1923
+msgid "Set navigation color for the lightbox."
+msgstr ""
+
+#: admin/views/metabox-config.php:1941
 msgid "Overlay/Outside Close"
 msgstr ""
 
-#: admin/views/metabox-config.php:2272
+#: admin/views/metabox-config.php:1942
 msgid "Close when clicked outside of the image and content or dark overlay."
 msgstr ""
 
-#: admin/views/metabox-config.php:2280
-msgid "Lightbox Icons (Pro)"
-msgstr ""
-
-#: admin/views/metabox-config.php:2286
-msgid "Lightbox Icon Style"
-msgstr ""
-
-#: admin/views/metabox-config.php:2287
-msgid "Choose a icon on hover image."
-msgstr ""
-
-#: admin/views/metabox-config.php:2299
-msgid "none"
-msgstr ""
-
-#: admin/views/metabox-config.php:2308
-msgid "Icon Display Position"
-msgstr ""
-
-#: admin/views/metabox-config.php:2309
-msgid "Select a icon display position on image."
-msgstr ""
-
-#: admin/views/metabox-config.php:2311
-msgid "Thumbnail Position"
-msgstr ""
-
-#: admin/views/metabox-config.php:2319 admin/views/metabox-config.php:2797
-msgid "Top Right"
-msgstr ""
-
-#: admin/views/metabox-config.php:2324 admin/views/metabox-config.php:2803
-msgid "Top Left"
-msgstr ""
-
-#: admin/views/metabox-config.php:2329 admin/views/metabox-config.php:2812
-msgid "Bottom Right"
-msgstr ""
-
-#: admin/views/metabox-config.php:2334 admin/views/metabox-config.php:2806
-msgid "Bottom Left"
-msgstr ""
-
-#: admin/views/metabox-config.php:2345 admin/views/metabox-config.php:2862
-msgid "Icon Size"
-msgstr ""
-
-#: admin/views/metabox-config.php:2346
-msgid "Set icon size for image."
-msgstr ""
-
-#: admin/views/metabox-config.php:2354
-msgid "Icon Color"
-msgstr ""
-
-#: admin/views/metabox-config.php:2355
-msgid "Set color for the lightbox icon."
-msgstr ""
-
-#: admin/views/metabox-config.php:2372
-msgid "Animations (Pro)"
-msgstr ""
-
-#: admin/views/metabox-config.php:2378
-msgid "Transition Effect Between Slides"
-msgstr ""
-
-#: admin/views/metabox-config.php:2379
-msgid "Select a transition effect between slides for lightbox image."
-msgstr ""
-
-#: admin/views/metabox-config.php:2384 admin/views/metabox-config.php:2403
-msgid "Circular"
-msgstr ""
-
-#: admin/views/metabox-config.php:2385 admin/views/metabox-config.php:2404
-msgid "Tube"
-msgstr ""
-
-#: admin/views/metabox-config.php:2386 admin/views/metabox-config.php:2405
-msgid "Zoom-in-out"
-msgstr ""
-
-#: admin/views/metabox-config.php:2387 admin/views/metabox-config.php:2406
-msgid "Rotate"
-msgstr ""
-
-#: admin/views/metabox-config.php:2396
-msgid "Open/Close Animation Type"
-msgstr ""
-
-#: admin/views/metabox-config.php:2397
-msgid "Select an animation type for opening/closing lightbox image."
-msgstr ""
-
-#: admin/views/metabox-config.php:2400
-msgid "Zoom"
-msgstr ""
-
-#: admin/views/metabox-config.php:2414
-msgid "Image & Thumbs (Pro)"
-msgstr ""
-
-#: admin/views/metabox-config.php:2421 admin/views/metabox-config.php:2423
-msgid "Image Icon Overlay Color"
-msgstr ""
-
-#: admin/views/metabox-config.php:2422
-msgid "Set icon overlay color for image."
-msgstr ""
-
-#: admin/views/metabox-config.php:2430
-msgid "Image Title"
-msgstr ""
-
-#: admin/views/metabox-config.php:2431
-msgid "Show/Hide image title for lightbox."
-msgstr ""
-
-#: admin/views/metabox-config.php:2441
-msgid "Caption Color"
-msgstr ""
-
-#: admin/views/metabox-config.php:2442
-msgid "Change the color for lightbox image caption."
-msgstr ""
-
-#: admin/views/metabox-config.php:2449
-msgid "Image Description"
-msgstr ""
-
-#: admin/views/metabox-config.php:2450
-msgid "Show/Hide image description for lightbox."
-msgstr ""
-
-#: admin/views/metabox-config.php:2460
-msgid "Description Color"
-msgstr ""
-
-#: admin/views/metabox-config.php:2461
-msgid "Change the color for lightbox image description."
-msgstr ""
-
-#: admin/views/metabox-config.php:2468
-msgid "Image Counter"
-msgstr ""
-
-#: admin/views/metabox-config.php:2469
-msgid "Show/Hide image counter for lightbox."
-msgstr ""
-
-#: admin/views/metabox-config.php:2479
-msgid "Disable Image Hover Overlay on the Mobile Devices"
-msgstr ""
-
-#: admin/views/metabox-config.php:2480
-msgid "Check to disable image hover overlay on the mobile devices."
-msgstr ""
-
-#: admin/views/metabox-config.php:2487
-msgid "Lightbox Bottom Thumbnails Gallery Icon"
-msgstr ""
-
-#: admin/views/metabox-config.php:2488
-msgid "Show/Hide bottom thumbnails gallery icon for lightbox."
-msgstr ""
-
-#: admin/views/metabox-config.php:2498
-msgid "Bottom Thumbnails Gallery Visibility"
-msgstr ""
-
-#: admin/views/metabox-config.php:2499
-msgid "Show/Hide bottom thumbnails gallery visibility for lightbox."
-msgstr ""
-
-#: admin/views/metabox-config.php:2500
-msgid "Bottom Thumbnail Gallery Visibility"
-msgstr ""
-
-#: admin/views/metabox-config.php:2510
-msgid "Protect Images"
-msgstr ""
-
-#: admin/views/metabox-config.php:2511
-msgid "Protect an image downloading from right-click."
-msgstr ""
-
-#: admin/views/metabox-config.php:2520
-msgid "Toolbar (Pro)"
-msgstr ""
-
-#: admin/views/metabox-config.php:2527
-msgid "Zoom Button"
-msgstr ""
-
-#: admin/views/metabox-config.php:2528
-msgid "Show/Hide zoom button for lightbox image."
-msgstr ""
-
-#: admin/views/metabox-config.php:2538
-msgid "Full-Screen Button"
-msgstr ""
-
-#: admin/views/metabox-config.php:2539
-msgid "Show/Hide full-screen button for lightbox."
-msgstr ""
-
-#: admin/views/metabox-config.php:2549
-msgid "Slideshow Play Button"
-msgstr ""
-
-#: admin/views/metabox-config.php:2550
-msgid "Show/Hide slideshow play button for lightbox."
-msgstr ""
-
-#: admin/views/metabox-config.php:2560
-msgid "Social Share Button"
-msgstr ""
-
-#: admin/views/metabox-config.php:2561
-msgid "Show/Hide social share button for lightbox."
-msgstr ""
-
-#: admin/views/metabox-config.php:2571
-msgid "Download Button"
-msgstr ""
-
-#: admin/views/metabox-config.php:2572
-msgid "Show/Hide download button for lightbox."
-msgstr ""
-
-#: admin/views/metabox-config.php:2582
+#: admin/views/metabox-config.php:1951
 msgid "Close Button"
 msgstr ""
 
-#: admin/views/metabox-config.php:2583
+#: admin/views/metabox-config.php:1952
 msgid "Show/Hide close bottom for lightbox."
 msgstr ""
 
-#: admin/views/metabox-config.php:2603
+#: admin/views/metabox-config.php:1964
+#, php-format
+msgid ""
+"To unleash the full potential of your images with %1$s20+ Pro Lightbox%2$s "
+"options, %3$sUpgrade to Pro!%4$s"
+msgstr ""
+
+#: admin/views/metabox-config.php:1975
+msgid "Select a icon display position on image."
+msgstr ""
+
+#: admin/views/metabox-config.php:1976
+msgid "Thumbnail Position"
+msgstr ""
+
+#: admin/views/metabox-config.php:1984 admin/views/metabox-config.php:2506
+#: blocks/admin/modules/config/lightboxConfig.js:13
+#: blocks/blocks/shared/inspector/panels/navigation/tabs/navigationDefaults.js:14
+msgid "Top Right"
+msgstr ""
+
+#: admin/views/metabox-config.php:1988
+#: blocks/admin/modules/config/lightboxConfig.js:12
+#: blocks/blocks/shared/inspector/panels/navigation/tabs/navigationDefaults.js:16
+msgid "Top Left"
+msgstr ""
+
+#: admin/views/metabox-config.php:1992
+#: blocks/admin/modules/config/lightboxConfig.js:16
+#: blocks/blocks/shared/inspector/panels/navigation/tabs/navigationDefaults.js:19
+msgid "Bottom Right"
+msgstr ""
+
+#: admin/views/metabox-config.php:1996
+#: blocks/admin/modules/config/lightboxConfig.js:15
+#: blocks/blocks/shared/inspector/panels/navigation/tabs/navigationDefaults.js:17
+msgid "Bottom Left"
+msgstr ""
+
+#: admin/views/metabox-config.php:2006
+msgid "Icon Size"
+msgstr ""
+
+#: admin/views/metabox-config.php:2007
+msgid "Set icon size for image."
+msgstr ""
+
+#: admin/views/metabox-config.php:2015
+msgid "Icon Color"
+msgstr ""
+
+#: admin/views/metabox-config.php:2016
+msgid "Set color for the lightbox icon."
+msgstr ""
+
+#: admin/views/metabox-config.php:2035
+msgid "AutoPlay "
+msgstr ""
+
+#: admin/views/metabox-config.php:2036
+msgid "Enable to automatically start slideshow."
+msgstr ""
+
+#: admin/views/metabox-config.php:2046
+msgid "Speed"
+msgstr ""
+
+#: admin/views/metabox-config.php:2047
+msgid "The timeout between sliding to the next slide in milliseconds."
+msgstr ""
+
+#: admin/views/metabox-config.php:2060
+msgid "Loop"
+msgstr ""
+
+#: admin/views/metabox-config.php:2061
+msgid "Enable/Disable infinite gallery navigation."
+msgstr ""
+
+#: admin/views/metabox-config.php:2071
+msgid "Keyboard Navigation"
+msgstr ""
+
+#: admin/views/metabox-config.php:2072
+msgid "Enable/Disable keyboard navigation for the lightbox image."
+msgstr ""
+
+#: admin/views/metabox-config.php:2082
+msgid "Transition Effect Between Slides"
+msgstr ""
+
+#: admin/views/metabox-config.php:2083
+msgid "Select a transition effect between slides for lightbox image."
+msgstr ""
+
+#: admin/views/metabox-config.php:2088 admin/views/metabox-config.php:2107
+#: blocks/admin/modules/config/lightboxConfig.js:30
+msgid "Circular"
+msgstr ""
+
+#: admin/views/metabox-config.php:2089 admin/views/metabox-config.php:2108
+#: blocks/admin/modules/config/lightboxConfig.js:31
+msgid "Tube"
+msgstr ""
+
+#: admin/views/metabox-config.php:2090 admin/views/metabox-config.php:2109
+msgid "Zoom-in-out"
+msgstr ""
+
+#: admin/views/metabox-config.php:2091 admin/views/metabox-config.php:2110
+#: blocks/admin/modules/config/lightboxConfig.js:33
+msgid "Rotate"
+msgstr ""
+
+#: admin/views/metabox-config.php:2100
+msgid "Open/Close Animation Type"
+msgstr ""
+
+#: admin/views/metabox-config.php:2101
+msgid "Select an animation type for opening/closing lightbox image."
+msgstr ""
+
+#: admin/views/metabox-config.php:2104
+#: blocks/admin/modules/config/lightboxConfig.js:27
+msgid "Zoom"
+msgstr ""
+
+#: admin/views/metabox-config.php:2119
+msgid "Lightbox Icon Style"
+msgstr ""
+
+#: admin/views/metabox-config.php:2120
+msgid "Choose a icon on hover image."
+msgstr ""
+
+#: admin/views/metabox-config.php:2132
+msgid "none"
+msgstr ""
+
+#: admin/views/metabox-config.php:2141
+msgid "Image & Thumbs"
+msgstr ""
+
+#: admin/views/metabox-config.php:2148 admin/views/metabox-config.php:2150
+msgid "Image Icon Overlay Color"
+msgstr ""
+
+#: admin/views/metabox-config.php:2149
+msgid "Set icon overlay color for image."
+msgstr ""
+
+#: admin/views/metabox-config.php:2157
+msgid "Image Title"
+msgstr ""
+
+#: admin/views/metabox-config.php:2158
+msgid "Show/Hide image title for lightbox."
+msgstr ""
+
+#: admin/views/metabox-config.php:2168
+msgid "Caption Color"
+msgstr ""
+
+#: admin/views/metabox-config.php:2169
+msgid "Change the color for lightbox image caption."
+msgstr ""
+
+#: admin/views/metabox-config.php:2176
+msgid "Image Description"
+msgstr ""
+
+#: admin/views/metabox-config.php:2177
+msgid "Show/Hide image description for lightbox."
+msgstr ""
+
+#: admin/views/metabox-config.php:2187
+#: blocks/blocks/shared/inspector/panels/cardContent/sourceAccessors/image.js:123
+#: blocks/blocks/shared/inspector/panels/cardContent/sourceAccessors/post.js:199
+#: blocks/blocks/shared/inspector/panels/cardContent/sourceAccessors/product.js:225
+msgid "Description Color"
+msgstr ""
+
+#: admin/views/metabox-config.php:2188
+msgid "Change the color for lightbox image description."
+msgstr ""
+
+#: admin/views/metabox-config.php:2195
+msgid "Image Counter"
+msgstr ""
+
+#: admin/views/metabox-config.php:2196
+msgid "Show/Hide image counter for lightbox."
+msgstr ""
+
+#: admin/views/metabox-config.php:2206
+msgid "Disable Image Hover Overlay on the Mobile Devices"
+msgstr ""
+
+#: admin/views/metabox-config.php:2207
+msgid "Check to disable image hover overlay on the mobile devices."
+msgstr ""
+
+#: admin/views/metabox-config.php:2214
+msgid "Lightbox Bottom Thumbnails Gallery Icon"
+msgstr ""
+
+#: admin/views/metabox-config.php:2215
+msgid "Show/Hide bottom thumbnails gallery icon for lightbox."
+msgstr ""
+
+#: admin/views/metabox-config.php:2225
+msgid "Bottom Thumbnails Gallery Visibility"
+msgstr ""
+
+#: admin/views/metabox-config.php:2226
+msgid "Show/Hide bottom thumbnails gallery visibility for lightbox."
+msgstr ""
+
+#: admin/views/metabox-config.php:2227
+msgid "Bottom Thumbnail Gallery Visibility"
+msgstr ""
+
+#: admin/views/metabox-config.php:2237
+msgid "Protect Images"
+msgstr ""
+
+#: admin/views/metabox-config.php:2238
+msgid "Protect an image downloading from right-click."
+msgstr ""
+
+#: admin/views/metabox-config.php:2247
+msgid "Toolbar"
+msgstr ""
+
+#: admin/views/metabox-config.php:2254
+msgid "Zoom Button"
+msgstr ""
+
+#: admin/views/metabox-config.php:2255
+msgid "Show/Hide zoom button for lightbox image."
+msgstr ""
+
+#: admin/views/metabox-config.php:2265
+msgid "Full-Screen Button"
+msgstr ""
+
+#: admin/views/metabox-config.php:2266
+msgid "Show/Hide full-screen button for lightbox."
+msgstr ""
+
+#: admin/views/metabox-config.php:2276
+msgid "Slideshow Play Button"
+msgstr ""
+
+#: admin/views/metabox-config.php:2277
+msgid "Show/Hide slideshow play button for lightbox."
+msgstr ""
+
+#: admin/views/metabox-config.php:2287
+msgid "Social Share Button"
+msgstr ""
+
+#: admin/views/metabox-config.php:2288
+msgid "Show/Hide social share button for lightbox."
+msgstr ""
+
+#: admin/views/metabox-config.php:2298
+msgid "Download Button"
+msgstr ""
+
+#: admin/views/metabox-config.php:2299
+msgid "Show/Hide download button for lightbox."
+msgstr ""
+
+#: admin/views/metabox-config.php:2319
 msgid "Carousel Settings"
 msgstr ""
 
-#: admin/views/metabox-config.php:2611
+#: admin/views/metabox-config.php:2327
 msgid "Basics"
 msgstr ""
 
-#: admin/views/metabox-config.php:2618
+#: admin/views/metabox-config.php:2334
 msgid "AutoPlay"
 msgstr ""
 
-#: admin/views/metabox-config.php:2619
+#: admin/views/metabox-config.php:2335
 msgid "Enable/Disable auto play."
 msgstr ""
 
-#: admin/views/metabox-config.php:2629 admin/views/metabox-config.php:2631
+#: admin/views/metabox-config.php:2345 admin/views/metabox-config.php:2347
 msgid "AutoPlay Delay Time"
 msgstr ""
 
-#: admin/views/metabox-config.php:2630
+#: admin/views/metabox-config.php:2346
 msgid "Set auto play delay time in millisecond."
 msgstr ""
 
-#: admin/views/metabox-config.php:2631
+#: admin/views/metabox-config.php:2347
 msgid ""
 "Set autoplay delay or interval time. The amount of time to delay between "
 "automatically carousel item. e.g. 1000 milliseconds(ms) = 1 second."
 msgstr ""
 
-#: admin/views/metabox-config.php:2632 admin/views/metabox-config.php:2650
+#: admin/views/metabox-config.php:2348 admin/views/metabox-config.php:2366
 msgid "ms"
 msgstr ""
 
-#: admin/views/metabox-config.php:2647 admin/views/metabox-config.php:2649
+#: admin/views/metabox-config.php:2363 admin/views/metabox-config.php:2365
 msgid "Carousel Speed"
 msgstr ""
 
-#: admin/views/metabox-config.php:2648
+#: admin/views/metabox-config.php:2364
 msgid "Set autoplay scroll speed in millisecond."
 msgstr ""
 
-#: admin/views/metabox-config.php:2649
+#: admin/views/metabox-config.php:2365
 msgid "Set carousel scrolling speed. e.g. 1000 milliseconds(ms) = 1 second."
 msgstr ""
 
-#: admin/views/metabox-config.php:2660
+#: admin/views/metabox-config.php:2375
+msgid "Pause on Hover"
+msgstr ""
+
+#: admin/views/metabox-config.php:2376
+msgid "Enable/Disable carousel pause on hover."
+msgstr ""
+
+#: admin/views/metabox-config.php:2386
+msgid "Infinite Loop"
+msgstr ""
+
+#: admin/views/metabox-config.php:2387
+msgid "Enable/Disable infinite loop mode."
+msgstr ""
+
+#: admin/views/metabox-config.php:2396
+msgid "Carousel Direction"
+msgstr ""
+
+#: admin/views/metabox-config.php:2397
+msgid "Set carousel direction as you need."
+msgstr ""
+
+#: admin/views/metabox-config.php:2399
+msgid "Right to Left"
+msgstr ""
+
+#: admin/views/metabox-config.php:2400
+msgid "Left to Right"
+msgstr ""
+
+#: admin/views/metabox-config.php:2410
 msgid "Carousel Orientation"
 msgstr ""
 
-#: admin/views/metabox-config.php:2661
+#: admin/views/metabox-config.php:2411
 msgid "Choose a carousel orientation."
 msgstr ""
 
-#: admin/views/metabox-config.php:2665
+#: admin/views/metabox-config.php:2415
 #, php-format
 msgid ""
 "%1$sCarousel Orientation %2$sChoose the carousel slide movement:"
@@ -2042,55 +2003,24 @@ msgid ""
 "to transition vertically, select %5$sVertical%8$sOpen Docs%9$sLive Demo%10$s"
 msgstr ""
 
-#: admin/views/metabox-config.php:2680
+#: admin/views/metabox-config.php:2430
 msgid "Horizontal"
 msgstr ""
 
-#: admin/views/metabox-config.php:2682
+#: admin/views/metabox-config.php:2432
 msgid "Vertical"
 msgstr ""
 
-#: admin/views/metabox-config.php:2692
-msgid "Pause on Hover"
-msgstr ""
-
-#: admin/views/metabox-config.php:2693
-msgid "Enable/Disable carousel pause on hover."
-msgstr ""
-
-#: admin/views/metabox-config.php:2703
-msgid "Infinite Loop"
-msgstr ""
-
-#: admin/views/metabox-config.php:2704
-msgid "Enable/Disable infinite loop mode."
-msgstr ""
-
-#: admin/views/metabox-config.php:2713
-msgid "Carousel Direction"
-msgstr ""
-
-#: admin/views/metabox-config.php:2714
-msgid "Set carousel direction as you need."
-msgstr ""
-
-#: admin/views/metabox-config.php:2716
-msgid "Right to Left"
-msgstr ""
-
-#: admin/views/metabox-config.php:2717
-msgid "Left to Right"
-msgstr ""
-
-#: admin/views/metabox-config.php:2727
+#: admin/views/metabox-config.php:2443
+#: blocks/admin/pages/lite-vs-pro/index.js:372
 msgid "Adaptive Height"
 msgstr ""
 
-#: admin/views/metabox-config.php:2728
+#: admin/views/metabox-config.php:2444
 msgid "Enable/Disable adaptive height for the carousel."
 msgstr ""
 
-#: admin/views/metabox-config.php:2740
+#: admin/views/metabox-config.php:2456
 #, php-format
 msgid ""
 "Ready to fascinate your audience with beautiful image transitions, like "
@@ -2098,241 +2028,220 @@ msgid ""
 "%1$sMulti-row Sliders%2$s? %3$sUpgrade to Pro!%4$s"
 msgstr ""
 
-#: admin/views/metabox-config.php:2750 admin/views/metabox-config.php:2762
+#: admin/views/metabox-config.php:2466 admin/views/metabox-config.php:2478
 msgid "Navigation"
 msgstr ""
 
-#: admin/views/metabox-config.php:2763
+#: admin/views/metabox-config.php:2479
 msgid "Show carousel navigation."
 msgstr ""
 
-#: admin/views/metabox-config.php:2774 admin/views/metabox-config.php:2963
+#: admin/views/metabox-config.php:2490 admin/views/metabox-config.php:2646
 msgid "Hide on Mobile"
 msgstr ""
 
-#: admin/views/metabox-config.php:2785
+#: admin/views/metabox-config.php:2501
 msgid "Select Position"
 msgstr ""
 
-#: admin/views/metabox-config.php:2786
+#: admin/views/metabox-config.php:2502
 msgid "Select a position for the navigation arrows."
 msgstr ""
 
-#: admin/views/metabox-config.php:2789
+#: admin/views/metabox-config.php:2504
 msgid "Vertical Outer"
 msgstr ""
 
-#: admin/views/metabox-config.php:2791
-msgid "Vertical Inner"
+#: admin/views/metabox-config.php:2509
+msgid "Vertical Inner (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:2794
-msgid "Vertical Center"
+#: admin/views/metabox-config.php:2513
+msgid "Vertical Center (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:2800
-msgid "Top Center"
+#: admin/views/metabox-config.php:2517
+msgid "Top Left (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:2809
-msgid "Bottom Center"
+#: admin/views/metabox-config.php:2521
+msgid "Top Center (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:2821
-msgid "Show on Hover"
+#: admin/views/metabox-config.php:2525
+msgid "Bottom Left (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:2823
-msgid "Check to show navigation on hover in the carousel or slider area."
+#: admin/views/metabox-config.php:2529
+msgid "Bottom Center (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:2835
-msgid "Navigation Arrow Style"
+#: admin/views/metabox-config.php:2533
+msgid "Bottom Right (Pro)"
 msgstr ""
 
-#: admin/views/metabox-config.php:2836
-msgid "Choose a carousel navigation arrow icon."
-msgstr ""
-
-#: admin/views/metabox-config.php:2863
-msgid "Set a size for the nav arrow icon."
-msgstr ""
-
-#: admin/views/metabox-config.php:2888
+#: admin/views/metabox-config.php:2545
 msgid "Set color for the carousel navigation arrow."
 msgstr ""
 
-#: admin/views/metabox-config.php:2908
+#: admin/views/metabox-config.php:2565
 msgid "Navigation Color"
 msgstr ""
 
-#: admin/views/metabox-config.php:2909
+#: admin/views/metabox-config.php:2566
 msgid "Set color for the carousel navigation."
 msgstr ""
 
-#: admin/views/metabox-config.php:2927
+#: admin/views/metabox-config.php:2581
+msgid "Navigation Arrow Style"
+msgstr ""
+
+#: admin/views/metabox-config.php:2582
+msgid "Choose a carousel navigation arrow icon."
+msgstr ""
+
+#: admin/views/metabox-config.php:2610
 #, php-format
 msgid ""
 "Want even more fine-tuned control over your %1$sCarousel Navigation%2$s "
 "display? %3$sUpgrade to Pro!%4$s"
 msgstr ""
 
-#: admin/views/metabox-config.php:2952
+#: admin/views/metabox-config.php:2635
 msgid "Show carousel pagination."
 msgstr ""
 
-#: admin/views/metabox-config.php:2974
+#: admin/views/metabox-config.php:2657
 msgid "Pagination Style"
 msgstr ""
 
-#: admin/views/metabox-config.php:2975
+#: admin/views/metabox-config.php:2658
 msgid "Select carousel pagination type."
 msgstr ""
 
-#: admin/views/metabox-config.php:2979
+#: admin/views/metabox-config.php:2662
 msgid "Bullets"
 msgstr ""
 
-#: admin/views/metabox-config.php:2983
+#: admin/views/metabox-config.php:2666 blocks/icons/icons.js:1196
 msgid "Dynamic"
 msgstr ""
 
-#: admin/views/metabox-config.php:2987
+#: admin/views/metabox-config.php:2670 blocks/icons/icons.js:1205
 msgid "Strokes"
 msgstr ""
 
-#: admin/views/metabox-config.php:2991
+#: admin/views/metabox-config.php:2674 blocks/icons/icons.js:1211
 msgid "Scrollbar"
 msgstr ""
 
-#: admin/views/metabox-config.php:2995
+#: admin/views/metabox-config.php:2678 blocks/icons/icons.js:1217
 msgid "Fraction"
 msgstr ""
 
-#: admin/views/metabox-config.php:2999
+#: admin/views/metabox-config.php:2682 blocks/icons/icons.js:1199
 msgid "Numbers"
 msgstr ""
 
-#: admin/views/metabox-config.php:3010 admin/views/option-config.php:132
-msgid "Position"
-msgstr ""
-
-#: admin/views/metabox-config.php:3011
-msgid "Select a position for the pagination."
-msgstr ""
-
-#: admin/views/metabox-config.php:3013
-msgid "Outside"
-msgstr ""
-
-#: admin/views/metabox-config.php:3014
-msgid "Inside"
-msgstr ""
-
-#: admin/views/metabox-config.php:3023 admin/views/option-config.php:153
+#: admin/views/metabox-config.php:2693 admin/views/option-config.php:153
 msgid "Margin"
 msgstr ""
 
-#: admin/views/metabox-config.php:3024
+#: admin/views/metabox-config.php:2694
 msgid "Set margin for carousel pagination."
 msgstr ""
 
-#: admin/views/metabox-config.php:3042
+#: admin/views/metabox-config.php:2711
 msgid "Pagination Color"
 msgstr ""
 
-#: admin/views/metabox-config.php:3043
+#: admin/views/metabox-config.php:2712
 msgid "Set color for the carousel pagination dots."
 msgstr ""
 
-#: admin/views/metabox-config.php:3047
+#: admin/views/metabox-config.php:2716
 msgid "Active Color"
 msgstr ""
 
-#: admin/views/metabox-config.php:3059
+#: admin/views/metabox-config.php:2728
 msgid "Slide to Scroll"
 msgstr ""
 
-#: admin/views/metabox-config.php:3060
+#: admin/views/metabox-config.php:2729
 msgid "Number of slide(s) to scroll at a time."
 msgstr ""
 
-#: admin/views/metabox-config.php:3077
+#: admin/views/metabox-config.php:2746
 #, php-format
 msgid ""
 "Want even more fine-tuned control over your %1$sCarousel Pagination%2$s "
 "display? %3$sUpgrade to Pro!%4$s"
 msgstr ""
 
-#: admin/views/metabox-config.php:3089
+#: admin/views/metabox-config.php:2758
 msgid "Miscellaneous"
 msgstr ""
 
-#: admin/views/metabox-config.php:3095
+#: admin/views/metabox-config.php:2764
 msgid "Touch Swipe"
 msgstr ""
 
-#: admin/views/metabox-config.php:3096
+#: admin/views/metabox-config.php:2765
 msgid "Enable/Disable touch swipe mode."
 msgstr ""
 
-#: admin/views/metabox-config.php:3105
+#: admin/views/metabox-config.php:2774
 msgid "Mouse Draggable"
 msgstr ""
 
-#: admin/views/metabox-config.php:3106
+#: admin/views/metabox-config.php:2775
 msgid "Enable/Disable mouse draggable mode."
 msgstr ""
 
-#: admin/views/metabox-config.php:3116 admin/views/metabox-config.php:3118
+#: admin/views/metabox-config.php:2785 admin/views/metabox-config.php:2787
 msgid "Free Mode"
 msgstr ""
 
-#: admin/views/metabox-config.php:3117
+#: admin/views/metabox-config.php:2786
 msgid "Enable/Disable free mode slider."
 msgstr ""
 
-#: admin/views/metabox-config.php:3118
+#: admin/views/metabox-config.php:2787
 msgid ""
 "Enable this feature to allow users to freely scroll and position the slides "
 "at anywhere instead of specific positions."
 msgstr ""
 
-#: admin/views/metabox-config.php:3127
+#: admin/views/metabox-config.php:2796
 msgid "Swipe To Slide"
 msgstr ""
 
-#: admin/views/metabox-config.php:3128
+#: admin/views/metabox-config.php:2797
 msgid ""
 "Allow users to drag or swipe directly to a slide irrespective of slides to "
 "scroll."
 msgstr ""
 
-#: admin/views/metabox-config.php:3156
+#: admin/views/metabox-config.php:2825
 msgid "How To Use"
 msgstr ""
 
-#: admin/views/metabox-config.php:3179
+#: admin/views/metabox-config.php:2848
 msgid "Page Builders"
 msgstr ""
 
-#: admin/views/notices/class-wp-carousel-free-promotion.php:73
-msgid "Get it Now"
-msgstr ""
-
-#: admin/views/notices/class-wp-carousel-free-promotion.php:148
-msgid "You have no permission to do that"
-msgstr ""
-
-#: admin/views/notices/class-wp-carousel-free-promotion.php:152
-msgid "Invalid nonce"
+#: admin/views/metabox-config.php:2870
+msgid "Unlock Pro Feature"
 msgstr ""
 
 #: admin/views/option-config.php:23 admin/views/option-config.php:30
+#: blocks/admin/Render.js:25 src/Admin/Dashboard/Dashboard.php:252
+#: src/Admin/Dashboard/Dashboard.php:253
+#: src/Admin/PageBuilders/Elementor/Elementor_Widget.php:88
 msgid "Settings"
 msgstr ""
 
-#: admin/views/option-config.php:51
+#: admin/views/option-config.php:51 blocks/admin/pages/settings/index.js:19
 msgid "Advanced Controls"
 msgstr ""
 
@@ -2340,7 +2249,7 @@ msgstr ""
 msgid "Clean-up Data on Plugin Deletion"
 msgstr ""
 
-#: admin/views/option-config.php:58
+#: admin/views/option-config.php:58 blocks/admin/pages/settings/index.js:28
 msgid "Check to remove plugin's data when plugin is uninstalled or deleted."
 msgstr ""
 
@@ -2396,6 +2305,10 @@ msgstr ""
 msgid "Watermark Image"
 msgstr ""
 
+#: admin/views/option-config.php:132
+msgid "Position"
+msgstr ""
+
 #: admin/views/option-config.php:136
 msgid "Left Top"
 msgstr ""
@@ -2436,181 +2349,176 @@ msgstr ""
 msgid "Opacity"
 msgstr ""
 
-#: admin/views/option-config.php:180
+#: admin/views/option-config.php:178
+msgid "Custom Size"
+msgstr ""
+
+#: admin/views/option-config.php:179
 msgid "Set watermark custom size related to image (horizontally/vertically)"
 msgstr ""
 
-#: admin/views/option-config.php:190
+#: admin/views/option-config.php:189
 msgid "Image Quality"
 msgstr ""
 
-#: admin/views/option-config.php:201
+#: admin/views/option-config.php:199
 msgid "Clean Watermark Cache"
 msgstr ""
 
-#: admin/views/option-config.php:202
+#: admin/views/option-config.php:200
 msgid "Clean"
 msgstr ""
 
-#: admin/views/option-config.php:210
+#: admin/views/option-config.php:208
 msgid "To unlock Essential Watermark Settings"
 msgstr ""
 
-#: admin/views/option-config.php:210
+#: admin/views/option-config.php:208
 msgid "Upgrade To Pro"
 msgstr ""
 
-#: admin/views/option-config.php:221
+#: admin/views/option-config.php:219
 msgid "Responsive Breakpoints"
 msgstr ""
 
-#: admin/views/option-config.php:227
+#: admin/views/option-config.php:225
 msgid "Minimum Screen Width"
 msgstr ""
 
-#: admin/views/option-config.php:234
+#: admin/views/option-config.php:232
 #: admin/views/sp-framework/fields/column/column.php:52
 msgid "Desktop"
 msgstr ""
 
-#: admin/views/option-config.php:235
+#: admin/views/option-config.php:233
 msgid "Laptop"
 msgstr ""
 
-#: admin/views/option-config.php:236
+#: admin/views/option-config.php:234
 #: admin/views/sp-framework/fields/column/column.php:54
 msgid "Tablet"
 msgstr ""
 
-#: admin/views/option-config.php:237
+#: admin/views/option-config.php:235
 #: admin/views/sp-framework/fields/column/column.php:55
 msgid "Mobile"
 msgstr ""
 
-#: admin/views/option-config.php:256 admin/views/option-config.php:262
+#: admin/views/option-config.php:254 admin/views/option-config.php:260
 msgid "Custom CSS"
 msgstr ""
 
-#: admin/views/option-config.php:278
-msgid "License Key"
-msgstr ""
-
-#: admin/views/sp-framework/assets/js/main.js:3895
+#: admin/views/sp-framework/assets/js/main.js:3437
 #: admin/views/sp-framework/assets/js/main.min.js:1
 msgid "The file URL has been copied to your clipboard"
 msgstr ""
 
-#: admin/views/sp-framework/classes/admin-options.class.php:341
+#: admin/views/sp-framework/classes/admin-options.class.php:339
 msgid "Error while saving the changes."
 msgstr ""
 
-#: admin/views/sp-framework/classes/admin-options.class.php:420
-msgid "Settings successfully imported."
-msgstr ""
-
-#: admin/views/sp-framework/classes/admin-options.class.php:432
-#: admin/views/sp-framework/classes/admin-options.class.php:447
+#: admin/views/sp-framework/classes/admin-options.class.php:527
+#: admin/views/sp-framework/classes/admin-options.class.php:537
 msgid "Default settings restored."
 msgstr ""
 
-#: admin/views/sp-framework/classes/admin-options.class.php:513
+#: admin/views/sp-framework/classes/admin-options.class.php:587
 msgid "Settings saved."
 msgstr ""
 
-#: admin/views/sp-framework/classes/admin-options.class.php:720
+#: admin/views/sp-framework/classes/admin-options.class.php:823
 msgid "show all settings"
 msgstr ""
 
-#: admin/views/sp-framework/classes/admin-options.class.php:722
+#: admin/views/sp-framework/classes/admin-options.class.php:825
 msgid "Search..."
 msgstr ""
 
-#: admin/views/sp-framework/classes/admin-options.class.php:725
+#: admin/views/sp-framework/classes/admin-options.class.php:828
 msgid "Save Settings"
 msgstr ""
 
-#: admin/views/sp-framework/classes/admin-options.class.php:725
-#: admin/views/sp-framework/classes/admin-options.class.php:846
-#: admin/views/sp-framework/classes/setup.class.php:576
+#: admin/views/sp-framework/classes/admin-options.class.php:828
+#: admin/views/sp-framework/classes/admin-options.class.php:949
+#: admin/views/sp-framework/classes/setup.class.php:425
 msgid "Saving..."
 msgstr ""
 
-#: admin/views/sp-framework/classes/admin-options.class.php:726
+#: admin/views/sp-framework/classes/admin-options.class.php:829
 msgid "Reset Tab"
 msgstr ""
 
-#: admin/views/sp-framework/classes/admin-options.class.php:726
+#: admin/views/sp-framework/classes/admin-options.class.php:829
 msgid "Are you sure to reset all the settings of this tab?"
 msgstr ""
 
-#: admin/views/sp-framework/classes/admin-options.class.php:727
-#: admin/views/sp-framework/classes/admin-options.class.php:848
+#: admin/views/sp-framework/classes/admin-options.class.php:830
+#: admin/views/sp-framework/classes/admin-options.class.php:951
 msgid "Reset All"
 msgstr ""
 
-#: admin/views/sp-framework/classes/admin-options.class.php:727
-#: admin/views/sp-framework/classes/admin-options.class.php:848
-#: admin/views/sp-framework/classes/metabox-options.class.php:368
+#: admin/views/sp-framework/classes/admin-options.class.php:830
+#: admin/views/sp-framework/classes/admin-options.class.php:951
+#: admin/views/sp-framework/classes/metabox-options.class.php:367
 msgid "Reset"
 msgstr ""
 
-#: admin/views/sp-framework/classes/admin-options.class.php:727
-#: admin/views/sp-framework/classes/admin-options.class.php:848
+#: admin/views/sp-framework/classes/admin-options.class.php:830
+#: admin/views/sp-framework/classes/admin-options.class.php:951
 msgid "Are you sure you want to reset all settings to default values?"
 msgstr ""
 
-#: admin/views/sp-framework/classes/admin-options.class.php:823
-#: admin/views/sp-framework/classes/metabox-options.class.php:351
-#: admin/views/sp-framework/fields/button_set/button_set.php:92
-#: admin/views/sp-framework/fields/checkbox/checkbox.php:105
-#: admin/views/sp-framework/fields/radio/radio.php:106
+#: admin/views/sp-framework/classes/admin-options.class.php:926
+#: admin/views/sp-framework/classes/metabox-options.class.php:350
+#: admin/views/sp-framework/fields/button_set/button_set.php:86
+#: admin/views/sp-framework/fields/checkbox/checkbox.php:97
+#: admin/views/sp-framework/fields/radio/radio.php:104
 #: admin/views/sp-framework/fields/select/select.php:149
 msgid "No data available."
 msgstr ""
 
-#: admin/views/sp-framework/classes/admin-options.class.php:846
+#: admin/views/sp-framework/classes/admin-options.class.php:949
 msgid "Save"
 msgstr ""
 
-#: admin/views/sp-framework/classes/admin-options.class.php:847
+#: admin/views/sp-framework/classes/admin-options.class.php:950
 msgid "Restore"
 msgstr ""
 
-#: admin/views/sp-framework/classes/admin-options.class.php:847
+#: admin/views/sp-framework/classes/admin-options.class.php:950
 msgid "Are you sure to reset this section options?"
 msgstr ""
 
-#: admin/views/sp-framework/classes/metabox-options.class.php:369
+#: admin/views/sp-framework/classes/metabox-options.class.php:368
 msgid "update post"
 msgstr ""
 
-#: admin/views/sp-framework/classes/metabox-options.class.php:369
+#: admin/views/sp-framework/classes/metabox-options.class.php:368
 msgid "Cancel"
 msgstr ""
 
-#: admin/views/sp-framework/classes/setup.class.php:561
+#: admin/views/sp-framework/classes/setup.class.php:410
 msgid "Are you sure?"
 msgstr ""
 
-#: admin/views/sp-framework/classes/setup.class.php:562
-#, php-format
-msgid "Please enter %s or more characters"
+#: admin/views/sp-framework/classes/setup.class.php:411
+msgid "Please enter more characters"
 msgstr ""
 
-#: admin/views/sp-framework/classes/setup.class.php:563
+#: admin/views/sp-framework/classes/setup.class.php:412
 msgid "Searching..."
 msgstr ""
 
-#: admin/views/sp-framework/classes/setup.class.php:564
+#: admin/views/sp-framework/classes/setup.class.php:413
 msgid "No results found."
 msgstr ""
 
-#: admin/views/sp-framework/classes/setup.class.php:626
+#: admin/views/sp-framework/classes/setup.class.php:602
 msgid "Oops! Not allowed."
 msgstr ""
 
-#: admin/views/sp-framework/classes/setup.class.php:702
-#: admin/views/sp-framework/classes/setup.class.php:705
+#: admin/views/sp-framework/classes/setup.class.php:678
+#: admin/views/sp-framework/classes/setup.class.php:681
 msgid "Field not found!"
 msgstr ""
 
@@ -2648,6 +2556,8 @@ msgstr ""
 #: admin/views/sp-framework/fields/border/border.php:85
 #: admin/views/sp-framework/fields/dimensions_advanced/dimensions_advanced.php:83
 #: admin/views/sp-framework/fields/typography/typography.php:250
+#: blocks/components/background/background.js:60
+#: blocks/controls/constants.js:310
 msgid "Solid"
 msgstr ""
 
@@ -2684,6 +2594,7 @@ msgid "Width"
 msgstr ""
 
 #: admin/views/sp-framework/fields/border/border.php:140
+#: blocks/components/iconLibrary/iconLibrary.js:133
 msgid "Style"
 msgstr ""
 
@@ -2696,6 +2607,7 @@ msgid "Y offset"
 msgstr ""
 
 #: admin/views/sp-framework/fields/box_shadow/box_shadow.php:49
+#: blocks/components/boxShadow/boxShadow.js:241
 msgid "Blur"
 msgstr ""
 
@@ -2723,10 +2635,6 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
-#: admin/views/sp-framework/fields/carousel_type/carousel_type.php:72
-msgid "PRO"
-msgstr ""
-
 #: admin/views/sp-framework/fields/column/column.php:51
 msgid "Large Desktop"
 msgstr ""
@@ -2735,15 +2643,15 @@ msgstr ""
 msgid "Small Desktop"
 msgstr ""
 
-#: admin/views/sp-framework/fields/gallery/gallery.php:85
+#: admin/views/sp-framework/fields/gallery/gallery.php:104
 msgid "Add Gallery"
 msgstr ""
 
-#: admin/views/sp-framework/fields/gallery/gallery.php:86
+#: admin/views/sp-framework/fields/gallery/gallery.php:105
 msgid "Edit Gallery"
 msgstr ""
 
-#: admin/views/sp-framework/fields/gallery/gallery.php:87
+#: admin/views/sp-framework/fields/gallery/gallery.php:106
 msgid "Clear"
 msgstr ""
 
@@ -2764,43 +2672,81 @@ msgstr ""
 msgid "You cannot remove more."
 msgstr ""
 
-#: admin/views/sp-framework/fields/image_sizes/image_sizes.php:84
+#: admin/views/sp-framework/fields/image_sizes/image_sizes.php:83
 msgid "Original uploaded image"
 msgstr ""
 
-#: admin/views/sp-framework/fields/image_sizes/image_sizes.php:135
+#: admin/views/sp-framework/fields/image_sizes/image_sizes.php:132
 msgid "No image sizes found."
 msgstr ""
 
-#: admin/views/sp-framework/fields/license/license.php:48
-msgid "You're using WP Carousel Lite - No License Needed. Enjoy"
-msgstr ""
-
-#: admin/views/sp-framework/fields/license/license.php:49
-msgid "Upgrade to WP Carousel Pro and unlock all the features."
-msgstr ""
-
-#: admin/views/sp-framework/fields/license/license.php:52
-msgid "Upgrade To Pro Now"
-msgstr ""
-
-#: admin/views/sp-framework/fields/media/media.php:55
+#: admin/views/sp-framework/fields/media/media.php:54
 msgid "Upload"
 msgstr ""
 
-#: admin/views/sp-framework/fields/media/media.php:56
+#: admin/views/sp-framework/fields/media/media.php:55
 msgid "Remove"
 msgstr ""
 
-#: admin/views/sp-framework/fields/media/media.php:90
+#: admin/views/sp-framework/fields/media/media.php:89
 msgid "Not selected"
 msgstr ""
 
-#: admin/views/sp-framework/fields/switcher/switcher.php:46
+#: admin/views/sp-framework/fields/shortcode/shortcode.php:41
+#, php-format
+msgid "Additional Features in %1$sPRO%2$s"
+msgstr ""
+
+#: admin/views/sp-framework/fields/shortcode/shortcode.php:48
+msgid "The Pro version includes additional features such as:"
+msgstr ""
+
+#: admin/views/sp-framework/fields/shortcode/shortcode.php:54
+msgid "25+ Carousel & Gallery Layouts"
+msgstr ""
+
+#: admin/views/sp-framework/fields/shortcode/shortcode.php:55
+msgid "Advanced Query Builder"
+msgstr ""
+
+#: admin/views/sp-framework/fields/shortcode/shortcode.php:56
+msgid "Custom Post Types"
+msgstr ""
+
+#: admin/views/sp-framework/fields/shortcode/shortcode.php:57
+msgid "10+ Video and Audio Vendors"
+msgstr ""
+
+#: admin/views/sp-framework/fields/shortcode/shortcode.php:58
+msgid "Product Carousels & Galleries"
+msgstr ""
+
+#: admin/views/sp-framework/fields/shortcode/shortcode.php:59
+msgid "Full-Featured Zoom & Lightbox"
+msgstr ""
+
+#: admin/views/sp-framework/fields/shortcode/shortcode.php:60
+msgid "Watermark & Password Protection"
+msgstr ""
+
+#: admin/views/sp-framework/fields/shortcode/shortcode.php:61
+msgid "Stylish Interaction Effects"
+msgstr ""
+
+#: admin/views/sp-framework/fields/shortcode/shortcode.php:62
+msgid "200+ Customizations and More"
+msgstr ""
+
+#: admin/views/sp-framework/fields/shortcode/shortcode.php:67
+msgid "Upgrade to Pro Now"
+msgstr ""
+
+#: admin/views/sp-framework/fields/switcher/switcher.php:47
 msgid "On"
 msgstr ""
 
 #: admin/views/sp-framework/fields/typography/typography.php:140
+#: blocks/components/typography/typography.js:325
 msgid "Font Family"
 msgstr ""
 
@@ -2817,6 +2763,7 @@ msgid "Default"
 msgstr ""
 
 #: admin/views/sp-framework/fields/typography/typography.php:180
+#: blocks/components/typography/typography.js:360
 msgid "Font Style"
 msgstr ""
 
@@ -2901,31 +2848,15 @@ msgstr ""
 msgid "Margin Bottom"
 msgstr ""
 
-#: admin/views/sp-framework/fields/typography/typography.php:414
-msgid "Custom Web Fonts"
-msgstr ""
-
-#: admin/views/sp-framework/fields/typography/typography.php:420
-msgid "Safe Web Fonts"
-msgstr ""
-
-#: admin/views/sp-framework/fields/typography/typography.php:443
-msgid "Google Web Fonts"
-msgstr ""
-
-#: admin/views/sp-framework/functions/actions.php:28
-#: admin/views/sp-framework/functions/actions.php:56
-#: includes/class-wp-carousel-free-import-export.php:86
-#: includes/class-wp-carousel-free-import-export.php:256
+#: admin/views/sp-framework/functions/actions.php:26
+#: admin/views/sp-framework/functions/actions.php:57
+#: includes/class-wp-carousel-free-import-export.php:101
+#: includes/class-wp-carousel-free-import-export.php:309
 msgid "Error: Invalid nonce verification."
 msgstr ""
 
-#: admin/views/sp-framework/functions/actions.php:60
+#: admin/views/sp-framework/functions/actions.php:61
 msgid "Error: Invalid term ID."
-msgstr ""
-
-#: admin/views/sp-framework/functions/actions.php:66
-msgid "Error: You do not have permission to do that."
 msgstr ""
 
 #: admin/views/sp-framework/functions/validate.php:24
@@ -2940,31 +2871,32 @@ msgstr ""
 msgid "This field is required."
 msgstr ""
 
-#: admin/views/sp-framework/functions/validate.php:75
+#: admin/views/sp-framework/functions/validate.php:74
 msgid "Please enter a valid URL."
 msgstr ""
 
 #: admin/views/tools-config.php:26 admin/views/tools-config.php:39
+#: src/Admin/Dashboard/Classic_Tools.php:82
 msgid "Tools"
 msgstr ""
 
-#: admin/views/tools-config.php:46
+#: admin/views/tools-config.php:46 src/Admin/Dashboard/Classic_Tools.php:119
 msgid "Export"
 msgstr ""
 
-#: admin/views/tools-config.php:52
+#: admin/views/tools-config.php:52 src/Admin/Dashboard/Classic_Tools.php:89
 msgid "Choose What To Export"
 msgstr ""
 
-#: admin/views/tools-config.php:55
+#: admin/views/tools-config.php:55 src/Admin/Dashboard/Classic_Tools.php:92
 msgid "All Carousels (Shortcodes)"
 msgstr ""
 
-#: admin/views/tools-config.php:56
+#: admin/views/tools-config.php:56 src/Admin/Dashboard/Classic_Tools.php:93
 msgid "Selected Carousels (Shortcodes)"
 msgstr ""
 
-#: admin/views/tools-config.php:69
+#: admin/views/tools-config.php:69 src/Admin/Dashboard/Classic_Tools.php:106
 msgid "Choose carousel(s)"
 msgstr ""
 
@@ -2972,12 +2904,2162 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-#: admin/views/tools-config.php:97
+#: admin/views/tools-config.php:97 src/Admin/Dashboard/Classic_Tools.php:125
 msgid "Import JSON File To Upload"
 msgstr ""
 
-#: includes/class-wp-carousel-free-import-export.php:268
+#: blocks/admin/Render.js:16
+msgid "Dashboard"
+msgstr ""
+
+#: blocks/admin/Render.js:17 blocks/admin/setup-wizard/index.js:32
+msgid "Blocks"
+msgstr ""
+
+#: blocks/admin/Render.js:18 blocks/admin/setup-wizard/index.js:33
+msgid "Modules"
+msgstr ""
+
+#: blocks/admin/Render.js:20 blocks/admin/pages/modules/module-data.js:136
+#: src/Admin/Dashboard/Dashboard.php:150
+#: src/Admin/Dashboard/Saved_Templates.php:49
+#: src/Admin/Dashboard/Saved_Templates.php:51
+#: src/Admin/Dashboard/Saved_Templates.php:52
+msgid "Saved Templates"
+msgstr ""
+
+#: blocks/admin/Render.js:27 src/Admin/Dashboard/Dashboard.php:261
+#: src/Admin/Dashboard/Dashboard.php:262
+msgid "Lite vs Pro"
+msgstr ""
+
+#: blocks/admin/Render.js:28
+msgid "About Us"
+msgstr ""
+
+#: blocks/admin/Render.js:30
+msgid "Our Plugins"
+msgstr ""
+
+#: blocks/admin/hooks/useDashboardData.js:34
+#: blocks/admin/hooks/useDashboardData.js:39
+#: blocks/admin/pages/blocks/template-parts.js:73
+#: blocks/admin/pages/integrations/index.js:92
+#: blocks/admin/pages/modules/template-parts.js:63
+#: blocks/admin/setup-wizard/pages/modules.js:40
+msgid "Something went wrong"
+msgstr ""
+
+#: blocks/admin/modules/config/lightboxConfig.js:7
+msgid "Always"
+msgstr ""
+
+#: blocks/admin/modules/config/lightboxConfig.js:8
+msgid "On Hover"
+msgstr ""
+
+#: blocks/admin/modules/config/lightboxConfig.js:20
+msgid "Light Theme"
+msgstr ""
+
+#: blocks/admin/modules/config/lightboxConfig.js:21
+msgid "Dark Theme"
+msgstr ""
+
+#: blocks/admin/modules/config/lightboxConfig.js:22
+msgid "Auto"
+msgstr ""
+
+#: blocks/admin/modules/config/lightboxConfig.js:32
+msgid "Zoom-In-Out"
+msgstr ""
+
+#: blocks/admin/modules/config/lightboxConfig.js:38
+msgid "Modern Thumbnails"
+msgstr ""
+
+#: blocks/admin/modules/config/lightboxConfig.js:39
+msgid "Classic Thumbnails"
+msgstr ""
+
+#: blocks/admin/modules/config/lightboxConfig.js:40
+msgid "Scrollable Thumbnails"
+msgstr ""
+
+#: blocks/admin/modules/config/lightboxConfig.js:41
+msgid "No Thumbnails"
+msgstr ""
+
+#: blocks/admin/modules/config/moduleSettingsRegistry.js:13
+#: blocks/admin/pages/modules/module-data.js:24
+#: blocks/blocks/shared/ready-patterns/requirements.js:34
+#: src/Admin/Dashboard/Dashboard.php:148
+msgid "Lightbox"
+msgstr ""
+
+#: blocks/admin/modules/hooks/useModuleSettingsDrawer.js:85
+#: blocks/admin/setup-wizard/index.js:59
+msgid "Settings saved successfully."
+msgstr ""
+
+#: blocks/admin/modules/hooks/useModuleSettingsDrawer.js:87
+#: blocks/admin/modules/hooks/useModuleSettingsDrawer.js:92
+msgid "Could not save settings."
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:25
+msgid ""
+"Minimize customer support by offering comprehensive FAQs and increasing "
+"conversions."
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:34
+msgid ""
+"Simply collect, manage, and display testimonials on your website and boost "
+"conversions."
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:43
+msgid ""
+"Best WooCommerce custom product tabs and WordPress tabs builder plugin to "
+"create responsive tabs."
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:52
+msgid ""
+"Filter and display posts (any post type), pages, taxonomies, custom "
+"taxonomies and custom fields in beautiful layouts."
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:61
+msgid ""
+"Showcase your team members in beautiful, responsive grid and carousel "
+"layouts."
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:70
+msgid ""
+"Showcase a group of logo images with title, description, tooltips, links and "
+"popup as a grid or in a carousel."
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:79
+msgid ""
+"Display beautiful weather update widgets on your WordPress site in a minute "
+"without coding skills!"
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:88
+msgid ""
+"Product gallery slider and additional variation images gallery for "
+"WooCommerce to boost your sales."
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:97
+msgid ""
+"Boost sales with an interactive product slider, grid and table in your "
+"WooCommerce store."
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:106
+msgid "Display a filtered list of categories aesthetically and boost sales."
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:115
+msgid ""
+"The best product variation swatches for WooCommerce to boost your store "
+"sales."
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:124
+msgid ""
+"Smart Brands for WooCommerce helps you display product brands attractively "
+"on your online store."
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:138
+msgid "All-In-One Carousel, Slider, & Gallery Solution from"
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:139
+msgid "WP Carousel Team"
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:142
+msgid "At"
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:142
+msgid "ShapedPlugin LLC"
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:144
+msgid ""
+", back in 2016, while building WordPress websites for clients and partners, "
+"we struggled to find a simple, flexible, and reliable way to showcase real "
+"customer feedback. Existing solutions lacked the design quality, usability, "
+"and customization we needed—so we decided to build our own."
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:151
+msgid ""
+"was created to provide a powerful yet easy way to display authentic reviews "
+"using carousels, sliders, grids, stacked cards, and modern layouts. It helps "
+"you build trust, boost credibility, and showcase social proof effortlessly—"
+"we’re confident you’ll love the experience."
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:164
+msgid "Explore WP Carousel"
+msgstr ""
+
+#: blocks/admin/pages/about-us/index.js:174
+msgid "More About Us"
+msgstr ""
+
+#: blocks/admin/pages/blocks/block-data.js:39
+msgid ""
+"Create beautiful image carousels with customizable navigation and pagination."
+msgstr ""
+
+#: blocks/admin/pages/blocks/block-data.js:48
+msgid ""
+"Build responsive content sliders with smooth transitions and touch support."
+msgstr ""
+
+#: blocks/admin/pages/blocks/block-data.js:55
+#: src/Admin/Dashboard/Dashboard.php:107
+msgid "Thumbnails Slider"
+msgstr ""
+
+#: blocks/admin/pages/blocks/block-data.js:56
+msgid "Display image galleries with thumbnail navigation."
+msgstr ""
+
+#: blocks/admin/pages/blocks/block-data.js:63
+msgid "Show content in a grid layout with hover effects and animations."
+msgstr ""
+
+#: blocks/admin/pages/blocks/block-data.js:70
+#: blocks/blocks/shared/constants/proFeatures.js:16
+#: src/Admin/Dashboard/Dashboard.php:114
+msgid "Marquee"
+msgstr ""
+
+#: blocks/admin/pages/blocks/block-data.js:72
+msgid "Display continuously scrolling content in a ticker-style marquee."
+msgstr ""
+
+#: blocks/admin/pages/blocks/block-data.js:79
+#: blocks/blocks/shared/constants/proFeatures.js:30
+#: src/Admin/Dashboard/Dashboard.php:115
+msgid "Panorama Carousel"
+msgstr ""
+
+#: blocks/admin/pages/blocks/block-data.js:80
+msgid "Display panoramic images with smooth 360-degree rotation."
+msgstr ""
+
+#: blocks/admin/pages/blocks/block-data.js:88
+msgid "Create stunning 3D carousel effects with perspective and depth."
+msgstr ""
+
+#: blocks/admin/pages/blocks/block-data.js:96
+msgid "Display content in a responsive grid layout."
+msgstr ""
+
+#: blocks/admin/pages/blocks/index.js:17
+msgid "Control Blocks"
+msgstr ""
+
+#: blocks/admin/pages/blocks/index.js:19
+msgid "Turn blocks on or off as needed to improve performance."
+msgstr ""
+
+#: blocks/admin/pages/blocks/index.js:38
+msgid "Upcoming Blocks"
+msgstr ""
+
+#: blocks/admin/pages/blocks/template-parts.js:18
+msgid "Available in WP Carousel Pro"
+msgstr ""
+
+#: blocks/admin/pages/blocks/template-parts.js:21
+msgid "Block coming in a future version"
+msgstr ""
+
+#: blocks/admin/pages/blocks/template-parts.js:23
+msgid "Toggle block visibility"
+msgstr ""
+
+#: blocks/admin/pages/blocks/template-parts.js:60
+msgid "Block disabled successfully."
+msgstr ""
+
+#: blocks/admin/pages/blocks/template-parts.js:61
+msgid "Block enabled successfully."
+msgstr ""
+
+#: blocks/admin/pages/getting-started/index.js:23
+msgid ""
+"Thanks for choosing WP Carousel! Everything's ready to go. Create your first "
+"carousel or gallery in the block editor — or start from a Ready Pattern."
+msgstr ""
+
+#: blocks/admin/pages/getting-started/index.js:29
+msgid ""
+"Thanks for choosing WP Carousel! Everything's ready to go. Create your first "
+"carousel or gallery in the block editor."
+msgstr ""
+
+#: blocks/admin/pages/getting-started/index.js:34
+msgid ""
+"Thanks for choosing WP Carousel! Everything's ready to go. Create your first "
+"carousel or gallery, then place it anywhere with a shortcode."
+msgstr ""
+
+#: blocks/admin/pages/getting-started/index.js:52
+msgid "Welcome to WP Carousel!"
+msgstr ""
+
+#: blocks/admin/pages/getting-started/index.js:59
+msgid "Create New Carousel / Gallery"
+msgstr ""
+
+#: blocks/admin/pages/getting-started/template-parts.js:36
+#: blocks/admin/templates/Header.js:24
+#: blocks/components/inspectorControls/inspectorControls.js:24
+msgid "Documentation"
+msgstr ""
+
+#: blocks/admin/pages/getting-started/template-parts.js:38
+msgid ""
+"Explore clear, well-organized documentation to understand features, "
+"settings, and get the most out of the plugin."
+msgstr ""
+
+#: blocks/admin/pages/getting-started/template-parts.js:42
+msgid "Browse Now"
+msgstr ""
+
+#: blocks/admin/pages/getting-started/template-parts.js:49
+#: blocks/admin/templates/Header.js:29
+msgid "Technical Support"
+msgstr ""
+
+#: blocks/admin/pages/getting-started/template-parts.js:51
+msgid ""
+"Need assistance? Reach out to our expert support team for fast, reliable "
+"help with any issues or questions."
+msgstr ""
+
+#: blocks/admin/pages/getting-started/template-parts.js:55
+msgid "Get Support"
+msgstr ""
+
+#: blocks/admin/pages/getting-started/template-parts.js:62
+msgid "Show Your Love"
+msgstr ""
+
+#: blocks/admin/pages/getting-started/template-parts.js:64
+msgid ""
+"Leave us a quick review—your feedback helps us improve and serve you better "
+"every day with confidence together."
+msgstr ""
+
+#: blocks/admin/pages/getting-started/template-parts.js:68
+msgid "Rate Us"
+msgstr ""
+
+#: blocks/admin/pages/integrations/index.js:86
+#, javascript-format
+msgid "%s integration disabled."
+msgstr ""
+
+#: blocks/admin/pages/integrations/index.js:88
+#, javascript-format
+msgid "%s integration enabled."
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:265
+msgid "All Free Version Features"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:271
+msgid ""
+"Gutenberg Blocks (Carousel, Slider, Thumbnails Slider, Tiles, Marquee, "
+"Panorama, Gallery Filter, Ajax Search)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:281
+msgid ""
+"Content Sources (Images, Videos, Posts, Products, Audio, External Feeds)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:289
+msgid ""
+"Video Providers (YouTube, Vimeo, TikTok, Twitch, Dailymotion, Wistia, and "
+"more)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:296
+msgid "Display Posts from Any Post Type & Custom Post Types"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:303
+msgid ""
+"Advanced Query Filters (Taxonomy, Date Range, Author, Best Selling, On Sale, "
+"Specific Items)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:310
+msgid "Mix-Content Carousel"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:316
+msgid ""
+"Carousel Styles (Standard, Center, Multi-Row, Triple, Spring, Partial View)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:324
+msgid ""
+"Slider Layouts (Slide, Flip, Cube, Coverflow, Fade, Super Flow, Shaders, Ken "
+"Burns, Fashion)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:333
+msgid "WebGL Shader Slider Effects"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:340
+msgid ""
+"Thumbnails Slider Layouts (Thumb Bottom, Thumb Overlay, Slidable Menu, "
+"Spotlight Thumb)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:347
+msgid "Tiles Layout Presets"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:352
+msgid "Masonry & Justified Gallery Layouts"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:357
+msgid "Gallery Filter & Ajax Search"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:365
+msgid ""
+"Carousel Settings (Autoplay, Speed, Pause on Hover, Infinite Loop, RTL, "
+"Swipe, Free Mode)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:377
+msgid "Vertical Carousel Orientation"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:382
+msgid "Navigation Arrow Styles & Positions"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:388
+msgid ""
+"Pagination Styles (Dots, Dynamic, Stepper, Strokes, Scrollbar, Fraction, "
+"Numbers)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:395
+msgid "Ajax Pagination with Load More & Infinite Scroll"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:402
+msgid ""
+"Content Orientations (Overlay, Image Top, Diagonal, Content Box, Fly Content)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:409
+msgid "Title & Description Length Control (Full, Limited, Read More)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:414
+msgid "Content Vertical Alignment & Equal Height for All Items"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:419
+msgid "Taxonomy Display Types (Category, Tag, Both) & Positions"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:424
+msgid "Click Action Types (Lightbox, Link, Both, Disable)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:429
+msgid "Hover Animations & Image, Overlay, Content Effects"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:436
+msgid "Motion Effects — Entrance Animations"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:444
+msgid "Visibility & Scheduling (Public, Password, Private, Start/End Date)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:452
+msgid "Custom Image Dimensions, Aspect Ratio & Retina (2x) Support"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:458
+msgid "Image Filters (Grayscale, Blur, Brightness, Contrast, Saturation, Hue)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:465
+msgid "Responsive Image Height & Variable Width Items"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:470
+msgid "Image & Text Watermark and Right Click Protection"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:476
+msgid "Social Share (14 Networks)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:483
+msgid "Lightbox Module for Blocks"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:490
+msgid "Lightbox Slideshow, Toolbar & Social Share"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:495
+msgid "Show WooCommerce Brands & Quick View Button"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:500
+#: blocks/admin/pages/modules/module-data.js:76
+#: blocks/blocks/shared/ready-patterns/requirements.js:36
+#: src/Admin/Dashboard/Dashboard.php:149
+msgid "Ready Patterns Library"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:507
+msgid "Saved Templates (Convert Blocks to Shortcodes)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:514
+msgid ""
+"Page Builder Integrations (Elementor, Divi, WPBakery, Oxygen, Beaver, Bricks)"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:522
+msgid "Block Typography with Google Fonts"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:529
+msgid "All Premium Features, Security Enhancements, and Compatibility"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:534
+msgid "Priority Top-notch Support"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:568
+msgid "Lite vs Pro Comparison"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:570
+msgid "Get WP Carousel Pro today and unlock all the powerful features"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:580
+#: blocks/admin/pages/lite-vs-pro/index.js:640
+msgid "Upgrade to Pro Now!"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:586
+#: blocks/blocks/shared/ready-patterns/constants.js:114
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:92
+msgid "Features"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:587
+msgid "Free"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:590
+msgid "Pro"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:600
+msgid "New"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:605
+msgid "Hot"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:622
+msgid "Upgrade To PRO & Enjoy Advanced Features!"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:626
+msgid ""
+"Already, <strong>5,000+</strong> people are using WP Carousel to build more "
+"engaging and dynamic sections."
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/index.js:648
+msgid "See Full Features"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/testimonial.js:91
+#, javascript-format
+msgid "%s Reviews"
+msgstr ""
+
+#: blocks/admin/pages/lite-vs-pro/testimonial.js:98
+msgid "Don’t Just Take Our Word for It — See What Users Say!"
+msgstr ""
+
+#: blocks/admin/pages/modules/index.js:24
+msgid "Manage Modules"
+msgstr ""
+
+#: blocks/admin/pages/modules/index.js:27
+msgid ""
+"Enable only the modules you need to keep your site fast and optimized. These "
+"modules works on blocks."
+msgstr ""
+
+#: blocks/admin/pages/modules/index.js:51
+msgid "Unlock Powerful Features with Pro!"
+msgstr ""
+
+#: blocks/admin/pages/modules/index.js:54
+msgid ""
+"Upgrade now to access advanced features that help you build and display "
+"richer carousels, sliders and galleries."
+msgstr ""
+
+#: blocks/admin/pages/modules/index.js:66
+#: blocks/blocks/shared/constants/proFeatures.js:173
+#: blocks/blocks/shared/constants/proFeatures.js:186
+#: blocks/blocks/shared/constants/proFeatures.js:201
+#: blocks/blocks/shared/constants/proFeatures.js:217
+#: src/Admin/Dashboard/Dashboard.php:271 src/Admin/Dashboard/Dashboard.php:272
+msgid "Upgrade to Pro"
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:26
+msgid ""
+"Responsive lightbox allows you to display images and media in a focused "
+"popup view for better user engagement."
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:36
+msgid ""
+"This allows you to add custom text or image watermarks to protect your media "
+"and strengthen brand identity."
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:46
+#: blocks/blocks/shared/constants/proFeatures.js:222
+#: src/Admin/Dashboard/Dashboard.php:155
+msgid "Visibility & Scheduling"
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:48
+msgid ""
+"This lets you control who can access your content and schedule automatic "
+"start and end times for your showcase block."
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:56
+#: blocks/blocks/shared/ready-patterns/requirements.js:35
+#: src/Admin/Dashboard/Dashboard.php:156
+msgid "Hover Animations"
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:58
+msgid ""
+"This enables you to add advanced hover effects, overlays, and animations for "
+"more dynamic presentations."
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:66
+#: blocks/blocks/shared/constants/proFeatures.js:236
+#: src/Admin/Dashboard/Dashboard.php:157
+msgid "Motion Effects"
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:68
+msgid ""
+"This allows you to apply smooth entrance animations with adjustable speed "
+"and delay settings."
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:78
+msgid ""
+"This enables you to access pre-designed layout patterns to quickly build "
+"sections without starting from scratch."
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:86
+#: src/Admin/Dashboard/Dashboard.php:164
+msgid "Custom Video Player"
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:88
+msgid ""
+"This lets you use an advanced video player with enhanced controls and "
+"improved playback options."
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:96
+#: src/Admin/Dashboard/Dashboard.php:165
+msgid "Custom Audio Player"
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:98
+msgid ""
+"This allows you to integrate a customizable audio player for showcasing "
+"music or audio content."
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:106
+#: src/Admin/Dashboard/Dashboard.php:166
+msgid "Build Custom Layout"
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:108
+msgid ""
+"This allows you to create custom carousel layouts with a drag-and-drop "
+"builder for unique designs."
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:116
+#: src/Admin/Dashboard/Dashboard.php:167
+msgid "White Labeling"
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:118
+msgid ""
+"This allows you to replace WP Carousel branding with your own brand name and "
+"logo for a fully customized client experience."
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:126
+#: src/Admin/Dashboard/Dashboard.php:168
+msgid "Role Management"
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:128
+msgid ""
+"This enables you to control user access by assigning permissions to create, "
+"edit, or manage galleries based on WordPress roles."
+msgstr ""
+
+#: blocks/admin/pages/modules/module-data.js:138
+msgid ""
+"This lets you create unlimited templates by converting blocks into "
+"shortcodes to reuse anywhere."
+msgstr ""
+
+#: blocks/admin/pages/modules/template-parts.js:35
+msgid "Enable this module to add more functionality to your carousels."
+msgstr ""
+
+#: blocks/admin/pages/modules/template-parts.js:50
+#: blocks/admin/setup-wizard/pages/modules.js:24
+msgid "Module disabled successfully."
+msgstr ""
+
+#: blocks/admin/pages/modules/template-parts.js:51
+#: blocks/admin/setup-wizard/pages/modules.js:25
+msgid "Module enabled successfully."
+msgstr ""
+
+#: blocks/admin/pages/saved-templates/index.js:109
+msgid "Failed to copy shortcode"
+msgstr ""
+
+#: blocks/admin/pages/saved-templates/index.js:141
+msgid "Are you sure you want to delete this saved template?"
+msgstr ""
+
+#: blocks/admin/pages/saved-templates/index.js:152
+msgid "Failed to delete template."
+msgstr ""
+
+#: blocks/admin/pages/saved-templates/index.js:158
+msgid "Template deleted successfully."
+msgstr ""
+
+#: blocks/admin/pages/saved-templates/index.js:179
+msgid "Failed to update template status."
+msgstr ""
+
+#: blocks/admin/pages/saved-templates/index.js:184
+msgid "Template status updated successfully."
+msgstr ""
+
+#: blocks/admin/pages/saved-templates/index.js:206
+msgid "Template not found"
+msgstr ""
+
+#: blocks/admin/pages/saved-templates/index.js:219
+msgid "Template duplicated successfully."
+msgstr ""
+
+#: blocks/admin/pages/saved-templates/index.js:221
+msgid "Failed to duplicate template"
+msgstr ""
+
+#: blocks/admin/pages/saved-templates/index.js:447
+msgid "Page"
+msgstr ""
+
+#: blocks/admin/pages/saved-templates/index.js:447
+msgid "of"
+msgstr ""
+
+#: blocks/admin/pages/saved-templates/index.js:450
+msgid "Items"
+msgstr ""
+
+#: blocks/admin/pages/settings/index.js:18
+msgid "Integrations"
+msgstr ""
+
+#: blocks/admin/pages/settings/index.js:20
+msgid "Custom CSS & JS"
+msgstr ""
+
+#: blocks/admin/pages/settings/index.js:26
+msgid "Clean-up Data on Deletion"
+msgstr ""
+
+#: blocks/admin/pages/settings/index.js:35
+msgid "Cache"
+msgstr ""
+
+#: blocks/admin/pages/settings/index.js:37
+msgid ""
+"Cache carousel queries for faster page loads. Cleared automatically whenever "
+"content changes."
+msgstr ""
+
+#: blocks/admin/pages/settings/index.js:102
+msgid "Settings saved successfully!"
+msgstr ""
+
+#: blocks/admin/pages/settings/index.js:104
+#: blocks/admin/pages/settings/index.js:107
+msgid "Error saving settings."
+msgstr ""
+
+#: blocks/admin/pages/settings/index.js:133
+msgid "Cache cleared successfully!"
+msgstr ""
+
+#: blocks/admin/pages/settings/index.js:135
+#: blocks/admin/pages/settings/index.js:138
+msgid "Error clearing cache."
+msgstr ""
+
+#: blocks/admin/pages/settings/index.js:146
+msgid ""
+"Are you sure you want to reset these settings? Advanced controls go back to "
+"their defaults and your custom CSS & JS will be cleared."
+msgstr ""
+
+#: blocks/admin/saved-template-sidebar/index.js:251
+msgid "You can use this shortcode anywhere and manage it from"
+msgstr ""
+
+#: blocks/admin/saved-template-sidebar/index.js:254
+#: blocks/admin/saved-template-sidebar/index.js:257
+msgid "Saved Templates."
+msgstr ""
+
+#: blocks/admin/saved-template-sidebar/index.js:265
+msgid "Shortcode copied"
+msgstr ""
+
+#: blocks/admin/saved-template-sidebar/index.js:265
+msgid "Copy shortcode"
+msgstr ""
+
+#: blocks/admin/setup-wizard/index.js:31
+msgid "Welcome"
+msgstr ""
+
+#: blocks/admin/setup-wizard/index.js:34 blocks/admin/setup-wizard/index.js:119
+msgid "Finish"
+msgstr ""
+
+#: blocks/admin/setup-wizard/index.js:62 blocks/admin/setup-wizard/index.js:65
+msgid "Something went wrong."
+msgstr ""
+
+#: blocks/admin/setup-wizard/index.js:99
+msgid "Skip It"
+msgstr ""
+
+#: blocks/admin/setup-wizard/index.js:109
+#: src/Blocks/Rendering/NavigationBuilder.php:182
+msgid "Previous"
+msgstr ""
+
+#: blocks/admin/setup-wizard/index.js:127
+msgid "Next Step"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/blocks.js:21
+msgid "Enable the Blocks You Need"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/blocks.js:25
+msgid ""
+"Turn on the blocks that match your workflow. You can update your selection "
+"anytime."
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:48
+msgid "Ready to Create Your First Showcase"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:52
+msgid ""
+"WP Carousel is now ready to use. Create beautiful sliders, galleries, post "
+"and product showcases, and more in just a few clicks."
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:59
+msgid "Finish & Let's Get Started"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:66
+msgid "Building Stunning Showcase Without Limits"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:71
+msgid ""
+"Trusted by <count>80,000+</count> creators to build beautiful carousels and "
+"galleries with powerful features — now it’s your turn!"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:86
+#: blocks/blocks/shared/constants/proFeatures.js:50
+#: blocks/blocks/shared/constants/proFeatures.js:56
+#: blocks/blocks/shared/constants/proFeatures.js:62
+#: blocks/blocks/shared/constants/proFeatures.js:71
+#: blocks/blocks/shared/constants/proFeatures.js:80
+#: blocks/blocks/shared/constants/proFeatures.js:89
+#: blocks/blocks/shared/constants/proFeatures.js:98
+#: blocks/blocks/shared/constants/proFeatures.js:107
+#: blocks/blocks/shared/constants/proFeatures.js:113
+#: blocks/blocks/shared/constants/proFeatures.js:122
+#: blocks/blocks/shared/constants/proFeatures.js:131
+#: blocks/blocks/shared/constants/proFeatures.js:140
+#: blocks/blocks/shared/constants/proFeatures.js:149
+msgid "Upgrade to Pro!"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:119
+msgid ""
+"Help us improve WP Carousel and get useful tips by sharing non-sensitive "
+"diagnostic data. See"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:124
+msgid "what we collect"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:139
+msgid "What We Collect?"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:144
+msgid "Close"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:163
+msgid ""
+"We collect only non-sensitive diagnostic data and basic plugin usage "
+"information. This may include:"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:168
+msgid "WordPress & PHP version"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:169
+msgid "Active theme and plugins"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:170
+msgid "General system details"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:173
+msgid "Email address only for sending helpful updates or optional offers."
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:180
+msgid ""
+"This information helps us improve performance, fix issues faster, and ensure"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:184
+msgid "stays compatible with the popular plugins and themes."
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:187
+msgid "No personal data is collected, and we never send spam—promise."
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:193
+msgid "Your Privacy is First"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/finish.js:201
+#: src/Admin/Dashboard/Diagnostics.php:294
+msgid "Learn More"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/modules.js:48
+msgid "Enable the Modules You Need"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/modules.js:52
+msgid ""
+"Unlock powerful features to enhance your showcases — fully customizable "
+"anytime."
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:13
+msgid "Dynamic Image, Post & Product"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:14
+msgid "Video and Audio Sources"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:15
+msgid "Classic or Gutenberg Form Editor"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:16
+msgid "Elementor, Divi, Beaver & More."
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:20
+msgid "Custom Video & Audio Players"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:21
+msgid "Right Click & Watermark Protection"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:22
+msgid "Built-in Lazy Load & Lightbox"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:23
+msgid "Password Protection & Scheduling"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:54
+msgid "Good morning"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:57
+msgid "Good afternoon"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:60
+msgid "Good evening"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:62
+msgid "Good night"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:89
+#, javascript-format
+msgid "%1$s, %2$s"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:91
+msgid "there"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:95
+msgid "Welcome to"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:96
+msgid "WP Carousel!"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:101
+msgid ""
+"Thank you for installing WP Carousel — your complete solution for building "
+"beautiful, interactive, and fully responsive carousels, sliders, galleries, "
+"media, post and products showcases without writing a single line of code."
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:108
+msgid "Get set up in minutes and start building using"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:110
+msgid "18+ flexible blocks and 500+ ready-made patterns"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:112
+msgid ". Packed with features, including:"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:135
+msgid "WP Carousel introduction video"
+msgstr ""
+
+#: blocks/admin/setup-wizard/pages/welcome.js:148
+msgid "Play video"
+msgstr ""
+
+#: blocks/admin/templates/Footer.js:16
+msgid "LinkedIn"
+msgstr ""
+
+#: blocks/admin/templates/Footer.js:23
+msgid "X (Twitter)"
+msgstr ""
+
+#: blocks/admin/templates/Footer.js:30
+msgid "WordPress"
+msgstr ""
+
+#: blocks/admin/templates/Footer.js:37
+msgid "Facebook"
+msgstr ""
+
+#: blocks/admin/templates/Header.js:34
+msgid "Setup Wizard"
+msgstr ""
+
+#: blocks/admin/templates/Header.js:41
+msgid "Public Roadmap"
+msgstr ""
+
+#: blocks/admin/templates/Header.js:46
+msgid "Request a Feature"
+msgstr ""
+
+#: blocks/admin/templates/Header.js:51
+msgid "Video Tutorials"
+msgstr ""
+
+#: blocks/admin/templates/Header.js:56
+msgid "What's New"
+msgstr ""
+
+#: blocks/admin/templates/Header.js:61
+msgid "Blog: Latest News"
+msgstr ""
+
+#: blocks/admin/templates/Header.js:66
+msgid "Join Community"
+msgstr ""
+
+#: blocks/admin/templates/Header.js:114
+msgid "View changelog"
+msgstr ""
+
+#: blocks/blocks/shared/constants/aspectRatios.js:12
+msgid "Original"
+msgstr ""
+
+#: blocks/blocks/shared/constants/aspectRatios.js:13
+msgid "1:1 (Square)"
+msgstr ""
+
+#: blocks/blocks/shared/constants/aspectRatios.js:14
+msgid "4:3"
+msgstr ""
+
+#: blocks/blocks/shared/constants/aspectRatios.js:15
+msgid "3:4 (Portrait)"
+msgstr ""
+
+#: blocks/blocks/shared/constants/aspectRatios.js:16
+msgid "16:9"
+msgstr ""
+
+#: blocks/blocks/shared/constants/aspectRatios.js:17
+msgid "9:16 (Portrait)"
+msgstr ""
+
+#: blocks/blocks/shared/constants/aspectRatios.js:18
+msgid "3:2"
+msgstr ""
+
+#: blocks/blocks/shared/constants/aspectRatios.js:19
+msgid "2:3 (Portrait)"
+msgstr ""
+
+#: blocks/blocks/shared/constants/aspectRatios.js:20
+msgid "21:9"
+msgstr ""
+
+#: blocks/blocks/shared/constants/aspectRatios.js:21
+msgid "Custom"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:18
+msgid ""
+"Scroll images, posts and products in a continuous ticker. Available in WP "
+"Carousel Pro."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:21
+msgid "Upgrade to scroll your content in a continuous marquee."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:23
+msgid "Continuous horizontal and vertical scroll"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:24
+msgid "Pause on hover and direction control"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:25
+msgid "Variable-width items"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:32
+msgid ""
+"Show wide, cover-flow style slides with a mirrored reflection. Available in "
+"WP Carousel Pro."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:35
+msgid "Upgrade to create immersive panoramic showcases."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:37
+msgid "Panorama and cover-flow layouts"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:38
+msgid "Adjustable reflection height and distance"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:39
+msgid "Overlay, diagonal and content-box orientations"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:47
+msgid ""
+"Enhance user interaction with advanced click actions and override global "
+"settings."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:55
+msgid "Unlock individual image sharing options with WP Carousel Pro."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:61
+msgid "Unlock individual video sharing options with WP Carousel Pro."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:68
+msgid ""
+"Unlock premium sliding effects and content animations to create more "
+"engaging sliders."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:77
+msgid ""
+"Unlock exclusive layouts and content animations to create more engaging "
+"sliders."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:86
+msgid ""
+"Unlock exclusive layouts, custom layout controls, gallery filters and search "
+"to create more dynamic, engaging tiles."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:95
+msgid ""
+"Unlock exclusive layouts and category filters to create more dynamic, "
+"engaging tiles."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:104
+msgid "Unlock exclusive layouts to create more dynamic, engaging tiles."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:112
+msgid "Customize each video individually with sharing options."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:119
+msgid ""
+"Enhance thumbnails with titles, descriptions, and 6+ active styling for "
+"clearer navigation."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:128
+msgid ""
+"Unlock Load More, Infinite Scroll and the Number + Next/Previous display "
+"style."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:137
+msgid ""
+"Unlock the full image, overlay and content effect libraries, plus Scale and "
+"Animation Duration on every axis."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:146
+msgid ""
+"Unlock all arrow styles, Show on Hover, and More Navigation Position Options "
+"for more flexible carousel navigation."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:154
+#: blocks/blocks/shared/constants/proFeatures.js:165
+#: blocks/blocks/shared/constants/proFeatures.js:178
+#: blocks/blocks/shared/constants/proFeatures.js:191
+#: blocks/blocks/shared/constants/proFeatures.js:206
+msgid "Unlock Pro Features!"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:155
+msgid "Take total control of your content styling and arrangement:"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:157
+msgid "Drag-and-Drop Ordering"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:158
+msgid "Description Length Control"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:159
+msgid "Content Area Size & Position"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:166
+msgid "Unlock advanced image styling & protection:"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:168
+msgid "Image Preloader"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:169
+msgid "Image & Text Watermark"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:170
+msgid "Right Click Protection"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:171
+#: blocks/blocks/shared/constants/proFeatures.js:181
+msgid "Custom Aspect Ratio"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:179
+msgid "Unlock advanced image styling for your posts & products:"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:182
+msgid "Blur & Brightness Filters"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:183
+msgid "Contrast & Saturation Control"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:184
+msgid "Hue Rotation Effect"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:192
+#: blocks/blocks/shared/constants/proFeatures.js:207
+msgid "Narrow down your query with advanced filters and exclusions:"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:194
+#: blocks/blocks/shared/constants/proFeatures.js:209
+msgid "Filter by Taxonomy"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:195
+#: blocks/blocks/shared/constants/proFeatures.js:210
+msgid "Filter by Date Range"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:196
+msgid "Filter by Author"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:197
+msgid "Exclude Post"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:198
+msgid "Exclude Current Posts"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:199
+msgid "Exclude Post without Thumb"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:211
+msgid "Best Selling"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:212
+msgid "Top Rated"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:213
+msgid "On Sale"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:214
+msgid "Exclude Products"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:215
+msgid "Exclude Product without Thumb"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:224
+msgid "Control access and scheduling with advanced customization options."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:228
+msgid "Public Visibility Control"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:229
+msgid "Password Protected Access"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:230
+msgid "Private Visibility Control"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:231
+msgid "Scheduling with Start Date and Time"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:232
+msgid "End Date with Automatic Expiration"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:237
+msgid "Make your content stand out with smooth entrance animations."
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:239
+msgid "60+ Entrance Animation Effects"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:240
+msgid "Adjustable Animation Speed"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:241
+msgid "Custom Animation Delay Control"
+msgstr ""
+
+#: blocks/blocks/shared/constants/proFeatures.js:242
+msgid "Fine-tuned Timing Settings"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:75
+msgid "Bounce"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:76
+msgid "Flash"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:77
+msgid "Pulse"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:78
+msgid "Rubber Band"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:79
+msgid "Shake X"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:80
+msgid "Shake Y"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:81
+msgid "Head Shake"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:82
+msgid "Swing"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:83
+msgid "Tada"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:84
+msgid "Wobble"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:85
+msgid "Jello"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:86
+msgid "Heart Beat"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:87
+msgid "Slide In Down"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:88
+msgid "Slide In Left"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:89
+msgid "Slide In Right"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:90
+msgid "Slide In Up"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:91
+msgid "Back In Down"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:92
+msgid "Back In Left"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:93
+msgid "Back In Right"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:94
+msgid "Back In Up"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:95
+msgid "Bounce In"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:96
+msgid "Bounce In Down"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:97
+msgid "Bounce In Left"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:98
+msgid "Bounce In Right"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:99
+msgid "Bounce In Up"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:100
+msgid "Fade In"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:101
+msgid "Fade In Down"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:102
+msgid "Fade In Left"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:103
+msgid "Fade In Right"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:104
+msgid "Fade In Up"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:105
+msgid "Flip In X"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:106
+msgid "Light Speed In Right"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:107
+msgid "Light Speed In Left"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:109
+msgid "Zoom In Down"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:110
+msgid "Zoom In Left"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:111
+msgid "Zoom In Right"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/constants.js:112
+msgid "Zoom In Up"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/panels/cardContent/sourceAccessors/image.js:110
+#: blocks/blocks/shared/inspector/panels/cardContent/sourceAccessors/image.js:116
+#: blocks/blocks/shared/inspector/panels/cardContent/sourceAccessors/post.js:191
+#: blocks/blocks/shared/inspector/panels/cardContent/sourceAccessors/product.js:218
+msgid "Title Color"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/panels/cardContent/sourceAccessors/post.js:185
+#: blocks/blocks/shared/inspector/panels/cardContent/sourceAccessors/product.js:212
+msgid "Title Hover Color"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/panels/cardContent/sourceAccessors/post.js:200
+msgid "Excerpt Color"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/panels/cardContent/sourceAccessors/product.js:232
+msgid "Price Color"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/panels/cardContent/sourceAccessors/product.js:239
+msgid "Sale Price Color"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/panels/navigation/tabs/navigationDefaults.js:11
+msgid "Sides Inner"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/panels/navigation/tabs/navigationDefaults.js:12
+msgid "Sides Outer"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/panels/navigation/tabs/navigationDefaults.js:13
+msgid "Sides Center"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/panels/navigation/tabs/navigationDefaults.js:15
+msgid "Top Center"
+msgstr ""
+
+#: blocks/blocks/shared/inspector/panels/navigation/tabs/navigationDefaults.js:18
+msgid "Bottom Center"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:113
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:91
+msgid "Hero"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:115
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:93
+msgid "Portfolio"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:116
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:94
+msgid "Gallery"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:117
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:95
+msgid "Testimonials"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:118
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:96
+msgid "Team"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:119
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:97
+msgid "Logos"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:120
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:98
+msgid "Pricing"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:121
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:99
+msgid "Call to Action"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:122
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:100
+msgid "FAQ"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:123
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:101
+msgid "Blog"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:124
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:102
+msgid "Shop"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:126
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:104
+msgid "Events"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:127
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:105
+msgid "Listings"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:128
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:106
+msgid "Education"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:129
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:107
+msgid "Hospitality"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:130
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:108
+msgid "Downloads"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:131
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:109
+msgid "Social Feed"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:132
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:110
+msgid "Full Page"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:145
+#: blocks/blocks/shared/ready-patterns/requirements.js:49
+msgid "Products"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:146
+#: blocks/blocks/shared/ready-patterns/requirements.js:50
+msgid "Videos"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:148
+#: blocks/blocks/shared/ready-patterns/requirements.js:53
+msgid "External Feed"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/constants.js:149
+msgid "Mixed"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/insertPattern.js:59
+#, javascript-format
+msgid ""
+"Could not insert \"%1$s\" — the block \"%2$s\" is not allowed in patterns."
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/insertPattern.js:69
+#, javascript-format
+msgid ""
+"Could not insert \"%1$s\" — the block \"%2$s\" is not available on this site."
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/insertPattern.js:80
+#, javascript-format
+msgid "Could not insert \"%s\" — the pattern contains no WP Carousel block."
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/insertPattern.js:88
+#, javascript-format
+msgid "Could not insert \"%s\" — the pattern contains too many blocks."
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/insertPattern.js:96
+#, javascript-format
+msgid "Could not insert \"%s\" — the pattern is nested too deeply."
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/insertPattern.js:103
+#, javascript-format
+msgid "Could not insert \"%s\" — invalid block pattern."
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/insertPattern.js:166
+#, javascript-format
+msgid "\"%s\" is available in WP Carousel Pro."
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/insertPattern.js:179
+msgid "Pattern payload is empty."
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/insertPattern.js:189
+#, javascript-format
+msgid "Could not insert \"%s\" — the pattern payload is too large."
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/insertPattern.js:221
+#, javascript-format
+msgid ""
+"Could not insert \"%1$s\" — the block \"%2$s\" cannot be inserted here on "
+"this site."
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/insertPattern.js:268
+#, javascript-format
+msgid "Inserted pattern \"%s\"."
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/requirements.js:52
+msgid "Documents"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/requirements.js:143
+#, javascript-format
+msgid "%s must be active"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/requirements.js:157
+#, javascript-format
+msgid "%s module must be on"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/requirements.js:171
+#, javascript-format
+msgid "Uses the %s content source"
+msgstr ""
+
+#: blocks/blocks/shared/ready-patterns/requirements.js:187
+#, javascript-format
+msgid "WP Carousel Pro %s or newer"
+msgstr ""
+
+#: blocks/blocks/shared/utils/videoUrlValidation.js:123
+msgid "Paste a full video link (https://…) from YouTube or Vimeo."
+msgstr ""
+
+#: blocks/blocks/shared/utils/videoUrlValidation.js:125
+msgid ""
+"Example: https://www.youtube.com/watch?v=VIDEO_ID or https://youtu.be/"
+"VIDEO_ID"
+msgstr ""
+
+#: blocks/blocks/shared/utils/videoUrlValidation.js:128
+msgid "Example: https://vimeo.com/123456789"
+msgstr ""
+
+#: blocks/blocks/shared/utils/videoUrlValidation.js:153
+msgid "Video URL"
+msgstr ""
+
+#: blocks/blocks/shared/utils/videoUrlValidation.js:158
+msgid ""
+"That doesn’t look like a valid URL. Enter a full link starting with https://"
+msgstr ""
+
+#: blocks/blocks/shared/utils/videoUrlValidation.js:162
+msgid "Only http:// and https:// links are supported."
+msgstr ""
+
+#: blocks/blocks/shared/utils/videoUrlValidation.js:165
+msgid ""
+"This URL is not from a supported video provider. Use a YouTube or Vimeo link."
+msgstr ""
+
+#: blocks/blocks/shared/utils/videoUrlValidation.js:171
+#, javascript-format
+msgid "This URL doesn’t match the expected format for %s."
+msgstr ""
+
+#: blocks/blocks/shared/utils/videoUrlValidation.js:176
+msgid ""
+"You pasted iframe embed code. Paste a regular YouTube or Vimeo page URL "
+"instead."
+msgstr ""
+
+#: blocks/blocks/shared/utils/videoUrlValidation.js:180
+msgid "Please enter a valid video URL."
+msgstr ""
+
+#: blocks/components/background/background.js:59
+msgid "Transparent"
+msgstr ""
+
+#: blocks/components/background/background.js:61
+#: blocks/controls/constants.js:314
+msgid "Gradient"
+msgstr ""
+
+#: blocks/components/background/background.js:70
+msgid "Background Type"
+msgstr ""
+
+#: blocks/components/background/background.js:73
+msgid "Background Color"
+msgstr ""
+
+#: blocks/components/background/background.js:156
+msgid "Transition"
+msgstr ""
+
+#: blocks/components/background/background.js:181
+msgid "Background Image"
+msgstr ""
+
+#: blocks/components/boxShadow/boxShadow.js:74
+#: blocks/components/boxShadow/boxShadow.js:231
+msgid "Box Shadow"
+msgstr ""
+
+#: blocks/components/boxShadow/boxShadow.js:239
+msgid "X Offset"
+msgstr ""
+
+#: blocks/components/boxShadow/boxShadow.js:240
+msgid "Y Offset"
+msgstr ""
+
+#: blocks/components/boxShadow/boxShadow.js:242
+msgid "Speared"
+msgstr ""
+
+#: blocks/components/buttonGroup/buttonGroup.js:76
+msgid "(Pro)"
+msgstr ""
+
+#: blocks/components/color/color.js:138
+msgid "Theme Color"
+msgstr ""
+
+#: blocks/components/iconLibrary/iconLibrary.js:125
+msgid "Close icon library"
+msgstr ""
+
+#: blocks/components/iconLibrary/iconLibrary.js:131
+msgid "Icon Library"
+msgstr ""
+
+#: blocks/components/iconLibrary/iconLibrary.js:146
+msgid "Categories"
+msgstr ""
+
+#: blocks/components/iconLibrary/iconLibrary.js:189
+msgid "Search icons…"
+msgstr ""
+
+#: blocks/components/iconLibrary/iconLibrary.js:215
+msgid "Insert Icon"
+msgstr ""
+
+#: blocks/components/mediaUpload/image.js:67
+msgid "Select Video"
+msgstr ""
+
+#: blocks/components/mediaUpload/image.js:68
+msgid "Change Video"
+msgstr ""
+
+#: blocks/components/mediaUpload/image.js:72
+msgid "Select Lottie Animation"
+msgstr ""
+
+#: blocks/components/mediaUpload/image.js:73
+msgid "Change Lottie Animation"
+msgstr ""
+
+#: blocks/components/mediaUpload/image.js:77
+msgid "Select Image"
+msgstr ""
+
+#: blocks/components/mediaUpload/image.js:78
+msgid "Change Image"
+msgstr ""
+
+#: blocks/components/priceRange/priceRange.js:59
+#: blocks/components/priceRange/priceRange.js:100
+msgid "Add New Option"
+msgstr ""
+
+#: blocks/components/priceRange/priceRange.js:79
+msgid "Price Range"
+msgstr ""
+
+#: blocks/components/priceRange/priceRange.js:82
+msgid "Min Price"
+msgstr ""
+
+#: blocks/components/priceRange/priceRange.js:88
+msgid "Max Price"
+msgstr ""
+
+#: blocks/components/queryBuilder/filterByCustomFields.js:79
+msgid "Select Field Key"
+msgstr ""
+
+#: blocks/components/queryBuilder/filterByCustomFields.js:90
+msgid "Custom Fields Key"
+msgstr ""
+
+#: blocks/components/queryBuilder/filterByCustomFields.js:97
+msgid "Value Type"
+msgstr ""
+
+#: blocks/components/queryBuilder/filterByCustomFields.js:108
+msgid "Compare Operator"
+msgstr ""
+
+#: blocks/components/queryBuilder/filterByCustomFields.js:116
+#: blocks/components/queryBuilder/filterByCustomFields.js:125
+msgid "Compare Value"
+msgstr ""
+
+#: blocks/components/queryBuilder/filterByCustomFields.js:222
+msgid "Filter By Custom Fields"
+msgstr ""
+
+#: blocks/components/queryBuilder/filterByCustomFields.js:240
+msgid "Relation"
+msgstr ""
+
+#: blocks/components/queryBuilder/taxonomies.js:25
+msgid "Taxonomy"
+msgstr ""
+
+#: blocks/components/queryBuilder/taxonomies.js:51
+msgid "Taxonomy Type"
+msgstr ""
+
+#: blocks/components/selectField/selectField.js:50
+#, javascript-format
+msgid "%s (Pro)"
+msgstr ""
+
+#: blocks/components/typography/typography.js:305
+msgid "close typography popup"
+msgstr ""
+
+#: blocks/components/typography/typography.js:306
+msgid "open typography popup"
+msgstr ""
+
+#: blocks/components/typography/typography.js:328
+msgid "APPLY TO ALL"
+msgstr ""
+
+#: blocks/controls/constants.js:251
+msgid "No Bland"
+msgstr ""
+
+#: blocks/controls/constants.js:255
+msgid "Multiply"
+msgstr ""
+
+#: blocks/controls/constants.js:259
+msgid "Screen"
+msgstr ""
+
+#: blocks/controls/constants.js:267
+msgid "Darken"
+msgstr ""
+
+#: blocks/controls/constants.js:271
+msgid "Lighten"
+msgstr ""
+
+#: blocks/controls/constants.js:275
+msgid "Color Dodge"
+msgstr ""
+
+#: blocks/controls/constants.js:279
+msgid "Saturation"
+msgstr ""
+
+#: blocks/controls/constants.js:287
+msgid "Luminosity"
+msgstr ""
+
+#: blocks/controls/constants.js:291
+msgid "Difference"
+msgstr ""
+
+#: blocks/controls/constants.js:295
+msgid "Exclusion"
+msgstr ""
+
+#: blocks/controls/constants.js:299
+msgid "Hue"
+msgstr ""
+
+#: blocks/controls/constants.js:306
+msgid "No Overlay"
+msgstr ""
+
+#: blocks/icons/icons.js:1195
+msgid "Dots"
+msgstr ""
+
+#: blocks/icons/icons.js:1197
+msgid "Stepper"
+msgstr ""
+
+#: includes/class-wp-carousel-free-import-export.php:109
+msgid "You do not have permission to export."
+msgstr ""
+
+#: includes/class-wp-carousel-free-import-export.php:317
+msgid "You do not have permission to import."
+msgstr ""
+
+#: includes/class-wp-carousel-free-import-export.php:327
 msgid "Nothing to import."
+msgstr ""
+
+#: includes/class-wp-carousel-free-import-export.php:341
+msgid "Invalid JSON data."
+msgstr ""
+
+#: includes/class-wp-carousel-free-import-export.php:351
+msgid "Invalid shortcode data structure."
 msgstr ""
 
 #: includes/class-wp-carousel-free-post-types.php:76
@@ -3017,40 +5099,266 @@ msgstr ""
 msgid "Parent Item:"
 msgstr ""
 
-#: public/WPCF_Helper.php:229
+#: public/WPCF_Helper.php:284
 msgid "No products found"
 msgstr ""
 
-#: public/WPCF_Helper.php:246
+#: public/WPCF_Helper.php:301
 msgid "No posts found"
 msgstr ""
 
-#: public/templates/loop/post-type/meta.php:16
+#: public/templates/loop/post-type/meta.php:21
 msgid "0 Comment"
 msgstr ""
 
-#: public/templates/loop/post-type/meta.php:18
+#: public/templates/loop/post-type/meta.php:23
 msgid "1 Comment"
 msgstr ""
 
-#: public/templates/loop/post-type/meta.php:20
+#: public/templates/loop/post-type/meta.php:25
 msgid " Comments"
 msgstr ""
 
-#: public/templates/loop/post-type/meta.php:29
+#: public/templates/loop/post-type/meta.php:41
 #, php-format
 msgid "By %s"
 msgstr ""
 
-#: public/templates/loop/post-type/meta.php:32
+#: public/templates/loop/post-type/meta.php:49
 #, php-format
 msgid "On %s"
 msgstr ""
 
-#: public/templates/loop/product-type/rating.php:15
+#: public/templates/loop/product-type/rating.php:19
 msgid "Rated "
 msgstr ""
 
-#: public/templates/loop/product-type/rating.php:15
+#: public/templates/loop/product-type/rating.php:19
 msgid " out of 5"
+msgstr ""
+
+#: src/Admin/Dashboard/Dashboard.php:242
+msgid "WP Carousel — Getting Started"
+msgstr ""
+
+#: src/Admin/Dashboard/Dashboard.php:243
+msgid "Getting Started"
+msgstr ""
+
+#: src/Admin/Dashboard/Dashboard.php:483
+msgid "Back to Settings"
+msgstr ""
+
+#: src/Admin/Dashboard/Dashboard.php:720 src/Admin/Dashboard/Dashboard.php:848
+#: src/Admin/Dashboard/Dashboard.php:864
+msgid "Unauthorized."
+msgstr ""
+
+#: src/Admin/Dashboard/Dashboard.php:723 src/Admin/Dashboard/Dashboard.php:851
+#: src/Admin/Dashboard/Dashboard.php:867
+#: src/Blocks/Rest/AjaxPaginationController.php:91
+msgid "Invalid nonce."
+msgstr ""
+
+#: src/Admin/Dashboard/Dashboard.php:729
+msgid "Invalid data."
+msgstr ""
+
+#: src/Admin/Dashboard/Diagnostics.php:89
+msgid "Once Weekly"
+msgstr ""
+
+#: src/Admin/Dashboard/Diagnostics.php:291
+msgid "Help us make WP Carousel even more awesome?"
+msgstr ""
+
+#: src/Admin/Dashboard/Diagnostics.php:293
+msgid ""
+"Allow us to collect non-sensitive diagnostic data to resolve problems faster "
+"and improve performance."
+msgstr ""
+
+#: src/Admin/Dashboard/Diagnostics.php:296
+msgid "Accept & Close"
+msgstr ""
+
+#: src/Admin/Dashboard/Diagnostics.php:298
+msgid "Dismiss"
+msgstr ""
+
+#: src/Admin/Dashboard/Saved_Templates.php:50
+#: src/Admin/PageBuilders/Beaver/wp-carousel-beaver-module.php:105
+#: src/Admin/PageBuilders/Bricks/bricksbuilder.php:74
+#: src/Admin/PageBuilders/Divi/Divi_Module.php:81
+#: src/Admin/PageBuilders/Elementor/Elementor_Widget.php:96
+#: src/Admin/PageBuilders/Oxygen/oxygen.php:197
+#: src/Admin/PageBuilders/WPBakery/WPBakery_Builder.php:49
+msgid "Saved Template"
+msgstr ""
+
+#: src/Admin/Dashboard/Saved_Templates.php:53
+#: src/Admin/Dashboard/Saved_Templates.php:54
+#: src/Admin/PageBuilders/Elementor/Elementor_Widget.php:171
+msgid "Add New Template"
+msgstr ""
+
+#: src/Admin/Dashboard/Saved_Templates.php:55
+msgid "Edit Template"
+msgstr ""
+
+#: src/Admin/Dashboard/Saved_Templates.php:56
+msgid "View Template"
+msgstr ""
+
+#: src/Admin/Dashboard/Saved_Templates.php:57
+msgid "New Template"
+msgstr ""
+
+#: src/Admin/Dashboard/Saved_Templates.php:58
+msgid "Search Template"
+msgstr ""
+
+#: src/Admin/Dashboard/Saved_Templates.php:59
+msgid "No template found"
+msgstr ""
+
+#: src/Admin/Dashboard/Saved_Templates.php:60
+msgid "No template found in Trash"
+msgstr ""
+
+#: src/Admin/Dashboard/Saved_Templates.php:61
+msgid "Template updated."
+msgstr ""
+
+#: src/Admin/PageBuilders/Base/Builder_Templates.php:43
+msgid "- Select Template -"
+msgstr ""
+
+#: src/Admin/PageBuilders/Base/Builder_Templates.php:63
+msgid "Please select a saved template."
+msgstr ""
+
+#: src/Admin/PageBuilders/Base/Builder_Templates.php:69
+msgid "Template not found or not published."
+msgstr ""
+
+#: src/Admin/PageBuilders/Base/Builder_Templates.php:73
+msgid "Template content is empty."
+msgstr ""
+
+#: src/Admin/PageBuilders/Base/Builder_Templates.php:82
+msgid "The Saved Templates module is turned off."
+msgstr ""
+
+#: src/Admin/PageBuilders/Beaver/wp-carousel-beaver-module.php:42
+#: src/Admin/PageBuilders/WPBakery/WPBakery_Builder.php:44
+msgid "Display a WP Carousel saved template."
+msgstr ""
+
+#: src/Admin/PageBuilders/Beaver/wp-carousel-beaver-module.php:43
+msgid "SP Plugins"
+msgstr ""
+
+#: src/Admin/PageBuilders/Divi/Divi_Module.php:86
+msgid "Select a saved carousel template."
+msgstr ""
+
+#: src/Admin/PageBuilders/Elementor/Elementor_Widget.php:42
+msgid "WP Carousel Saved Template"
+msgstr ""
+
+#: src/Admin/PageBuilders/Elementor/Elementor_Widget.php:167
+msgid "Edit This Template"
+msgstr ""
+
+#: src/Admin/PageBuilders/WPBakery/WPBakery_Builder.php:53
+msgid "Select a saved template to display."
+msgstr ""
+
+#: src/Blocks/BlockCategories.php:58
+msgid "WP Carousel Pro Blocks"
+msgstr ""
+
+#: src/Blocks/BlockRenderer.php:664
+msgid "No items to display. Please configure the block."
+msgstr ""
+
+#: src/Blocks/Lightbox/Lightbox_Icon_Helper.php:1221
+msgid "Open image in lightbox"
+msgstr ""
+
+#: src/Blocks/ReadyPatterns/Controller.php:151
+msgid "This pattern is available in WP Carousel Pro."
+msgstr ""
+
+#: src/Blocks/ReadyPatterns/Controller.php:161
+msgid "Pattern not found."
+msgstr ""
+
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:121
+msgid "Starter"
+msgstr ""
+
+#: src/Blocks/ReadyPatterns/PatternVocabulary.php:123
+msgid "Showcase"
+msgstr ""
+
+#: src/Blocks/Rendering/NavigationBuilder.php:183
+msgid "Next"
+msgstr ""
+
+#: src/Blocks/Rendering/SlotRenderer.php:396
+msgid "Add to cart"
+msgstr ""
+
+#: src/Blocks/Rendering/SlotRenderer.php:397
+msgid "Read More"
+msgstr ""
+
+#: src/Blocks/Rendering/SlotRenderer.php:563
+#, php-format
+msgid "Add to cart: %s"
+msgstr ""
+
+#: src/Blocks/Rendering/SlotRenderer.php:572
+#, php-format
+msgid "View product: %s"
+msgstr ""
+
+#: src/Blocks/Rendering/SlotRenderer.php:1111
+#, php-format
+msgid "Rating %s out of 5"
+msgstr ""
+
+#: src/Blocks/Rendering/SocialShareRenderer.php:134
+#: src/Blocks/Rendering/SocialShareRenderer.php:147
+msgid "Copy post URL"
+msgstr ""
+
+#: src/Blocks/Rendering/SocialShareRenderer.php:149
+msgid "Copied!"
+msgstr ""
+
+#: src/Blocks/Rest/AjaxPaginationController.php:84
+msgid "Missing nonce."
+msgstr ""
+
+#: src/Blocks/Rest/AjaxPaginationController.php:114
+msgid "Page must be a positive integer."
+msgstr ""
+
+#: src/Blocks/Rest/AjaxPaginationController.php:129
+msgid "Unsupported source type."
+msgstr ""
+
+#: src/Blocks/Rest/PreviewController.php:92
+msgid "Icon list file not found."
+msgstr ""
+
+#: src/Blocks/Rest/PreviewController.php:101
+msgid "Icon list data is invalid."
+msgstr ""
+
+#: src/Blocks/Rest/PreviewController.php:174
+msgid "Only post and product preview sources are supported."
 msgstr ""

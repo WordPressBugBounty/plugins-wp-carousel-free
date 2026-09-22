@@ -1,0 +1,22 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wp-carousel-pro/tiles",
+	"title": "Tiles",
+	"description": "Display images, videos, posts or products in flexible tile layouts.",
+	"category": "wp-carousel-pro",
+	"keywords": ["tiles", "grid", "gallery"],
+	"textdomain": "wp-carousel-free",
+	"example": { "viewportWidth": 320 },
+	"providesContext": {
+		"wp-carousel-pro/uniqueId": "uniqueId",
+		"wp-carousel-pro/sourceType": "sourceType",
+		"wp-carousel-pro/items": "items"
+	},
+	"supports": {
+		"align": ["wide", "full"],
+		"html": false,
+		"customClassName": false,
+		"customCSS": false
+	}
+}

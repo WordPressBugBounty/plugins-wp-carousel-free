@@ -1,0 +1,83 @@
+.wpcp-button-set {
+    .wpcp-component-title {
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 20px;
+        margin-bottom: 9px;
+    }
+
+    .wpcp-button-set-list {
+        display: grid;
+        border: 1px solid #ddd;
+        border-radius: 4px; // Slightly smoother
+        overflow: hidden; // Keeps corners clean
+        background: #fff;
+
+        @for $i from 1 through 8 {
+            &.sp-col-#{$i} {
+                grid-template-columns: repeat(#{$i}, 1fr);
+            }
+        }
+
+        .wpcp-button-set-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-height: 32px;
+            border: 1px solid transparent !important;
+            margin: 1px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            // The button text container
+            .sp-item-set-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+                font-size: 12px;
+                text-align: center;
+                padding: 4px;
+            }
+
+            &:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 20%;
+                height: 60%;
+                width: 1px;
+                background: #ddd;
+            }
+
+            // Active State
+            &.active {
+                border-radius: 2px !important;
+                background: var(--wpcp-carousel-primary-2-50) !important;
+                border: 1px solid var(--wpcp-carousel-primary-2-100) !important;
+                color: var(--wpcp-carousel-primary-2-600);
+
+                &::after {
+                    display: none; // Hide separator if active
+                }
+
+                .sp-item-set-btn {
+                    .sp-shape-icon {
+                        fill: currentColor
+                    }
+                }
+            }
+
+            // Hover state for better UX
+            // &:hover:not(.active) {
+            //     color: var(--wpcp-carousel-primary-2-600);
+            //     background: #f9f9f9;
+            // }
+        }
+        .wpcp-button-set-item:has( + .wpcp-button-set-item.active  )::after {
+            display: none;
+        }
+    }
+}

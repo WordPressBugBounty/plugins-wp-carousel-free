@@ -1,0 +1,109 @@
+.wpcp-tab-panel {
+  .components-tab-panel__tabs-item:focus:not(:disabled) {
+    box-shadow: none;
+  }
+
+  .components-tab-panel__tabs {
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+
+  .components-tab-panel__tab-content {
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+
+    > .wpcp-divider:last-child {
+      display: none;
+    }
+  }
+
+  .components-tab-panel__tabs>button {
+    padding: 0;
+  }
+
+  .components-tab-panel__tabs button {
+    color: #2f2f2f;
+    height: 40px;
+    font-size: 14px;
+    font-weight: 500;
+    width: 100%;
+    justify-content: center;
+    border-bottom: 2px solid #ddd;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    transition: color 0.3s ease-in-out;
+
+    &:hover {
+      color: var(--wpcp-carousel-primary-2-800);
+
+      span svg {
+        fill: var(--wpcp-carousel-primary-2-800);
+      }
+    }
+  }
+
+  .components-tab-panel__tabs button.components-tab-panel__tabs-item:focus {
+    border-bottom: 2px solid var(--wpcp-carousel-primary-2-800) !important;
+  }
+
+  .components-panel__body-title .components-button:focus:not(:disabled) {
+    border-bottom: 0 !important;
+  }
+
+  .wpcp-general-tab .components-button:focus:not(:disabled) {
+    border-bottom: 2px solid var(--wpcp-carousel-primary-2-800) !important;
+  }
+
+  .components-tab-panel__tabs button span {
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 4px;
+      fill: #2f2f2f;
+      transition: 0.3s ease-in-out;
+    }
+  }
+
+  .components-tab-panel__tabs button.active-tab {
+    position: relative;
+    color: var(--wpcp-carousel-primary-2-800);
+    border-bottom: 2px solid var(--wpcp-carousel-primary-2-800) !important;
+
+    &:hover {
+      color: var(--wpcp-carousel-primary-2-800);
+    }
+
+    span {
+      .wpcp-block-icon {
+        svg {
+          fill: var(--wpcp-carousel-primary-2-800);
+        }
+      }
+    }
+  }
+
+  .components-panel__body {
+    .components-panel__body-title {
+      .components-panel__body-toggle:focus {
+        box-shadow: none;
+      }
+
+      .components-panel__body-toggle.components-button {
+
+        &:hover:not([aria-disabled='true']),
+        &[aria-expanded='true'] {
+          color: inherit;
+        }
+      }
+    }
+  }
+}
+
+.wpcp-tab-panel .components-tab-panel__tabs-item {
+  height: 41px !important;
+  margin-top: -12px;
+}

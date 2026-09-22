@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Video</title>
+<style>
+	html, body { margin: 0; height: 100%; background: #000; }
+	iframe { display: block; width: 100%; height: 100%; border: 0; }
+</style>
+</head>
+<body>
+<script>
+/**
+ * Same-origin video embed proxy.
+ *
+ * The WordPress 7+ block editor renders its canvas inside a `blob:` iframe whose
+ * document has no real URL, so cross-origin players (YouTube, Vimeo) nested directly
+ * in the canvas cannot send a valid HTTP Referer and fail with "Error 153".
+ *
+ * Loading this page (a real same-origin URL) as the player iframe and embedding the
+ * provider iframe from here gives the provider a valid Referer. Used by the editor
+ * preview only; the frontend builds players in the top document and needs no proxy.
+ *
+ * The embed URL is passed in the location hash: `video-embed-proxy.html#<encoded url>`.
+ * Only https URLs from a fixed provider allow-list are embedded, and the src is set via
+ * the DOM property (never innerHTML), so a malicious hash cannot inject markup.
+ */
+( function () {
+	var ALLOWED_HOSTS = [
+		'www.youtube.com',
+		'youtube.com',
+		'www.youtube-nocookie.com',
+		'youtube-nocookie.com',
+		'player.vimeo.com'
+	];
+
+	var raw = window.location.hash.replace( /^#/, '' );
+	if ( ! raw ) {
+		return;
+	}
+
+	var embedUrl;
+	try {
+		embedUrl = decodeURIComponent( raw );
+	} catch ( e ) {
+		return;
+	}
+
+	var parsed;
+	try {
+		parsed = new URL( embedUrl );
+	} catch ( e ) {
+		return;
+	}
+
+	if ( 'https:' !== parsed.protocol || -1 === ALLOWED_HOSTS.indexOf( parsed.hostname ) ) {
+		return;
+	}
+
+	var iframe = document.createElement( 'iframe' );
+	iframe.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture; web-share; accelerometer; gyroscope';
+	iframe.allowFullscreen = true;
+	iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+	// Sandbox the provider player (defense-in-depth, mirrors WP core's SandBox). Grants only
+	// what players need — scripts, their own origin, fullscreen/presentation, and share popups.
+	// Withholding allow-top-navigation prevents a compromised embed from navigating the editor away.
+	iframe.setAttribute(
+		'sandbox',
+		'allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox'
+	);
+	iframe.src = parsed.href;
+	document.body.appendChild( iframe );
+}() );
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+.wpcp-focal-point {
+    .wpcp-header-control {
+        margin-bottom: 8px;
+    }
+    .focal-point-picker__controls {
+        display: none;
+    }
+    .wpcp-focal-point-control {
+        .components-focal-point-picker__media--placeholder {
+            height: 100%;
+        }
+        .components-focal-point-picker {
+            margin: 0;
+            width: 100%;
+            height: 200px;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+}

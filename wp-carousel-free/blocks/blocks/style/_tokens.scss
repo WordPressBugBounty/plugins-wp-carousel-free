@@ -1,0 +1,12 @@
+/* ════════════════════════════════════════════════════════════════════════════
+ * SHADOW PRESET TOKENS (consumed by BoxShadow component)
+ * ════════════════════════════════════════════════════════════════════════════ */
+:root {
+	--wpcp-shadow-subtle-1dp: 0px 1px 2px 0px rgba(0, 0, 0, 0.12);
+	--wpcp-shadow-light-2dp: 0px 2px 4px 0px rgba(0, 0, 0, 0.14);
+	--wpcp-shadow-medium-4dp: 0px 4px 6px 0px rgba(0, 0, 0, 0.16);
+	--wpcp-shadow-strong-8dp: 0px 8px 18px 0px rgba(0, 0, 0, 0.18);
+	--wpcp-shadow-deep-12dp: 0px 12px 17px 0px rgba(0, 0, 0, 0.2);
+	--wpcp-shadow-sharp-4dp: 4px 4px 0px 0px rgba(0, 0, 0, 0.25);
+}
+

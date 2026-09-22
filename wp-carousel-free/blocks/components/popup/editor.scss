@@ -1,0 +1,135 @@
+@use '../popover-chrome' as *;
+
+// Chrome lives on the WP popover wrapper; the inner body stays frameless.
+.components-popover__content:has(.wpcp-popup-content) {
+    @include wpcp-popover-chrome;
+}
+
+.wpcp-popup-content {
+    // position: absolute;
+    z-index: 9999;
+    background: #ffffff;
+    border-radius: 6px;
+    width: fit-content;
+    height: fit-content;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    box-sizing: border-box;
+    // margin-top: -12px;
+}
+
+.wpcp-popup-content:has(.sp-smart-popup-body) {
+    overflow: auto;
+    max-height: 300px;
+    position: relative;
+    border: none;
+}
+
+.wpcp-popup-wrapper:has(.wpcp-select-dropdown) {
+    padding: 0;
+    width: 100% !important;
+}
+
+.components-popover.wpcp-tab-panel:has(.sp-smart-popup-body) {
+    top: -10px !important;
+}
+
+.wpcp-button {
+    .wpcp-header-left {
+        &.wide-area {
+            width: 85%;
+            justify-content: space-between;
+            align-items: center;
+
+            .wpcp-toggle {
+                width: 100%;
+
+                .components-toggle-control {
+                    margin-bottom: 0px;
+                }
+            }
+        }
+    }
+}
+
+.wpcp-dropdown-select {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    min-width: 240px;
+    min-height: 32px;
+    padding-left: 14px;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+
+.wpcp-border-popup .wpcp-border-icon-button:hover {
+    color: transparent !important;
+}
+
+.wpcp-header-right .wpcp-border-icon-button {
+    height: 26px;
+    border: none;
+    outline: none;
+    background: transparent;
+    outline: 2px solid transparent;
+    border-radius: 4px;
+    padding: 1px;
+    outline: 2px solid #F26C0D00 !important;
+
+    &.button-clicked {
+
+        // outline: 2px solid var(--wpcp-carousel-primary-2-400) !important;
+        // padding: 1px;
+        svg {
+            fill: var(--wpcp-carousel-primary-2-800);
+        }
+
+        // path {
+        //     // fill: var(--wpcp-carousel-primary-2-400);
+        //     stroke: #fff;
+        // }
+        rect {
+            stroke: var(--wpcp-carousel-primary-2-800);
+        }
+    }
+
+    &:hover {
+        color: #fff !important;
+    }
+
+    &.button-clicked {
+        // outline: 2px solid var(--wpcp-carousel-primary-2-400) !important;
+        // padding: 1px;
+    }
+}
+
+.sp-border-popover {
+    width: 360px;
+}
+
+.components-popover__fallback-container {
+    .sp-border-popover {
+        // top: 20px !important;
+    }
+}
+
+.wpcp-popup-content {
+    input::-webkit-inner-spin-button {
+        min-height: 33px;
+        margin-right: 0px;
+        cursor: pointer;
+    }
+}
+
+.components-popover__content {
+    overflow: auto;
+    overflow-x: hidden !important;
+}
+
+.wpcp-tab-panel .components-popover__content {
+    box-shadow: -4px 4px 12px 2px rgba(0, 0, 0, 0.1);
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+}

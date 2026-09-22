@@ -1,0 +1,121 @@
+/**
+ * Price Range Component Styles
+ */
+
+.wpcp-price-range-global-control {
+	margin-top: 15px;
+
+	.wpcp-price-range-item-box {
+		margin-bottom: 20px;
+
+		// Override ChildPanelBody styles if needed
+		.wpcp-child-panel-body {
+			border: 1px solid #DDD !important;
+			border-radius: 2px;
+			background: #fafafa;
+			overflow: hidden;
+			margin: 0 !important;
+			padding: 0;
+
+			.components-panel__body-title {
+				background-color: #F0F0F0 !important;
+				margin: 0;
+				padding: 8px 15px;
+				font-size: 13px;
+				font-weight: 600;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
+				span {
+					position: absolute;
+					right: 22px;
+				}
+				button {
+					padding: 12px 4px 12px 10px !important;
+					font-weight: 600;
+				}
+			}
+		}
+
+		.wpcp-price-range-content {
+			padding: 16px;
+			background: #fff;
+
+			.wpcp-price-range-label {
+				font-size: 13px;
+				font-weight: 500;
+				color: #555;
+				margin-bottom: 12px;
+			}
+
+			.wpcp-price-range-inputs-row {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+
+				.wpcp-input-control {
+					margin-bottom: 0 !important;
+					flex: 1;
+
+					.wpcp-spacing-part-1 {
+						padding: 0;
+					}
+
+					.wpcp-header-control-left {
+						display: none;
+					}
+
+					.wpcp-header-control-right {
+						width: 100%;
+
+						.components-text-control__input {
+							height: 40px;
+							border-radius: 6px;
+							border: 1px solid #ddd;
+							padding: 0 12px;
+							font-size: 13px;
+						}
+					}
+				}
+			}
+		}
+
+		// Ensure reset icon is visible and correctly positioned
+		.child-panel-body-reset-icon {
+			position: absolute;
+			right: 0;
+			top: 12px;
+			cursor: pointer;
+			z-index: 10;
+
+			&:hover {
+				path {
+					fill: #cc0000;
+				}
+			}
+		}
+	}
+
+	.wpcp-add-range-button-global {
+		justify-content: center;
+		height: 34px;
+		border-radius: 2px;
+		font-weight: 500;
+		color: #fff;
+		background: #1a74e4;
+		padding: 8px 12px;
+		font-size: 12px;
+		line-height: 16px;
+		font-weight: 400;
+
+		&:hover {
+			color: #fff !important;
+			background: #1a74e4 !important;
+		}
+		&:focus {
+			outline: 0;
+			box-shadow: none;
+		}
+	}
+}

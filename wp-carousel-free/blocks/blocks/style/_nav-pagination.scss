@@ -1,0 +1,397 @@
+@use 'mixins' as *;
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * CAROUSEL RENDER WRAPPER
+ * ════════════════════════════════════════════════════════════════════════════ */
+.alignwide .wpcp-swiper.wpcp-effect-coverflow {
+	padding: 20px 0;
+}
+
+.wpcp-carousel-render {
+	position: relative;
+	// overflow: hidden;
+
+	.wpcp-carousel-stage {
+		position: relative;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	/* Nav arrows — size/colors from navigation child block (CSS vars on .wpcp-navigation) */
+	.wpcp-nav-arrows {
+		position: absolute;
+		// inset: 0;
+		pointer-events: none;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--wpcp-nav-gap, 0px);
+		z-index: 10;
+		top: 0;
+		height: 100%;
+	}
+
+	.wpcp-nav {
+		pointer-events: all;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		color: var(--wpcp-nav-color, #757575);
+		background: var(--wpcp-nav-bg, #ffffff);
+		border-width: var(--wpcp-nav-border-width, 1);
+		border-style: var(--wpcp-nav-border-style, solid);
+		border-color: var(--wpcp-nav-border-color, #dddddd);
+		border-radius: var(--wpcp-nav-border-radius, 50%);
+		padding: var(--wpcp-nav-padding, 0);
+		box-shadow: var(--wpcp-nav-box-shadow, none);
+		transition:
+			background 0.3s,
+			color 0.3s,
+			border-color 0.3s,
+			opacity 0.3s ease,
+			box-shadow 0.3s ease;
+		appearance: none;
+		-webkit-appearance: none;
+		outline: none;
+		transform: translate(var(--wpcp-nav-offset-x, 0px), var(--wpcp-nav-offset-y, 0px));
+
+		&.wpcp-nav-prev svg {
+			transform: rotate(180deg);
+		}
+
+		&:hover {
+			color: var(--wpcp-nav-hover-color, #ffffff);
+			background: var(--wpcp-nav-hover-bg, #19949e);
+			border-style: var(--wpcp-nav-hover-border-style, var(--wpcp-nav-border-style, solid));
+			border-color: var(--wpcp-nav-hover-border-color, #19949e);
+			border-width: var(--wpcp-nav-hover-border-width, var(--wpcp-nav-border-width, 0));
+			box-shadow: var(--wpcp-nav-hover-box-shadow, var(--wpcp-nav-box-shadow, none));
+		}
+
+		/* Frontend buttons inherit browser/theme focus UI unless we define it.
+		 * That default focus/click ring showed up as a white rounded border around
+		 * the nav button on the frontend only. Reset the generic focus halo and
+		 * provide an explicit focus-visible ring so keyboard accessibility remains.
+		 */
+		&:focus,
+		&:active {
+			outline: none;
+			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--wpcp-nav-hover-border-color, var(--wpcp-nav-color, #757575));
+			outline-offset: 2px;
+			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+		}
+
+		/* Arrow Size lands here and nowhere else. The inline SVG carries its own
+		 * width/height, so the shrink-to-fit button has a definite content box
+		 * for a `%` value to resolve against. */
+		svg {
+			display: block;
+			width: var(--wpcp-nav-arrow-size, 18px);
+			height: var(--wpcp-nav-arrow-size, 18px);
+			flex-shrink: 0;
+			object-fit: contain;
+		}
+	}
+
+	/* The bottom padding only reserves room for the pagination row, so gate it on
+	 * the pagination element being present (`:has`) — with pagination off there is
+	 * nothing below the stage and the 40px would be dead space. The shared
+	 * `.wpcp-pagination` class is emitted in both the editor preview and the PHP
+	 * frontend, so this stays in parity. Spacing lives on `.wpcp-carousel-stage`,
+	 * the wrapper both contexts share (the frontend root also carries
+	 * `.wpcp-carousel-container`), without changing nav positioning behavior.
+	 */
+	&.nav-vertical-center-inner:not(.wpcp-vertical):has(.wpcp-pagination),
+	&.nav-vertically-inner-and-outer:not(.wpcp-vertical):has(.wpcp-pagination),
+	&.nav-vertical-center:not(.wpcp-vertical):has(.wpcp-pagination) {
+		.wpcp-nav-arrows {
+			height: calc(100% - 40px);
+		}
+
+		.wpcp-carousel-stage {
+			padding-bottom: 40px;
+		}
+	}
+
+	&.nav-vertical-center .wpcp-nav-arrows,
+	&.nav-vertical-center-inner .wpcp-nav-arrows,
+	&.nav-vertically-inner-and-outer .wpcp-nav-arrows {
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	/* Side-arrow presets on horizontal carousels: arrows sit on the left & right
+	 * edges, vertically centered (inherited from the base `.wpcp-nav-arrows`
+	 * space-between row). Offset X drives the in/out distance symmetrically via
+	 * the container inset below; the buttons themselves carry only Offset Y so
+	 * Offset X is not double-applied. */
+	&.nav-vertical-center-inner:not(.wpcp-vertical),
+	&.nav-vertical-center:not(.wpcp-vertical),
+	&.nav-vertically-inner-and-outer:not(.wpcp-vertical) {
+		overflow: visible;
+
+		.wpcp-nav {
+			transform: translate(0, var(--wpcp-nav-offset-y, 0px));
+		}
+	}
+
+	/* Sides Center & Sides Outer — the arrows row sits flush on the stage edges
+	 * and each button shifts itself off by a share of its own box, emitted per
+	 * device as --wpcp-nav-straddle (50% straddles the edge, 100% clears it).
+	 * A percentage in `translate` resolves against the button, so the browser
+	 * measures it and Arrow Size stays out of the geometry no matter its unit.
+	 * Offset X pushes both arrows further out, away from the stage. */
+	&.nav-vertical-center:not(.wpcp-vertical),
+	&.nav-vertically-inner-and-outer:not(.wpcp-vertical) {
+		.wpcp-nav-arrows {
+			left: 0;
+			right: 0;
+		}
+
+		.wpcp-nav.wpcp-nav-prev {
+			transform: translate(
+				calc((var(--wpcp-nav-straddle, 0%) + var(--wpcp-nav-offset-x, 0px)) * -1),
+				var(--wpcp-nav-offset-y, 0px)
+			);
+		}
+
+		.wpcp-nav.wpcp-nav-next {
+			transform: translate(
+				calc(var(--wpcp-nav-straddle, 0%) + var(--wpcp-nav-offset-x, 0px)),
+				var(--wpcp-nav-offset-y, 0px)
+			);
+		}
+	}
+
+	/* Sides Inner — arrows flush inside the stage edges; +Offset X pushes them
+	 * further inward (toward the center). */
+	&.nav-vertical-center-inner:not(.wpcp-vertical) {
+		.wpcp-nav-arrows {
+			left: var(--wpcp-nav-offset-x, 0px);
+			right: var(--wpcp-nav-offset-x, 0px);
+		}
+	}
+
+	.wpcp-pagination {
+		/* Default margin removed - now controlled by options */
+	}
+
+	/* Pagination child block options — CSS variables from `getPaginationDivProps` / PHP */
+	.wpcp-pagination.swiper-pagination {
+		--wpcp-pag-item-w: 12px;
+		--wpcp-pag-item-h: 12px;
+		--wpcp-pag-stepper-w: 14px;
+		--wpcp-pag-stepper-h: 5px;
+		--wpcp-pag-gap: 8px;
+		--wpcp-pag-color: #cacbcf;
+		--wpcp-pag-active-color: #19949e;
+		/* Text on the numbers style; do not default --wpcp-pag-bg here — `transparent` blocks var() fallbacks. */
+		--wpcp-pag-text-color: #ffffff;
+		--wpcp-pag-active-text-color: var(--wpcp-pag-text-color);
+		--wpcp-pag-border-style: none;
+		--wpcp-pag-border-color: #cccccc;
+		--wpcp-pag-border-width: 0px;
+		--wpcp-pag-active-border-style: var(--wpcp-pag-border-style);
+		--wpcp-pag-active-border-color: var(--wpcp-pag-border-color);
+		--wpcp-pag-active-border-width: var(--wpcp-pag-border-width);
+		box-sizing: border-box;
+		width: 100% !important;
+		max-width: 100%;
+		margin-inline: 0;
+		left: 0 !important;
+		right: 0 !important;
+		transform: none !important;
+		gap: var(--wpcp-pag-gap);
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+
+		.swiper-pagination-bullet {
+			width: var(--wpcp-pag-item-w);
+			height: var(--wpcp-pag-item-h);
+			background: var(--wpcp-pag-color);
+			opacity: 1;
+			border: var(--wpcp-pag-border-width) var(--wpcp-pag-border-style) var(--wpcp-pag-border-color);
+			box-sizing: border-box;
+			outline: none;
+			-webkit-tap-highlight-color: transparent;
+			transition: background-color 0.3s ease, border-color 0.3s ease;
+
+			&:hover {
+				background: var(--wpcp-pag-active-color) !important;
+				border: var(--wpcp-pag-active-border-width) var(--wpcp-pag-active-border-style) var(--wpcp-pag-active-border-color) !important;
+			}
+		}
+
+		.swiper-pagination-bullet-active {
+			background: var(--wpcp-pag-active-color);
+			border: var(--wpcp-pag-active-border-width) var(--wpcp-pag-active-border-style) var(--wpcp-pag-active-border-color);
+		}
+
+		/* Swiper makes bullets clickable on the frontend, so browser/mobile tap
+		 * feedback can paint a dark click highlight that does not appear in the
+		 * editor preview. Define explicit interaction states here to keep
+		 * frontend pagination visually aligned with the editor while retaining a
+		 * visible keyboard focus treatment.
+		 */
+		.swiper-pagination-bullet:focus,
+		.swiper-pagination-bullet:active {
+			outline: none;
+			-webkit-tap-highlight-color: transparent;
+		}
+
+		.swiper-pagination-bullet:focus-visible {
+			outline: 2px solid var(--wpcp-pag-active-color, #19949e);
+			outline-offset: 2px;
+		}
+
+		/* Vertical position: top */
+		&.wpcp-pagination--vpos-top {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 10;
+		}
+
+		/* Vertical position: bottom (default) */
+		&.wpcp-pagination--vpos-bottom {
+			/* Default flow position at bottom */
+		}
+
+		&.wpcp-pagination--align-left {
+			justify-content: flex-start;
+		}
+
+		&.wpcp-pagination--align-center {
+			justify-content: center;
+		}
+
+		&.wpcp-pagination--align-right {
+			justify-content: flex-end;
+		}
+
+		&.wpcp-pagination--vertical {
+			flex-direction: row;
+			flex-wrap: nowrap;
+			align-items: center;
+			justify-content: center;
+		}
+
+		&.wpcp-pagination--vertical.wpcp-pagination--align-left {
+			justify-content: flex-start;
+		}
+
+		&.wpcp-pagination--vertical.wpcp-pagination--align-right {
+			justify-content: flex-end;
+		}
+
+		&.wpcp-pagination--vertical .swiper-pagination-bullet {
+			margin: 0 !important;
+		}
+
+		/* Dots */
+		&.wpcp-pagination--dots .swiper-pagination-bullet {
+			border-radius: 999px;
+			background: var(--wpcp-pag-color);
+		}
+
+		&.wpcp-pagination--dots .swiper-pagination-bullet-active {
+			background: var(--wpcp-pag-active-color);
+		}
+
+		/* Stepper: segmented pills */
+		&.wpcp-pagination--stepper .swiper-pagination-bullet,
+		&.wpcp-pagination--stepper .wpcp-pagination-bullet--stepper {
+			width: var(--wpcp-pag-stepper-w);
+			height: var(--wpcp-pag-stepper-h);
+			border-radius: 999px;
+			background: var(--wpcp-pag-color);
+			border: var(--wpcp-pag-border-width) var(--wpcp-pag-border-style) var(--wpcp-pag-border-color);
+			box-sizing: border-box;
+		}
+
+		&.wpcp-pagination--stepper .swiper-pagination-bullet-active,
+		&.wpcp-pagination--stepper .wpcp-pagination-bullet--stepper.swiper-pagination-bullet-active {
+			background: var(--wpcp-pag-active-color);
+			border: var(--wpcp-pag-active-border-width) var(--wpcp-pag-active-border-style) var(--wpcp-pag-active-border-color);
+		}
+
+		/* Dynamic */
+		&.wpcp-pagination--dynamic .swiper-pagination-bullet {
+			border-radius: 999px;
+			background: var(--wpcp-pag-color);
+			flex: 0 0 auto;
+		}
+
+		&.wpcp-pagination--dynamic .swiper-pagination-bullet-active {
+			background: var(--wpcp-pag-active-color);
+		}
+
+		&.wpcp-pagination--dynamic {
+			flex-wrap: nowrap;
+			white-space: nowrap;
+			max-width: 100%;
+		}
+
+		&.wpcp-pagination--vertical.wpcp-pagination--dynamic.swiper-pagination-bullets,
+		&.wpcp-pagination--vertical.wpcp-pagination--dynamic.swiper-pagination-bullets-dynamic {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			align-items: center;
+			justify-content: center;
+			width: 100% !important;
+			height: auto !important;
+			overflow: hidden;
+			top: auto !important;
+			left: 0 !important;
+			right: 0 !important;
+			transform: none !important;
+			white-space: nowrap;
+		}
+
+		&.wpcp-pagination--vertical.wpcp-pagination--dynamic.wpcp-pagination--align-left {
+			justify-content: flex-start;
+		}
+
+		&.wpcp-pagination--vertical.wpcp-pagination--dynamic.wpcp-pagination--align-center {
+			justify-content: center;
+		}
+
+		&.wpcp-pagination--vertical.wpcp-pagination--dynamic.wpcp-pagination--align-right {
+			justify-content: flex-end;
+		}
+
+		&.wpcp-pagination--vertical.wpcp-pagination--dynamic .swiper-pagination-bullet {
+			display: inline-block !important;
+			top: auto !important;
+		}
+	}
+
+	@include wpcp-desktop {
+		.wpcp-pagination--hide-desktop {
+			display: none !important;
+		}
+	}
+
+	@include wpcp-tablet-only {
+		.wpcp-pagination--hide-tablet {
+			display: none !important;
+		}
+	}
+
+	@include wpcp-mobile {
+		.wpcp-pagination--hide-mobile {
+			display: none !important;
+		}
+	}
+}
+

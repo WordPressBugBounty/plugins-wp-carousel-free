@@ -1,0 +1,72 @@
+/*
+ * Tiles grid VALUES — gaps + row-height consume the `--wpcp-tile-*` tokens
+ * (config/style-config.js, `tileGridDim` transform). The grid-template-columns /
+ * `display: grid` / grid-auto-rows auto-vs-value decision / bin-pack mode stay
+ * Layer-5 (tilesDynamicCss.js ↔ TilesCss). `grid-auto-rows` falls back to `auto`
+ * (the auto-row presets one/three emit no row-height token); fixed-row presets emit
+ * the token. On a bin-pack (non-grid) container these are inert.
+ */
+.wpcp-tiles-grid {
+	column-gap: var(--wpcp-tile-column-gap, 20px);
+	row-gap: var(--wpcp-tile-row-gap, 20px);
+	grid-auto-rows: var(--wpcp-tile-row-height, auto);
+}
+
+/*
+ * Tiles — Custom Layout (Modula-style bin-pack), shared frontend + editor
+ * structural rules. Tiles are `position: absolute` with pixel coordinates
+ * (or CSS calc() on the frontend) emitted inline. The image must FILL the
+ * tile box — without these rules, the default `<img>` intrinsic sizing
+ * leaves grey space inside the tile.
+ *
+ * Editor-only visual chrome (helper grid, resize handles, transitions) lives
+ * in editor-preview.scss.
+ */
+.wpcp-tiles-grid--binpack {
+	position: relative;
+	overflow: visible;
+
+	>.wpcp-tiles-tile {
+		position: absolute;
+		overflow: hidden;
+		box-sizing: border-box;
+
+		.wpcp-item-inner,
+		.wpcp-item-media,
+		.wpcp-item-content,
+		.wpcp-item-figure {
+			width: 100%;
+			height: 100%;
+			max-width: none;
+			/* Defeat any per-image aspect box (preset `aspect-ratio`, legacy
+			 * `padding-top`, or custom W×H) — bin-pack tiles own their geometry. */
+			aspect-ratio: auto !important;
+			padding-top: 0 !important;
+		}
+
+		// The lightbox/URL anchor and preloader wrapper sit between the media
+		// box and the img. The img below is taken out of flow (position:absolute),
+		// so a `position:relative` preloader wrapper collapses to 0 height and the
+		// img — sized against that ancestor — disappears. Stretch both to fill the
+		// tile so the img has a full-height containing block.
+		.wpcp-item-media>a,
+		.wpcp-image-preloader-wrapper {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		img.wpcp-item-img,
+		.wpcp-item-placeholder {
+			width: 100% !important;
+			height: 100% !important;
+			max-width: none !important;
+			object-fit: cover;
+			display: block;
+			position: absolute;
+			inset: 0;
+		}
+	}
+}
+

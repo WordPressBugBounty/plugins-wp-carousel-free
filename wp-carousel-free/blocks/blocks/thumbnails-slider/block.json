@@ -1,0 +1,17 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wp-carousel-pro/thumbnails-slider",
+	"title": "Thumbnails Slider",
+	"description": "Display images, videos, posts, and products in a slider with synchronized thumbnail navigation.",
+	"category": "wp-carousel-pro",
+	"keywords": ["thumbnails", "slider", "navigation"],
+	"textdomain": "wp-carousel-free",
+	"example": { "viewportWidth": 320 },
+	"supports": {
+		"align": ["wide", "full"],
+		"html": false,
+		"customClassName": false,
+		"customCSS": false
+	}
+}

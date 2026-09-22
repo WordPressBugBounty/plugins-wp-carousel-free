@@ -1,0 +1,232 @@
+// Editor-only styles. Compiled to assets/editor/index.css.
+//
+// Never emit a bare `.wpcp-*` rule: Classic uses the same prefix on the same page.
+// Exception: the selectors below only ever exist inside the editor sidebar, which
+// Classic never renders into.
+
+@use '../components/popover-chrome' as *;
+
+// Inspector control palette. Every control under blocks/components/ reads these,
+// mostly without a fallback, so the sidebar renders unstyled if this block is absent.
+:root {
+	--wpcp-carousel-primary-2-50: #e0f7f8;
+	--wpcp-carousel-primary-2-100: #b2eaee;
+	--wpcp-carousel-primary-2-200: #81dce4;
+	--wpcp-carousel-primary-2-300: #51cdd9;
+	--wpcp-carousel-primary-2-400: #31c3d1;
+	--wpcp-carousel-primary-2-500: #1cb8ca;
+	--wpcp-carousel-primary-2-600: #1aa9b8;
+	--wpcp-carousel-primary-2-700: #1b9aa6;
+	--wpcp-carousel-primary-2-800: #19949e;
+	--wpcp-carousel-primary-2-900: #135c5d;
+	--wpcp-carousel-primary-2-gradient: linear-gradient(90deg, #157692 0%, #21acb8 100%);
+
+	// Selected-card border for every layout/style picker (Layouts component).
+	--wpcp-layout-active-border: #1a74e4;
+}
+
+.wpcp-component-mb {
+	margin-bottom: 16px;
+}
+
+// Keep Class(es) lowercase — global label capitalize turns (es) into (Es).
+.components-base-control.wpcp-css-class-field .components-base-control__label {
+	text-transform: none;
+}
+
+// Hide the sidebar scrollbar so horizontal overflow does not surface one.
+.editor-sidebar.interface-complementary-area {
+	overflow-x: hidden;
+	scrollbar-width: none;
+}
+
+.wp-block-wp-carousel-pro-carousel,
+.wp-block-wp-carousel-pro-slider,
+.wp-block-wp-carousel-pro-thumbnails-slider,
+.wp-block-wp-carousel-pro-tiles {
+	.wpcp-block-placeholder {
+		padding: 24px;
+		text-align: center;
+		background: #f0f0f0;
+		border: 1px dashed #ccc;
+		border-radius: 4px;
+	}
+}
+
+/* Content Area Panel – Sortable List */
+.wpcp-content-area-sort-list {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: 0px;
+	margin-bottom: 10px;
+}
+
+.wpcp-content-area-sort-item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 12px;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 4px;
+	transition:
+		box-shadow 0.15s ease,
+		border-color 0.15s ease;
+
+	&:hover {
+		border-color: #d1d5db;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+	}
+}
+
+.wpcp-content-area-sort-handle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	color: #9ca3af;
+	flex-shrink: 0;
+	cursor: grab;
+	touch-action: none;
+
+	&:active {
+		cursor: grabbing;
+	}
+}
+
+.wpcp-content-area-sort-label {
+	flex: 1;
+	font-size: 13px;
+	color: #374151;
+	font-weight: 500;
+}
+
+.wpcp-content-area-sort-toggle {
+	flex-shrink: 0;
+
+	.wpcp-toggle.wpcp-component-mb {
+		margin-bottom: 0;
+	}
+
+	.components-toggle-control .components-base-control__field {
+		margin-bottom: 0;
+	}
+}
+
+.components-panel__body.is-opened {
+	> .components-panel__body-title {
+		background-color: #f0f0f0;
+	}
+}
+
+.wpcp-toggle .components-flex {
+	flex-direction: row-reverse;
+}
+
+// Inspector informational notice (PanelNotice component).
+.wpcp-panel-notice {
+	margin-top: 16px;
+	margin-bottom: 16px;
+	padding: 8px 12px;
+	border-left: 3px solid var(--wpcp-carousel-primary-2-800);
+	border-radius: 2px;
+	background: rgba(224, 247, 248, 0.5);
+	color: #50575e;
+	font-size: 12px;
+	line-height: 1.5;
+
+	p {
+		margin: 0;
+	}
+
+	a {
+		color: var(--wpcp-carousel-primary-2-800);
+	}
+}
+
+// Demo-images reminder shown below a pattern-inserted image block.
+.wpcp-demo-images-notice {
+	margin-top: 12px;
+	margin-bottom: 0;
+	border-left-color: #dba617;
+	background: rgba(219, 166, 23, 0.08);
+}
+
+.wpcp-tab-panel.wpcp-post-content-read-more-style-popup,
+.wpcp-tab-panel.wpcp-product-content-button-style-popup,
+.wpcp-tab-panel.wpcp-content-area-style-popup {
+	.components-popover__content {
+		width: 100%;
+
+		.wpcp-popup-content {
+			padding: 16px;
+			width: 100%;
+		}
+	}
+}
+
+.wpcp-video-section iframe {
+	height: 100% !important;
+	width: 100% !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: #000;
+	z-index: 999;
+}
+
+.wpcp-thumbnail-slider-popup,
+.wpcp-partial-slide-view-popup {
+	.components-popover__content {
+		width: 100%;
+
+		.wpcp-popup-content {
+			padding: 16px;
+			width: 100%;
+		}
+	}
+}
+
+// Crown badge next to the "WP Carousel Pro Blocks" inserter category header.
+.wpcp-pro-category-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	border-radius: 12px;
+	background: rgba(240, 120, 0, 0.1);
+	border: 1px solid rgba(240, 120, 0, 0.6);
+}
+
+.wpcp-icon-set-group {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	border: 1px solid #ddd;
+	padding: 6px;
+	gap: 6px;
+
+	.wpcp-icon-set-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 8px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		cursor: pointer;
+
+		&.wpcp-active-icon {
+			color: #fff;
+			background-color: var(--wpcp-carousel-primary-2-800);
+			border-color: var(--wpcp-carousel-primary-2-800);
+		}
+
+		svg {
+			width: 12px;
+			height: 12px;
+			pointer-events: none;
+		}
+	}
+}

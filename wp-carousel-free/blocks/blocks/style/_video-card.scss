@@ -1,0 +1,292 @@
+@use 'mixins' as *;
+
+/* ════════════════════════════════════════════════════════════════════════════
+* VIDEO CARD STYLES
+* ════════════════════════════════════════════════════════════════════════════ */
+
+/* Thumbnail size variants */
+.wpcp-item-inner .wpcp-thumb-size-cover img.wpcp-item-img {
+	object-fit: cover;
+}
+
+.wpcp-item-inner .wpcp-thumb-size-contain img.wpcp-item-img {
+	object-fit: contain;
+}
+
+.wpcp-item-inner .wpcp-thumb-size-fill img.wpcp-item-img {
+	object-fit: fill;
+}
+
+/* Aspect ratio variants — the ratio is set on BOTH the thumbnail box and its img.
+   The box ratio reserves height when there is no img yet: video thumbnails load
+   async from the live provider (img.youtube.com, vumbnail.com, …) and some
+   providers have no thumbnail at all (placeholder). Without it the box sized off
+   the img alone and collapsed to zero height — fatal for Triple's side-strip
+   swipers, which then disappeared. The img ratio keeps a loaded thumbnail cropped
+   to the same box. */
+.wpcp-video-thumbnail {
+	width: 100%;
+	position: relative;
+}
+
+.wpcp-video-thumbnail.wpcp-aspect-ratio-16-9,
+.wpcp-aspect-ratio-16-9 img {
+	aspect-ratio: 16 / 9;
+}
+
+.wpcp-video-thumbnail.wpcp-aspect-ratio-4-3,
+.wpcp-aspect-ratio-4-3 img {
+	aspect-ratio: 4 / 3;
+}
+
+.wpcp-video-thumbnail.wpcp-aspect-ratio-1-1,
+.wpcp-aspect-ratio-1-1 img {
+	aspect-ratio: 1 / 1;
+}
+
+.wpcp-video-thumbnail.wpcp-aspect-ratio-9-16,
+.wpcp-aspect-ratio-9-16 img {
+	aspect-ratio: 9 / 16;
+}
+
+/* The video placeholder (shown while the live thumbnail loads or when the provider
+   has none) fills the reserved box instead of collapsing to the bare icon size.
+   Absolutely positioned so it overrides the inline `height:auto` the shared image
+   style leaves on it. */
+.wpcp-video-thumbnail .wpcp-item-placeholder {
+	position: absolute;
+	inset: 0;
+}
+
+
+.wpcp-item-media .wpcp-video-item-play {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: transparent;
+	border-radius: var(--wpcp-video-icon-radius, 0);
+	z-index: 2;
+	pointer-events: none;
+
+	svg {
+		width: var(--wpcp-video-icon-size, 24px);
+		height: var(--wpcp-video-icon-size, 24px);
+	}
+}
+
+/* Icon view/size variants */
+.wpcp-item-media .wpcp-icon-view-normal {
+	border: none;
+
+	.wpcp-video-play-icon {
+		background-color: transparent;
+	}
+
+	svg,
+	img {
+		width: var(--wpcp-video-icon-size, 16px);
+		height: var(--wpcp-video-icon-size, 16px);
+	}
+}
+
+.wpcp-item-media .wpcp-icon-view-stacked {
+	border: none;
+
+	.wpcp-video-play-icon {
+		background: var(--wpcp-video-icon-bg, #19949e);
+		border-radius: var(--wpcp-video-icon-radius, 50%);
+	}
+
+	svg,
+	img {
+		width: var(--wpcp-video-icon-size, 16px);
+		height: var(--wpcp-video-icon-size, 16px);
+	}
+}
+
+.wpcp-item-media .wpcp-icon-view-framed {
+	.wpcp-video-play-icon {
+		border: 2px solid var(--wpcp-video-icon-bg, #19949e);
+		border-radius: var(--wpcp-video-icon-radius, 50%);
+		background: transparent;
+	}
+
+	svg,
+	img {
+		width: var(--wpcp-video-icon-size, 16px);
+		height: var(--wpcp-video-icon-size, 16px);
+	}
+}
+
+.wpcp-item-media .wpcp-icon-view-stacked,
+.wpcp-item-media .wpcp-icon-view-framed {
+	.wpcp-video-play-icon {
+		width: var(--wpcp-video-icon-area, 48px);
+		height: var(--wpcp-video-icon-area, 48px);
+		// border-radius: 50%;
+	}
+}
+
+.wpcp-video-play-icon.wpcp-source-icon {
+	svg {
+		width: var(--wpcp-video-icon-size, 48px);
+		height: var(--wpcp-video-icon-size, 48px);
+	}
+}
+
+.wpcp-video-play-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: 0.3s ease;
+	padding: 0;
+	cursor: pointer;
+	pointer-events: auto;
+	border: none;
+	border-radius: var(--wpcp-video-icon-radius, 0);
+	appearance: none;
+}
+
+/* Icon animation variants */
+@keyframes wpcp-icon-pulse {
+	0% {
+		transform: scale(1);
+		opacity: 1;
+	}
+
+	50% {
+		transform: scale(1.1);
+		opacity: 0.8;
+	}
+
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+@keyframes wpcp-icon-bounce {
+
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-10px);
+	}
+}
+
+@keyframes wpcp-icon-spin {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.wpcp-icon-animation-pulse {
+	animation: wpcp-icon-pulse 2s ease-in-out infinite;
+}
+
+.wpcp-icon-animation-bounce {
+	animation: wpcp-icon-bounce 1.5s ease-in-out infinite;
+}
+
+.wpcp-icon-animation-spin {
+	animation: wpcp-icon-spin 3s linear infinite;
+}
+
+@include wpcp-reduced-motion {
+
+	.wpcp-icon-animation-pulse svg,
+	.wpcp-icon-animation-pulse img,
+	.wpcp-icon-animation-bounce svg,
+	.wpcp-icon-animation-bounce img,
+	.wpcp-icon-animation-spin svg,
+	.wpcp-icon-animation-spin img {
+		animation: none;
+	}
+}
+
+.wpcp-item-media .wpcp-video-thumbnail-wrapper {
+	box-sizing: border-box;
+	border-style: var(--wpcp-video-border-style, none);
+	border-color: var(--wpcp-video-border-color, currentcolor);
+	border-width: var(--wpcp-video-border-width, 0px);
+	border-radius: var(--wpcp-video-border-radius, 0);
+	overflow: hidden;
+	transition: 0.3s;
+	position: relative;
+	width: 100%;
+
+	.wpcp-video-item-play svg {
+		color: var(--wpcp-video-icon-color, #FFF);
+		// color: var(--wpcp-video-icon-color, var(--wpcp-carousel-primary-2-800, #19949e));
+		transition: 0.3s;
+	}
+
+	.wpcp-video-item-play svg path {
+		transition: 0.3s;
+	}
+
+	.wpcp-video-thumbnail-overlay {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		z-index: 1;
+		pointer-events: none;
+	}
+
+	iframe,
+	video {
+		height: 100% !important;
+		width: 100% !important;
+		position: absolute;
+		top: 0;
+		left: 0;
+		background: #000;
+		z-index: 999;
+	}
+}
+
+.wpcp-item-inner {
+
+	.wpcp-item-media .wpcp-video-thumbnail-wrapper .wpcp-video-item-play.wpcp-icon-on-hover {
+		opacity: 0;
+		visibility: hidden;
+		transition: 0.3s;
+	}
+
+	&:hover .wpcp-item-media .wpcp-video-thumbnail-wrapper .wpcp-video-item-play.wpcp-icon-on-hover {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+/* Video play icon hover (token-driven; falls back to the normal icon state so the
+   hover color/background only changes when a hover value is actually configured). */
+.wpcp-item .wpcp-video-item-play:hover svg {
+	color: var(--wpcp-video-icon-color-hover, var(--wpcp-video-icon-color, #FFF));
+	// color: var(--wpcp-video-icon-color-hover, var(--wpcp-video-icon-color, var(--wpcp-carousel-primary-2-800, #19949e)));
+}
+
+.wpcp-item .wpcp-icon-view-framed .wpcp-video-play-icon:hover {
+	background-color: transparent;
+	border-color: var(--wpcp-video-icon-bg-hover, #19949e);
+}
+
+.wpcp-item .wpcp-icon-view-stacked .wpcp-video-play-icon:hover {
+	background: var(--wpcp-video-icon-bg-hover, var(--wpcp-video-icon-bg, #19949e));
+}
+

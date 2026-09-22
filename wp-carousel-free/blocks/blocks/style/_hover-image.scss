@@ -1,0 +1,52 @@
+@use 'mixins' as *;
+
+// Image Hover axis — stays in the always-loaded base sheet: a Custom-mode
+// block defaults to imageHover 'zoom', so it emits a wpcp-hover-* class. Free
+// ships Zoom In and Zoom Out; the rest of the catalog is Pro. The
+// Premade/Overlay/Content effect library lives in _hover-anim-library.scss,
+// built as a conditionally-enqueued chunk (wpcp-blocks-chunk-hover-anim).
+
+// Hover Animations effect library (Image Hover / Premade / Overlay / Content).
+// Extracted verbatim from style.scss to keep that file navigable; @imported at
+// the original position so CSS emission order — and the cascade — is unchanged.
+// Pure CSS (no SCSS vars/mixins).
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * HOVER ANIMATIONS (Hover Animations inspector panel — EffectsPanel.jsx)
+ *
+ * Class contract (emitted by shared/utils/effectClasses.js ↔ Rendering/EffectClasses.php):
+ *   .wpcp-item-inner.wpcp-hover-{value}          — Image Hover (universal)
+ *   .wpcp-item-inner.wpcp-anim-{value}           — Premade composite
+ *   .wpcp-item-inner.wpcp-overlay-anim-{value}   — Overlay (gated) + .wpcp-overlay-anim-layer
+ *   .wpcp-item-content.wpcp-content-anim-{value} — Content reveal (gated)
+ *
+ * Scale and Animation Duration are Pro, so every timing here is the static
+ * 300ms and no custom property is emitted for either.
+ * Movement is disabled under prefers-reduced-motion (see the a11y block at the end).
+ *
+ * Reveals key off `:hover` OR `:has(:focus-visible)` — never `:focus-within`. A
+ * mouse click on an inner link (lightbox / URL anchor) keeps that anchor focused,
+ * so `:focus-within` would leave the overlay/content stuck on after the cursor
+ * leaves until the next click elsewhere. `:focus-visible` only matches keyboard
+ * focus, so keyboard users still get the reveal while a mouse click never sticks.
+ * ════════════════════════════════════════════════════════════════════════════ */
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * 1) IMAGE HOVER — transforms on the <img>; works in any orientation.
+ * (The base `img.wpcp-item-img` transition is defined in the .wpcp-item-inner block.)
+ * ────────────────────────────────────────────────────────────────────────── */
+.wpcp-item-inner.wpcp-hover-zoom:hover .wpcp-item-img { transform: scale(1.05); }
+.wpcp-item-inner.wpcp-hover-zoom-out .wpcp-item-img { transform: scale(1.05); }
+.wpcp-item-inner.wpcp-hover-zoom-out:hover .wpcp-item-img { transform: scale(1); }
+
+/* Reduced motion for the image-hover axis (the effect-library chunk carries
+ * its own reduced-motion block for the other axes). */
+@include wpcp-reduced-motion {
+	.wpcp-item-inner[class*="wpcp-hover-"] .wpcp-item-img {
+		transform: none !important;
+		clip-path: none !important;
+		filter: none !important;
+		animation: none !important;
+		transition-property: opacity !important;
+	}
+}

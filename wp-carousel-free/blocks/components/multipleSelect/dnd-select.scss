@@ -1,0 +1,230 @@
+.shaped-plugin-multiple-select {
+    .custom-select-arrow{
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+    .custom-select-arrow svg{
+        pointer-events: none;
+    }
+    .sp-multiple-select-dnd-label {
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 20px;
+        margin-bottom: 8px;
+    }
+
+    .sp-multiple-select-dnd-container {
+        min-height: 32px;
+        position: relative;
+
+        .sp-select-header {
+            padding: 4px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            // align-items: center;
+
+            .sp-selected-options {
+                width: 90%;
+                margin: 0;
+                padding-right: 7px;
+                border-right: 1px solid #F0F0F0;
+                display: flex;
+                flex-direction: column;
+                gap: 0px;
+                .sp-select-placeholder {
+                    padding: 6px 4px;
+                    color: #949494;
+                    font-size: 12px;
+                    line-height: 16px;
+                }
+                div {
+                    .sp-selected-option {
+                        width: 100%;
+                        margin: 2px;
+                        height: 30px;
+                        background-color: #f1f1f1;
+                        border: 1px solid #ccc;
+                        border-radius: 2px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+
+                        .sp-select-label {
+                            cursor: move;
+                            padding: 5px;
+                            width: 85%;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+
+                        &.sp-selected-option--static .sp-select-label {
+                            cursor: default;
+                        }
+
+                        .sp-select-remove-button {
+                            cursor: pointer;
+                            padding: 3px;
+                            width: 15%;
+                            text-align: center;
+                            margin-right: 2px;
+                            border-radius: 2px;
+                            border: none;
+                            &:hover {
+                                background-color: var( --wpcp-carousel-primary-2-800 );
+
+                                svg path {
+                                    fill: #fff;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // all options modal css 
+        .sp-select-options {
+            margin: 5px 0 0 0;
+            position: absolute;
+            width: 100%;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 999;
+            // !important guards against Easy Accordion Pro (same ShapedPlugin
+            // component class) shipping an identical selector with its own
+            // brand color and winning the cascade when its CSS loads later.
+            scrollbar-width: thin;
+            scrollbar-color: var(--wpcp-carousel-primary-2-400) transparent;
+
+            &::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: var(--wpcp-carousel-primary-2-400) !important;
+                border-radius: 4px;
+            }
+
+            .sp-select-option {
+                cursor: pointer;
+                padding: 10px;
+                margin: 0;
+
+                &.selected {
+                    background-color: #e6e6e6;
+                }
+
+                &:hover {
+                    background-color: #f0f0f0;
+                }
+
+            }
+
+            //input field css
+            .sp-select-search-field {
+                background-color: transparent;
+                width: 97%;
+                padding: 6px;
+                margin: 4px;
+                border-radius: 4px;
+                border: 1px solid #ccc;
+
+                &:focus-visible {
+                    border: 1px solid #ccc;
+                    box-shadow: none;
+                    outline: 0;
+                }
+            }
+        }
+
+        .sp-select-remove-button {
+            cursor: pointer;
+        }
+    }
+}
+
+
+// Drag and Drop components CSS
+.sp-drag-and-drop-dnd-container {
+    .sp-selected-options {        
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        // background: #FFF;
+        
+        .sp-grabbing {
+            cursor: grabbing;
+            z-index: 9;
+        }
+        .sp-grab {
+            cursor: grab;
+        }
+
+        .sp-selected-option {
+
+            .sp-select-toggle-button {
+                cursor: pointer;
+                padding: 5px;
+                width: 20%;
+                text-align: center;
+
+                .components-base-control {
+                    margin: 0;
+
+                    .components-form-toggle.is-checked {
+                        .components-form-toggle__track {
+                            background-color: var( --wpcp-carousel-primary-2-400 );
+                            border-color: var( --wpcp-carousel-primary-2-400 );
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .sp-disabled {
+        cursor: grab;
+        margin-bottom: 8px;
+    }
+    .sp-selected-option {
+        display: flex;
+        flex-direction: row;
+        padding: 4px 8px;
+        align-items: center;
+        gap: 8px;
+        align-self: stretch;
+        border-radius: 4px;
+        border: 1px solid #E0E0E0;
+        background: #FFF;
+
+        .sp-select-label {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 8px;
+            padding: 5px;
+            width: 85%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}
+.wpcp-tab-panel.wpcp-tab-panel {
+    .sp-multiple-select-dnd-container .sp-select-header .sp-selected-options div .sp-selected-option .sp-select-remove-button:hover {
+        background: var(--wpcp-carousel-primary-2-800);
+    }
+}

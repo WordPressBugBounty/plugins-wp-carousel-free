@@ -1,0 +1,17 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wp-carousel-pro/slider",
+	"title": "Slider",
+	"description": "Create interactive slider using images, videos, posts, products.",
+	"category": "wp-carousel-pro",
+	"keywords": ["slider", "slideshow"],
+	"textdomain": "wp-carousel-free",
+	"example": { "viewportWidth": 320 },
+	"supports": {
+		"align": ["wide", "full"],
+		"html": false,
+		"customClassName": false,
+		"customCSS": false
+	}
+}

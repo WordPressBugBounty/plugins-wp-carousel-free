@@ -1,0 +1,31 @@
+/**
+ * Inserter preview visual – the layout-shape diagram shown in the Gutenberg
+ * inserter preview panel (Figma node 6144-125480).
+ *
+ * Each shape SVG (blockPreviewShapes.js) is already a complete white 268×158
+ * card with the layout art and its padding baked into the vector, so the
+ * preview chrome must not add anything around it. The preview renders inside a
+ * block-preview iframe whose `editor-styles-wrapper` body ships a grey
+ * background (#f9f9f9) and 24px padding by default — strip both, scoped to the
+ * iframe that holds one of our blocks, so the card sits flush with no grey
+ * frame. Core block previews are untouched.
+ */
+
+.block-editor-iframe__body:has(.wpcp-inserter-preview) {
+	padding: 0;
+	background: #fff;
+}
+
+.wpcp-inserter-preview {
+	margin: 0;
+
+	.wpcp-inserter-preview-shape {
+		display: block;
+
+		svg {
+			display: block;
+			width: 100%;
+			height: auto;
+		}
+	}
+}

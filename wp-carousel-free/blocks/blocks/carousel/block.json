@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wp-carousel-pro/carousel",
+	"title": "Carousel",
+	"description": "Create dynamic carousels using images, videos, posts or products.",
+	"category": "wp-carousel-pro",
+	"keywords": ["carousel", "slider", "gallery"],
+	"textdomain": "wp-carousel-free",
+	"example": {
+		"viewportWidth": 320
+	},
+	"supports": {
+		"align": ["wide", "full"],
+		"html": false,
+		"customClassName": false,
+		"customCSS": false
+	}
+}

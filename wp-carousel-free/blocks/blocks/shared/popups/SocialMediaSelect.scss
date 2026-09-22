@@ -1,0 +1,33 @@
+/* Per-item social platform select — locked in Free, so only the closed box
+   (SocialMediaSelectLocked) is styled here. */
+
+.wpcp-social-select {
+	position: relative;
+}
+
+.wpcp-social-select-control {
+	display: flex;
+	align-items: center;
+	border: 1px solid #dde4e6;
+	border-radius: 4px;
+	padding: 4px 8px;
+	min-height: 38px;
+	transition: border-color 0.15s;
+}
+
+.wpcp-social-select-values {
+	flex: 1;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	align-items: center;
+	min-width: 0;
+}
+
+.wpcp-social-select-arrow {
+	display: flex;
+	align-items: center;
+	color: #999;
+	margin-left: 4px;
+	flex-shrink: 0;
+}

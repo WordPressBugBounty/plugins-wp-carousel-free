@@ -1,0 +1,85 @@
+/**
+ * Inline icon-grid picker for fixed preset options (e.g. Navigation Arrow style).
+ * Mirrors the LightboxIconGrid look, but preset icons keep their own aspect
+ * ratio since the option set ships varied-size SVGs.
+ */
+
+.wpcp-icon-grid-control {
+	margin-bottom: 16px;
+}
+
+.wpcp-icon-grid {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	width: 100%;
+	padding: 5px 5.5px;
+	border: 1px solid #ddd;
+	border-radius: 2px;
+	background: #fff;
+	&.wpcp-d-grid {
+		display: grid;
+	}
+}
+
+.wpcp-icon-grid__item {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	padding: 3px 4px;
+	border: 1px solid #e7e7e7;
+	border-radius: 2px;
+	background: #fff;
+	color: #2f2f2f;
+	cursor: pointer;
+	transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+
+	svg {
+		max-width: 18px;
+		max-height: 18px;
+		width: auto;
+		height: auto;
+	}
+
+	&:hover {
+		border-color: var(--wpcp-primary-color, #19949e);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--wpcp-primary-color, #19949e);
+		outline-offset: 2px;
+	}
+
+	&.is-active {
+		border-color: var(--wpcp-primary-color, #19949e);
+		background: var(--wpcp-primary-color, #19949e);
+		color: #fff;
+	}
+	.wpcp-icon-set {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 6px;
+		padding: 6px;
+	}
+}
+.wpcp-icon-grid__item:has(.wpcp-icon-set) {
+	width: auto;
+	height: auto;
+	padding: 0;
+}
+
+.wpcp-icon-grid:has(.wpcp-icon-set) {
+	padding: 8px;
+}
+
+.wpcp-icon-grid.wpcp-rating-icon-set {
+	.wpcp-icon-grid__item.is-active {
+		border-radius: 2px;
+		border: 1px solid #1E67D8;
+		background: #E3F3FF;
+	}
+}

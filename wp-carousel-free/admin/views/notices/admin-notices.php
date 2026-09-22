@@ -30,6 +30,13 @@ class WP_Carousel_Admin_Notices {
 			return;
 		}
 
+		// Nothing to review until the user has built something with the plugin.
+		$carousel_counts = wp_count_posts( 'sp_wp_carousel' );
+		$template_counts = wp_count_posts( 'sp_wpcp_template' );
+		if ( empty( $carousel_counts->publish ) && empty( $template_counts->publish ) ) {
+			return;
+		}
+
 		// Variable default value.
 		$review = get_option( 'sp_wp_carousel_free_review_notice_dismiss' );
 		$time   = time();

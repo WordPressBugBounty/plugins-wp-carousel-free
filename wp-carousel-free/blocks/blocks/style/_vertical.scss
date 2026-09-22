@@ -1,0 +1,148 @@
+/* ════════════════════════════════════════════════════════════════════════════
+ * VERTICAL ORIENTATION – for the standard and center styles
+ * ════════════════════════════════════════════════════════════════════════════ */
+.wpcp-carousel-render.wpcp-vertical {
+	position: relative;
+	overflow: visible;
+
+	.wpcp-swiper {
+		overflow: hidden;
+
+		.swiper-wrapper {
+			flex-direction: column;
+		}
+
+		.swiper-slide {
+			// width: 100% !important;
+			box-sizing: border-box;
+			flex-shrink: 0;
+
+			.wpcp-item-inner {
+				display: flex;
+				flex-direction: column;
+			}
+
+			.wpcp-item-media {
+				flex: 1;
+				min-height: 0;
+
+				img {
+					// width: 100%;
+					object-fit: cover;
+					display: block;
+				}
+			}
+		}
+	}
+
+	/* Vertical position names stack arrows at the top/bottom of the swiper. */
+	&.nav-vertical-center-inner .wpcp-nav-arrows.wpcp-nav-vertical,
+	&.nav-vertical-center .wpcp-nav-arrows.wpcp-nav-vertical,
+	&.nav-vertically-inner-and-outer .wpcp-nav-arrows.wpcp-nav-vertical {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		z-index: 10;
+
+		.wpcp-nav {
+			position: absolute;
+			left: 50%;
+			transform: translate(calc(-50% + var(--wpcp-nav-offset-x, 0px)),
+					var(--wpcp-nav-offset-y, 0px));
+			right: auto;
+			pointer-events: auto;
+		}
+
+		.wpcp-nav-prev {
+			top: 5px;
+			bottom: auto;
+			transform: translate(calc(-50% + var(--wpcp-nav-offset-x, 0px)),
+					var(--wpcp-nav-offset-y, 0px)) rotate(90deg);
+		}
+
+		.wpcp-nav-next {
+			top: auto;
+			bottom: 5px;
+			transform: translate(calc(-50% + var(--wpcp-nav-offset-x, 0px)),
+					var(--wpcp-nav-offset-y, 0px)) rotate(90deg);
+		}
+	}
+
+	&.nav-vertical-center .wpcp-nav-arrows.wpcp-nav-vertical {
+		.wpcp-nav-prev {
+			top: 0;
+			transform: translate(calc(-50% + var(--wpcp-nav-offset-x, 0px)),
+					calc(-50% + var(--wpcp-nav-offset-y, 0px))) rotate(90deg);
+		}
+
+		.wpcp-nav-next {
+			bottom: 0;
+			transform: translate(calc(-50% + var(--wpcp-nav-offset-x, 0px)),
+					calc(50% + var(--wpcp-nav-offset-y, 0px))) rotate(90deg);
+		}
+	}
+
+	/* Each button clears the stage by its own height plus an 8px gap. A
+	 * percentage in `translate` resolves against the button, so Arrow Size never
+	 * has to stand in for it — a `%` size would otherwise resolve against the
+	 * stage and throw the arrows off entirely. */
+	&.nav-vertically-inner-and-outer .wpcp-nav-arrows.wpcp-nav-vertical {
+		.wpcp-nav-prev {
+			top: 0;
+			transform: translate(calc(-50% + var(--wpcp-nav-offset-x, 0px)),
+					calc(-100% - 8px + var(--wpcp-nav-offset-y, 0px))) rotate(90deg);
+		}
+
+		.wpcp-nav-next {
+			bottom: 0;
+			transform: translate(calc(-50% + var(--wpcp-nav-offset-x, 0px)),
+					calc(100% + 8px + var(--wpcp-nav-offset-y, 0px))) rotate(90deg);
+		}
+	}
+
+	&.nav-vertical-center-inner:has(.wpcp-pagination--vpos-bottom) .wpcp-carousel-stage {
+		margin-bottom: calc((var(--wpcp-nav-arrow-space, 36px) / 2) + var(--wpcp-pag-gap, 8px));
+	}
+
+	&.nav-vertical-center:has(.wpcp-pagination--vpos-bottom) .wpcp-carousel-stage {
+		margin-bottom: calc((var(--wpcp-nav-arrow-space, 36px) / 2) + var(--wpcp-pag-gap, 8px));
+	}
+
+	&.nav-vertically-inner-and-outer:has(.wpcp-pagination--vpos-bottom) .wpcp-carousel-stage {
+		margin-bottom: calc(var(--wpcp-nav-arrow-space, 36px) + 8px);
+	}
+
+	&.nav-vertical-center:has(.wpcp-pagination--vpos-top) .wpcp-pagination--vpos-top {
+		top: calc((var(--wpcp-nav-arrow-space, 36px) / 2) + var(--wpcp-pag-gap, 12px));
+	}
+
+	/* Vertical pagination */
+	.wpcp-pagination.swiper-pagination {
+		position: relative;
+		top: auto;
+		right: auto;
+		bottom: auto;
+		left: auto;
+		transform: none;
+		margin-top: var(--wpcp-pag-gap);
+		display: flex;
+		justify-content: center;
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: var(--wpcp-pag-gap);
+		width: 100%;
+
+		.swiper-pagination-bullet {
+			display: flex;
+		}
+	}
+}
+
+.wpcp-carousel-render {
+	.wpcp-pagination.swiper-pagination-horizontal.swiper-pagination-bullets {
+		.swiper-pagination-bullet {
+			margin: 0;
+		}
+	}
+}
+

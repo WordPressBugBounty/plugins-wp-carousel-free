@@ -1,0 +1,145 @@
+@use 'mixins' as *;
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * RESPONSIVE IMAGE DIMENSIONS (Image panel + CarouselRender CSS variables)
+ * Breakpoints align with Swiper config in CarouselRender (600 / 1024).
+ * ════════════════════════════════════════════════════════════════════════════ */
+.wpcp-item-media--custom-rsp {
+	width: var(--wpcp-cmw-d);
+	height: var(--wpcp-cmh-d);
+	aspect-ratio: var(--wpcp-cmar-d);
+	min-height: var(--wpcp-cmmin-d);
+
+	>a,
+	>.wpcp-item-img {
+		width: 100%;
+		height: 100%;
+	}
+
+	>img.wpcp-item-img,
+	>a>img.wpcp-item-img {
+		width: 100%;
+		height: 100%;
+	}
+
+	>a {
+		display: block;
+	}
+}
+
+.wpcp-item {
+	overflow: hidden;
+	min-width: 0;
+	/* Swiper writes inline width/margin on every slide each time it (re)lays out
+	 * — init, resize, breakpoint change, and carousel-style switch. `transition: all`
+	 * would animate that geometry, so the slide visibly grows to full width and then
+	 * shrinks into its columns. Transition only cosmetic (hover) properties — never
+	 * the layout box that Swiper controls. */
+	transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease,
+		color 0.3s ease, opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+}
+
+.wpcp-carousel-render.wpcp-style-standard .wpcp-slide-group,
+.wpcp-carousel-render.wpcp-style-partialView .wpcp-slide-group {
+	display: grid;
+	grid-template-columns: repeat(var(--wpcp-slide-group-cols-d, 1), minmax(0, 1fr));
+	gap: var(--wpcp-slide-group-gap-d, 20px);
+	overflow: visible;
+
+	.wpcp-item {
+		width: 100%;
+	}
+}
+
+@include wpcp-tablet-down {
+	.wpcp-carousel-render-frontend:not(.wpcp-vertical):not(.wpcp-variable-width) {
+		.wpcp-carousel-container:not(.swiper-initialized)>.swiper-wrapper>.swiper-slide {
+			width: var(--wpcp-swiper-slide-width-t, calc(50% - 10px));
+			flex-basis: var(--wpcp-swiper-slide-width-t, calc(50% - 10px));
+			max-width: var(--wpcp-swiper-slide-width-t, calc(50% - 10px));
+		}
+
+		.wpcp-carousel-container>.swiper-wrapper>.swiper-slide {
+			margin-right: var(--wpcp-swiper-gap-t, 20px);
+		}
+
+		.wpcp-carousel-container[dir='rtl']>.swiper-wrapper>.swiper-slide {
+			margin-right: 0;
+			margin-left: var(--wpcp-swiper-gap-t, 20px);
+		}
+	}
+
+	.wpcp-slide-group {
+		grid-template-columns: repeat(var(--wpcp-slide-group-cols-t, 1), minmax(0, 1fr));
+		gap: var(--wpcp-slide-group-gap-t, 20px);
+	}
+
+	.wpcp-item-media--custom-rsp {
+		width: var(--wpcp-cmw-t);
+		height: var(--wpcp-cmh-t);
+		aspect-ratio: var(--wpcp-cmar-t);
+		min-height: var(--wpcp-cmmin-t);
+	}
+}
+
+@include wpcp-mobile {
+	.wpcp-carousel-render-frontend:not(.wpcp-vertical):not(.wpcp-variable-width) {
+		.wpcp-carousel-container:not(.swiper-initialized)>.swiper-wrapper>.swiper-slide {
+			flex-basis: var(--wpcp-swiper-slide-width-m, 100%);
+			width: var(--wpcp-swiper-slide-width-m, 100%);
+			max-width: var(--wpcp-swiper-slide-width-m, 100%);
+		}
+
+		.wpcp-carousel-container>.swiper-wrapper>.swiper-slide {
+			margin-right: var(--wpcp-swiper-gap-m, 10px);
+		}
+
+		.wpcp-carousel-container[dir='rtl']>.swiper-wrapper>.swiper-slide {
+			margin-right: 0;
+			margin-left: var(--wpcp-swiper-gap-m, 10px);
+		}
+	}
+
+	.wpcp-slide-group {
+		grid-template-columns: repeat(var(--wpcp-slide-group-cols-m, 1), minmax(0, 1fr));
+		gap: var(--wpcp-slide-group-gap-m, 10px);
+	}
+
+	.wpcp-item-media--custom-rsp {
+		width: var(--wpcp-cmw-m);
+		height: var(--wpcp-cmh-m);
+		aspect-ratio: var(--wpcp-cmar-m);
+		min-height: var(--wpcp-cmmin-m);
+	}
+}
+
+.wpcp-item-media--maxw-rsp {
+	max-width: var(--wpcp-mwmx-d);
+}
+
+/* Preset W:H aspect box (Image panel). Vars from buildPresetAspectCssVars /
+ * DimensionHelper — same breakpoints as custom --wpcp-cmar-*. */
+.wpcp-item-media--aspect-rsp {
+	aspect-ratio: var(--wpcp-mar-d);
+	position: relative;
+	overflow: hidden;
+}
+
+@include wpcp-tablet-down {
+	.wpcp-item-media--aspect-rsp {
+		aspect-ratio: var(--wpcp-mar-t);
+	}
+}
+
+@include wpcp-mobile {
+	.wpcp-item-media--aspect-rsp {
+		aspect-ratio: var(--wpcp-mar-m);
+	}
+}
+
+.wpcp-item-media img {
+	max-width: 100%;
+	max-height: 100%;
+	display: block;
+}
+

@@ -1,0 +1,480 @@
+// Getting Started page. Colors that also exist as dashboard-wide custom
+// properties are read from those rather than duplicated here.
+$white: #ffffff;
+$border-color: #ddd;
+$heading-color: #1d2327;
+$body-color: #3c434a;
+$title-color: #2f2f2f;
+$outline-border: #949494;
+$outline-text: #757575;
+$banner-bg: #e0f7f8;
+$max-width: 1400px;
+
+// Both hero buttons stand on this line so the outlined one matches the height
+// the primary gets from its padding.
+$hero-btn-height: 54px;
+
+// Breathing room at the foot of the page below the last sidebar card.
+$page-bottom-space: 40px;
+
+// Play control, taken from the design's component: a 72px white disc sitting
+// inside a 92px white halo held at 30% opacity.
+$play-disc: 72px;
+$play-halo-scale: 1.2778; // 92 / 72
+
+// ====================
+// Layout
+// ====================
+
+.wpcpf-qs-page {
+	max-width: $max-width;
+	margin: 0 auto;
+	padding-bottom: $page-bottom-space;
+
+	* {
+		box-sizing: border-box;
+	}
+}
+
+.wpcpf-qs-content {
+	display: flex;
+	gap: 40px;
+	align-items: flex-start;
+}
+
+.wpcpf-qs-left {
+	flex: 1;
+	min-width: 0;
+}
+
+.wpcpf-qs-sidebar {
+	width: 380px;
+	flex-shrink: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+	position: sticky;
+	top: 20px;
+}
+
+// ====================
+// Welcome card
+// ====================
+
+.wpcpf-qs-about-section {
+	background: $white;
+	border: 1px solid $border-color;
+	border-radius: 12px;
+	padding: 35px 40px;
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+}
+
+.wpcpf-qs-about-text {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 25px;
+}
+
+.wpcpf-qs-about-copy {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+.wpcpf-qs-welcome-title {
+	font-size: 28px;
+	font-weight: 600;
+	line-height: 28px;
+	color: $heading-color;
+	margin: 0;
+}
+
+.wpcpf-qs-welcome-desc {
+	font-size: 15px;
+	line-height: 22px;
+	color: $body-color;
+	margin: 0;
+}
+
+.wpcpf-qs-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 18px;
+}
+
+.wpcpf-qs-create-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	background: var(--wpcpf-primary-color);
+	color: $white;
+	min-height: $hero-btn-height;
+	padding: 17px 24px;
+	border-radius: 4px;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 20px;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: background 0.2s ease;
+
+	.dashicons {
+		font-size: 14px;
+		width: 14px;
+		height: 14px;
+		line-height: 14px;
+	}
+
+	&:hover,
+	&:focus {
+		background: var(--wpcpf-primary-dark);
+		color: $white;
+	}
+}
+
+// Second entry point beside the primary action: the same shape, drawn as an
+// outline so the block editor stays the louder of the two.
+.wpcpf-qs-patterns-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: $white;
+	border: 1.5px solid var(--wpcpf-primary-color);
+	color: var(--wpcpf-primary-color);
+	min-height: $hero-btn-height;
+	padding: 12px 18px;
+	border-radius: 4px;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 20px;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: background 0.2s ease, color 0.2s ease;
+
+	&:hover,
+	&:focus {
+		background: var(--wpcpf-primary-color);
+		color: $white;
+	}
+}
+
+// ====================
+// Intro video
+// ====================
+
+.wpcpf-qs-video-wrapper {
+	position: relative;
+	display: block;
+	width: 100%;
+	aspect-ratio: 804 / 452;
+	padding: 0;
+	border: 0;
+	border-radius: 8px;
+	overflow: hidden;
+	cursor: pointer;
+	background: $banner-bg;
+
+	// Teal wash over the poster, matching the design's overlay layer.
+	&::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: rgba(25, 148, 158, 0.15);
+		pointer-events: none;
+	}
+
+	&:hover .wpcpf-qs-play-btn {
+		background: #f0f0f1;
+	}
+}
+
+.wpcpf-qs-video-placeholder {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.wpcpf-qs-play-btn {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: $play-disc;
+	height: $play-disc;
+	background: $white;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 2;
+	transition: background 0.2s ease;
+
+	// The glyph is drawn apex-up, so turn it to point right.
+	svg {
+		width: 25.1715px;
+		height: 20.1076px;
+		transform: rotate(90deg);
+		position: relative;
+		z-index: 2;
+	}
+
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+		background: $white;
+		transform: translate(-50%, -50%) scale($play-halo-scale);
+		z-index: 1;
+	}
+
+	// Resting halo, matching the design's static ring.
+	&::before {
+		opacity: 0.3;
+	}
+
+	// Pulse travelling outward from that halo.
+	&::after {
+		opacity: 0;
+		animation: wp_pulse 2.4s ease-out infinite;
+	}
+}
+
+@keyframes wp_pulse {
+	0% {
+		transform: translate(-50%, -50%) scale($play-halo-scale);
+		opacity: 0.3;
+	}
+
+	100% {
+		transform: translate(-50%, -50%) scale($play-halo-scale * 1.45);
+		opacity: 0;
+	}
+}
+
+// The resting halo stays; only the travelling pulse is dropped.
+@media (prefers-reduced-motion: reduce) {
+	.wpcpf-qs-play-btn::after {
+		animation: none;
+	}
+}
+
+// ====================
+// Video modal
+// ====================
+
+.wpcpf-qs-video-modal {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.8);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 100000;
+	padding: 20px;
+}
+
+.wpcpf-qs-video-modal-content {
+	position: relative;
+	width: 100%;
+	max-width: 900px;
+	background: $white;
+	border-radius: 12px;
+	overflow: hidden;
+}
+
+.wpcpf-qs-video-modal-close {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	width: 36px;
+	height: 36px;
+	padding: 0;
+	background: rgba(0, 0, 0, 0.6);
+	color: $white;
+	border: none;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	z-index: 10;
+	transition: background 0.2s ease;
+
+	svg {
+		display: block;
+		flex-shrink: 0;
+	}
+
+	&:hover {
+		background: rgba(0, 0, 0, 0.8);
+	}
+
+	&:focus {
+		color: $white;
+	}
+}
+
+.wpcpf-qs-video-modal-wrapper {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	display: flex;
+
+	iframe {
+		width: 100%;
+		height: 100%;
+		border: none;
+	}
+}
+
+// ====================
+// Documentation / Technical Support / Show Your Love cards
+// ====================
+
+.wpcpf-qs-info-card {
+	background: $white;
+	border: 1px solid $border-color;
+	border-radius: 12px;
+	padding: 28px;
+	min-height: 216px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 20px;
+}
+
+.wpcpf-qs-info-text {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.wpcpf-qs-info-header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+// Each glyph carries its own dimensions — the star is 22 x 20.9, not square —
+// so the box only centres what it is given.
+.wpcpf-qs-info-icon {
+	width: 24px;
+	height: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+
+	svg {
+		display: block;
+		flex-shrink: 0;
+	}
+}
+
+.wpcpf-qs-info-title {
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 20px;
+	color: $title-color;
+	margin: 0;
+	text-transform: capitalize;
+}
+
+.wpcpf-qs-info-desc {
+	font-size: 14px;
+	line-height: 22px;
+	color: $title-color;
+	margin: 0;
+}
+
+// ====================
+// Outlined link shared by the sidebar cards
+// ====================
+
+.wpcpf-qs-info-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: $white;
+	border: 1px solid $outline-border;
+	color: $outline-text;
+	padding: 12px 16px;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 20px;
+	border-radius: 4px;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+
+	&:hover,
+	&:focus {
+		background: var(--wpcpf-primary-color);
+		border-color: var(--wpcpf-primary-color);
+		color: $white;
+	}
+}
+
+// ====================
+// Responsive
+// ====================
+
+@media (max-width: 1200px) {
+	.wpcpf-qs-content {
+		flex-direction: column;
+	}
+
+	.wpcpf-qs-sidebar {
+		width: 100%;
+		position: static;
+	}
+}
+
+@media (max-width: 782px) {
+	.wpcpf-qs-page {
+		padding: 0 12px $page-bottom-space;
+	}
+
+	.wpcpf-qs-about-section {
+		padding: 24px;
+		gap: 32px;
+	}
+
+	.wpcpf-qs-welcome-title {
+		font-size: 22px;
+		line-height: 1.3;
+	}
+
+	.wpcpf-qs-actions {
+		width: 100%;
+	}
+
+	.wpcpf-qs-create-btn,
+	.wpcpf-qs-patterns-btn {
+		width: 100%;
+		white-space: normal;
+		text-align: center;
+	}
+
+	.wpcpf-qs-play-btn {
+		width: 54px;
+		height: 54px;
+
+		svg {
+			width: 18.88px;
+			height: 15.08px;
+		}
+	}
+}

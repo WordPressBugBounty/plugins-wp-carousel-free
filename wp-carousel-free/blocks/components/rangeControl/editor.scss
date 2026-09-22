@@ -1,0 +1,110 @@
+.wpcp-tab-panel,
+.wpcp-tab-panel {
+  .components-range-control__thumb-wrapper span {
+    background-color: var(--wpcp-carousel-primary-2-800);
+  }
+
+  .components-range-control__thumb-wrapper span::after,
+  .components-range-control__thumb-wrapper span::before {
+    background-color: var(--wpcp-carousel-primary-2-800);
+  }
+}
+
+.wpcp-header-control-left,
+.wpcp-header-control-right {
+  display: flex;
+  align-items: center;
+}
+
+.wpcp-header-control {
+  display: flex;
+  justify-content: space-between;
+  height: 22px;
+  margin-bottom: 8px;
+}
+
+.wpcp-header-control-reset.components-button {
+  color: #8c8f94;
+}
+
+.wpcp-header-control-reset.components-button:focus {
+  box-shadow: none;
+}
+
+.wpcp-header-control-reset.components-button:hover svg {
+  color: var(--wpcp-carousel-primary-2-800);
+}
+
+.wpcp-header-control-reset.components-button::after {
+  border: 0;
+}
+
+.wpcp-ranger-length .wpcp-units span,
+.wpcp-ranger-length .wpcp-units button {
+  width: 38px !important;
+}
+
+// .sp-smart-post-ranger-length .sp-smart-post-units span,
+// .sp-smart-post-ranger-length .sp-smart-post-units button {
+//   width: 38px;
+// }
+
+
+.wpcp-range-control {
+
+  .components-range-control {
+    .components-input-control {
+      .components-input-control__container {
+        input {
+          text-align: center;
+          font-size: 14px;
+          touch-action: none;
+        }
+      }
+    }
+  }
+}
+
+body.rtl {
+  .wpcp-range-control {
+    .components-range-control {
+      .components-input-control {
+        margin-left: 0 !important;
+        margin-right: 16px;
+      }
+    }
+  }
+}
+
+.wpcp-range-control {
+  &.sp-negative-space {
+    margin-top: -4px;
+  }
+
+  .components-input-base {
+    min-height: 32px;
+    height: 32px;
+
+    input {
+      max-height: 32px;
+    }
+
+    input::-webkit-inner-spin-button {
+      min-height: 32px;
+      margin-right: -11px !important;
+      cursor: pointer;
+    }
+  }
+
+  .components-range-control__root {
+    min-height: auto;
+  }
+
+  .components-base-control {
+
+    .components-range-control,
+    .components-base-control__field {
+      margin-bottom: 0 !important;
+    }
+  }
+}

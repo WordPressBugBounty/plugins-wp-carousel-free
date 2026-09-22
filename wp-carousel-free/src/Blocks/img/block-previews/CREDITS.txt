@@ -1,0 +1,55 @@
+Editor-preview showcase images
+==============================
+
+Used only by the Marquee and Panorama editor previews (Pro feature showcase).
+Never enqueued on the front end - see blocks/blocks/shared/edit/previewDemoItems.js.
+
+Source
+------
+
+All eight photographs are food shots taken from the company's own WordPress
+media library (uploads/2026/08). Each was centre-cropped to a target aspect
+ratio, downscaled and re-encoded to WebP.
+
+LICENCE - ACTION REQUIRED
+-------------------------
+
+These came out of the demo site's media library, where no licence was recorded,
+so their terms are UNCONFIRMED. This plugin is GPL-licensed and hosted on
+WordPress.org, which requires every bundled asset to be redistributable under a
+GPL-compatible licence.
+
+Before the next release, confirm for each file below that it is CC0, a
+GPL-compatible licence, or work the company owns outright, and replace this
+notice with the per-file attribution. If any file cannot be cleared, swap it for
+a CC0 equivalent.
+
+Files
+-----
+
+Pixel dimensions are uneven on purpose: the set is held to a byte budget, so the
+smooth photographs sit on the large canvases and the detail-heavy ones on the
+small. Only the aspect ratio is meaningful to the layout engines.
+
+  showcase-01.webp  760x760  (1:1)   23 KB  q34  Rainbow Buddha Bowl
+  showcase-02.webp  608x760  (4:5)   22 KB  q76  Banana Pancake Stack
+  showcase-03.webp  560x420  (4:3)   24 KB  q28  BBQ Chicken Flatbread
+  showcase-04.webp  520x347  (3:2)   16 KB  q82  Latte Break
+  showcase-05.webp  520x292  (16:9)  15 KB  q82  Crispy Chicken Burger
+  showcase-06.webp  560x560  (1:1)   24 KB  q40  Shrimp Ramen
+  showcase-07.webp  460x690  (2:3)   25 KB  q40  Winter Citrus Salad
+  showcase-08.webp  480x600  (4:5)   18 KB  q82  Caramel Brownie Sundae
+
+Total: 165.7 KB across 8 files.
+
+Originals
+---------
+
+  showcase-01  uploads/2026/08/rainbow-buddha-bowl-1.jpg
+  showcase-02  uploads/2026/08/banana-pancakes-maple-1.jpg
+  showcase-03  uploads/2026/08/bbq-chicken-flatbread-pizza-1.jpg
+  showcase-04  uploads/2026/08/cafe-latte-at-home-1.jpg
+  showcase-05  uploads/2026/08/crispy-chicken-burger-1.jpg
+  showcase-06  uploads/2026/08/shrimp-ramen-one-pot-1.jpg
+  showcase-07  uploads/2026/08/winter-citrus-salad-1.jpg
+  showcase-08  uploads/2026/08/salted-caramel-brownie-sundae-1.jpg

@@ -1,0 +1,361 @@
+/* ════════════════════════════════════════════════════════════════════════════
+ * ITEM CARD CONTENT (Content panel)
+ * ════════════════════════════════════════════════════════════════════════════ */
+
+/* Title link inherits the title color (was an unconditional per-instance dynamic rule). */
+.wpcp-content-slot--title>a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.wpcp-item-inner {
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	// gap: 8px;
+	min-width: 0;
+	max-height: 100%;
+
+	* {
+		box-sizing: border-box;
+	}
+
+	.wpcp-item-media {
+		position: relative;
+		overflow: hidden;
+		// background: #f0f0f0;
+		order: 1;
+		display: flex;
+		justify-content: center;
+
+		a,
+		img {
+			width: 100%;
+		}
+	}
+
+
+	/* Single owner of `.wpcp-item-img`'s `transition` — Preloader, Image Style
+	 * (filter), and Hover Effects (transform/filter) all change this element's
+	 * state but must never redeclare `transition` themselves; they only set the
+	 * end-state value and, if needed, their own duration var. Segment map:
+	 *   transform → a static 300ms (Animation Duration is Pro)
+	 *   filter    → --wpcp-img-filter-duration (Image Style; Preloader blur
+	 *               rebinds it below)
+	 *   opacity   → --wpcp-preloader-fade-duration (Preloader spinner/skeleton) */
+	img.wpcp-item-img {
+		display: block;
+		max-width: 100%;
+		height: auto;
+		object-fit: cover;
+		transition:
+			transform 300ms ease,
+			filter var(--wpcp-img-filter-duration, 300ms) ease,
+			opacity var(--wpcp-preloader-fade-duration, 600ms) ease-out;
+		cursor: pointer;
+	}
+
+	/* Image Hover, Overlay, Content, and Premade effect libraries live in the
+	 * "HOVER ANIMATIONS" section at the end of this file (Hover Animations panel). */
+
+	.wpcp-item-content {
+		// padding: 10px 12px;
+		order: 2;
+		display: flex;
+		flex-direction: column;
+		// gap: 8px;
+		width: 100%;
+		align-items: flex-start;
+
+		/* Card elements text alignment (Content Area panel) — all source types */
+		&.wpcp-content-align--left {
+			align-items: flex-start;
+			text-align: left;
+		}
+
+		&.wpcp-content-align--center {
+			align-items: center;
+			text-align: center;
+		}
+
+		&.wpcp-content-align--right {
+			align-items: flex-end;
+			text-align: right;
+		}
+
+		.wpcp-item-title {
+			font-size: 20px;
+			font-weight: 500;
+			color: var(--wpcp-content-title-color, #2f2f2f);
+			line-height: 1.4;
+			margin: var(--wpcp-content-title-margin, 0);
+			padding: 0;
+			cursor: pointer;
+			transition: all 0.3s ease;
+		}
+
+		.wpcp-item-price {
+			font-size: 16px;
+			font-weight: 600;
+			color: var(--wpcp-content-price-color, #2f2f2f);
+			line-height: 1.4;
+			margin: var(--wpcp-content-price-margin, 4px 0 0 0);
+			padding: 0;
+
+			// WooCommerce price formatting.
+			del {
+				text-decoration: line-through;
+				opacity: 0.6;
+				margin-right: 8px;
+				font-weight: 400;
+			}
+
+			ins {
+				text-decoration: none;
+				font-weight: 600;
+				color: var(--wpcp-content-sale-price-color, #2f2f2f);
+			}
+
+			span {
+				font-size: inherit;
+			}
+		}
+
+		.wpcp-item-desc {
+			font-size: 16px;
+			font-weight: 400;
+			color: var(--wpcp-content-desc-color, #757575);
+			line-height: 1.4;
+			padding: 0;
+			margin: var(--wpcp-content-desc-margin, 0);
+		}
+
+		// Meta row: flex + gap (dynamic CSS) needs multiple children; separators via ::after on parts.
+		// `--wpcp-meta-gap` is the halved control value (renders both sides of each ::after); 0 = default.
+		.wpcp-item-meta {
+			display: inline-flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: var(--wpcp-meta-gap, 4px);
+		}
+
+		.wpcp-item-meta__part:not(:last-child)::after {
+			white-space: pre;
+		}
+
+		.wpcp-item-meta--sep-bullet .wpcp-item-meta__part:not(:last-child)::after {
+			content: ' • ';
+		}
+
+		.wpcp-item-meta--sep-dash .wpcp-item-meta__part:not(:last-child)::after {
+			content: ' - ';
+		}
+
+		.wpcp-item-meta--sep-pipe .wpcp-item-meta__part:not(:last-child)::after {
+			content: ' | ';
+		}
+
+		.wpcp-item-meta--sep-none .wpcp-item-meta__part:not(:last-child)::after {
+			content: '';
+		}
+
+		.wpcp-item-rating {
+			// Gap belongs on the row of icon wrappers, not on the fill/empty layers.
+			// Each wrapper represents one rating icon; its empty icon and fill overlay
+			// stay stacked in the same coordinates so partial ratings can reveal a
+			// clipped fill without creating any internal gap inside a single icon.
+			display: inline-flex;
+			gap: var(--wpcp-rating-gap, 4px);
+			// font-size: var(--wpcp-rating-size);
+
+			.wpcp-rating-icon-wrap {
+				position: relative;
+				display: inline-flex;
+				flex: 0 0 auto;
+				line-height: 1;
+			}
+
+			.wpcp-rating-empty,
+			.wpcp-rating-fill {
+				display: inline-flex;
+				line-height: 1;
+			}
+
+			.wpcp-rating-icon {
+				display: block;
+				flex: 0 0 auto;
+				width: 1em;
+				height: 1em;
+				max-width: none;
+				object-fit: contain;
+			}
+
+			.wpcp-rating-empty {
+				color: var(--wpcp-content-rating-empty, #e0e0e0);
+			}
+
+			.wpcp-rating-empty {
+				position: relative;
+			}
+
+			.wpcp-rating-fill {
+				position: absolute;
+				top: 0;
+				left: 0;
+				overflow: hidden;
+				white-space: nowrap;
+				color: var(--wpcp-content-rating-fill, #ffd700);
+				transition: all 0.3s ease;
+
+				svg {
+					flex-shrink: 0;
+				}
+			}
+
+			svg {
+				width: var(--wpcp-rating-size, 16px);
+				height: var(--wpcp-rating-size, 16px);
+			}
+		}
+
+		.wpcp-read-more {
+			display: inline-flex;
+			align-items: center;
+			color: #2f2f2f;
+			font-size: 16px;
+			font-weight: 500;
+			text-decoration: none;
+			transition: all 0.3s ease;
+			cursor: pointer;
+			line-height: 1.4;
+			margin-top: 8px;
+
+			&.wpcp-btn-type-button {
+				background-color: transparent;
+				border: 1px solid #2f2f2f;
+				border-radius: 2px;
+				padding: 11px 18px;
+
+				&:hover {
+					background-color: #2f2f2f;
+					color: #fff;
+				}
+			}
+
+			&.wpcp-icon-position-left {
+				flex-direction: row-reverse;
+			}
+
+			&:focus {
+				outline: none;
+			}
+		}
+
+		/* "Display Content on Hover Only": the whole content card (border/background
+		 * included) fades with the content — hidden at rest, revealed on hover. The
+		 * border belongs to the content, so no empty frame shows when content is hidden. */
+		&.wpcp-content-hover {
+			opacity: 0;
+			transition: opacity 0.2s;
+		}
+	}
+
+	/* Content position: re-order media/content in vertical flow */
+	.wpcp-content-top {
+		order: 0;
+	}
+
+	.wpcp-content-center {
+		order: 2;
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
+	.wpcp-content-bottom {
+		order: 2;
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+
+	&:hover .wpcp-content-hover {
+		opacity: 1;
+	}
+
+	/* Touch / coarse pointers can't hover — always reveal the content so it stays
+	 * reachable without a mouse. Base sheet, not the hover-anim chunk: it applies
+	 * with no hover effect selected, so the chunk must not be needed for it. */
+	@media (hover: none), (pointer: coarse) {
+		.wpcp-item-content.wpcp-content-hover {
+			opacity: 1;
+		}
+	}
+}
+
+/* Read More icon wrap — flex-centres the icon and gives it the default 16px box.
+ * Static (was per-block dynamic CSS that re-emitted across all three breakpoints).
+ * Broad selector so it also covers the audio-card read-more button.
+ */
+.wpcp-read-more .wpcp-readmore-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 1;
+
+	svg,
+	img {
+		display: block;
+		width: 16px;
+		height: 16px;
+	}
+
+	.wc-block-mini-cart__icon {
+		display: block;
+		width: 24px;
+		height: 24px;
+	}
+}
+
+/* Zig Zag Orientation (Classic / image-top only)
+ * Alternates image/content positions per item via static CSS.
+ */
+.wpcp-item:nth-child(even)>.wpcp-item-inner.wpcp-zigzag {
+	flex-direction: column-reverse;
+}
+
+/* Content runs (Classic / image-top with a custom element order).
+ * When the saved order re-positions the image between content slots, the DOM
+ * sequence is the source of truth — neutralize the media/content flex `order`
+ * values and the flow-position (.wpcp-content-top/center/bottom) overrides.
+ * The class is emitted only for orders that actually move the image, so
+ * default saves keep the legacy order-driven layout untouched.
+ */
+.wpcp-item-inner.wpcp-content-runs {
+
+	.wpcp-item-media,
+	.wpcp-item-content {
+		order: 0;
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+}
+
+/* Bin-packed tiles force media + content to 100% tile height; with content
+ * runs active that equalizes three flex children and squashes the image to a
+ * third of the tile. Let the text runs size to their content and the media
+ * fill the remainder instead.
+ */
+.wpcp-tiles-grid--binpack>.wpcp-tiles-tile .wpcp-item-inner.wpcp-content-runs {
+
+	.wpcp-item-content {
+		height: auto;
+		flex: 0 0 auto;
+	}
+
+	.wpcp-item-media {
+		height: auto;
+		flex: 1 1 auto;
+		min-height: 0;
+	}
+}
+

@@ -9,21 +9,130 @@
  * Plugin Name:       WP Carousel
  * Plugin URI:        https://wpcarousel.io/
  * Description:       Create beautiful image carousels, sliders, video sliders, video galleries, and photo galleries with built-in Lightbox. Easily showcase images, videos, posts, and WooCommerce products with responsive layouts, grids, and fast performance—no code required.
- * Version:           2.7.13
+ * Version:           3.0.0
  * Author:            ShapedPlugin LLC
  * Author URI:        https://shapedplugin.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       wp-carousel-free
  * Domain Path:       /languages
- * Requires PHP: 7.0.0
+ * Requires PHP: 7.4
  * WC requires at least: 6.4
- * WC tested up to:   11.0.1
+ * WC tested up to:   11.1.1
  */
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
+}
+
+/*
+ * Free/Pro coexistence: WP Carousel Pro carries the whole engine and runs it
+ * against the same `sp_wp_carousel` post type, the same `sp_wpcp_settings` option
+ * and the same block names, so exactly one of the two may boot. This file decides
+ * that here, at file scope, before anything is hooked.
+ *
+ * Two things a future edit must not break.
+ *
+ * No unconditional top-level `function` or `class` in this file may share a name
+ * with one in `wp-carousel-pro.php`. PHP binds those when the file is COMPILED,
+ * before a single statement in it runs, so a shared name is a fatal and not a
+ * notice the moment WordPress compiles this file in a request that already loaded
+ * Pro — `plugin_sandbox_scrape()` on activation does exactly that, and no `return`
+ * below could prevent it. Today nothing is shared: Pro's bootstrap declares no
+ * class, and its `sp_wpcp()` and `sp_wpcp_dependency_config()` are `function_exists()`
+ * wrapped. The margin is one character, `sp_wpcf` against `sp_wpcp`.
+ *
+ * Standing down does not undeclare `SP_WP_Carousel_Free` or `sp_wpcf()` — they are
+ * compiled either way — so neither is a usable "this build booted" probe.
+ * `WPCAROUSELF_VERSION` is: it is defined from `define_constants()`, which runs only
+ * once this plugin has committed to booting. Pro reads it to detect the one request
+ * in which both engines would otherwise load.
+ */
+if ( ! function_exists( 'sp_wpcf_pro_is_active' ) ) {
+	/**
+	 * Whether WP Carousel Pro is installed and active.
+	 *
+	 * Independent of Pro's folder name. A hardcoded
+	 * `wp-carousel-pro/wp-carousel-pro.php` misses every install that unpacked under
+	 * a different directory — a branch ZIP extracts as `wp-carousel-pro-<branch>/` —
+	 * so the active-plugin lists are matched on Pro's main-file basename instead.
+	 * Both lists are read, because a multisite can have Pro switched on per site or
+	 * across the network.
+	 *
+	 * The options are read directly rather than through `is_plugin_active()`. That
+	 * function lives in `wp-admin/includes/plugin.php`, which this plugin has been
+	 * parsing on every front-end request to answer one boolean. `active_plugins` is
+	 * already in the object cache by this point, so the scan below costs nothing.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @return bool
+	 */
+	function sp_wpcf_pro_is_active() {
+		/*
+		 * Fast path for a request in which Pro happened to load first. It cannot be
+		 * the only test: `active_plugins` is sorted, and `wp-carousel-free/` precedes
+		 * `wp-carousel-pro/` ( `f` is 0x66, `p` is 0x70 ), so in the ordinary request
+		 * this file runs BEFORE Pro has defined anything at all. The scan below is
+		 * what actually decides; do not simplify it away.
+		 */
+		if ( defined( 'WPCAROUSEL_VERSION' ) || function_exists( 'sp_wpcp' ) ) {
+			return true;
+		}
+
+		$active_plugins = (array) get_option( 'active_plugins', array() );
+
+		if ( is_multisite() ) {
+			$active_plugins = array_merge( $active_plugins, array_keys( (array) get_site_option( 'active_sitewide_plugins', array() ) ) );
+		}
+
+		foreach ( $active_plugins as $active_plugin ) {
+			if ( 'wp-carousel-pro.php' === basename( (string) $active_plugin ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+}
+
+/*
+ * Declared before the stand-down below, and deliberately so: WooCommerce reads
+ * these declarations during its own boot, and a plugin that declares nothing is
+ * listed as incompatible on the HPOS screen even though it is installed and
+ * active. Pro used to declare this on our behalf; it no longer does, because that
+ * broke whenever this plugin's folder was renamed.
+ */
+add_action(
+	'before_woocommerce_init',
+	function () {
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+		}
+	}
+);
+
+/*
+ * Pro active: stand down, SILENTLY.
+ *
+ * Pro is not a replacement for this plugin. It runs the shared engine against the
+ * same data, so there is nothing to migrate and nothing here for a user to act on
+ * — which is why this is a bare `return` and not a notice. Anything worth saying
+ * about the pairing is said on Pro's side, where the user can act on it.
+ *
+ * This plugin stays INSTALLED AND ACTIVE. WordPress.org counts an active install
+ * out of `active_plugins`, and Pro treats this plugin as a hard dependency, so
+ * switching it off erases the listing's metrics and stops Pro at the same time.
+ *
+ * Standing down means no hooks at all. That includes the `activated_plugin`
+ * redirect at the bottom of this file: it targets
+ * `edit.php?post_type=sp_wp_carousel&page=wpcpf_dashboard`, a submenu this plugin
+ * never registers while Pro is running, and core answers an unregistered `page`
+ * with a permissions error.
+ */
+if ( sp_wpcf_pro_is_active() ) {
+	return;
 }
 
 /**
@@ -76,7 +185,7 @@ class SP_WP_Carousel_Free {
 	 * @since 2.0.0
 	 * @var   string
 	 */
-	private $min_php = '7.0.0';
+	private $min_php = '7.4';
 
 	/**
 	 * Plugin file.
@@ -118,7 +227,7 @@ class SP_WP_Carousel_Free {
 	 */
 	public function setup() {
 		$this->plugin_name = 'wp-carousel-free';
-		$this->version     = '2.7.13';
+		$this->version     = '3.0.0';
 		$this->define_constants();
 		$this->includes();
 		$this->load_dependencies();
@@ -181,11 +290,29 @@ class SP_WP_Carousel_Free {
 		include_once WPCAROUSELF_PATH . '/public/WPCF_Helper.php';
 		include_once WPCAROUSELF_PATH . '/public/class-wp-carousel-free-public.php';
 		include_once WPCAROUSELF_PATH . '/admin/class-wp-carousel-free-admin.php';
-		include_once WPCAROUSELF_PATH . '/admin/help-page/help.php';
 		include_once WPCAROUSELF_PATH . '/admin/preview/class-wp-carousel-free-preview.php';
 		include_once WPCAROUSELF_PATH . '/admin/class-wp-carousel-free-gutenberg-block.php';
 		include_once WPCAROUSELF_PATH . '/admin/Media_View/class-wp-carousel-free-media-view.php';
 		require_once WPCAROUSELF_PATH . '/admin/class-wp-carousel-free-elementor-block.php';
+
+		/*
+		 * Gutenberg block module. An isolated subsystem that self-registers on
+		 * `init` and shares nothing with the Classic code above. Guarded on PHP
+		 * 7.4 because WP 5.0 ignores the Requires PHP header, and on file
+		 * presence so a partial deploy degrades to "no blocks" instead of a fatal.
+		 */
+		if ( PHP_VERSION_ID >= 70400 && file_exists( WPCAROUSELF_PATH . 'src/Blocks/bootstrap.php' ) ) {
+			require_once WPCAROUSELF_PATH . 'src/Blocks/bootstrap.php';
+		}
+
+		/*
+		 * Admin dashboard (Getting Started, Lite vs Pro, Settings). Same
+		 * isolated-subsystem treatment as the block module above — see
+		 * src/Admin/Dashboard/CLAUDE.md.
+		 */
+		if ( PHP_VERSION_ID >= 70400 && file_exists( WPCAROUSELF_PATH . 'src/Admin/Dashboard/bootstrap.php' ) ) {
+			require_once WPCAROUSELF_PATH . 'src/Admin/Dashboard/bootstrap.php';
+		}
 	}
 
 	/**
@@ -241,7 +368,6 @@ class SP_WP_Carousel_Free {
 		$this->loader->add_filter( 'plugin_row_meta', $plugin_admin, 'plugin_row_meta', 10, 2 );
 		$this->loader->add_filter( 'admin_footer_text', $plugin_admin, 'sp_wpcp_review_text', 10, 2 );
 		$this->loader->add_filter( 'update_footer', $plugin_admin, 'sp_wpcp_version_text', 11 );
-		$this->loader->add_action( 'before_woocommerce_init', $plugin_admin, 'declare_compatibility_with_woo_hpos_feature' );
 
 		// Export and Import ajax call.
 		$import_export = new Wp_Carousel_Free_Import_Export( $this->get_plugin_name(), $this->get_version() );
@@ -372,14 +498,17 @@ function sp_wpcf() {
 /**
  * Load the main functionalities of the plugin.
  *
+ * The Pro check that used to live here now runs at file scope, above, so this
+ * function is only ever reached when this plugin is the one that boots. It is kept
+ * as the `plugins_loaded` callback rather than hooking `sp_wpcf()` directly: the
+ * classic subsystem has registered its hooks from this exact callback at this exact
+ * priority since 2.0, and a third-party `remove_action()` written against the name
+ * should keep working.
+ *
  * @return void
  */
 function load_sp_wordpress_carousel_plugin() {
-	require_once ABSPATH . 'wp-admin/includes/plugin.php';
-	if ( ! ( is_plugin_active( 'wp-carousel-pro/wp-carousel-pro.php' ) || is_plugin_active_for_network( 'wp-carousel-pro/wp-carousel-pro.php' ) ) ) {
-		// Launch it out .
-		sp_wpcf();
-	}
+	sp_wpcf();
 }
 
 /**
@@ -390,7 +519,7 @@ function load_sp_wordpress_carousel_plugin() {
  */
 function sp_wpcf_redirect_after_activation( $plugin_file ) {
 	if ( plugin_basename( __FILE__ ) === $plugin_file && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) && ! ( defined( 'WP_CLI' ) && WP_CLI ) ) {
-		exit( esc_url( wp_safe_redirect( admin_url( 'edit.php?post_type=sp_wp_carousel&page=wpcf_help' ) ) ) );
+		exit( esc_url( wp_safe_redirect( admin_url( 'edit.php?post_type=sp_wp_carousel&page=wpcpf_dashboard' ) ) ) );
 	}
 }
 

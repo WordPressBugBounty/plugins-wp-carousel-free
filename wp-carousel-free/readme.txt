@@ -3,8 +3,8 @@ Contributors: shapedplugin, khalilu, shamimmiashuhagh, rubel_miah
 Tags: slider, carousel, slideshow, gallery, video slider
 Requires at least: 5.0
 Tested up to: 7.1
-Requires PHP: 7.0.0
-Stable tag: 2.7.13
+Requires PHP: 7.4
+Stable tag: 3.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,9 +14,9 @@ Carousel, Slider, and Photo Gallery with Lightbox plugin. Create Image Carousel,
 
 [__WP Carousel__](https://wpcarousel.io/) is a responsive plugin for creating **Carousel, Slider, Photo Gallery, and Video Slider** in WordPress. It supports images, posts, WooCommerce products, and YouTube videos. Images can be selected directly from the WordPress media library and arranged with drag-and-drop. The plugin is lightweight, responsive, and works across all major devices and browsers.
 
-[youtube https://www.youtube.com/embed/videoseries?list=PLoUb-7uG-5jO_zo3exhqUNlZ7h0FQVJTt]
+[youtube https://www.youtube.com/watch?v=a2ggJ4U5oi0]
 
-[__Live Demo__](https://wpcarousel.io/wp-carousel-free-demo/) | [__Video Tutorials__](https://www.youtube.com/shapedplugin/) | [__Documentation__](https://docs.shapedplugin.com/docs/wordpress-carousel/introduction/) | [__Support__](https://shapedplugin.com/create-new-ticket/)
+[__Live Demo__](https://wpcarousel.io/carousel/) | [__Video Tutorials__](https://www.youtube.com/watch?v=a2ggJ4U5oi0&list=PLoUb-7uG-5jNgTTcnUflIiytxgTWaBEzm) | [__Documentation__](https://docs.wpcarousel.io/guide/introduction) | [__Support__](https://shapedplugin.com/create-new-ticket/)
 
 
 ## You'll be ble to display ##
@@ -83,12 +83,12 @@ Carousel, Slider, and Photo Gallery with Lightbox plugin. Create Image Carousel,
 
 
 ## WP Carousel Pro ##
-[__WP Carousel__](https://wpcarousel.io/?ref=1) is the free version of [__WP Carousel Pro__](https://wpcarousel.io/pricing?ref=1). The Pro version includes additional features such as support for posts, WooCommerce products, custom content (text, HTML, shortcodes), and extended video options. It also supports WordPress pages, custom post types, taxonomies, and custom taxonomies. Video sources include YouTube, Vimeo, TikTok, Twitch, Wistia, Dailymotion, MP4, WebM, and self-hosted videos with lightbox support. See [__Documentation__](https://docs.shapedplugin.com/docs/wordpress-carousel-pro/introduction/).
+[__WP Carousel__](https://wpcarousel.io/?ref=1) is the free version of [__WP Carousel Pro__](https://wpcarousel.io/pricing?ref=1). The Pro version includes additional features such as support for posts, WooCommerce products, custom content (text, HTML, shortcodes), and extended video options. It also supports WordPress pages, custom post types, taxonomies, and custom taxonomies. Video sources include YouTube, Vimeo, TikTok, Twitch, Wistia, Dailymotion, MP4, WebM, and self-hosted videos with lightbox support. See [__Documentation__](https://docs.wpcarousel.io/guide/introduction).
 
 
 [youtube https://www.youtube.com/embed/videoseries?list=PLoUb-7uG-5jNgTTcnUflIiytxgTWaBEzm]
 
-[__Watch all Tutorials &raquo;__](https://www.youtube.com/watch?v=m2XP6GNW0mE&index=2&list=PLoUb-7uG-5jNgTTcnUflIiytxgTWaBEzm)
+[__Watch all Tutorials &raquo;__](youtube.com/watch?v=a2ggJ4U5oi0&list=PLoUb-7uG-5jNgTTcnUflIiytxgTWaBEzm)
 
 ## Author ##
 Designed and Developed by [__ShapedPlugin__](https://shapedplugin.com/)
@@ -98,7 +98,7 @@ Designed and Developed by [__ShapedPlugin__](https://shapedplugin.com/)
 
 = MINIMUM REQUIREMENTS =
 
-* PHP 7.0.0 or later
+* PHP 7.4 or later
 * MySQL 5.6 or later
 * WordPress 5.0 or later
 
@@ -193,6 +193,26 @@ Yes, WP Carousel works perfectly with WordPress multi-site network.
 
 
 == Changelog ==
+
+= Version 3.0.0 – Sep 22, 2026 =
+* New: The Carousel block with 4 source types (Images, Video, Posts, Products) and 2 carousel styles.
+* New: The Slider block with 4 amazing slider styles.
+* New: The Thumbnails Slider block with 2 content styles.
+* New: The Tiles block with 9 different layout styles.
+* New: AJAX pagination for the Tiles block.
+* New: The Ready Patterns Library module with pre-designed layouts, categories, favorites, and a live preview drawer.
+* New: The Saved Templates module to reuse carousels anywhere by converting blocks into shortcodes.
+* New: Lightbox support for the core Image and Gallery blocks.
+* New: Divi, Divi 5, WPBakery, Beaver Builder, Oxygen and Bricks integrations on the settings page.
+* New: The WP Carousel dashboard with Getting Started, Modules, Integrations, and Settings pages.
+* New: The Setup Wizard and optional diagnostic data sharing, sent only after your explicit consent.
+* New: Taxonomy filter options for post and product carousels.
+* New: The lazy-loading option for images of blocks.
+* Improved: The review notice now appears only after you have published your first carousel.
+* Improved: The Tools page moved into Classic Shortcode Settings.
+* Improved: The minimum PHP requirement is now 7.4.
+* Tested: WordPress 7.1.2 compatibility.
+* Tested: WooCommerce 11.1.1 compatibility.
 
 = Version 2.7.13 – Aug 18, 2026 =
 * Fixed: Block editor compatibility with WordPress 7.1's iframed canvas.

@@ -1,0 +1,107 @@
+.wpcp-tab-panel {
+  .wpcp-input-control .wpcp-spacing-part-1 {
+    .wpcp-header-input-control {
+      &.d-flex {
+        display: flex;
+        justify-content: space-between;
+
+        .wpcp-component-title {
+          margin-bottom: 0;
+        }
+
+        .wpcp-header-control-left {
+          display: flex;
+          width: 60%;
+        }
+
+        .wpcp-header-control-right {
+          width: 30%;
+
+          .components-input-control__container {
+            input[type="number"] {
+              text-align: center;
+            }
+          }
+        }
+      }
+
+      &.d-block {
+        .wpcp-header-control-left {
+          width: 100%;
+          margin-bottom: 5px;
+        }
+
+        .wpcp-header-control-right .components-base-control {
+          width: 100%;
+        }
+      }
+
+      .components-input-control__backdrop {
+        border-color: #ddd;
+      }
+    }
+  }
+}
+
+.wpcp-tab-panel input:not(#wpcp-spacing-bottom, #wpcp-spacing-top, #wpcp-spacing-right, #wpcp-spacing-left)::-webkit-inner-spin-button {
+  min-height: 30px;
+  margin-right: -7px;
+  cursor: pointer;
+}
+
+.wpcp-header-control-left {
+  display: flex;
+  align-items: center;
+}
+
+.wpcp-tab-panel {
+  input::-webkit-inner-spin-button {
+    min-height: 32px;
+    margin-right: 0px;
+    cursor: pointer;
+  }
+}
+
+.wpcp-input-control {
+  input::-webkit-inner-spin-button {
+    min-height: 33px;
+    margin-right: -10px;
+    cursor: pointer;
+  }
+}
+
+.wpcp-header-input-control.d-flex .components-input-base {
+  input {
+    min-height: 32px !important;
+    height: 32px !important;
+    width: 74px;
+  }
+
+  input::-webkit-inner-spin-button {
+    margin-right: -12px !important;
+  }
+}
+
+.wpcp-input-control .wpcp-password-visibility-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0;
+  color: #757575;
+  margin-right: 4px;
+
+  &:hover {
+    color: #1e1e1e;
+  }
+
+  svg {
+    display: block;
+    fill: none;
+  }
+}
+// .components-input-control__input:focus {
+
+// }
+// .components-input-control__backdrop {x}

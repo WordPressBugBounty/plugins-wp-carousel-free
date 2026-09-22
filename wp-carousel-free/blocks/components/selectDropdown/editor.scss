@@ -1,0 +1,114 @@
+.wpcp-select-dropdown:not(.wpcp-section-heading-dropdown) {
+    max-height: 300px;
+
+    .wpcp-select-dropdown-option svg {
+        fill: #3c434a;
+    }
+}
+
+.wpcp-select-dropdown {
+    width: 360px !important;
+    /* Set a fixed width */
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 400px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    .wpcp-select-dropdown-option {
+        display: flex;
+        align-items: stretch;
+        cursor: pointer;
+        padding: 0;
+        margin: 0;
+        min-height: 42px;
+        border-bottom: 1px solid rgba(240, 93, 49, 0.1);
+        flex-shrink: 0;
+
+        .wpcp-select-dropdown-option-button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            min-height: 42px;
+            padding: 0 13px;
+            margin: 0;
+            border: none;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+            cursor: pointer;
+            font: inherit;
+            color: inherit;
+            text-align: left;
+            appearance: none;
+
+            > span {
+                margin: 0;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+            }
+
+            > span:first-child {
+                flex: 1;
+                min-width: 0;
+            }
+
+            &.has-icon> span:last-child {
+                flex-shrink: 0;
+                justify-content: flex-end;
+            }
+        }
+
+        &.active,
+        &.active:hover {
+            background-color: var(--wpcp-carousel-primary-2-100);
+        }
+    }
+
+    .wpcp-select-dropdown-option:hover {
+        background-color: var(--wpcp-carousel-primary-2-50);
+    }
+
+    /* Pro option — a real disabled row: inert, no upsell link. Declared after the
+       row hover above so neither the highlight nor the pointer lands. */
+    .wpcp-select-dropdown-option.is-pro,
+    .wpcp-select-dropdown-option.is-pro:hover {
+        background-color: transparent;
+        cursor: default;
+    }
+
+    .wpcp-select-dropdown-option.is-pro .wpcp-select-dropdown-option-button:disabled {
+        cursor: default;
+
+        /* Dim the label and the preview glyph only — the "(Pro)" marker keeps
+           full contrast so the green reads at a glance. */
+        .wpcp-select-dropdown-option-label {
+            opacity: 0.6;
+        }
+
+        svg {
+            opacity: 0.6;
+        }
+    }
+
+}
+
+.wpcp-section-heading-dropdown .wpcp-select-dropdown-option:hover.active,
+.wpcp-section-heading-dropdown .wpcp-select-dropdown-option.active path[fill="#2f2f2f"],
+.wpcp-section-heading-dropdown .wpcp-select-dropdown-option.active {
+    background-color: var(--wpcp-carousel-primary-2-50);
+    color: #222222;
+    fill: #222222;
+}
+
+/* Metadata dropdown component user icon size */
+.wpcp-popup-content .wpcp-select-dropdown .wpcp-select-dropdown-option svg {
+    min-width: 20px;
+    min-height: 20px;
+}

@@ -1,0 +1,843 @@
+/**
+ * Thumbnails-slider block static styles.
+ *
+ * Scoped to `.wpcp-thumbs-area` and `.wpcp-thumb` markup emitted by both the
+ * editor preview (`ThumbnailsSliderLayout.jsx`) and the PHP renderer
+ * (`BlockRenderer.php::render_thumbnails_slider_main()`).
+ *
+ * Render-parity note: PHP's outer block wrapper carries both
+ * `wpcp-block-thumbnails-slider` and `wpcp-carousel-render` classes on the
+ * SAME element (BlockRenderer.php line 258). The editor wraps `.wpcp-stage`
+ * + `.wpcp-thumbs-area` in an inner `.wpcp-carousel-render` (ThumbnailsSliderLayout.jsx),
+ * which mirrors the same position/layout/active-style classes for parity.
+ * Layout/position rules therefore scope to `.wpcp-carousel-render.wpcp-thumbs-*`
+ * so the flex container is always the direct parent of `.wpcp-stage`.
+ *
+ * Layout variants (`wpcp-thumbs-layout-{strip|overlay|list|centered}`) are
+ * CSS-driven — markup is identical across values, only classes vary.
+ *
+ * User-tweakable colors/sizes/opacity arrive via CSS custom properties set by
+ * the dynamic-CSS pipeline (`carouselDynamicCss.js` + `CarouselDynamicCss.php`).
+ * Static `style.scss` owns visual structure; dynamic CSS owns user values.
+ */
+
+// Thumbs-strip chrome — border / radius / box-shadow read tokens emitted on
+// `#uniqueId` by the dynamic layer (style-config.js `thumbs-area-*` rows). Applied to the
+// `.wpcp-swiper-thumb-wrapper` that wraps the thumb-strip Swiper (the visible framed box),
+// so the chrome and the dynamic background / padding / margin (Layer-5 builder) land on the
+// same element. No-op until a token is set (the `var()` fallbacks are the CSS defaults).
+.wpcp-thumbs-area .wpcp-swiper-thumb-wrapper {
+	box-sizing: border-box;
+	border-style: var(--wpcp-thumbs-area-border-style, none);
+	border-width: var(--wpcp-thumbs-area-border-width, 0);
+	border-color: var(--wpcp-thumbs-area-border-color, currentcolor);
+	border-radius: var(--wpcp-thumbs-area-radius, 0);
+	box-shadow: var(--wpcp-thumbs-area-shadow, none);
+	width: 100%;
+}
+
+// Per-thumb image states — opacity + border read tokens emitted on `#uniqueId`
+// (style-config.js `thumb-opacity` / `thumb-border-*` rows). The active thumb stays
+// fully opaque; border style + width are shared, border color resolves normal →
+// hover → active with each falling back to the normal color. No-op until tokens set.
+.wpcp-thumb {
+	opacity: var(--wpcp-thumb-opacity, 1);
+}
+
+.wpcp-thumb.wpcp-thumb-active {
+	opacity: 1;
+}
+
+.wpcp-thumb img {
+	border-style: var(--wpcp-thumb-border-style, none);
+	border-width: var(--wpcp-thumb-border-width, 0);
+	border-color: var(--wpcp-thumb-border-color, currentcolor);
+}
+
+.wpcp-thumb:hover img {
+	border-color: var(--wpcp-thumb-border-color-hover, var(--wpcp-thumb-border-color, currentcolor));
+}
+
+.wpcp-thumb.wpcp-thumb-active img {
+	border-color: var(--wpcp-thumb-border-color-active, var(--wpcp-thumb-border-color, currentcolor));
+}
+
+.wpcp-block-thumbnails-slider {
+
+	// Outer wrapper for the thumb-strip Swiper. Overflow is left visible so the
+	// centered-layout caret indicator (which sits 12px above the active thumb)
+	// isn't clipped. The thumb-strip Swiper itself sits inside an inner
+	// `.wpcp-swiper-thumb-wrapper`, which carries the Style-tab border / radius /
+	// shadow (see the chrome rule above).
+	.wpcp-thumbs-area {
+		position: relative;
+		--wpcp-thumbs-per-view: 5;
+		--wpcp-thumbs-gap: 24px;
+	}
+
+	// Per-tile chrome only — Swiper handles slide width/spacing via its own
+	// `slidesPerView` + `spaceBetween` config (see frontend.js initThumbnailsSlider).
+	// The image carries the default 3:2 aspect ratio (matches reference design
+	// 192×128) so the thumb wraps cleanly in both horizontal and vertical Swiper
+	// modes without competing with Swiper's own width/height inline styles.
+	.wpcp-thumb {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		box-sizing: border-box;
+		cursor: pointer;
+		overflow: hidden;
+		transition: opacity 0.2s ease, transform 0.2s ease;
+
+		img {
+			display: block;
+			width: 100%;
+			height: auto;
+			aspect-ratio: 3 / 2;
+			object-fit: cover;
+			border-radius: inherit;
+			transition: filter 0.2s ease;
+		}
+
+		// Placeholder span when `showImage` is off or the item has no image_url.
+		// Holds the same 3:2 box so the thumb retains its footprint instead of
+		// collapsing to a zero-height row.
+		.wpcp-thumb-img--placeholder {
+			display: block;
+			width: 100%;
+			aspect-ratio: 3 / 2;
+			background: #1e1e1e;
+			border-radius: inherit;
+		}
+	}
+
+	// Flex container for the strip wrapper — the position modifier sets the
+	// direction and the dynamic `gap` rule needs a flex context.
+	.wpcp-thumbs-area {
+		display: flex;
+	}
+	.wpcp-thumbs-area .wpcp-thumbs-strip {
+		margin: 0;
+	}
+
+	.wpcp-stage {
+		overflow: visible;
+	}
+	.wpcp-swiper.swiper-initialized {
+		padding: 0px !important;
+	}
+}
+
+/* ── Position modifier — flex container is the direct parent of .wpcp-stage. ──
+ * PHP: that's the block wrapper (has `.wpcp-carousel-render` + position class).
+ * Editor: that's the inner `.wpcp-carousel-render` (ThumbnailsSliderLayout.jsx
+ * adds the same position class to it).
+ */
+.wpcp-carousel-render.wpcp-thumbs-position-bottom {
+	display: flex;
+	flex-direction: column;
+
+	.wpcp-thumbs-area {
+		flex-direction: row;
+	}
+}
+
+.wpcp-carousel-render.wpcp-thumbs-position-bottom .wpcp-thumbs-area {
+	padding-top: 24px;
+}
+
+// Stage chrome — only visual framing (rounded corners, dark backdrop). We
+// deliberately do NOT force an aspect-ratio here: with `autoHeight: true`
+// passed to the main Swiper (see ThumbnailsSliderLayout.jsx and
+// frontend.js::initThumbnailsSliderCarousel) the stage matches the active
+// slide's natural rendered height. Result: no dark gap below the image, no
+// cropping. `:where()` keeps specificity at 0 so user-saved values from
+// dynamic CSS always win.
+:where(.wpcp-carousel-render.wpcp-thumbs-layout-strip .wpcp-stage),
+:where(.wpcp-carousel-render.wpcp-thumbs-layout-overlay .wpcp-stage) {
+	position: relative;
+	width: 100%;
+	border-radius: 4px;
+	overflow: hidden;
+	// background: #1e1e1e;
+}
+
+/* ── Layout variants ──────────────────────────────────────────────────── */
+
+// `overlay` — strip absolutely positioned inside the main stage. Background
+// is left transparent so the underlying gradient/image shows through (matches
+// reference HTML `.ts-style2__thumbs`: 38px inset on left/right/bottom, above
+// the stage gradient). User can override via `thumbsArea.background`.
+.wpcp-carousel-render.wpcp-thumbs-layout-overlay {
+	position: relative;
+	display: block;
+
+	.wpcp-stage {
+		position: relative;
+	}
+
+	.wpcp-thumbs-area {
+		position: absolute;
+		left: 38px;
+		right: 38px;
+		bottom: 38px;
+		top: auto;
+		z-index: 5;
+		// Inset defines width; neutralize any legacy `width: N%` from block attrs.
+		width: auto;
+		max-width: none;
+		box-sizing: border-box;
+	}
+}
+
+// `overlay` + hover variant: strip fades in only when the user hovers the
+// stage. When `layoutOptions.thumbsOverlayRevealOnHover` is true, PHP / the
+// editor add `wpcp-thumbs-overlay-hover` on `.wpcp-carousel-render` (see
+// `BlockRenderer.php`, `ThumbnailsSliderLayout.jsx`).
+.wpcp-carousel-render.wpcp-thumbs-layout-overlay.wpcp-thumbs-overlay-hover {
+	.wpcp-thumbs-area {
+		opacity: 0;
+		transform: translateY(20px);
+		pointer-events: none;
+		transition: opacity 0.4s ease, transform 0.4s ease;
+	}
+
+	&:hover .wpcp-thumbs-area,
+	&:focus-within .wpcp-thumbs-area {
+		opacity: 1;
+		transform: translateY(0);
+		pointer-events: auto;
+	}
+}
+
+// `list` — Style Three / menu (reference `.ts-style3`): one framed stage
+// (1140×760 proportions) with the main Swiper full-bleed and a glass menu
+// overlaid on the left — not a side-by-side grid (that shrank the stage).
+// Design reference `.ts-style3__menu-wrap`: the overlaid thumbnail column is
+// exactly 300px wide (padding sits *inside* that 300px — not added on top).
+.wpcp-carousel-render.wpcp-thumbs-layout-list {
+	// `--wpcp-thumbs-list-width` is set by dynamic CSS / inline style from
+	// `thumbsArea.listSidebarWidth`. Falls back to 300px for backwards compat
+	// with posts that pre-date the redesign.
+	--wpcp-thumbs-menu-width: var(--wpcp-thumbs-list-width, 300px);
+	position: relative;
+	display: block;
+	width: 100%;
+	aspect-ratio: 1140 / 760;
+	border-radius: 4px;
+	// No overflow clipping here: the Sides Center / Sides Outer nav presets
+	// hang the arrows past the frame edge, and any clip on an ancestor crops
+	// them. The slide crop lives on the stage Swiper below; the collapsed menu
+	// column fades out instead of sliding under a clipped edge.
+	background: #1e1e1e;
+}
+
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-stage {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	max-width: none;
+	min-width: 0;
+	min-height: 0;
+	// Visible so the nav arrows inside can straddle the frame edge; the Swiper
+	// child clips the full-bleed slide to the rounded box itself.
+	overflow: visible;
+	z-index: 1;
+}
+
+// Bottom fade over the main image (reference `.ts-style3__stage::after`).
+// Radius matches the Swiper below so the gradient corners follow the rounded
+// frame now that no ancestor clip rounds them.
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-stage::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.85) 100%);
+	border-radius: 4px;
+	z-index: 2;
+}
+
+// Keep slide content above the stage gradient (::after stacks after the Swiper).
+// The Swiper owns the frame crop: same box as the stage (inset 0, 100% x 100%),
+// so moving overflow here keeps the rounded 1140/760 clip while the stage stays
+// unclipped for the nav arrows.
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-stage>.swiper,
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-stage>.wpcp-swiper {
+	position: relative;
+	z-index: 3;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	overflow: hidden;
+	border-radius: 4px;
+}
+
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-stage .swiper-wrapper {
+	height: 100%;
+}
+
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-stage .swiper-slide {
+	height: 100%;
+}
+
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-stage .swiper-slide.wpcp-item {
+	height: 100%;
+}
+
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-stage .wpcp-item-inner {
+	height: 100%;
+	min-height: 100%;
+}
+
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-stage .wpcp-item-inner .wpcp-item-media {
+	flex: 1;
+	min-height: 0;
+	height: auto;
+}
+
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-stage .wpcp-item-media a {
+	height: 100%;
+}
+
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-stage .wpcp-item-img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+// Caption / overlay content sits in the open area beside the menu
+// (reference `.ts-style3__caption`).
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-item-inner.wpcp-has-overlay .wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']) {
+	justify-content: flex-end;
+	align-items: center;
+	text-align: center;
+	inset: auto;
+	// left: var(--wpcp-thumbs-list-width, 300px);
+	bottom: 0px;
+	top: auto;
+	height: auto;
+	// width: calc( 100% - var(--wpcp-thumbs-list-width, 300px) );
+	max-height: none;
+	padding: 0;
+	background: none;
+	transform: none;
+	transition: width 0.3s ease, left 0.3s ease, right 0.3s ease;
+}
+
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-item-inner.wpcp-has-overlay .wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']).wpcp-content-align--left {
+	align-items: flex-start;
+	text-align: left;
+}
+
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-item-inner.wpcp-has-overlay .wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']).wpcp-content-align--center {
+	align-items: center;
+	text-align: center;
+}
+
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-item-inner.wpcp-has-overlay .wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']).wpcp-content-align--right {
+	align-items: flex-end;
+	text-align: right;
+}
+
+.block-editor-block-list__block .wpcp-carousel-render.wpcp-thumbs-layout-list.wpcp-thumbs-position-left:not(.wpcp-thumbs-menu--collapsed) .wpcp-item-inner.wpcp-has-overlay .wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']),
+.wpcp-carousel-render.wpcp-thumbs-layout-list.wpcp-thumbs-position-left:not(.wpcp-thumbs-menu--collapsed) .wpcp-item-inner.wpcp-has-overlay .wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']) {
+	left: var(--wpcp-thumbs-list-width, 300px);
+	width: calc( 100% - var(--wpcp-thumbs-list-width, 300px) );
+}
+
+.wpcp-carousel-render.wpcp-thumbs-layout-list.wpcp-thumbs-position-right:not(.wpcp-thumbs-menu--collapsed) .wpcp-item-inner.wpcp-has-overlay .wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']) {
+	left: unset !important;
+	right: var(--wpcp-thumbs-list-width, 300px);
+	width: calc( 100% - var(--wpcp-thumbs-list-width, 300px) );
+}
+.wpcp-carousel-render.wpcp-thumbs-layout-list.wpcp-thumbs-menu--collapsed .wpcp-item-inner.wpcp-has-overlay .wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']) {
+	left: 0;
+	right: 0;
+	width: 100%;
+}
+
+@media (max-width: 960px) {
+	.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-item-inner.wpcp-has-overlay .wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']) {
+		left: calc(var(--wpcp-thumbs-list-width, 300px) + 20px);
+		right: 24px;
+		bottom: 24px;
+	}
+}
+
+// Glass menu column (reference `.ts-style3__menu-wrap` — fixed 300px total width).
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-thumbs-area {
+	box-sizing: border-box;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: var(--wpcp-thumbs-list-width, 300px);
+	max-width: var(--wpcp-thumbs-list-width, 300px);
+	min-width: 0;
+	z-index: 4;
+	min-height: 0;
+	overflow: hidden;
+	height: auto;
+	// Opacity/visibility join the transform so the collapsed column can fade
+	// out (nothing clips its slide anymore); visibility flips instantly on
+	// expand via the 0s duration below.
+	transition: transform 0.3s ease, opacity 0.3s ease, visibility 0s;
+
+	&.wpcp-thumbs-position-left {
+		left: 0;
+		right: unset;
+		border-radius: 4px 0 0 4px;
+	}
+	&.wpcp-thumbs-position-right {
+		right: 0;
+		left: unset;
+		margin: 0;
+		border-radius: 0 4px 4px 0;
+	}
+}
+
+
+.wpcp-carousel-render.wpcp-thumbs-layout-list.wpcp-thumbs-menu--collapsed .wpcp-thumbs-area {
+	// Slides out AND fades (delayed visibility keeps the animation visible for
+	// its full 0.3s, then drops the column from the a11y tree / hit testing).
+	opacity: 0;
+	visibility: hidden;
+	transition: transform 0.3s ease, opacity 0.3s ease, visibility 0s linear 0.3s;
+
+	&.wpcp-thumbs-position-left {
+		transform: translateX(-100%);
+	}
+	&.wpcp-thumbs-position-right {
+		transform: translateX(100%);
+	}
+}
+
+// Default panel chrome — dark backdrop, blur, padding. `:where()` keeps the
+// specificity at 0 so dynamic CSS from `thumbsArea.background/padding` wins.
+:where(.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-thumbs-area) {
+	background: rgba(0, 0, 0, 0.6);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	padding: 18px;
+}
+
+// Menu wrapper fills the padded menu area (reference: `.ts-style3__menu`); the
+// inner strip Swiper sits inside `.wpcp-swiper-thumb-wrapper`.
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-thumbs-area>.wpcp-swiper-thumb-wrapper {
+	box-sizing: border-box;
+	position: absolute;
+	inset: 0;
+	width: auto;
+	max-width: 100%;
+	min-width: 0;
+	height: auto;
+}
+
+// Toggle chevron — reference `.ts-style3__menu-arrow` at the top edge of the menu column.
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-thumbs-menu-toggle {
+	position: absolute;
+	top: 0;
+	// left: var(--wpcp-thumbs-menu-width);
+	width: 48px;
+	height: 48px;
+	margin: 0;
+	padding: 0;
+	border: none;
+	border-radius: 0 4px 4px 0;
+	background: rgba(0, 0, 0, 0.6);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	color: #fff;
+	cursor: pointer;
+	display: grid;
+	place-items: center;
+	z-index: 5;
+	transition: left 0.3s ease, right 0.3s ease, background 0.2s ease;
+
+	&.wpcp-thumbs-position-left {
+		left: var(--wpcp-thumbs-list-width, 300px);
+	}
+	&.wpcp-thumbs-position-right {
+		right: var(--wpcp-thumbs-list-width, 300px);
+		left: unset;
+		border-radius: 4px 0 0 4px;
+	}
+
+	&.wpcp-thumbs-menu-toggle-expanded {
+		&.wpcp-thumbs-position-left svg {
+			rotate: 180deg;
+		}
+	}
+	&.wpcp-thumbs-menu-toggle-collapsed {
+		&.wpcp-thumbs-position-right svg {
+			rotate: 180deg;
+		}
+	}
+
+	&:focus {
+		outline: none;
+	}
+}
+
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-thumbs-menu-toggle:hover {
+	background: rgba(0, 0, 0, 0.8);
+}
+
+.wpcp-carousel-render.wpcp-thumbs-layout-list.wpcp-thumbs-menu--collapsed .wpcp-thumbs-menu-toggle {
+	&.wpcp-thumbs-position-left {
+		left: 0;
+	}
+	&.wpcp-thumbs-position-right {
+		right: 0;
+		left: unset;
+	}
+}
+
+.wpcp-block-thumbnails-slider .wpcp-thumbs-layout-list .wpcp-thumb,
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-thumb {
+	flex: 0 0 auto;
+	display: grid;
+	align-items: center;
+	overflow: visible;
+
+	// Mini-thumb image: fixed square in the menu rail (matches reference
+	// `.ts-style3__item-thumb`). `aspect-ratio` from the base rule is reset.
+	img,
+	.wpcp-thumb-img--placeholder {
+		// width: 82px;
+		// height: 82px;
+		aspect-ratio: auto;
+		border-radius: 4px;
+	}
+}
+
+// Vertical menu slides: let Swiper own slide height (same idea as L/R strip).
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-thumbs-area .wpcp-thumb {
+	height: auto;
+}
+
+// 1px white-30% divider between thumbs (Figma 803:109660 Style Three).
+.wpcp-block-thumbnails-slider .wpcp-thumbs-layout-list .wpcp-thumb+.wpcp-thumb,
+.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-thumb+.wpcp-thumb {
+	position: relative;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: calc(-1 * var(--wpcp-thumbs-gap, 24px) / 2);
+		left: 0;
+		right: 0;
+		height: 1px;
+		background: rgba(255, 255, 255, 0.3);
+		pointer-events: none;
+	}
+}
+
+.wpcp-carousel-render.wpcp-thumbs-layout-strip .wpcp-stage .swiper-slide .wpcp-item-content {
+		width: 100%;
+	}
+
+// `centered` — reference Style Four: coverflow-style main Swiper (`slidesPerView: auto`),
+// polygon indicator row, then horizontal thumb strip (see `thumbnails-slider-block.html`).
+.wpcp-carousel-render.wpcp-thumbs-layout-centered {
+	display: flex;
+	flex-direction: column;
+	.wpcp-thumbs-area {
+		flex-direction: row;
+	}
+
+	.wpcp-thumbs-style4__stage {
+		width: 100%;
+		// Visible so the nav arrows inside can straddle the stage edge; the
+		// padded Swiper below clips the peeking slides at the same bounds.
+		overflow: visible;
+		position: relative;
+	}
+
+	.wpcp-thumbs-style4__stage .wpcp-thumbs-main.swiper,
+	.wpcp-thumbs-style4__stage .wpcp-swiper.wpcp-thumbs-main {
+		// Border-box keeps the padding inside the stage width, so the overflow
+		// clip (padding box) lands on the exact edge the stage used to clip at.
+		box-sizing: border-box;
+		overflow: hidden;
+		padding: 0 60px;
+	}
+
+	.wpcp-thumbs-style4__stage .swiper-slide {
+		position: relative;
+		aspect-ratio: 870 / 580;
+		// width: 870px;
+		// max-width: calc(100% - 240px);
+		border-radius: 4px;
+		overflow: hidden;
+		background: #1e1e1e;
+		box-sizing: border-box;
+		transition: transform 0.5s ease, width 0.5s ease;
+		max-width: 100%;
+	}
+
+	.wpcp-thumbs-style4__stage .swiper-slide.swiper-slide-active {
+		// width: 950px;
+	}
+
+	.wpcp-thumbs-style4__stage .swiper-slide.wpcp-item {
+		height: auto;
+	}
+
+	.wpcp-thumbs-style4__stage .swiper-slide .wpcp-item-inner {
+		position: relative;
+		height: 100%;
+	}
+
+	.wpcp-thumbs-style4__stage .swiper-slide .wpcp-item-media,
+	.wpcp-thumbs-style4__stage .swiper-slide .wpcp-item-media img,
+	.wpcp-thumbs-style4__stage .swiper-slide .wpcp-item-img {
+		width: 100%;
+		height: 100%;
+	}
+
+	.wpcp-thumbs-style4__stage .swiper-slide .wpcp-item-img {
+		object-fit: cover;
+	}
+
+	.wpcp-thumbs-style4__stage .swiper-slide:not(.swiper-slide-active)::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.45);
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	// .wpcp-thumbs-style4__stage .swiper-slide.swiper-slide-active::after {
+	// 	content: '';
+	// 	position: absolute;
+	// 	inset: 0;
+	// 	pointer-events: none;
+	// 	background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.85) 100%);
+	// 	z-index: 1;
+	// }
+
+	.wpcp-thumbs-style4__stage .swiper-slide .wpcp-item-content {
+		position: absolute;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+		z-index: 2;
+	}
+
+	.wpcp-thumbs-style4__stage .swiper-slide.swiper-slide-active .wpcp-item-content {
+		opacity: 1;
+	}
+
+	.wpcp-thumbs-style4__stage .swiper-slide .wpcp-overlay-icon,
+	.wpcp-thumbs-style4__stage .swiper-slide .wpcp-lightbox-icon {
+		opacity: 0;
+		transition: opacity 0.3s ease;
+		z-index: 3;
+	}
+
+	.wpcp-thumbs-style4__stage .swiper-slide.swiper-slide-active .wpcp-overlay-icon,
+	.wpcp-thumbs-style4__stage .swiper-slide.swiper-slide-active .wpcp-lightbox-icon {
+		opacity: 1;
+	}
+
+	.wpcp-thumbs-style4__indicators {
+		display: grid;
+		grid-template-columns: repeat(var(--wpcp-style4-indicator-count, 5), 1fr);
+		gap: var(--wpcp-thumbs-gap, 24px);
+		height: 13px;
+		pointer-events: none;
+	}
+
+	.wpcp-thumbs-style4__indicator {
+		width: var(--wpcp-active-indicator-width, 32px);
+		height: var(--wpcp-active-indicator-height, 13px);
+		justify-self: center;
+		background: var(--wpcp-active-indicator-color, var(--wpcp-active-border-color, #19949e));
+		border-radius: 2px;
+		clip-path: polygon(50% 0, 100% 100%, 0 100%);
+		opacity: 0;
+		transition: opacity 0.25s ease;
+	}
+
+	.wpcp-thumbs-style4__indicator.is-active {
+		opacity: 1;
+	}
+
+	.wpcp-thumbs-area .swiper-slide.wpcp-thumb img {
+		aspect-ratio: 192 / 114;
+	}
+}
+.wpcp-thumbs-area .swiper-slide.wpcp-thumb img {
+	object-fit: cover;
+	max-height: 100%;
+}
+
+
+/* ── Thumb tile chrome ────────────────────────────────────────────────── */
+
+.wpcp-block-thumbnails-slider .wpcp-carousel-render.wpcp-style-thumbnails {
+	.wpcp-thumb {
+		box-sizing: border-box;
+
+		.wpcp-thumb-img-wrapper {
+			overflow: hidden;
+		}
+	}
+}
+.wpcp-block-thumbnails-slider .wpcp-carousel-render.wpcp-style-thumbnails.wpcp-thumbs-layout-list {
+	.wpcp-thumb {
+		.wpcp-thumb-img-wrapper {
+			height: 100%;
+		}
+	}
+}
+
+// Hide the strip until `frontend.js` removes this class on init — prevents a
+// vertical-stack layout flash before the two Swipers initialize.
+.wpcp-thumbs-area--no-js {
+	display: none;
+}
+
+// Subtle hover lift on the thumb-strip tiles (mirrors reference `.ts-thumbs`).
+// Restricted to layouts that show the thumbs as separate tiles — `list` rows
+// already have their own gap/border treatment and shouldn't translate.
+.wpcp-carousel-render.wpcp-thumbs-layout-strip .wpcp-thumb:hover,
+.wpcp-carousel-render.wpcp-thumbs-layout-overlay .wpcp-thumb:hover,
+.wpcp-carousel-render.wpcp-thumbs-layout-centered .wpcp-thumbs-area .wpcp-thumb:hover {
+	// transform: translateY(-2px);
+}
+
+.wpcp-carousel-render.wpcp-style-thumbnails {
+	.wpcp-item-media img,
+	.wpcp-item-media a {
+		width: 100%;
+	}
+	&.wpcp-thumbs-layout-list {
+
+		.swiper-slide.wpcp-item {
+			height: -webkit-fill-available;
+			.wpcp-item-inner {
+				height: 100%;
+				.wpcp-item-media {
+					height: 100%;
+				}
+			}
+		}
+	}
+}
+
+.wpcp-carousel-render.wpcp-style-thumbnails {
+	.wpcp-item-inner .wpcp-content-top {
+		justify-content: flex-start;
+	}
+	.wpcp-item-inner .wpcp-content-center {
+		justify-content: center;
+	}
+	.wpcp-item-inner .wpcp-content-bottom {
+		justify-content: flex-end;
+	}
+}
+.wpcp-block-thumbnails-slider {
+	&.wpcp-thumbs-layout-list {
+		.wpcp-thumbs-main {
+			.swiper-wrapper {
+				height: -webkit-fill-available !important;
+			}
+		}
+	}
+	.wpcp-thumbs-area {
+		overflow: hidden;
+		.wpcp-swiper.wpcp-thumbs-strip {
+			// overflow: visible;
+			width: 100%;
+		}
+	}
+}
+.wpcp-swiper-thumb-wrapper {
+	.wpcp-thumbs-strip {
+		max-height: 100%;
+	}
+}
+
+.wpcp-carousel-render-frontend {
+	grid-template-columns: 1fr !important;
+}
+
+.wpcp-style-thumbnails .wpcp-item-inner .wpcp-item-content .wpcp-read-more {
+    color: #FFF;
+	border-color: #FFF;
+}
+.wpcp-item-inner .wpcp-item-content .wpcp-read-more.wpcp-btn-type-button:hover {
+	border-color: #2f2f2f;
+}
+
+@media (max-width: 960px) {
+	.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-thumbs-area {
+		width: var(--wpcp-thumbs-list-width-tablet, 300px);
+		max-width: var(--wpcp-thumbs-list-width-tablet, 300px);
+	}
+	.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-thumbs-menu-toggle {
+		&.wpcp-thumbs-position-left {
+			left: var(--wpcp-thumbs-list-width-tablet, 300px);
+		}
+		&.wpcp-thumbs-position-right {
+			right: var(--wpcp-thumbs-list-width-tablet, 300px);
+			left: unset;
+			border-radius: 4px 0 0 4px;
+		}
+	}
+
+	.block-editor-block-list__block .wpcp-carousel-render.wpcp-thumbs-layout-list.wpcp-thumbs-position-left:not(.wpcp-thumbs-menu--collapsed) .wpcp-item-inner.wpcp-has-overlay .wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']),
+	.wpcp-carousel-render.wpcp-thumbs-layout-list.wpcp-thumbs-position-left:not(.wpcp-thumbs-menu--collapsed) .wpcp-item-inner.wpcp-has-overlay .wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']) {
+		left: var(--wpcp-thumbs-list-width-tablet, 300px);
+		width: calc( 100% - var(--wpcp-thumbs-list-width-tablet, 300px) );
+	}
+
+	.wpcp-carousel-render.wpcp-thumbs-layout-list.wpcp-thumbs-position-right:not(.wpcp-thumbs-menu--collapsed) .wpcp-item-inner.wpcp-has-overlay .wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']) {
+		left: unset !important;
+		right: var(--wpcp-thumbs-list-width-tablet, 300px);
+		width: calc( 100% - var(--wpcp-thumbs-list-width-tablet, 300px) );
+	}
+}
+@media (max-width: 600px) {
+	.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-thumbs-area {
+		width: var(--wpcp-thumbs-list-width-mobile, 150px);
+		max-width: var(--wpcp-thumbs-list-width-mobile, 150px);
+	}
+	.wpcp-carousel-render.wpcp-thumbs-layout-list .wpcp-thumbs-menu-toggle {
+		&.wpcp-thumbs-position-left {
+			left: var(--wpcp-thumbs-list-width-mobile, 150px);
+		}
+		&.wpcp-thumbs-position-right {
+			right: var(--wpcp-thumbs-list-width-mobile, 150px);
+			left: unset;
+			border-radius: 4px 0 0 4px;
+		}
+	}
+
+	.block-editor-block-list__block .wpcp-carousel-render.wpcp-thumbs-layout-list.wpcp-thumbs-position-left:not(.wpcp-thumbs-menu--collapsed) .wpcp-item-inner.wpcp-has-overlay .wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']),
+	.wpcp-carousel-render.wpcp-thumbs-layout-list.wpcp-thumbs-position-left:not(.wpcp-thumbs-menu--collapsed) .wpcp-item-inner.wpcp-has-overlay .wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']) {
+		left: var(--wpcp-thumbs-list-width-mobile, 300px);
+		width: calc( 100% - var(--wpcp-thumbs-list-width-mobile, 300px) );
+	}
+
+	.wpcp-carousel-render.wpcp-thumbs-layout-list.wpcp-thumbs-position-right:not(.wpcp-thumbs-menu--collapsed) .wpcp-item-inner.wpcp-has-overlay .wpcp-item-content.wpcp-content-overlay:not([class*='wpcp-content-position--']) {
+		left: unset !important;
+		right: var(--wpcp-thumbs-list-width-mobile, 300px);
+		width: calc( 100% - var(--wpcp-thumbs-list-width-mobile, 300px) );
+	}
+
+
+	.wpcp-carousel-render.wpcp-thumbs-layout-centered .wpcp-thumbs-style4__stage .wpcp-thumbs-main.swiper,
+	.wpcp-carousel-render.wpcp-thumbs-layout-centered .wpcp-thumbs-style4__stage .wpcp-swiper.wpcp-thumbs-main {
+		padding: 0;
+	}
+
+	.wpcp-carousel-render.wpcp-thumbs-layout-centered .wpcp-thumbs-style4__stage .swiper-slide,
+	.wpcp-carousel-render.wpcp-thumbs-layout-centered .wpcp-thumbs-style4__stage .swiper-slide.swiper-slide-active {
+		max-width: 100%;
+		width: 100%;
+	}
+}

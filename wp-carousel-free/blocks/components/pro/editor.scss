@@ -1,0 +1,554 @@
+// Pro teaser UI: the locked-card badge, the inspector notice, and the panel
+// crown. Every value the Figma frames own is a variable here so the visual
+// pass is a one-line change per token.
+$wpcp-pro-accent: #19949e;
+$wpcp-pro-accent-hover: #147a82;
+$wpcp-pro-surface: #f1fafb;
+$wpcp-pro-border: #a8dde2;
+$wpcp-pro-locked-opacity: 0.35;
+$wpcp-pro-green: #11a10c;
+$wpcp-pro-green-hover: #0f910b;
+$wpcp-pro-green-border: #6cc37c;
+
+// Figma "Pro notes" upsell card — https://www.figma.com/design/jSLI4lZNWowWPHate1tBQP node 7890:210313
+$wpcp-pro-note-border: #b2eaee;
+$wpcp-pro-note-glow: #e0f7f8;
+$wpcp-pro-note-text: #0f290e;
+
+$wpcp-pro-upsell-title: #19949e;
+$wpcp-pro-upsell-subtitle: #1d2327;
+$wpcp-pro-upsell-text: #2f2f2f;
+$wpcp-pro-upsell-border: rgba(21, 158, 46, 0.7);
+$wpcp-pro-upsell-button: #159e2e;
+$wpcp-pro-upsell-button-hover: #128627;
+
+
+/* ── Locked preset card ─────────────────────────────────────────────────── */
+
+.wpcp-pro-locked {
+  position: relative;
+  overflow: visible;
+
+  .sp-smart-layout-img,
+  svg {
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover,
+  &:focus-visible {
+    .sp-smart-layout-img,
+    svg {
+      opacity: $wpcp-pro-locked-opacity;
+    }
+
+    .wpcp-pro-badge {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  // The glyph dimming above is a descendant selector, so it also reaches the
+  // crown inside the Pro pill — and hardest at hover, which is when the pill is
+  // visible. Keep the crown at full strength so it reads as the same white as
+  // the "PRO" label beside it.
+  .wpcp-pro-badge .wpcp-pro-badge-link svg {
+    opacity: 1;
+  }
+}
+
+.wpcp-pro-badge {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  // Rests below centre and rises into place as it fades in — the card's hover
+  // state supplies the settled transform.
+  transform: translate(-50%, -10%);
+  z-index: 5;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+
+  a,
+  .wpcp-pro-badge-link {
+    display: inline-flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: $wpcp-pro-green;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.7;
+    text-decoration: none !important;
+    white-space: nowrap;
+    transition: background 0.3s ease;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background: $wpcp-pro-green-hover;
+      color: #fff;
+      box-shadow: none;
+    }
+  }
+
+  .wpcp-pro-badge-demo {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 4px;
+    background: rgba(0, 0, 0, 0.73);
+    transition:
+      background 0.3s ease,
+      opacity 0.2s ease,
+      transform 0.2s ease;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background: rgba(0, 0, 0, 0.85);
+    }
+  }
+}
+
+/* ── Locked icon tile (Arrow Style) ─────────────────────────────────────── */
+
+// Crown only — a 32px tile has no room for the "PRO" text. The pill is inert;
+// the tile itself owns the click.
+.wpcp-pro-badge--icon-only {
+  pointer-events: none;
+
+  .wpcp-pro-badge-link {
+    padding: 4px;
+    border-radius: 50%;
+    line-height: 0;
+
+    // Direct child of the link, so the tile's own glyph dimming below never
+    // reaches the crown and turn it into an illegible blob.
+    svg {
+      width: 12px;
+      height: 12px;
+      opacity: 1;
+    }
+  }
+}
+
+.wpcp-icon-grid__item.wpcp-pro-locked {
+  // Own positioning context, so the centred badge never depends on the shared
+  // .wpcp-pro-locked rule reaching this element.
+  position: relative;
+  overflow: visible;
+  cursor: pointer;
+
+  // Border stays put on hover — a colour shift reads as "selectable".
+  &:hover,
+  &:focus-visible {
+    border-color: #e7e7e7;
+  }
+
+  // Direct-child selector: the preset glyph only, never the crown nested in the
+  // badge.
+  > svg {
+    opacity: 0.6;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  &:hover > svg,
+  &:focus-visible > svg {
+    opacity: 0.25;
+  }
+}
+
+/* ── Locked row in a select dropdown (Pagination Style) ─────────────────── */
+
+// No badge and no link here — the row is a real disabled option. Only the
+// "(Pro)" marker carries the green so the reason reads at a glance.
+.wpcp-select-dropdown-option-pro {
+  margin-left: 4px;
+  color: $wpcp-pro-green;
+  font-weight: 500;
+}
+
+/* ── Inspector notice ───────────────────────────────────────────────────── */
+
+.wpcp-pro-notice {
+  padding: 16px 12px;
+  border: 1px solid $wpcp-pro-border;
+  border-radius: 8px;
+  background: $wpcp-pro-surface;
+  font-size: 13px;
+  line-height: 20px;
+  color: #1e1e1e;
+
+  &.is-inline {
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+
+  .wpcp-pro-notice-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .wpcp-pro-notice-icon {
+    display: inline-flex;
+    color: $wpcp-pro-accent;
+  }
+
+  .wpcp-pro-notice-title {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+
+  .wpcp-pro-notice-subtitle,
+  .wpcp-pro-notice-message {
+    margin: 8px 0 0;
+    font-size: 12px;
+    line-height: 18px;
+    color: #4a5257;
+  }
+
+  .wpcp-pro-notice-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 10px 0 0;
+    padding-left: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin: 0;
+      font-size: 12px;
+      line-height: 18px;
+
+      svg {
+        flex-shrink: 0;
+        color: $wpcp-pro-accent;
+      }
+    }
+  }
+
+  .wpcp-pro-notice-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 14px;
+    padding: 9px 15px;
+    border-radius: 5px;
+    background: $wpcp-pro-accent;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none !important;
+
+    &:hover,
+    &:focus {
+      background: $wpcp-pro-accent-hover;
+      color: #fff;
+      box-shadow: none;
+    }
+  }
+
+  &.is-panel-notice {
+    text-align: center;
+
+    .wpcp-pro-notice-header {
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+}
+
+/* ── Locked panel ───────────────────────────────────────────────────────── */
+
+// The crown sits inline, directly after the panel title.
+.components-panel__body.wpcp-panel-pro > .components-panel__body-title button::after {
+  content: '';
+  display: inline-block;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-left: 6px;
+  border-radius: 4px;
+  vertical-align: middle;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 16 16'%3E%3Cpath fill='%23ff9437' d='M10.384 5.882c.18.329.478.572.842.648.322.068.652-.007.922-.203l.112-.092 1.396-1.279 1.159-1.062-.81 6.437H2.124l-.812-6.437 2.556 2.341c.288.264.666.373 1.035.295.364-.076.662-.32.841-.648l2.32-4.254 2.32 4.254Z'/%3E%3Cpath fill='%23ff9437' d='M13.851 14.873H2.274c-.373 0-.674-.369-.674-.824V12.24h12.925v1.81c0 .454-.301.823-.674.823Z'/%3E%3C/svg%3E")
+    center / 11px no-repeat;
+}
+
+/* ── Locked option inside a button group ────────────────────────────────── */
+
+.wpcp-button-group .wpcp-button-group-list .components-button.is-pro {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ── Locked option inside a toggle group control ────────────────────────── */
+
+// Never becomes the active segment, so it carries its own muted/green
+// treatment instead of the active-pill rules in toggleGroupControl/editor.scss.
+.wpcp-toggle-button-group-list button.is-pro {
+  pointer-events: none;
+
+  &:hover {
+    color: inherit;
+  }
+
+  // The option's button is a flex container, so inline whitespace between the
+  // label and the tag collapses to 0 — wrap both and set an explicit gap.
+  .wpcp-toggle-group-pro-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .wpcp-toggle-group-pro-label {
+    opacity: 0.6;
+  }
+
+  .wpcp-toggle-group-pro-tag {
+    color: $wpcp-pro-green;
+  }
+}
+
+/* ── Locked toggle row ─────────────────────────────────────────────────── */
+
+.wpcp-toggle.is-pro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .wpcp-toggle-pro-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+
+    .wpcp-component-title {
+      opacity: 0.6;
+    }
+
+    .wpcp-toggle-pro-tag {
+      color: $wpcp-pro-green;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1;
+      text-decoration: none;
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: $wpcp-pro-green-hover;
+        box-shadow: none;
+      }
+    }
+  }
+
+  .components-toggle-control {
+    margin-bottom: 0;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  // The row is already dimmed by opacity, so core's washed-out disabled border
+  // reads as a second, paler outline on top of it.
+  .components-form-toggle.is-disabled .components-form-toggle__track {
+    border-color: #1e1e1e;
+  }
+}
+
+/* ── Locked range row ──────────────────────────────────────────────────── */
+
+// Only the controls dim — the label keeps its "(Pro)" tag at full opacity so
+// the upsell stays legible.
+.wpcp-range-control.is-pro {
+  .wpcp-header-control-right,
+  .sp-smart-range-control {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  // The header row is a fixed 22px, so a wrapped label overflows it rather
+  // than growing the row — keep the title and its "(Pro)" tag on one line.
+  .wpcp-header-control-left {
+    min-width: 0;
+  }
+
+  .wpcp-component-title {
+    white-space: nowrap;
+  }
+
+  // A disabled RangeControl paints its rail and track in core's near-white
+  // disabled colours, which read as a missing track. Restore the design's grey
+  // rail and primary fill so the row still shows its value. The rail is the one
+  // child of the wrapper core leaves unclassed — it takes an emotion class only.
+  .components-range-control__wrapper > *:not([class*='components-range-control__']) {
+    background-color: #ddd;
+  }
+
+  .components-range-control__track {
+    background-color: var(--wpcp-carousel-primary-2-800);
+  }
+}
+
+/* ── Locked control group (Width/Height) ─────────────────────────────────── */
+
+// A group of already-built controls (inputs) that has no per-item "pro" prop
+// of its own — dim/disable the whole row instead of touching the shared
+// control components.
+.wpcp-pro-locked-row {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ── Locked inline label + static control (Content Position) ───────────── */
+
+// Reused outside the Toggle component, so it does not depend on the
+// `.wpcp-toggle.is-pro` ancestor that scopes the toggle-row Pro styling.
+.wpcp-pro-inline-title {
+  opacity: 0.6;
+}
+
+// The shared `.wpcp-header .wpcp-component-title` rule adds a 9px bottom margin
+// that knocks the "(Pro)" tag off centre inside this flex row.
+.wpcp-header .wpcp-component-title.wpcp-pro-inline-title {
+  margin-bottom: 0;
+}
+
+.wpcp-pro-inline-tag {
+  margin-left: 4px;
+  color: $wpcp-pro-green;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1;
+  text-decoration: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $wpcp-pro-green-hover;
+    box-shadow: none;
+  }
+}
+
+// Display-only replacement for the live Popup trigger — same BorderIcon glyph
+// (already draws its own bordered box), just never wired to a click handler.
+.wpcp-pro-static-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+}
+
+/* ── Inline panel upsell ────────────────────────────────────────────────── */
+
+.wpcp-pro-notice.is-inline.is-upsell {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 0.75px solid $wpcp-pro-note-border;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  background: radial-gradient(
+      circle at 118% -17%,
+      $wpcp-pro-note-glow 0%,
+      rgba($wpcp-pro-note-glow, 0) 64%
+    ),
+    #fff;
+  font-size: 13px;
+  line-height: 20px;
+  color: $wpcp-pro-note-text;
+
+  a {
+    color: $wpcp-pro-green;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: $wpcp-pro-green-hover;
+      box-shadow: none;
+    }
+  }
+}
+
+/* ── Feature-list panel upsell (Figma "Pro notes" card) ──────────────────── */
+
+.wpcp-pro-notice.is-upsell:not(.is-inline) {
+  margin-top: 16px;
+  padding: 20px 16px 16px;
+  border-width: 0.75px;
+  border-color: $wpcp-pro-note-border;
+  background: radial-gradient(
+      circle at 118% -17%,
+      $wpcp-pro-note-glow 0%,
+      rgba($wpcp-pro-note-glow, 0) 64%
+    ),
+    #fff;
+
+  .wpcp-pro-notice-icon,
+  .wpcp-pro-notice-title {
+    color: $wpcp-pro-upsell-title;
+  }
+
+  .wpcp-pro-notice-title {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .wpcp-pro-notice-subtitle {
+    margin-top: 10px;
+    line-height: 1.5;
+    color: $wpcp-pro-upsell-subtitle;
+  }
+
+  .wpcp-pro-notice-list li {
+    color: $wpcp-pro-upsell-text;
+
+    svg {
+      color: $wpcp-pro-upsell-title;
+    }
+  }
+
+  .wpcp-pro-notice-button {
+    margin-top: 16px;
+    padding: 8px 10px;
+    border: 1px solid $wpcp-pro-upsell-border;
+    background: linear-gradient(90deg, rgba($wpcp-pro-upsell-button, 0.1) 0%, rgba($wpcp-pro-upsell-button, 0.1) 100%), #fff;
+    color: $wpcp-pro-upsell-button;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+
+    svg {
+      color: $wpcp-pro-upsell-button;
+    }
+
+    &:hover,
+    &:focus {
+      background: linear-gradient(90deg, rgba($wpcp-pro-upsell-button, 0.18) 0%, rgba($wpcp-pro-upsell-button, 0.18) 100%), #fff;
+      color: $wpcp-pro-upsell-button-hover;
+
+      svg {
+        color: $wpcp-pro-upsell-button-hover;
+      }
+    }
+  }
+}

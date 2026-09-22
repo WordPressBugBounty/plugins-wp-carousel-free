@@ -1,0 +1,51 @@
+.wpcp-svg-rotate-180 svg {
+	rotate: 180deg;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * BASE BLOCK STYLES
+ * ════════════════════════════════════════════════════════════════════════════ */
+.wpcp-tiles-grid *,
+.wpcp-carousel-render * {
+	box-sizing: border-box;
+}
+
+.wpcp-block-carousel,
+.wpcp-block-slider,
+.wpcp-block-thumbnails-slider,
+.wpcp-block-tiles {
+	position: relative;
+}
+
+/* Content wrapper inside the block root. Carries the General-tab padding and is
+ * the positioning context for nav arrows / pagination dots; the root keeps the
+ * General-tab background + margin so the background fills the padded gutter. */
+.wpcp-block-inner {
+	position: relative;
+}
+
+.wpcp-carousel-render-frontend:not(.wpcp-vertical):not(.wpcp-variable-width) {
+	.wpcp-carousel-container:not(.swiper-initialized)>.swiper-wrapper {
+		display: flex;
+	}
+
+	.wpcp-carousel-container:not(.swiper-initialized)>.swiper-wrapper>.swiper-slide {
+		width: var(--wpcp-swiper-slide-width-d, calc(33.333% - 13.333px));
+		flex: 0 0 var(--wpcp-swiper-slide-width-d, calc(33.333% - 13.333px));
+		max-width: var(--wpcp-swiper-slide-width-d, calc(33.333% - 13.333px));
+	}
+
+	.wpcp-carousel-container:not(.swiper-initialized)>.swiper-wrapper>.swiper-slide {
+		margin-right: var(--wpcp-swiper-gap-d, 20px);
+	}
+
+	.wpcp-carousel-container:not(.swiper-initialized)[dir='rtl']>.swiper-wrapper>.swiper-slide {
+		margin-right: 0;
+		margin-left: var(--wpcp-swiper-gap-d, 20px);
+	}
+}
+
+.wpcp-d-hidden {
+	display: none;
+}
+

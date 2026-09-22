@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wp-carousel-pro/marquee",
+	"title": "Marquee",
+	"description": "Continuously scrolling images in an infinite loop. Available in WP Carousel Pro.",
+	"category": "wp-carousel-pro",
+	"keywords": ["marquee", "ticker", "scroll", "logos"],
+	"textdomain": "wp-carousel-free",
+	"example": {
+		"viewportWidth": 320
+	},
+	"supports": {
+		"align": ["wide", "full"],
+		"html": false,
+		"customClassName": false,
+		"customCSS": false
+	}
+}

@@ -1,0 +1,36 @@
+// Styles shared by the editor preview and the front end.
+// Compiled to assets/editor/style-index.css.
+//
+// ORDER IS LOAD-BEARING — equal-specificity ties resolve by source order.
+// Never alphabetize or reorder these loads; later partials intentionally
+// override earlier ones.
+//
+// Partials must not @use each other; only 'mixins' is shared, and it emits no
+// CSS. Anything else would be emitted at its first load point and silently
+// reorder the cascade.
+//
+// Swiper CSS is not bundled here — the `wpcpf-blocks-swiper-style` handle
+// loads swiper-bundle.min.css ahead of these overrides in both contexts.
+
+@use 'style/tokens';
+@use 'style/base';
+@use 'style/responsive-image-dims';
+@use 'style/card-tokens';
+@use 'style/item-card';
+@use 'style/carousel';
+@use 'style/vertical';
+@use 'style/variable-width';
+@use 'style/nav-pagination';
+@use 'style/orientations';
+@use 'style/item-placeholder';
+@use 'style/taxonomy';
+@use 'style/post-meta';
+@use 'style/video-card';
+@use 'style/tiles-grid';
+@use 'style/tiles-ajax-pagination';
+@use 'style/slider-effects';
+// Image Hover axis only — the Premade/Overlay/Content effect library builds as
+// the wpcpf-blocks-chunk-hover-anim chunk.
+@use 'style/hover-image';
+@use 'style/read-more';
+@use 'style/late-overrides';

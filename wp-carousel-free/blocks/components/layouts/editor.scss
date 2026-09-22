@@ -1,0 +1,128 @@
+.wpcp-layout-picker {
+  .wpcp-layout-picker-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .wpcp-component-title {
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  .wpcp-layout-active-title {
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 500;
+    color: #1a949ec4;
+    text-align: right;
+    margin: 0;
+  }
+
+  &.wpcp-tile-layouts .wpcp-layout-active-title {
+    text-transform: capitalize;
+  }
+
+  .wpcp-layouts {
+    display: grid;
+    gap: 8px;
+    text-align: center;
+    max-width: 620px;
+
+    // margin-top: 16px;
+    &.grid-1 {
+      grid-template-columns: 1;
+    }
+
+    &.grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    &.grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    &.grid-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .wpcp-layout-card {
+      cursor: pointer;
+      position: relative;
+
+      // Reset native <button> chrome so the picker looks identical to its old
+      // <div> markup; accessibility (focus/keyboard/role) comes for free.
+      appearance: none;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: inherit;
+      font: inherit;
+      text-align: inherit;
+
+      &:focus-visible {
+        outline: 2px solid var(--wpcp-primary-color, #19949e);
+        outline-offset: 2px;
+        border-radius: 2px;
+      }
+
+      .sp-smart-layout-img {
+        display: flex;
+      }
+
+      &.active .active-symbol {
+        position: absolute;
+        right: 5px;
+        top: 2px;
+      }
+
+      // `stroke-width` is in SVG user units, so each picker's viewBox→display
+      // scale rendered the active border at a different thickness (e.g. the
+      // content-orientation icons render at ~0.71x, so 1.5 looked ~1px).
+      // `non-scaling-stroke` renders the stroke in screen pixels, so the
+      // selected card's border is a consistent 1.5px in every picker.
+      &.active svg path,
+      &.active svg rect:not(.sp-card) {
+        stroke-width: 1.5;
+        vector-effect: non-scaling-stroke;
+      }
+
+      // Selected-card border for the static pickers (tile/slider),
+      // whose icons don't swap their own frame stroke. Group A pickers recolor
+      // their frame in JS, so they don't carry this class.
+      &.active .wpcp-layout-frame {
+        stroke: var(--wpcp-layout-active-border);
+      }
+    }
+  }
+
+  &.wpcp-audio-content-orientations {
+    .wpcp-layouts.grid-2 .wpcp-layout-card {
+      justify-self: start;
+      width: fit-content;
+    }
+  }
+
+
+  &.wpcp-thumbs-layouts {
+    .sp-smart-layout-img {
+      width: 100%;
+    }
+
+    .sp-smart-layout-img svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+
+.wpcp-panel-pb {
+  padding-bottom: 16px;
+}

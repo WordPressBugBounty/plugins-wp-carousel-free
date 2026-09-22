@@ -1,0 +1,545 @@
+@use 'mixins' as *;
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * CAROUSEL STYLES
+ * ════════════════════════════════════════════════════════════════════════════ */
+
+.wpcp-image-overlay.wpcp-item-media::before {
+	transition: all 0.3s ease;
+}
+
+
+
+
+/* Social Share */
+.wpcp-item-social.wpcp-social-share {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-top: 8px;
+	padding: 0;
+	list-style: none;
+
+	.wpcp-social-share-icon {
+		list-style: none;
+	}
+
+	.wpcp-social-share-link,
+	.wpcp-share-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		text-decoration: none;
+		background-color: #f3f3f3;
+		color: #2f2f2f;
+		transition:
+			background-color 0.2s ease,
+			color 0.2s ease;
+
+		// Use CSS custom properties for icon size when set
+		svg {
+			width: var(--wpcp-social-icon-size, 18px);
+			height: var(--wpcp-social-icon-size, 18px);
+		}
+
+		// Use CSS custom properties for custom colors
+		&:where([style*='--wpcp-social-icon-color']) {
+			color: var(--wpcp-social-icon-color, #2f2f2f);
+		}
+
+		&:where([style*='--wpcp-social-icon-bg']) {
+			background-color: var(--wpcp-social-icon-bg, #f3f3f3);
+		}
+
+		// Hover colors via custom properties
+		&:hover {
+			&:where([style*='--wpcp-social-icon-hover-color']) {
+				color: var(--wpcp-social-icon-hover-color, currentColor);
+			}
+
+			&:where([style*='--wpcp-social-icon-hover-bg']) {
+				background-color: var(--wpcp-social-icon-hover-bg, currentColor);
+			}
+		}
+	}
+
+	&[style*='--wpcp-social-icon-area-size'] .wpcp-social-share-link,
+	&[style*='--wpcp-social-icon-area-size'] .wpcp-share-btn {
+		width: var(--wpcp-social-icon-area-size, 40px);
+		height: var(--wpcp-social-icon-area-size, 40px);
+	}
+
+	&.icon-round .wpcp-social-share-link,
+	&.icon-round .wpcp-share-btn {
+		border-radius: 999px;
+	}
+
+	&.icon-square .wpcp-social-share-link,
+	&.icon-square .wpcp-share-btn {
+		border-radius: 4px;
+	}
+
+	&.icon-only .wpcp-social-share-link,
+	&.icon-only .wpcp-share-btn {
+		// Normal icon view has no fill box, so size to the icon instead of the fixed area.
+		width: auto;
+		height: auto;
+		background: none !important;
+		background-color: transparent !important;
+		background-image: none !important;
+		border: none !important;
+		box-shadow: none;
+
+		&:where([style*='--wpcp-social-icon-bg']) {
+			background-color: transparent !important;
+		}
+
+		&:hover {
+			&:where([style*='--wpcp-social-icon-hover-bg']) {
+				background-color: transparent !important;
+			}
+		}
+	}
+
+	// Outlined / framed icons (no fill; border matches brand in original-css below).
+	&.icon-framed .wpcp-social-share-link,
+	&.icon-framed .wpcp-share-btn {
+		box-sizing: border-box;
+		border-width: 1px;
+		border-style: solid;
+		background-color: transparent !important;
+	}
+
+	&.icon-framed .wpcp-social-share-link svg,
+	&.icon-framed .wpcp-share-btn svg {
+		fill: currentColor;
+	}
+
+	&.original-css {
+
+		.wpcp-share-facebook-f,
+		.wpcp-share-facebook {
+			background-color: #0765ff;
+
+			svg {
+				fill: #fff;
+			}
+		}
+
+		.wpcp-share-x {
+			background-color: #000000;
+
+			svg {
+				fill: #fff;
+			}
+		}
+
+		.wpcp-share-linkedin-in {
+			background-color: #0b65c2;
+
+			svg {
+				fill: #fff;
+			}
+		}
+
+		.wpcp-share-pinterest {
+			background-color: #e60022;
+
+			svg {
+				fill: #fff;
+			}
+		}
+
+		.wpcp-share-mail {
+			background-color: #da4a3e;
+
+			svg {
+				fill: #fff;
+			}
+		}
+
+		.wpcp-share-instagram {
+			background:
+				radial-gradient(182.61% 44.3% at -16.75% 7.2%,
+					#3771c8 0,
+					#3771c8 12.8%,
+					rgba(102, 0, 255, 0) 100%),
+				radial-gradient(92.18% 99.11% at 26.56% 107.7%, #fd5 0, #fd5 10%, #ff543e 50%, #c837ab 100%);
+
+			svg {
+				fill: #fff;
+			}
+		}
+
+		.wpcp-share-vkontakte {
+			background-color: #0177ff;
+
+			svg {
+				fill: #fff;
+			}
+		}
+
+		.wpcp-share-digg {
+			background-color: #1b1a19;
+
+			svg {
+				fill: #fff;
+			}
+		}
+
+		.wpcp-share-tumblr {
+			background-color: #011935;
+
+			svg {
+				fill: #fff;
+			}
+		}
+
+		.wpcp-share-reddit {
+			background-color: #fd4500;
+
+			svg {
+				fill: #fff;
+			}
+		}
+
+		.wpcp-share-whatsapp {
+			background-color: #0bc144;
+
+			svg {
+				fill: #fff;
+			}
+		}
+
+		.wpcp-share-pocket {
+			background-color: #ef4155;
+
+			svg {
+				fill: #fff;
+			}
+		}
+
+		.wpcp-share-xing {
+			background-color: #0698a0;
+
+			svg {
+				fill: #fff;
+			}
+		}
+
+		.wpcp-share-clone {
+			background-color: #04a963;
+			border: none;
+			cursor: pointer;
+
+			svg {
+				fill: #fff;
+			}
+		}
+	}
+
+	// Normal view: icon only — strip chip background/border; keep brand-colored glyphs.
+	&.icon-only.original-css {
+
+		.wpcp-share-facebook-f,
+		.wpcp-share-facebook {
+			background: transparent !important;
+			border: none;
+			box-shadow: none;
+
+			svg {
+				fill: #0765ff;
+			}
+		}
+
+		.wpcp-share-x {
+			background: transparent !important;
+			border: none;
+			box-shadow: none;
+
+			svg {
+				fill: #000000;
+			}
+		}
+
+		.wpcp-share-linkedin-in,
+		.wpcp-share-linkedin {
+			background: transparent !important;
+			border: none;
+			box-shadow: none;
+
+			svg {
+				fill: #0b65c2;
+			}
+		}
+
+		.wpcp-share-pinterest {
+			background: transparent !important;
+			border: none;
+			box-shadow: none;
+
+			svg {
+				fill: #e60022;
+			}
+		}
+
+		.wpcp-share-mail {
+			background: transparent !important;
+			border: none;
+			box-shadow: none;
+
+			svg {
+				fill: #da4a3e;
+			}
+		}
+
+		.wpcp-share-instagram {
+			background: transparent !important;
+			background-image: none !important;
+			border: none;
+			box-shadow: none;
+
+			svg {
+				fill: #c837ab;
+			}
+		}
+
+		.wpcp-share-vkontakte {
+			background: transparent !important;
+			border: none;
+			box-shadow: none;
+
+			svg {
+				fill: #0177ff;
+			}
+		}
+
+		.wpcp-share-digg {
+			background: transparent !important;
+			border: none;
+			box-shadow: none;
+
+			svg {
+				fill: #1b1a19;
+			}
+		}
+
+		.wpcp-share-tumblr {
+			background: transparent !important;
+			border: none;
+			box-shadow: none;
+
+			svg {
+				fill: #011935;
+			}
+		}
+
+		.wpcp-share-reddit {
+			background: transparent !important;
+			border: none;
+			box-shadow: none;
+
+			svg {
+				fill: #fd4500;
+			}
+		}
+
+		.wpcp-share-whatsapp {
+			background: transparent !important;
+			border: none;
+			box-shadow: none;
+
+			svg {
+				fill: #0bc144;
+			}
+		}
+
+		.wpcp-share-pocket {
+			background: transparent !important;
+			border: none;
+			box-shadow: none;
+
+			svg {
+				fill: #ef4155;
+			}
+		}
+
+		.wpcp-share-xing {
+			background: transparent !important;
+			border: none;
+			box-shadow: none;
+
+			svg {
+				fill: #0698a0;
+			}
+		}
+
+		.wpcp-share-clone {
+			background: transparent !important;
+			border: none;
+			box-shadow: none;
+
+			svg {
+				fill: #04a963;
+			}
+		}
+	}
+
+	// Must override `.original-css svg { fill: #fff }` (chip style) so framed icons use brand color, not white on clear bg.
+	&.icon-framed.original-css {
+
+		.wpcp-share-facebook-f,
+		.wpcp-share-facebook {
+			border-color: #0765ff;
+			color: #0765ff;
+
+			svg {
+				fill: currentColor;
+			}
+		}
+
+		.wpcp-share-x {
+			border-color: #000000;
+			color: #000000;
+
+			svg {
+				fill: currentColor;
+			}
+		}
+
+		.wpcp-share-linkedin-in,
+		.wpcp-share-linkedin {
+			border-color: #0b65c2;
+			color: #0b65c2;
+
+			svg {
+				fill: currentColor;
+			}
+		}
+
+		.wpcp-share-pinterest {
+			border-color: #e60022;
+			color: #e60022;
+
+			svg {
+				fill: currentColor;
+			}
+		}
+
+		.wpcp-share-mail {
+			border-color: #da4a3e;
+			color: #da4a3e;
+
+			svg {
+				fill: currentColor;
+			}
+		}
+
+		.wpcp-share-instagram {
+			border-color: #c837ab;
+			color: #c837ab;
+
+			svg {
+				fill: currentColor;
+			}
+		}
+
+		.wpcp-share-vkontakte {
+			border-color: #0177ff;
+			color: #0177ff;
+
+			svg {
+				fill: currentColor;
+			}
+		}
+
+		.wpcp-share-digg {
+			border-color: #1b1a19;
+			color: #1b1a19;
+
+			svg {
+				fill: currentColor;
+			}
+		}
+
+		.wpcp-share-tumblr {
+			border-color: #011935;
+			color: #011935;
+
+			svg {
+				fill: currentColor;
+			}
+		}
+
+		.wpcp-share-reddit {
+			border-color: #fd4500;
+			color: #fd4500;
+
+			svg {
+				fill: currentColor;
+			}
+		}
+
+		.wpcp-share-whatsapp {
+			border-color: #0bc144;
+			color: #0bc144;
+
+			svg {
+				fill: currentColor;
+			}
+		}
+
+		.wpcp-share-pocket {
+			border-color: #ef4155;
+			color: #ef4155;
+
+			svg {
+				fill: currentColor;
+			}
+		}
+
+		.wpcp-share-xing {
+			border-color: #0698a0;
+			color: #0698a0;
+
+			svg {
+				fill: currentColor;
+			}
+		}
+
+		.wpcp-share-clone {
+			border-color: #04a963;
+			color: #04a963;
+
+			svg {
+				fill: currentColor;
+			}
+		}
+	}
+}
+
+/* CENTER STYLE – centered slides with side peek */
+/* Qualified with the root class: Swiper's own `.swiper-backface-hidden
+   .swiper-slide { transform: translateZ(0) }` matches at two classes, so a
+   two-class selector here ties and loses whenever swiper-bundle.css prints last.
+   Swiper drops that class above `maxBackfaceHiddenSlides` (10), which is why the
+   scale only disappeared on carousels with 10 or fewer slides. The qualifier
+   goes on the root, not the slide: a grouped slide is `.swiper-slide
+   .wpcp-slide-group` and carries no `.wpcp-item`. */
+.wpcp-carousel-render.wpcp-style-center {
+	.swiper-slide {
+		opacity: 0.5;
+		transform: scale(0.85);
+		transition:
+			opacity 0.3s,
+			transform 0.3s;
+	}
+
+	.swiper-slide-active {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+

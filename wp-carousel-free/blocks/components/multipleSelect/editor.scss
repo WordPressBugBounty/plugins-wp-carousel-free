@@ -1,0 +1,69 @@
+// multiple select's css
+.wpcp-tab-panel {
+  .wpcp-multi-select {
+    &.d-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .css-t3ipsp-control{
+      box-shadow: none;
+      border-color: #ccc;
+    }
+    div[role="option"] {
+      background-color: transparent;
+    }
+    div[role="option"]:hover {
+      background-color: #f0f0f0;
+    }
+    .css-1dyz3mf {
+      padding: 0px 2px;
+    }
+    .css-1p3m7a8-multiValue {
+      padding: 1px;
+      font-size: 13px;
+      border: 1px solid #ccc;
+      background-color: #f1f1f1;
+    }
+    .css-9jq23d {
+      font-size: 13px;
+    }
+    // customize scrollbar
+    /* width */
+    // &::-webkit-scrollbar {
+    //   width: 4px;
+    // }
+
+    // /* Track */
+    // &::-webkit-scrollbar-track {
+    //   background: #f1f1f1;
+    // }
+
+    // /* Handle */
+    // &::-webkit-scrollbar-thumb {
+    //   background: #F05D31;
+    // }
+
+    .wpcp-basic-multi-select div {
+      div {
+        div {
+          input {
+            &:focus {
+              box-shadow: none;
+              border-color: var(--wpcp-carousel-primary-2-400);
+            }
+          }
+          div:last-child{
+            margin: 1px;
+          }
+          div:last-child:hover {
+            background-color: var(--wpcp-carousel-primary-2-400);
+            svg {
+              fill: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+}

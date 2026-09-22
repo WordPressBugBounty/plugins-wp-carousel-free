@@ -1,0 +1,51 @@
+.wpcp-css-code-editor {
+	.wpcp-css-code-editor__textarea,
+	.CodeMirror {
+		border: 1px solid #d1d5db; // gray-300
+		border-radius: 2px;
+		font-family: Consolas, Monaco, monospace;
+		font-size: 13px;
+		line-height: 1.5;
+	}
+
+	.CodeMirror {
+		height: auto;
+	}
+
+	.CodeMirror-scroll {
+		min-height: 120px;
+	}
+}
+
+.wpcp-advanced-custom-css {
+	margin-top: 16px;
+
+	.wpcp-advanced-custom-css__modal-button {
+		margin-top: 8px;
+	}
+}
+
+// Brand-color secondary chrome for "Edit in Modal" / "Close".
+.wpcp-advanced-custom-css__modal-button.components-button.is-secondary,
+.wpcp-custom-css-modal .components-button.is-secondary {
+	color: var(--wpcp-carousel-primary-2-800);
+	box-shadow: none;
+	border: 1px solid var(--wpcp-carousel-primary-2-800);
+
+	&:hover:not(:disabled),
+	&:focus:not(:disabled) {
+		color: var(--wpcp-carousel-primary-2-900);
+		background: var(--wpcp-carousel-primary-2-50);
+		box-shadow: none;
+	}
+}
+
+.wpcp-custom-css-modal {
+	.components-modal__content {
+		min-width: min(720px, 90vw);
+	}
+
+	.wpcp-css-code-editor {
+		margin-bottom: 16px;
+	}
+}

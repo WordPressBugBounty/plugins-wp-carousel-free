@@ -1,0 +1,79 @@
+/* ════════════════════════════════════════════════════════════════════════════
+ * Post Meta default Style
+ * ════════════════════════════════════════════════════════════════════════════ */
+.wpcp-content-slot--meta {
+	.wpcp-item-meta {
+		// `--wpcp-meta-color` overrides this default (the legacy `#uid` rule used to);
+		// scoped here at the same specificity that masked the #1e1e1e default.
+		color: var(--wpcp-meta-color, #1e1e1e);
+		font-size: 14px;
+		font-weight: 400;
+		line-height: 1;
+
+		.wpcp-meta-separator {
+			color: var(--wpcp-meta-separator-color, #1e1e1e);
+		}
+
+		.wpcp-item-meta__link {
+			color: inherit;
+			text-decoration: none;
+			transition: color 0.3s ease;
+
+			&:hover {
+				color: var(--wpcp-meta-hover-color, var(--wpcp-meta-color, #1e1e1e));
+			}
+		}
+
+		.wpcp-item-meta__part:not(:has(.wpcp-item-meta__link)) {
+			transition: color 0.3s ease;
+
+			&:hover {
+				color: var(--wpcp-meta-hover-color, var(--wpcp-meta-color, #1e1e1e));
+			}
+		}
+	}
+}
+
+.wpcp-content-overlay {
+	.wpcp-content-slot--meta {
+		.wpcp-item-meta {
+			color: var(--wpcp-meta-color, #fff);
+
+			.wpcp-meta-separator {
+				color: var(--wpcp-meta-separator-color, #fff);
+			}
+
+			.wpcp-item-meta__link:hover,
+			.wpcp-item-meta__part:not(:has(.wpcp-item-meta__link)):hover {
+				color: var(--wpcp-meta-hover-color, var(--wpcp-meta-color, #fff));
+			}
+		}
+	}
+}
+
+// Diagonal cards use a dark surface: meta defaults to white unless the user
+// has chosen a custom meta color token.
+.wpcp-orientation-diagonal {
+	.wpcp-content-slot--meta {
+		.wpcp-item-meta {
+			color: var(--wpcp-meta-color, #fff);
+
+			.wpcp-meta-separator {
+				color: var(--wpcp-meta-separator-color, #fff);
+			}
+
+			.wpcp-item-meta__link:hover,
+			.wpcp-item-meta__part:not(:has(.wpcp-item-meta__link)):hover {
+				color: var(--wpcp-meta-hover-color, var(--wpcp-meta-color, #fff));
+			}
+		}
+	}
+}
+
+// Filled-star hover color (only the color may carry a hover state). Falls back to the
+// normal filled-star color (token or #ffd700), so a hover-unset block matches the
+// normal color exactly.
+.wpcp-item .wpcp-item-rating .wpcp-rating-icon-wrap:hover .wpcp-rating-fill {
+	color: var(--wpcp-content-rating-fill-hover, var(--wpcp-content-rating-fill, #ffd700));
+}
+

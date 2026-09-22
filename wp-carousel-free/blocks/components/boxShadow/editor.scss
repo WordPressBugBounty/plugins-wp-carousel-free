@@ -1,0 +1,134 @@
+.wpcp-spacing.sp-box-shadow {
+    .wpcp-spacing-right {
+        .wpcp-spacing-highlight {
+            left: 61px;
+        }
+    }
+}
+.wpcp-spacing.sp-box-shadow {
+    .wpcp-spacing-right {
+        .wpcp-spacing-highlight {
+            left: 61px;
+        }
+    }
+}
+
+
+/* Creating raw CSS styles to replace Tailwind classes */
+.shadow-selector-container {
+  width: 100%;
+  max-width: 32rem;
+  margin: 20px 0px;
+}
+
+.shadow-selector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.shadow-selector-title {
+  font-size: 13px;
+  font-weight: 400;
+  color: #374151;
+  margin: 0;
+}
+
+.shadow-selector-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.shadow-selector-header {
+  .action-button {
+    width: auto;
+    height: auto;
+    color: var(--wpcp-carousel-primary-2-800, #19949e);
+    &:hover {
+      color: var(--wpcp-carousel-primary-2-800, #19949e);
+    }
+  }
+}
+
+.action-refresh {
+  border: none;
+}
+
+.action-button:hover {
+  background-color: #f9fafb;
+  color: #374151;
+}
+
+.shadow-options-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.75rem;
+}
+
+.shadow-option {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.shadow-option:hover {
+  transform: scale(1.05);
+}
+
+.checkmark {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 12px;
+  height: 12px;
+  background-color: #3b82f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+/* WordPress Tooltip adjustments */
+.components-tooltip {
+  z-index: 1000000 !important; /* Ensure tooltip appears above other elements */
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .shadow-options-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .shadow-option {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+.shadow-selector-container {
+    input[type="number"]::-webkit-inner-spin-button{
+        min-height: 33px;
+        margin-right: 0px !important;
+        cursor: pointer;
+    }
+}

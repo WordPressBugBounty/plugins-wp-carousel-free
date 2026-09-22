@@ -1,0 +1,109 @@
+/* ════════════════════════════════════════════════════════════════════════════
+ * TILES AJAX PAGINATION — baseline
+ * User-customized values are emitted as inline `<style>` by
+ * `AjaxPaginationStyle.php` and override these defaults.
+ * ════════════════════════════════════════════════════════════════════════════ */
+.wpcp-ajax-pagination {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: 15px 0;
+	margin: 48px 0 0 0;
+
+	&.is-empty {
+		display: none;
+	}
+
+	&.is-loading {
+		pointer-events: none;
+		opacity: 0.6;
+	}
+}
+
+.wpcp-ajax-pagination__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	padding: 15px 18px;
+	border: 1px solid #dddddd;
+	background: #ffffff;
+	color: #2c2d2f;
+	border-radius: 3px;
+	cursor: pointer;
+	font: inherit;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 1;
+	transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+
+	&:hover:not(:disabled) {
+		background-color: #19949e;
+		color: #ffffff;
+		border-color: #19949e;
+	}
+
+	&:focus {
+		outline: none;
+		box-shadow: none;
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+
+.wpcp-ajax-pagination__btn.is-active {
+	background-color: #19949e;
+	color: #ffffff;
+	border-color: #19949e;
+}
+
+.wpcp-ajax-pagination__btn.is-ellipsis {
+	border: none;
+	background: transparent;
+	cursor: default;
+	padding: 0 4px;
+	min-width: 0;
+}
+
+.wpcp-ajax-pagination__spinner {
+	/* Out of flow so toggling `.is-loading` never re-centres the button row —
+	 * in flow it added 34px (16px box + 8px margin + the wrapper's 10px gap)
+	 * to a centred flex line, shifting every button 17px left for as long as
+	 * the request ran. `ensureSpinner` appends the node once and reuses it,
+	 * and `replacePaginationControls` preserves it across a page swap. */
+	display: none;
+	position: absolute;
+	top: 50%;
+	right: 0;
+	transform: translateY(-50%);
+	width: 16px;
+	height: 16px;
+}
+
+.wpcp-ajax-pagination.is-loading .wpcp-ajax-pagination__spinner {
+	display: inline-block;
+}
+
+// Image Overlay style.
+.wpcp-image-overlay.wpcp-item-media {
+	position: relative;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background-color: rgba(0, 0, 0, 0.3);
+		pointer-events: none;
+		z-index: 1;
+	}
+}
+

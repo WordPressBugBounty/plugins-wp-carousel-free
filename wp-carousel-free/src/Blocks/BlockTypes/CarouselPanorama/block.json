@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wp-carousel-pro/carousel-panorama",
+	"title": "Panorama Carousel",
+	"description": "Showcase ultra-wide images and videos in a smooth panoramic carousel. Available in WP Carousel Pro.",
+	"category": "wp-carousel-pro",
+	"keywords": ["panorama", "carousel", "wide"],
+	"textdomain": "wp-carousel-free",
+	"example": {
+		"viewportWidth": 320
+	},
+	"supports": {
+		"align": ["wide", "full"],
+		"html": false,
+		"customClassName": false,
+		"customCSS": false
+	}
+}

@@ -1,0 +1,1276 @@
+/* Editor preview shell styles */
+
+// The ticker and panorama engines for the Marquee and Panorama editor
+// previews. Editor-only — never load this from `style.scss`.
+@use 'pro-preview';
+
+.wpcp-block-editor-wrap {
+	position: relative;
+	min-height: 80px;
+
+	.wpcp-block-carousel-scope {
+		width: 100%;
+	}
+
+	/* Mirror of the frontend `.wpcp-block-inner` positioning context so the
+	 * General-tab padding + chrome placement match the published output. */
+	.wpcp-block-inner {
+		position: relative;
+	}
+
+	/* InnerBlocks must stay mounted for the pagination child block; hide the chrome in the canvas. */
+	.wpcp-carousel-inner-blocks-hint {
+		display: none;
+	}
+
+	.wpcp-carousel-inner-blocks-area {
+		display: none;
+	}
+
+	.wpcp-pagination-block-editor {
+		margin: 0;
+
+		&__title {
+			margin: 0 0 4px;
+			font-size: 12px;
+			font-weight: 600;
+		}
+	}
+}
+
+.wpcp-pagination-style-popover {
+	.wpcp-pagination-style-option {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: space-between;
+		padding: 8px 10px;
+		border: none;
+		background: transparent;
+		cursor: pointer;
+		border-radius: 4px;
+		text-align: left;
+		font-size: 13px;
+		color: #1e1e1e;
+
+		&:hover {
+			background: #f0f0f0;
+		}
+
+		&.is-active {
+			background: #e8f6f7;
+			color: #19949e;
+		}
+	}
+}
+
+/* Loading / empty states.
+ * Reserve a carousel-like height so swapping the post/product loading
+ * placeholder for the resolved <CarouselRender> doesn't jump the canvas
+ * (these placeholders occupy the same slot the carousel will fill). */
+.wpcp-editor-loading,
+.wpcp-editor-empty,
+.wpcp-editor-error {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	box-sizing: border-box;
+	min-height: 300px;
+	padding: 32px 20px;
+	background: #f9f9f9;
+	border: 2px dashed #ccc;
+	border-radius: 6px;
+	font-size: 13px;
+	color: #666;
+	text-align: center;
+
+	p {
+		margin: 0;
+	}
+}
+
+.wpcp-editor-error {
+	border-color: #d63638;
+	color: #d63638;
+}
+
+.wpcp-item-inner--audio .wpcp-audio-card__media>.wpcp-item-placeholder,
+.wpcp-item-inner--audio .wpcp-audio-card__thumb>.wpcp-item-placeholder {
+	height: 100%;
+	min-height: unset;
+}
+
+/*
+ * Responsive image dimensions (Image panel + CarouselRender CSS variables).
+ * Breakpoints match Swiper in CarouselRender.jsx (600 / 1024).
+ */
+// .wpcp-item-media--custom-rsp {
+// 	width: var(--wpcp-cmw-d);
+// 	height: var(--wpcp-cmh-d);
+// 	aspect-ratio: var(--wpcp-cmar-d);
+// 	min-height: var(--wpcp-cmmin-d);
+// }
+
+// @media (max-width: 1023px) {
+// 	.wpcp-item-media--custom-rsp {
+// 		width: var(--wpcp-cmw-t);
+// 		height: var(--wpcp-cmh-t);
+// 		aspect-ratio: var(--wpcp-cmar-t);
+// 		min-height: var(--wpcp-cmmin-t);
+// 	}
+// }
+
+// @media (max-width: 599px) {
+// 	.wpcp-item-media--custom-rsp {
+// 		width: var(--wpcp-cmw-m);
+// 		height: var(--wpcp-cmh-m);
+// 		aspect-ratio: var(--wpcp-cmar-m);
+// 		min-height: var(--wpcp-cmmin-m);
+// 	}
+// }
+
+// .wpcp-item-media--maxw-rsp {
+// 	max-width: var(--wpcp-mwmx-d);
+// }
+
+// @media (max-width: 1023px) {
+// 	.wpcp-item-media--maxw-rsp {
+// 		max-width: var(--wpcp-mwmx-t);
+// 	}
+// }
+
+// @media (max-width: 599px) {
+// 	.wpcp-item-media--maxw-rsp {
+// 		max-width: var(--wpcp-mwmx-m);
+// 	}
+// }
+
+/* Carousel render wrapper */
+// .wpcp-carousel-render {
+// 	position: relative;
+// 	width: 100%;
+// 	overflow: hidden;
+
+// 	/* Nav arrows */
+// 	.wpcp-nav-arrows {
+// 		position: absolute;
+// 		inset: 0;
+// 		pointer-events: none;
+// 		display: flex;
+// 		align-items: center;
+// 		justify-content: space-between;
+// 		z-index: 10;
+// 	}
+
+// 	.wpcp-nav {
+// 		pointer-events: all;
+// 		cursor: pointer;
+// 		width: 36px;
+// 		height: 36px;
+// 		display: flex;
+// 		align-items: center;
+// 		justify-content: center;
+// 		background: rgba(255, 255, 255, 0.9);
+// 		border-radius: 50%;
+// 		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+// 		transition: background 0.15s;
+
+// 		&:hover {
+// 			background: #fff;
+// 		}
+// 	}
+
+// 	.wpcp-pagination {
+// 		margin-top: 12px;
+// 		text-align: center;
+// 	}
+// }
+
+/* Item card */
+.wpcp-item-inner {
+	overflow: hidden;
+	// border-radius: 4px;
+
+	.wpcp-item-edit-btn {
+		position: absolute;
+		top: 8px;
+		left: 8px;
+		width: 28px;
+		height: 28px;
+		border-radius: 4px;
+		border: none;
+		background: rgba(255, 255, 255, 0.95);
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+		opacity: 0;
+		transition: opacity 0.2s, background 0.15s;
+		z-index: 5;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+
+		svg {
+			stroke: #333;
+		}
+
+		&:hover {
+			background: #fff;
+
+			svg {
+				stroke: #19949e;
+			}
+		}
+	}
+
+	.wpcp-item-media {
+		position: relative;
+		overflow: hidden;
+		// background: #f0f0f0;
+
+		// img.wpcp-item-img {
+		// 	display: block;
+		// 	width: 100%;
+		// 	height: auto;
+		// 	object-fit: cover;
+		// 	transition: transform 0.3s ease;
+		// }
+
+		// /* Custom width/height: absolute img must fill the box; default img rules collapse the crop area */
+		// &.wpcp-item-media--custom img.wpcp-item-img {
+		// 	position: absolute;
+		// 	inset: 0;
+		// 	width: 100% !important;
+		// 	height: 100% !important;
+		// 	object-fit: cover;
+		// }
+
+	}
+
+	.wpcp-item-media--custom>a,
+	.wpcp-item-media--aspect-rsp>a,
+	.wpcp-item-media[style*='aspect-ratio']>a {
+		display: block;
+		position: absolute;
+		inset: 0;
+	}
+
+	.wpcp-item-media--custom>img.wpcp-item-img,
+	.wpcp-item-media--aspect-rsp>img.wpcp-item-img,
+	.wpcp-item-media[style*='aspect-ratio']>img.wpcp-item-img,
+	.wpcp-item-media--custom>a>img.wpcp-item-img,
+	.wpcp-item-media--aspect-rsp>a>img.wpcp-item-img,
+	.wpcp-item-media[style*='aspect-ratio']>a>img.wpcp-item-img {
+		position: absolute;
+		inset: 0;
+		width: 100% !important;
+		height: 100% !important;
+		object-fit: cover;
+	}
+
+	.wpcp-item-media--custom .wpcp-item-placeholder,
+	.wpcp-item-media--aspect-rsp .wpcp-item-placeholder,
+	.wpcp-item-media[style*='aspect-ratio'] .wpcp-item-placeholder {
+		position: absolute;
+		inset: 0;
+		min-height: unset;
+		height: 100%;
+	}
+
+	&:hover .wpcp-item-edit-btn {
+		opacity: 1;
+	}
+
+
+}
+
+.wpcp-style-slider {
+	.wpcp-editor-notice--hint {
+		z-index: 1;
+		pointer-events: none;
+	}
+
+	.wpcp-item-edit-btn {
+		z-index: 2;
+	}
+}
+
+.wpcp-item>.wpcp-item-inner--audio.wpcp-item-inner--audio-no-thumb-bg:not(.wpcp-item-inner--audio-style1) .wpcp-audio-card {
+	background-color: #19949E;
+}
+
+.wpcp-style-spring.spring-slider.wpcp-style-spring--audio {
+	.wpcp-swiper>.swiper-wrapper>.swiper-slide {
+		padding-right: 0;
+		padding-left: 0;
+	}
+}
+
+/* Editor preview: regular overlay cards should size the content panel to its
+ * content height, matching frontend behavior.
+ */
+.wpcp-carousel-render .wpcp-item-inner.wpcp-orientation-overlay {
+	.wpcp-item-content.wpcp-content-overlay {
+		top: auto;
+		right: auto;
+		bottom: 0;
+		left: 0;
+		width: max-content;
+		height: auto;
+		max-width: 100%;
+		max-height: 100%;
+		justify-content: flex-start;
+	}
+}
+
+// Match the frontend dark-surface defaults so editor preview diagonal meta
+// text stays white unless a custom meta color token is set.
+.wpcp-carousel-render .wpcp-item-inner.wpcp-orientation-diagonal {
+	.wpcp-content-slot--meta {
+		.wpcp-item-meta {
+			color: var(--wpcp-meta-color, #fff);
+
+			.wpcp-item-meta__link:hover,
+			.wpcp-item-meta__part:not(:has(.wpcp-item-meta__link)):hover {
+				color: var(--wpcp-meta-hover-color, var(--wpcp-meta-color, #fff));
+			}
+		}
+	}
+}
+
+.wpcp-item.wpcp-item--audio-embed,
+.wpcp-item:has(> .wpcp-item-inner--audio-embed) {
+	padding: 0 !important;
+	border: 0 !important;
+	background: transparent !important;
+	box-shadow: none !important;
+}
+
+.wpcp-item-inner--audio-embed {
+	overflow: visible;
+
+	.wpcp-audio-card__media--embed {
+		width: 100%;
+		min-height: 0;
+		overflow: visible;
+		background: transparent;
+		box-shadow: none;
+	}
+
+	// The embed sizes to the player's own height, not the image aspect ratio —
+	// mirrors the frontend rule so editor and front-of-site match.
+	.wpcp-audio-card__player-embed {
+		display: block;
+		width: 100%;
+		min-width: 0;
+		max-width: 100%;
+		height: 100%;
+		min-height: 152px;
+		border: 0;
+		border-radius: 12px;
+		background: #fff;
+	}
+}
+
+.wpcp-item-inner--audio {
+	overflow: hidden;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	width: 100%;
+	min-width: 0;
+
+	&.wpcp-item-inner--audio-thumb-bg-radius {
+		.wpcp-audio-card {
+			border-radius: inherit;
+		}
+	}
+
+	.wpcp-audio-card {
+		position: relative;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		min-width: 0;
+		max-width: 100%;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		background-color: transparent;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		box-shadow: none;
+		isolation: isolate;
+	}
+
+	.wpcp-audio-card__overlay {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		pointer-events: none;
+		backdrop-filter: blur(6px);
+	}
+
+	.wpcp-audio-card--style1 {
+		gap: 18px;
+		box-shadow: none;
+	}
+
+	.wpcp-audio-card__media {
+		position: relative;
+		overflow: hidden;
+		background: #d5deea;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+
+	.wpcp-audio-card__media-image {
+		display: block;
+		width: 100%;
+		height: 332px;
+		object-fit: cover;
+	}
+
+	.wpcp-audio-card__media--empty {
+		background:
+			linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(0, 0, 0, 0.28)),
+			linear-gradient(135deg, #d8e4ef 0%, #8fa7c1 100%);
+	}
+
+	.wpcp-audio-card--style1 .wpcp-audio-card__overlay {
+		backdrop-filter: none;
+	}
+
+	.wpcp-audio-card__player--style1 {
+		position: absolute;
+		right: 22px;
+		bottom: 23px;
+		left: 22px;
+		z-index: 2;
+		margin: 0;
+		overflow: hidden;
+		border-radius: 999px;
+	}
+
+	.wpcp-audio-card__content--style1 {
+		gap: 4px;
+		color: #2f2f2f;
+	}
+
+	.wpcp-audio-card__content--style1 .wpcp-item-title {
+		color: var(--wpcp-audio-title-color, #000000);
+		font-size: 22px;
+		font-weight: 500;
+		line-height: 1.4;
+	}
+
+	.wpcp-audio-card__content--style1 .wpcp-item-desc {
+		color: var(--wpcp-audio-desc-color, #757575);
+		font-size: 16px;
+		line-height: 1.6;
+	}
+
+	.wpcp-audio-card--style2 .wpcp-audio-card__body {
+		flex-direction: row;
+		align-items: stretch;
+		gap: 18px;
+	}
+
+	.wpcp-audio-card--style2 .wpcp-audio-card__thumb {
+		flex: 0 0 128px;
+		width: 128px;
+		border-radius: 0;
+	}
+
+	.wpcp-audio-card--style2 .wpcp-audio-card__stack {
+		flex: 1 1 auto;
+		min-width: 0;
+		gap: 16px;
+		justify-content: center;
+	}
+
+
+	.wpcp-audio-card--style3 .wpcp-audio-card__body {
+		padding: 0;
+	}
+
+	.wpcp-audio-card--style3 .wpcp-audio-card__thumb {
+		width: 68px;
+		border-radius: 2px;
+		box-shadow: none;
+	}
+
+	.wpcp-audio-card--style3 .wpcp-audio-card__stack {
+		gap: 4px;
+		align-items: flex-start;
+		text-align: left;
+	}
+
+	.wpcp-audio-card--style3 .wpcp-audio-card__content {
+		align-items: flex-start;
+	}
+
+	.wpcp-audio-card__style3-inner {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 28px;
+		justify-content: center;
+		width: 100%;
+		min-width: 0;
+	}
+
+	.wpcp-audio-card__style3-content {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 18px;
+		width: 100%;
+		min-width: 0;
+	}
+
+	.wpcp-audio-card__thumb--style3 {
+		flex: 0 0 auto;
+		width: 100%;
+		max-width: 68px;
+		height: auto;
+		aspect-ratio: 1;
+		background: rgba(255, 255, 255, 0.16);
+	}
+
+	.wpcp-audio-card__content--style3 {
+		flex: 1 1 0;
+		min-width: 0;
+		width: 100%;
+		gap: 4px;
+		color: #fff;
+	}
+
+	.wpcp-audio-card__content--style3 .wpcp-content-slot {
+		width: 100%;
+	}
+
+	.wpcp-audio-card__content--style3 .wpcp-item-title,
+	.wpcp-audio-card__content--style3 .wpcp-item-desc {
+		overflow-wrap: anywhere;
+	}
+
+	.wpcp-audio-card__content--style3 .wpcp-item-title {
+		color: var(--wpcp-audio-title-color, #fff);
+		font-size: 18px;
+		font-weight: 500;
+		line-height: 1.4;
+	}
+
+	.wpcp-audio-card__content--style3 .wpcp-item-desc {
+		color: var(--wpcp-audio-desc-color, #fff);
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 1.6;
+		opacity: 1;
+	}
+
+	.wpcp-audio-card__player--style3 {
+		position: relative;
+		z-index: 1;
+		width: 100%;
+		margin-top: 0;
+	}
+
+	.wpcp-audio-card--style4 {
+		display: block;
+	}
+
+	.wpcp-audio-card--style4 .wpcp-audio-card__body {
+		min-height: 332px;
+		justify-content: flex-end;
+		padding: 28px 24px 22px;
+	}
+
+	.wpcp-audio-card--style4 .wpcp-audio-card__thumb--style4 {
+		flex: 0 0 auto;
+		width: 100%;
+		max-width: 148px;
+		height: auto;
+		aspect-ratio: 1;
+		border-radius: 6px;
+		background: rgba(255, 255, 255, 0.16);
+		z-index: 10;
+		box-shadow: none;
+	}
+
+	.wpcp-audio-card__style4-inner {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 18px;
+		width: 100%;
+		min-width: 0;
+	}
+
+	.wpcp-audio-card__style4-content {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		gap: 20px;
+		min-width: 0;
+		width: 100%;
+	}
+
+	.wpcp-audio-card--style4 .wpcp-audio-card__stack {
+		gap: 18px;
+	}
+
+	.wpcp-audio-card--style4 .wpcp-audio-card__content {
+		max-width: 92%;
+	}
+
+	.wpcp-audio-card--style4 .wpcp-audio-card__content--style4 {
+		gap: 4px;
+		max-width: none;
+	}
+
+	.wpcp-audio-card--style4 .wpcp-audio-card__content--style4 .wpcp-content-slot {
+		width: 100%;
+	}
+
+	.wpcp-audio-card--style4 .wpcp-audio-card__content--style4 .wpcp-item-title,
+	.wpcp-audio-card--style4 .wpcp-audio-card__content--style4 .wpcp-item-desc {
+		overflow-wrap: anywhere;
+	}
+
+	.wpcp-audio-card--style4 .wpcp-audio-card__content--style4 .wpcp-item-title {
+		color: var(--wpcp-audio-title-color, #2F2F2F);
+		font-size: 18px;
+		font-weight: 500;
+		line-height: 1.4;
+	}
+
+	.wpcp-audio-card--style4 .wpcp-audio-card__content--style4 .wpcp-item-desc {
+		color: var(--wpcp-audio-desc-color, #757575);
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 1.6;
+		opacity: 1;
+	}
+
+	.wpcp-audio-card__player--style4 {
+		position: relative;
+		z-index: 1;
+		width: 100%;
+		margin-top: 0;
+	}
+
+	.wpcp-audio-card__hero {
+		position: relative;
+		min-height: 332px;
+		overflow: hidden;
+	}
+
+	.wpcp-audio-card__hero-image,
+	.wpcp-audio-card__body {
+		position: relative;
+	}
+
+	.wpcp-audio-card__hero-image {
+		width: 100%;
+		height: 100%;
+	}
+
+	.wpcp-audio-card__body {
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		min-width: 0;
+		backdrop-filter: blur(1.5px);
+	}
+
+	.wpcp-audio-card__meta,
+	.wpcp-audio-card__stack {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		min-width: 0;
+	}
+
+	.wpcp-audio-card__meta {
+		padding: 18px 0 0;
+	}
+
+	.wpcp-audio-card__thumb {
+		width: min(130px, 100%);
+		aspect-ratio: 1;
+		border-radius: 4px;
+		overflow: hidden;
+		background: rgba(255, 255, 255, 0.12);
+		box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18);
+	}
+
+	.wpcp-audio-card__hero-image,
+	.wpcp-audio-card__thumb-image {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.wpcp-audio-card__hero-image--placeholder,
+	.wpcp-audio-card__thumb--placeholder {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background:
+			linear-gradient(140deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04)),
+			linear-gradient(180deg, rgba(32, 57, 78, 0.95), rgba(18, 32, 46, 0.95));
+	}
+
+	.wpcp-audio-card__thumb-label {
+		padding: 8px 12px;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.1);
+		color: rgba(255, 255, 255, 0.88);
+		font-size: 12px;
+		font-weight: 600;
+		letter-spacing: 0.02em;
+		text-transform: uppercase;
+	}
+
+	.wpcp-audio-card__content {
+		display: flex;
+		flex-direction: column;
+		// gap: 10px;
+		width: 100%;
+		min-width: 0;
+		color: #fff;
+	}
+
+	.wpcp-audio-card__content.wpcp-content-align--left {
+		align-items: flex-start;
+		text-align: left;
+	}
+
+	.wpcp-audio-card__content.wpcp-content-align--center {
+		align-items: center;
+		text-align: center;
+	}
+
+	.wpcp-audio-card__content.wpcp-content-align--right {
+		align-items: flex-end;
+		text-align: right;
+	}
+
+	.wpcp-audio-card__content .wpcp-content-slot--title,
+	.wpcp-audio-card__content .wpcp-content-slot--description,
+	.wpcp-audio-card__content .wpcp-content-slot--excerpt,
+	.wpcp-audio-card__content .wpcp-content-slot--social,
+	.wpcp-audio-card__content .wpcp-content-slot--readmore {
+		width: 100%;
+	}
+
+	.wpcp-audio-card__content .wpcp-content-slot--social,
+	.wpcp-audio-card__content .wpcp-content-slot--readmore {
+		display: flex;
+	}
+
+	.wpcp-audio-card__content .wpcp-read-more {
+		display: inline-flex;
+		align-items: center;
+		color: #2f2f2f;
+		font-size: 16px;
+		font-weight: 500;
+		line-height: 1.4;
+		text-decoration: none;
+		transition: all 0.3s ease;
+		cursor: pointer;
+	}
+
+	.wpcp-audio-card__content .wpcp-read-more.wpcp-btn-type-button {
+		background-color: transparent;
+		border: 1px solid #2f2f2f;
+		border-radius: 2px;
+		padding: 12px 18px;
+	}
+
+	.wpcp-audio-card__content .wpcp-read-more.wpcp-btn-type-button:hover {
+		background-color: #2f2f2f;
+		color: #fff;
+	}
+
+	.wpcp-audio-card__content.wpcp-content-align--left .wpcp-content-slot--social,
+	.wpcp-audio-card__content.wpcp-content-align--left .wpcp-content-slot--readmore {
+		justify-content: flex-start;
+	}
+
+	.wpcp-audio-card__content.wpcp-content-align--center .wpcp-content-slot--social,
+	.wpcp-audio-card__content.wpcp-content-align--center .wpcp-content-slot--readmore {
+		justify-content: center;
+	}
+
+	.wpcp-audio-card__content.wpcp-content-align--right .wpcp-content-slot--social,
+	.wpcp-audio-card__content.wpcp-content-align--right .wpcp-content-slot--readmore {
+		justify-content: flex-end;
+	}
+
+	.wpcp-item-inner--audio-style2 .wpcp-audio-card__content .wpcp-item-title,
+	.wpcp-item-inner--audio-style2 .wpcp-audio-card__content .wpcp-item-desc,
+	.wpcp-item-inner--audio-style2 .wpcp-audio-card__content .wpcp-read-more,
+	.wpcp-item-inner--audio-style3 .wpcp-audio-card__content .wpcp-item-title,
+	.wpcp-item-inner--audio-style3 .wpcp-audio-card__content .wpcp-item-desc,
+	.wpcp-item-inner--audio-style3 .wpcp-audio-card__content .wpcp-read-more,
+	.wpcp-item-inner--audio-style4 .wpcp-audio-card__content .wpcp-item-title,
+	.wpcp-item-inner--audio-style4 .wpcp-audio-card__content .wpcp-item-desc,
+	.wpcp-item-inner--audio-style4 .wpcp-audio-card__content .wpcp-read-more {
+		color: #fff;
+	}
+
+	.wpcp-item-inner--audio-style2 .wpcp-audio-card__content .wpcp-read-more.wpcp-btn-type-button,
+	.wpcp-item-inner--audio-style3 .wpcp-audio-card__content .wpcp-read-more.wpcp-btn-type-button,
+	.wpcp-item-inner--audio-style4 .wpcp-audio-card__content .wpcp-read-more.wpcp-btn-type-button {
+		border-color: #fff;
+	}
+
+	.wpcp-audio-card__content .wpcp-item-title {
+		color: var(--wpcp-audio-title-color, #2F2F2F);
+		margin: 0;
+		font-size: 18px;
+		line-height: 1.4;
+	}
+
+	.wpcp-audio-card__content .wpcp-item-desc {
+		color: var(--wpcp-audio-desc-color, #757575);
+		margin: 0;
+		font-size: 16px;
+		line-height: 1.6;
+		opacity: 0.94;
+	}
+
+	&:hover .wpcp-audio-card__content--has-title-hover .wpcp-item-title {
+		color: var(--wpcp-audio-title-hover-color);
+	}
+
+	.wpcp-audio-card__hero-player {
+		position: absolute;
+		right: 22px;
+		bottom: 20px;
+		left: 22px;
+		z-index: 2;
+	}
+
+	.wpcp-audio-card__player {
+		margin-top: 10px;
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	.wpcp-audio-card__player--embed {
+		overflow: hidden;
+		border-radius: 12px;
+	}
+
+	.wpcp-audio-card__player--style1 .wpcp-audio-card__player-element,
+	.wpcp-audio-card__player--style1 .wpcp-audio-card__fallback {
+		min-height: 28px;
+	}
+
+	.wpcp-audio-player-preview {
+		display: flex;
+		flex-direction: column;
+		gap: 13px;
+		width: 100%;
+	}
+
+	.wpcp-audio-player-preview__progress {
+		position: relative;
+		height: 9px;
+	}
+
+	.wpcp-audio-player-preview__track,
+	.wpcp-audio-player-preview__value {
+		position: absolute;
+		top: 50%;
+		left: 0;
+		height: 3px;
+		border-radius: 99px;
+		transform: translateY(-50%);
+	}
+
+	.wpcp-audio-player-preview__track {
+		right: 0;
+		background: rgba(255, 255, 255, 0.32);
+	}
+
+	.wpcp-audio-player-preview__value {
+		width: 87px;
+		background: #fff;
+	}
+
+	.wpcp-audio-player-preview__thumb {
+		position: absolute;
+		top: 0;
+		left: 82px;
+		width: 9px;
+		height: 9px;
+		border-radius: 50%;
+		background: #fff;
+		box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.12);
+	}
+
+	.wpcp-audio-player-preview__controls,
+	.wpcp-audio-player-preview__group {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.wpcp-audio-player-preview__controls {
+		gap: 16px;
+	}
+
+	.wpcp-audio-player-preview__group {
+		gap: 6px;
+	}
+
+	.wpcp-audio-player-preview__button,
+	.wpcp-audio-player-preview__time {
+		height: 28px;
+		border-radius: 999px;
+		background: rgba(0, 0, 0, 0.3);
+	}
+
+	.wpcp-audio-player-preview__button {
+		position: relative;
+		display: inline-flex;
+		width: 28px;
+		align-items: center;
+		justify-content: center;
+		flex: 0 0 28px;
+	}
+
+	.wpcp-audio-player-preview__button::before,
+	.wpcp-audio-player-preview__button::after {
+		position: absolute;
+		display: block;
+		content: '';
+	}
+
+	.wpcp-audio-player-preview__button--pause::before,
+	.wpcp-audio-player-preview__button--pause::after {
+		top: 8px;
+		width: 2px;
+		height: 12px;
+		border-radius: 2px;
+		background: #fff;
+	}
+
+	.wpcp-audio-player-preview__button--pause::before {
+		left: 10px;
+	}
+
+	.wpcp-audio-player-preview__button--pause::after {
+		right: 10px;
+	}
+
+	.wpcp-audio-player-preview__button--volume::before {
+		left: 8px;
+		width: 0;
+		height: 0;
+		border-top: 5px solid transparent;
+		border-bottom: 5px solid transparent;
+		border-left: 8px solid #fff;
+		transform: rotate(180deg);
+	}
+
+	.wpcp-audio-player-preview__button--volume::after {
+		top: 8px;
+		right: 7px;
+		width: 5px;
+		height: 10px;
+		border: 2px solid #fff;
+		border-left: 0;
+		border-radius: 0 10px 10px 0;
+		opacity: 0.9;
+	}
+
+	.wpcp-audio-player-preview__button--gear::before {
+		inset: 7px;
+		border: 2px solid #fff;
+		border-radius: 50%;
+	}
+
+	.wpcp-audio-player-preview__button--gear::after {
+		top: 12px;
+		left: 6px;
+		width: 16px;
+		height: 2px;
+		background: #fff;
+		box-shadow:
+			0 -5px 0 rgba(255, 255, 255, 0.8),
+			0 5px 0 rgba(255, 255, 255, 0.8);
+		opacity: 0.55;
+	}
+
+	.wpcp-audio-player-preview__time {
+		display: inline-flex;
+		align-items: center;
+		padding: 0 12px;
+		color: #fff;
+		font-size: 14px;
+		line-height: 1;
+	}
+
+	.wpcp-audio-card__player-element {
+		display: block;
+		width: 100%;
+		min-width: 0;
+		max-width: 100%;
+		min-height: 42px;
+		border-radius: 999px;
+		filter: brightness(0.96) contrast(1.02);
+	}
+
+	.wpcp-audio-card__player-embed {
+		width: 100%;
+		min-width: 0;
+		max-width: 100%;
+		min-height: 152px;
+		border: 0;
+		border-radius: 12px;
+		background: #fff;
+		filter: none;
+	}
+
+	.wpcp-audio-card__fallback {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		min-width: 0;
+		max-width: 100%;
+		min-height: 44px;
+		padding: 10px 14px;
+		border: 1px solid rgba(255, 255, 255, 0.18);
+		border-radius: 999px;
+		background: rgba(0, 0, 0, 0.28);
+		color: rgba(255, 255, 255, 0.92);
+		font-size: 14px;
+		line-height: 1.4;
+		text-align: center;
+	}
+
+	.wpcp-item-edit-btn {
+		opacity: 0;
+		z-index: 2;
+	}
+
+}
+
+@media (max-width: 767px) {
+	.wpcp-item-inner--audio {
+		.wpcp-audio-card {
+			min-height: 300px;
+		}
+
+		.wpcp-audio-card--style3 {
+			min-height: auto;
+		}
+
+		.wpcp-audio-card--style4 {
+			min-height: auto;
+		}
+
+		.wpcp-audio-card__style4-inner {
+			flex-direction: column;
+		}
+
+		.wpcp-audio-card__hero {
+			min-height: 280px;
+		}
+
+		.wpcp-audio-card__body {
+			gap: 18px;
+		}
+
+		.wpcp-audio-card__media,
+		.wpcp-audio-card__media-image {
+			min-height: 280px;
+		}
+
+		.wpcp-audio-card__thumb {
+			width: 112px;
+		}
+
+		.wpcp-audio-card--style2 .wpcp-audio-card__body {
+			flex-direction: column;
+		}
+
+		.wpcp-audio-card--style2 .wpcp-audio-card__thumb,
+		.wpcp-audio-card--style3 .wpcp-audio-card__thumb {
+			width: min(112px, 100%);
+			flex-basis: auto;
+		}
+
+		.wpcp-audio-card--style3 .wpcp-audio-card__thumb--style3 {
+			width: 100%;
+			max-width: 68px;
+			flex: 0 0 auto;
+		}
+
+		.wpcp-audio-card--style4 .wpcp-audio-card__thumb--style4 {
+			width: 100%;
+			max-width: 148px;
+			flex: 0 0 auto;
+		}
+
+		.wpcp-audio-player-preview__controls {
+			flex-wrap: wrap;
+		}
+	}
+}
+
+/* Tiles grid */
+// .wpcp-tiles-grid .wpcp-item {
+// 	overflow: hidden;
+// 	border-radius: 4px;
+// }
+
+// /* Placeholder for missing images */
+// .wpcp-item-placeholder {
+// 	display: flex;
+// 	align-items: center;
+// 	justify-content: center;
+// 	width: 100%;
+// 	min-height: 150px;
+// 	background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+// 	border-radius: inherit;
+
+// 	svg {
+// 		width: 48px;
+// 		height: 48px;
+// 		stroke: #bbb;
+// 		opacity: 0.7;
+// 	}
+
+// 	/* When positioned absolutely (aspect ratio mode) */
+// 	&[style*="position: absolute"] {
+// 		min-height: unset;
+// 	}
+// }
+
+// /* Maintain aspect ratio for placeholder - custom and standard aspect ratios */
+// .wpcp-item-media--custom .wpcp-item-placeholder,
+// .wpcp-item-media[style*="padding-top"] .wpcp-item-placeholder {
+// 	position: absolute;
+// 	inset: 0;
+// 	min-height: unset;
+// 	height: 100%;
+// }
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * TILES AJAX PAGINATION — editor preview baseline
+ * Mirrors `blocks/blocks/style.scss`. User-set inline styles from
+ * `ajaxPaginationDynamicCss.js` override these defaults.
+ * ════════════════════════════════════════════════════════════════════════════ */
+.wpcp-ajax-pagination {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: 15px 0;
+	margin: 48px 0 0 0;
+
+	&.is-empty {
+		display: none;
+	}
+
+	&.is-loading {
+		pointer-events: none;
+		opacity: 0.6;
+	}
+}
+
+.wpcp-ajax-pagination__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	padding: 16px 18px;
+	border: 1px solid #dddddd;
+	background: #ffffff;
+	color: #2c2d2f;
+	border-radius: 3px;
+	cursor: pointer;
+	font: inherit;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 1;
+	transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+
+	&:hover:not(:disabled) {
+		background-color: #19949e;
+		color: #ffffff;
+		border-color: #19949e;
+	}
+
+	&:focus {
+		outline: none;
+		box-shadow: none;
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+
+.wpcp-ajax-pagination__btn.is-active {
+	background-color: #19949e;
+	color: #ffffff;
+	border-color: #19949e;
+}
+
+.wpcp-ajax-pagination__btn.is-ellipsis {
+	border: none;
+	background: transparent;
+	cursor: default;
+	padding: 0 4px;
+	min-width: 0;
+}
+
+.wpcp-ajax-pagination__spinner {
+	/* Out of flow, mirroring the frontend — in flow it consumed 34px of the
+	 * centred flex line and offset the preview's button row against it. */
+	position: absolute;
+	top: 50%;
+	right: 0;
+	transform: translateY(-50%);
+	width: 16px;
+	height: 16px;
+}
+
+/* Image source — "Edit Gallery" block-toolbar button (brand color). */
+.wpcp-source-toolbar__edit-gallery.components-button {
+	color: var(--wpcp-carousel-primary-2-800, #19949e);
+	font-weight: 500;
+
+	&:hover:not(:disabled),
+	&:focus:not(:disabled) {
+		color: var(--wpcp-carousel-primary-2-700, #1b9aa6);
+	}
+}

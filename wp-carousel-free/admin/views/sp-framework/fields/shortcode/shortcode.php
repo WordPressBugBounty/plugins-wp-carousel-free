@@ -32,7 +32,7 @@ if ( ! class_exists( ' SP_WPCF_Field_shortcode' ) ) {
 			// Get the Post ID.
 			$post_id = get_the_ID();
 			if ( ! empty( $this->field['shortcode'] ) && 'shortcode' === $this->field['shortcode'] ) {
-				echo ( ! empty( $post_id ) ) ? '<div class="wpcp-scode-wrap-side"><p>To display your carousel, slider or gallery, add the following shortcode into your post, custom post types, page, widget or block editor. If adding the slider to your theme files, additionally include the surrounding PHP code, <a href="https://docs.shapedplugin.com/docs/wordpress-carousel-pro/faqs/#template-include" target="_blank">see how</a>.</p><span class="wpcf-shortcode-selectable">[sp_wpcarousel id="' . esc_attr( $post_id ) . '"]</span></div><div class="spwpc-after-copy-text"><i class="fa fa-check-circle"></i> Shortcode Copied to Clipboard! </div>' : '';
+				echo ( ! empty( $post_id ) ) ? '<div class="wpcp-scode-wrap-side"><p>To display your carousel, slider or gallery, add the following shortcode into your post, custom post types, page, widget or block editor. If adding the slider to your theme files, additionally include the surrounding PHP code, <a href="https://docs.wpcarousel.io/guide/classic/manage-carousels#template-include" target="_blank">see how</a>.</p><span class="wpcf-shortcode-selectable">[sp_wpcarousel id="' . esc_attr( $post_id ) . '"]</span></div><div class="spwpc-after-copy-text"><i class="fa fa-check-circle"></i> Shortcode Copied to Clipboard! </div>' : '';
 			} elseif ( ! empty( $this->field['shortcode'] ) && 'pro_notice' === $this->field['shortcode'] ) {
 				if ( ! empty( $post_id ) ) {
 					echo '<div class="sp_wpcp_shortcode-area sp_wpcp-notice-wrapper">';
@@ -63,7 +63,7 @@ if ( ! class_exists( ' SP_WPCF_Field_shortcode' ) ) {
 					echo '</ul>';
 
 					echo '<div class="sp_wpcp-notice-button">';
-					echo '<a class="sp_wpcp-open-live-demo" href="https://wpcarousel.io/pricing/?ref=1" target="_blank">';
+					echo '<a class="sp_wpcp-open-live-demo sp_wpcp-upgrade" href="https://wpcarousel.io/pricing/?ref=1" target="_blank">';
 					echo esc_html__( 'Upgrade to Pro Now', 'wp-carousel-free' ) . ' <i class="wpcf-icon-shuttle_2285485-1"></i>';
 					echo '</a>';
 					echo '</div>';

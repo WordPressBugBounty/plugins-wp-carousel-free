@@ -1,0 +1,25 @@
+{
+	"name": "shapedplugin/wp-carousel-free",
+	"description": "PSR-4 autoloader for the WP Carousel Free Gutenberg block module. Zero runtime dependencies.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": ">=7.4"
+	},
+	"autoload": {
+		"psr-4": {
+			"ShapedPlugin\\WPCarouselFree\\": "src/"
+		},
+		"exclude-from-classmap": [
+			"src/Admin/PageBuilders/Beaver/",
+			"src/Admin/PageBuilders/Bricks/",
+			"src/Admin/PageBuilders/Oxygen/",
+			"src/Admin/PageBuilders/Divi/Divi_Module.php",
+			"src/Admin/PageBuilders/Divi5/server/"
+		]
+	},
+	"config": {
+		"optimize-autoloader": true,
+		"platform-check": false
+	}
+}

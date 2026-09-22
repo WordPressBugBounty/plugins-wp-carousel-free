@@ -1,0 +1,3884 @@
+@use '../components/popover-chrome' as *;
+
+/* ==========================================================================
+   WP Carousel Free — Admin Dashboard
+   ========================================================================== */
+
+:root {
+	--wpcpf-primary-color: #19949e;
+	--wpcpf-primary-dark: #135c5d;
+
+	/* Shared inspector controls (SelectField, Spacing, Border, RangeControl) are
+	   reused inside the module settings drawer and read these without a fallback. */
+	--wpcp-carousel-primary-2-50: #e0f7f8;
+	--wpcp-carousel-primary-2-100: #b2eaee;
+	--wpcp-carousel-primary-2-800: #19949e;
+}
+
+/* Utility classes — small subset actually used by this dashboard. */
+.wpcpf-d-flex {
+	display: flex;
+}
+
+.wpcpf-flex-col {
+	flex-direction: column;
+}
+
+.wpcpf-justify-between {
+	justify-content: space-between;
+}
+
+.wpcpf-align-center {
+	align-items: center;
+}
+
+.wpcpf-gap-8px {
+	gap: 8px;
+}
+
+.wpcpf-cursor-pointer {
+	cursor: pointer;
+}
+
+/* Shared link-button styles. Settings' save/reset buttons have their own
+   Pro-matched rules further down. */
+.wpcpf-btn-primary,
+.wpcpf-btn-secondary {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 20px;
+	border-radius: 4px;
+	font-size: 13px;
+	font-weight: 600;
+	text-decoration: none;
+	cursor: pointer;
+	border: none;
+}
+
+.wpcpf-btn-primary {
+	background: var(--wpcpf-primary-color);
+	color: #fff;
+}
+
+.wpcpf-btn-secondary {
+	background: #f0f0f1;
+	color: #2f2f2f;
+}
+
+/* Content width, matched to Pro so every page's cards line up identically. */
+$content-max-width: 1400px;
+$content-gutter: 32px;
+
+.wpcpf-admin-dashboard-wrapper {
+	margin-left: -20px;
+
+	// Fill the admin content area so the footer sits at the bottom of the screen
+	// on a short page instead of floating up under the content. Dashboard::
+	// hide_wp_admin_footer() hides core's #wpfooter and zeroes #wpbody-content's
+	// padding-bottom on this screen, so the admin bar is all that is left to
+	// subtract — and its height is a core custom property (32px / 46px mobile).
+	display: flex;
+	flex-direction: column;
+	min-height: calc(100vh - var(--wp-admin--admin-bar--height, 32px));
+
+	* {
+		box-sizing: border-box;
+	}
+
+	a {
+		text-decoration: none;
+	}
+
+	a:focus {
+		box-shadow: none;
+		outline: none;
+	}
+}
+
+/* NavBar — mirrors the Figma navbar frame. */
+.wpcpf-navbar {
+	background: #fff;
+	border-bottom: 1px solid #ddd;
+	padding: 0 $content-gutter;
+}
+
+.wpcpf-navbar-inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	max-width: $content-max-width;
+	margin: 0 auto;
+	padding: 0 32px;
+}
+
+.wpcpf-navbar-logo {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-shrink: 0;
+}
+
+.wpcpf-navbar-logo-img {
+	display: block;
+	width: 137px;
+	height: 24px;
+}
+
+.wpcpf-navbar-version {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	height: 24px;
+	padding: 4px 10px;
+	border: 1px solid #ddd;
+	border-radius: 17px;
+	font-size: 13px;
+	font-weight: 600;
+	color: #2f2f2f;
+	white-space: nowrap;
+	background: transparent;
+	cursor: pointer;
+
+	&:hover,
+	&:focus {
+		border-color: #1a74e4;
+		color: #1a74e4;
+	}
+
+	img {
+		display: block;
+		width: 12px;
+		height: 12px;
+	}
+}
+
+.wpcpf-navbar-nav {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	flex: 1;
+	justify-content: center;
+}
+
+/* Underline that slides between tabs, rather than snapping with the active item. */
+.wpcpf-nav-sliding-indicator {
+	position: absolute;
+	bottom: 0;
+	height: 2px;
+	background-color: #167496;
+	border-radius: 1px;
+	transition: left 0.3s ease, width 0.3s ease;
+	pointer-events: none;
+}
+
+.wpcpf-navbar-item {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	height: 64px;
+	padding: 24px 0;
+	box-sizing: border-box;
+	color: #2f2f2f;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 1;
+	text-decoration: none;
+	white-space: nowrap;
+
+	&:hover,
+	&:focus {
+		color: #167496;
+		box-shadow: none;
+	}
+
+	img {
+		display: block;
+		width: 16px;
+		height: 16px;
+	}
+}
+
+/* The underline is drawn by .wpcpf-nav-sliding-indicator, not on the item. */
+.wpcpf-navbar-item.is-active {
+	color: #167496;
+}
+
+.wpcpf-navbar-badge {
+	position: absolute;
+	top: 11px;
+	right: -14px;
+	font-size: 10px;
+	font-weight: 500;
+	text-transform: uppercase;
+	color: #f07800;
+}
+
+.wpcpf-navbar-divider {
+	width: 1px;
+	height: 20px;
+	background: #ddd;
+}
+
+.wpcpf-navbar-help {
+	position: relative;
+	flex-shrink: 0;
+}
+
+.wpcpf-navbar-help-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	height: 64px;
+	padding: 0;
+	border: none;
+	background: none;
+	color: #2f2f2f;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+
+	svg {
+		display: block;
+		flex-shrink: 0;
+		width: 15px;
+		height: 15px;
+		color: #19949e;
+	}
+}
+
+.wpcpf-navbar-help-menu {
+	position: absolute;
+	top: 56px;
+	right: 0;
+	z-index: 10;
+	display: flex;
+	flex-direction: column;
+	width: 244px;
+	padding: 10px;
+	text-align: left;
+	background: #fff;
+	border-radius: 4px;
+	box-shadow: 0 2px 15px 0 rgba(17, 17, 17, 0.15);
+}
+
+.wpcpf-navbar-help-link {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	padding: 10px;
+	border-radius: 5px;
+	color: #565a5f;
+	font-size: 16px;
+	font-weight: 400;
+	text-decoration: none;
+	transition: all 0.3s;
+
+	svg {
+		flex-shrink: 0;
+	}
+
+	// The arrow slides in from the left on hover, so it is absolutely placed
+	// inside a fixed-size box that always holds the space.
+	.wpcpf-navbar-help-arrow {
+		position: relative;
+		width: 16px;
+		height: 18px;
+		margin-left: auto;
+		scale: 0.8;
+
+		svg {
+			position: absolute;
+			top: 80%;
+			left: -10px;
+			opacity: 0;
+			transform: translate(-50%, -50%) rotate(-40deg);
+			transition: all 0.5s;
+		}
+	}
+
+	&:hover {
+		background: #e3f5f6;
+		color: #565a5f;
+
+		.wpcpf-navbar-help-arrow svg {
+			top: 40%;
+			left: 0;
+			opacity: 1;
+		}
+	}
+}
+
+.wpcpf-admin-dashboard-container {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+}
+
+.wpcpf-admin-dashboard-body {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	padding: 32px 0 0;
+}
+
+.wpcpf-admin-dashboard-content {
+	width: 100%;
+	max-width: $content-max-width;
+	margin: 0 auto;
+	padding: 0 $content-gutter 120px;
+	min-height: 300px;
+}
+
+/* ==========================================================================
+   Settings page — ported from Pro.
+   ========================================================================== */
+
+.wpcpf-settings-page {
+	display: flex;
+	gap: 32px;
+	align-items: flex-start;
+	position: relative;
+
+	ul,
+	li {
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.wpcpf-settings-section {
+	display: flex;
+	gap: 32px;
+	align-items: flex-start;
+	width: 100%;
+}
+
+/* Sidebar navigation. */
+.wpcpf-settings-sidebar {
+	z-index: 10;
+	width: 248px;
+	flex-shrink: 0;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 12px;
+	padding: 16px;
+	box-shadow: 0 1px 2px 0 rgba(17, 17, 17, 0.04);
+
+	.wpcpf-settings-tabs {
+		list-style: none;
+	}
+
+	.wpcpf-settings-tab {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 11px 8px 11px 11px;
+		border: 1px solid transparent;
+		border-radius: 6px;
+		background: transparent;
+		font-size: 14px;
+		font-weight: 500;
+		color: #1e1e1e;
+		list-style: none;
+		transition: all 0.3s ease-in-out;
+
+		.wpcpf-settings-tab-label {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		.wpcpf-settings-icon {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+
+			svg {
+				width: 16px;
+				height: 16px;
+			}
+
+			path {
+				transition: stroke 0.3s ease, fill 0.3s ease;
+			}
+		}
+
+		.wpcpf-settings-tab-arrow {
+			display: inline-flex;
+			align-items: center;
+			color: var(--wpcpf-primary-color);
+		}
+
+		&:hover:not(.wpcpf-settings-tab-active) {
+			background: #f9fafb;
+		}
+
+		&.wpcpf-settings-tab-active {
+			color: var(--wpcpf-primary-color);
+			border-color: var(--wpcpf-primary-color);
+
+			.wpcpf-settings-icon path {
+				fill: var(--wpcpf-primary-color);
+			}
+		}
+	}
+}
+
+/* Main content area. */
+.wpcpf-settings-content {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 12px;
+	overflow-y: auto;
+}
+
+.wpcpf-settings-advanced-content,
+.wpcpf-settings-custom-content {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	padding: 32px;
+	width: 100%;
+	align-items: flex-start;
+}
+
+.wpcpf-settings-list {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	width: 100%;
+}
+
+.wpcpf-setting-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 32px;
+	width: 100%;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #f0f0f0;
+
+	&:last-child {
+		padding-bottom: 0;
+		border-bottom: none;
+	}
+}
+
+.wpcpf-setting-info {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	width: 50%;
+	flex-shrink: 0;
+
+	.wpcpf-setting-title {
+		margin: 0;
+		font-size: 14px;
+		font-weight: 600;
+		line-height: 20px;
+		color: #2f2f2f;
+	}
+
+	.wpcpf-setting-description {
+		margin: 0;
+		font-size: 13px;
+		font-weight: 400;
+		line-height: 20px;
+		color: #757575;
+	}
+}
+
+/* Custom checkbox. */
+.wpcpf-setting-checkbox {
+	position: relative;
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #fff;
+	border: 1px solid #949494;
+	border-radius: 2px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&:hover {
+		border-color: #3858e9;
+	}
+
+	&.wpcpf-setting-checkbox-checked {
+		background: #3858e9;
+		border-color: #3858e9;
+		color: #fff;
+
+		svg {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+		}
+	}
+}
+
+/* Flush cache button. */
+.wpcpf-flush-cache-btn {
+	flex-shrink: 0;
+	padding: 8px 12px;
+	border: none;
+	border-radius: 4px;
+	background: #2271b1;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 500;
+	line-height: 16px;
+	text-transform: capitalize;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: background 0.2s ease;
+
+	&:hover:not(:disabled) {
+		background: #135e96;
+	}
+
+	&:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+}
+
+/* Action buttons. */
+.wpcpf-settings-actions {
+	display: flex;
+	gap: 10px;
+	padding-top: 12px;
+	width: 100%;
+	position: relative;
+}
+
+.wpcpf-save-btn {
+	padding: 12px 16px;
+	border: 1px solid #1a74e4;
+	border-radius: 4px;
+	background: #1a74e4;
+	color: #fff;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 20px;
+	text-transform: capitalize;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: background 0.2s ease;
+
+	&:hover:not(:disabled) {
+		background: #155dc0;
+		border-color: #155dc0;
+	}
+
+	&:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+}
+
+.wpcpf-reset-btn {
+	padding: 12px 16px;
+	border: 1px solid #ed6f6f;
+	border-radius: 4px;
+	background: #fff;
+	color: #ed6f6f;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 20px;
+	text-transform: capitalize;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&:hover:not(:disabled) {
+		background: #ed6f6f;
+		color: #fff;
+	}
+
+	&:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+}
+
+/* Override code editor component to match Figma design */
+.wpcpf-settings-custom-content .wpcpf-code-editor-field {
+	display: flex;
+	gap: 32px;
+	align-items: flex-start;
+	width: 100%;
+
+	.wpcpf-code-editor-label {
+		width: 280px;
+		flex-shrink: 0;
+		margin: 0;
+
+		.wpcpf-component-title {
+			font-size: 14px;
+			font-weight: 500;
+			line-height: 1.6;
+			color: #000;
+			margin: 0;
+		}
+	}
+
+	/* CodeMirror sizes itself via setSize(), so the column must not fix a height. */
+	.wpcp-css-code-editor {
+		flex: 1;
+		min-width: 0;
+	}
+}
+
+/* Dark skin for the WP core code editor, scoped to this tab so the block editor's
+   per-block Custom CSS field keeps the native light chrome. WP ships no CodeMirror
+   theme stylesheet, so the token colors are set here. */
+.wpcpf-settings-custom-content {
+	.CodeMirror {
+		background: #1e1e1e;
+		color: #d4d4d4;
+		border-color: #3c3c3c;
+	}
+
+	.CodeMirror-gutters {
+		background: #1e1e1e;
+		border-right-color: #3c3c3c;
+	}
+
+	.CodeMirror-linenumber {
+		color: #6e7681;
+	}
+
+	.CodeMirror-cursor {
+		border-left-color: #d4d4d4;
+	}
+
+	.CodeMirror-selected,
+	.CodeMirror-focused .CodeMirror-selected {
+		background: #264f78;
+	}
+
+	.CodeMirror-activeline-background {
+		background: #2a2a2a;
+	}
+
+	.CodeMirror-matchingbracket {
+		color: #ffd700;
+		outline: none;
+	}
+
+	.cm-comment {
+		color: #6a9955;
+	}
+
+	.cm-atom,
+	.cm-number {
+		color: #b5cea8;
+	}
+
+	.cm-keyword,
+	.cm-tag {
+		color: #569cd6;
+	}
+
+	.cm-property,
+	.cm-attribute,
+	.cm-def,
+	.cm-variable-2 {
+		color: #9cdcfe;
+	}
+
+	.cm-string,
+	.cm-string-2 {
+		color: #ce9178;
+	}
+
+	.cm-operator,
+	.cm-punctuation,
+	.cm-bracket {
+		color: #d4d4d4;
+	}
+
+	.cm-variable,
+	.cm-variable-3,
+	.cm-qualifier {
+		color: #dcdcaa;
+	}
+
+	.cm-error {
+		color: #f48771;
+	}
+}
+
+.wpcpf-classic-settings-page-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-top: 24px;
+	margin-left: 280px;
+	color: #1a74e4;
+	font-weight: 500;
+	text-decoration: none;
+}
+
+@media screen and (max-width: 1023px) {
+	.wpcpf-settings-page,
+	.wpcpf-settings-section {
+		flex-direction: column;
+	}
+
+	.wpcpf-settings-sidebar {
+		width: 100%;
+	}
+
+	.wpcpf-classic-settings-page-link {
+		margin-left: 0;
+	}
+}
+
+/* Lite vs Pro page. Width comes from the shared content container. */
+/* Lite vs Pro — Figma 3860-94435. */
+.wpcpf-lite-vs-pro-card {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	padding: 32px;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 12px;
+	overflow: hidden;
+}
+
+.wpcpf-lite-vs-pro-title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	padding: 32px;
+	background: rgba(225, 244, 246, 0.7);
+	border-radius: 6px;
+
+	h2 {
+		margin: 0;
+		font-size: 22px;
+		font-weight: 600;
+		line-height: 28px;
+		color: #1e1e1e;
+	}
+
+	p {
+		margin: 6px 0 0;
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 22px;
+		color: #1e1e1e;
+	}
+}
+
+.wpcpf-lite-vs-pro-cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	flex-shrink: 0;
+	padding: 15px 20px;
+	border-radius: 4px;
+	background: #02b472;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 20px;
+	text-decoration: none;
+	transition: background 0.2s ease;
+
+	&:hover,
+	&:focus {
+		background: #029c62;
+		color: #fff;
+	}
+
+	svg {
+		flex-shrink: 0;
+	}
+}
+
+.wpcpf-lite-vs-pro-table {
+	border: 1px solid #b2eaee;
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.wpcpf-lite-vs-pro-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 180px 180px;
+	align-items: center;
+	min-height: 60px;
+	padding-left: 32px;
+	background: #fff;
+	color: #2f2f2f;
+
+	&:nth-child(even) {
+		background: #f7f7f7;
+	}
+}
+
+.wpcpf-lite-vs-pro-row-header {
+	min-height: 68px;
+	background: var(--wpcpf-primary-color);
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.7;
+	text-transform: uppercase;
+	color: #fff;
+
+	/* The zebra rule counts the header, so keep it the primary whatever its index. */
+	&:nth-child(even) {
+		background: var(--wpcpf-primary-color);
+	}
+
+	/* The body cells' own type scale and column rules must not leak up here:
+	   Figma's header is 16px semibold throughout, and its column dividers start
+	   below the header, not through it. */
+	.wpcpf-lite-vs-pro-feature {
+		font-size: 16px;
+		font-weight: 600;
+	}
+
+	.wpcpf-lite-vs-pro-free,
+	.wpcpf-lite-vs-pro-pro {
+		font-size: 16px;
+		border-left: none;
+	}
+}
+
+.wpcpf-lite-vs-pro-feature {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 6px;
+	padding-right: 16px;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.6;
+}
+
+.wpcpf-lite-vs-pro-free,
+.wpcpf-lite-vs-pro-pro {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	align-self: stretch;
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 1.7;
+	border-left: 1px solid #e6e6e6;
+}
+
+.wpcpf-lite-vs-pro-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 3px 8px;
+	border-radius: 10px;
+	font-size: 10px;
+	font-weight: 500;
+	line-height: 1.6;
+	text-transform: uppercase;
+	color: #fff;
+	white-space: nowrap;
+}
+
+.wpcpf-lite-vs-pro-badge--new {
+	background: #00ba37;
+}
+
+.wpcpf-lite-vs-pro-badge--hot {
+	background: #cc1818;
+}
+
+/* Upgrade CTA below the table — Figma 3860-94483. */
+.wpcpf-lite-vs-pro-cta-section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 32px;
+	padding: 40px 32px;
+	text-align: center;
+}
+
+.wpcpf-lite-vs-pro-cta-content {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	max-width: 754px;
+
+	h2 {
+		margin: 0;
+		font-size: 28px;
+		font-weight: 600;
+		line-height: 34px;
+		text-transform: capitalize;
+		color: #2f2f2f;
+	}
+
+	p {
+		margin: 0;
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 22px;
+		color: #3c434a;
+
+		strong {
+			font-weight: 500;
+		}
+	}
+}
+
+.wpcpf-lite-vs-pro-cta-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 12px;
+}
+
+.wpcpf-lite-vs-pro-cta-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px 24px;
+	border-radius: 4px;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 20px;
+	text-transform: capitalize;
+	text-decoration: none;
+	transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.wpcpf-lite-vs-pro-cta-button--primary {
+	background: #02b472;
+	border: 1px solid #02b472;
+	color: #fff;
+
+	&:hover,
+	&:focus {
+		background: #029c62;
+		border-color: #029c62;
+		color: #fff;
+	}
+}
+
+.wpcpf-lite-vs-pro-cta-button--secondary {
+	background: #fff;
+	border: 1px solid #949494;
+	color: #2f2f2f;
+
+	&:hover,
+	&:focus {
+		border-color: #2f2f2f;
+		color: #2f2f2f;
+	}
+}
+
+/* Testimonials below the CTA — Figma 4835-9204. */
+.wpcpf-testimonial-section {
+	display: flex;
+	flex-direction: column;
+	gap: 34px;
+	padding-top: 20px;
+}
+
+.wpcpf-testimonial-header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	text-align: center;
+
+	h2 {
+		margin: 0;
+		font-size: 28px;
+		font-weight: 600;
+		line-height: 34px;
+		color: #2f2f2f;
+	}
+}
+
+.wpcpf-testimonial-ratings {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+}
+
+.wpcpf-testimonial-rating {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+
+	strong {
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 1.4;
+		color: #444c50;
+	}
+
+	> span {
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 1.4;
+		color: #575f62;
+	}
+
+	> img {
+		display: block;
+		flex-shrink: 0;
+	}
+}
+
+.wpcpf-testimonial-stars--wordpress {
+	display: block;
+	flex-shrink: 0;
+	width: 79.4px;
+	height: 15px;
+}
+
+.wpcpf-testimonial-rating .wpcpf-testimonial-stars--wordpress {
+	width: 85.4px;
+	height: 16.2px;
+}
+
+.wpcpf-testimonial-stars--trustpilot {
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+	flex-shrink: 0;
+}
+
+.wpcpf-testimonial-star {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 14px;
+	height: 14px;
+	padding: 1.5px;
+	background: #00b57a;
+
+	img {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+}
+
+.wpcpf-testimonial-row {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 24px;
+	align-items: start;
+}
+
+.wpcpf-testimonial-card {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 20px;
+	padding: 32px;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 16px;
+
+	p {
+		margin: 0;
+		font-size: 15px;
+		font-weight: 400;
+		line-height: 1.6;
+		color: #1e1e1e;
+	}
+}
+
+.wpcpf-testimonial-reviewer {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.wpcpf-testimonial-avatar {
+	position: relative;
+	display: block;
+	flex-shrink: 0;
+	width: 60px;
+	height: 60px;
+
+	> img {
+		display: block;
+		width: 60px;
+		height: 60px;
+		object-fit: cover;
+		border-radius: 99px;
+	}
+}
+
+.wpcpf-testimonial-source {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	padding: 4px;
+	background: #fff;
+	border-radius: 9999px;
+	box-sizing: border-box;
+
+	img {
+		display: block;
+		width: 16px;
+		height: 16px;
+	}
+}
+
+.wpcpf-testimonial-reviewer-info {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+
+	strong {
+		font-size: 16px;
+		font-weight: 500;
+		line-height: 1.4;
+		color: #1e1e1e;
+	}
+
+	span {
+		font-size: 14px;
+		font-weight: 400;
+		line-height: 1.4;
+		color: #757575;
+	}
+}
+
+@media screen and (max-width: 782px) {
+	.wpcpf-lite-vs-pro-card,
+	.wpcpf-lite-vs-pro-title {
+		padding: 16px;
+	}
+
+	.wpcpf-lite-vs-pro-title {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.wpcpf-lite-vs-pro-row {
+		grid-template-columns: minmax(0, 1fr) 80px 80px;
+		padding-left: 16px;
+	}
+
+	.wpcpf-lite-vs-pro-feature {
+		font-size: 14px;
+	}
+
+	.wpcpf-lite-vs-pro-cta-section {
+		padding: 32px 16px;
+		gap: 24px;
+	}
+
+	.wpcpf-lite-vs-pro-cta-content h2 {
+		font-size: 22px;
+		line-height: 28px;
+	}
+
+	.wpcpf-testimonial-header h2 {
+		font-size: 22px;
+		line-height: 28px;
+	}
+
+	.wpcpf-testimonial-card {
+		padding: 20px;
+	}
+}
+
+@media screen and (max-width: 1100px) {
+	.wpcpf-testimonial-row {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* Shared page chrome for Blocks / Modules / Saved Templates / About Us. */
+.wpcpf-page-header {
+	margin-bottom: 24px;
+}
+
+.wpcpf-page-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0 0 6px;
+	font-size: 20px;
+}
+
+.wpcpf-page-desc {
+	margin: 0;
+	color: #50575e;
+}
+
+.wpcpf-section-title {
+	margin: 32px 0 12px;
+	font-size: 15px;
+}
+
+.wpcpf-pro-badge {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 10px;
+	background: #f0b849;
+	color: #1e1e1e;
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.4px;
+	text-transform: uppercase;
+}
+
+/* ==========================================================================
+   Block + Module cards — ported from Pro so both pages match it exactly.
+   ========================================================================== */
+
+.wpcpf-blocks-grid,
+.wpcpf-module-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 24px;
+}
+
+.wpcpf-blocks-section-title,
+/* Pro-section upsell banner — Figma 3860-91039. */
+.wpcpf-modules-pro-banner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 32px;
+	margin: 32px 0 24px;
+
+	h3 {
+		margin: 0;
+		font-size: 24px;
+		font-weight: 500;
+		line-height: 1.2;
+		color: #1e1e1e;
+	}
+
+	p {
+		margin: 10px 0 0;
+		font-size: 14px;
+		font-weight: 400;
+		line-height: 20px;
+		color: #4e4f52;
+	}
+}
+
+.wpcpf-modules-pro-banner-cta {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	flex-shrink: 0;
+	padding: 17px 24px;
+	border-radius: 4px;
+	background: #02b472;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 20px;
+	text-decoration: none;
+	transition: background 0.2s ease;
+
+	&:hover,
+	&:focus {
+		background: #029c62;
+		color: #fff;
+	}
+
+	svg {
+		flex-shrink: 0;
+	}
+}
+
+@media screen and (max-width: 782px) {
+	.wpcpf-modules-pro-banner {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 16px;
+	}
+}
+
+.wpcpf-modules-upcoming-title {
+	margin: 32px 0 16px;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 28px;
+	color: #1e1e1e;
+}
+
+/* Block card. */
+.wpcpf-block-card {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 6px;
+	box-shadow: 0 1px 2px 0 hsla(0, 0%, 7%, 0.2);
+	transition: all 0.2s ease;
+}
+
+/* Figma 3860-84499: crown + PRO pill pinned to the card's top-right corner. */
+.wpcpf-block-card-pro-badge {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 3px;
+	padding: 3px 4px 3px 3px;
+	border: 0.8px solid #93dcac;
+	border-radius: 9999px;
+	background-color: #effff5;
+	color: #4ab866;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 1;
+	white-space: nowrap;
+
+	svg {
+		flex-shrink: 0;
+	}
+}
+
+.wpcpf-block-card--pro {
+	background: #fbfbfc;
+}
+
+.wpcpf-block-card--coming-soon {
+	opacity: 0.75;
+	background: #f9f9f9;
+
+	.wpcpf-block-card-icon {
+		opacity: 0.8;
+	}
+
+	.wpcpf-block-card-link {
+		pointer-events: none;
+		color: #a7aaad;
+	}
+
+	.wpcpf-block-toggle,
+	.wpcpf-block-toggle-slider {
+		cursor: not-allowed;
+	}
+}
+
+.wpcpf-block-card-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	border: 1px solid #c5dfe0;
+	border-radius: 6px;
+	flex-shrink: 0;
+
+	svg {
+		width: 28px;
+		height: 28px;
+	}
+}
+
+.wpcpf-block-card-content {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+}
+
+.wpcpf-block-card-title-section {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 0;
+}
+
+.wpcpf-block-card-title-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.wpcpf-block-card-title {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 20px;
+	color: #1e1e1e;
+	text-transform: capitalize;
+}
+
+.wpcpf-block-card-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 2px 8px;
+	font-size: 10px;
+	font-weight: 600;
+	line-height: 16px;
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+	color: #b26a00;
+	background-color: #fff3e0;
+	border-radius: 100px;
+	white-space: nowrap;
+}
+
+.wpcpf-block-card-badge--soon {
+	color: #777;
+	background-color: #ddd;
+	text-transform: none;
+	letter-spacing: 0;
+}
+
+.wpcpf-block-card-links {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.wpcpf-block-card-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 20px;
+	color: #757575;
+	text-decoration: none;
+	transition: color 0.2s ease;
+
+	svg {
+		width: 14px;
+		height: 14px;
+		flex-shrink: 0;
+	}
+
+	&:hover {
+		color: var(--wpcpf-primary-color);
+	}
+}
+
+.wpcpf-module-upgrade {
+	flex-shrink: 0;
+	color: var(--wpcpf-primary-color);
+	font-size: 13px;
+	font-weight: 600;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+/* Block toggle switch. */
+.wpcpf-block-toggle {
+	position: relative;
+	display: inline-block;
+	width: 36px;
+	height: 18px;
+	flex-shrink: 0;
+	cursor: pointer;
+
+	input {
+		opacity: 0;
+		width: 0;
+		height: 0;
+		display: none;
+
+		&:checked + .wpcpf-block-toggle-slider {
+			background-color: var(--wpcpf-primary-color);
+			border-color: var(--wpcpf-primary-color);
+		}
+
+		&:disabled + .wpcpf-block-toggle-slider {
+			opacity: 0.6;
+			cursor: not-allowed;
+		}
+	}
+
+	&.is-disabled {
+		cursor: not-allowed;
+	}
+
+	/* Pro stand-in: no input, so it always paints the "off" track. */
+	&.wpcp-module-drawer-pro-toggle,
+	&.wpcp-module-drawer-pro-toggle .wpcpf-module-toggle-slider {
+		cursor: default;
+		opacity: 0.6;
+	}
+}
+
+.wpcpf-block-toggle-slider {
+	position: absolute;
+	cursor: pointer;
+	inset: 0;
+	background-color: #bbb;
+	border: 1px solid #bbb;
+	border-radius: 100px;
+	transition: all 0.2s ease;
+
+	&::before {
+		position: absolute;
+		content: '';
+		height: 12px;
+		width: 12px;
+		left: 3px;
+		bottom: 2px;
+		background-color: #fff;
+		border-radius: 50%;
+		transition: all 0.2s ease;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+	}
+
+	input:checked + &::before {
+		transform: translateX(18px);
+	}
+}
+
+/* Module card. */
+.wpcpf-module-card {
+	display: flex;
+	gap: 16px;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 12px;
+	padding: 24px;
+	transition: all 0.2s ease;
+}
+
+.wpcpf-module-card-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	flex-shrink: 0;
+}
+
+.wpcpf-module-icon-gradient {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	border-radius: 5.5px;
+	background: linear-gradient(135deg, rgb(247, 97, 161) 0%, rgb(140, 27, 171) 100%);
+
+	svg {
+		width: 28px;
+		height: 28px;
+		color: #fff;
+	}
+}
+
+.wpcpf-module-card-content {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	gap: 8px;
+	justify-content: center;
+	min-width: 0;
+}
+
+.wpcpf-module-card-top {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.wpcpf-module-title-row {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.wpcpf-module-title {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 24px;
+	color: #1e1e1e;
+	text-transform: capitalize;
+	flex: 1;
+}
+
+.wpcpf-module-pro-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 3px;
+	flex-shrink: 0;
+	padding: 3px 4px 3px 3px;
+	border: 0.8px solid #93dcac;
+	border-radius: 9999px;
+	background-color: #effff5;
+	color: #4ab866;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 1;
+	white-space: nowrap;
+
+	svg {
+		flex-shrink: 0;
+	}
+}
+
+.wpcpf-module-description {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 20px;
+	color: #757575;
+}
+
+.wpcpf-module-card-links {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 6px;
+}
+
+.wpcpf-module-links-wrapper {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.wpcpf-module-link {
+	display: inline-flex;
+	gap: 4px;
+	align-items: center;
+	padding: 5px 9px;
+	background-color: #fbfcff;
+	border: 1px solid #ecedf0;
+	border-radius: 4px;
+	font-size: 11px;
+	font-weight: 500;
+	line-height: 16px;
+	color: #757575;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: all 0.2s ease;
+
+	svg {
+		width: 14px;
+		height: 14px;
+		flex-shrink: 0;
+	}
+
+	&:hover {
+		border-color: var(--wpcpf-primary-color);
+		background-color: var(--wpcpf-primary-color);
+		color: #fff;
+	}
+}
+
+/* Upcoming module card: dimmed and fully inert — no toggle, docs or demo yet. */
+.wpcpf-module-card--upcoming {
+	opacity: 0.75;
+	background: #f9f9f9;
+	pointer-events: none;
+
+	&:hover {
+		transform: none;
+		box-shadow: none;
+	}
+
+	.wpcpf-module-card-icon {
+		opacity: 0.8;
+	}
+}
+
+.wpcpf-module-upcoming-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 4px 10px;
+	border-radius: 4px;
+	background: #ddd;
+	color: #777;
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 16px;
+	white-space: nowrap;
+}
+
+/* Module toggle switch. */
+.wpcpf-module-toggle {
+	position: relative;
+	display: inline-block;
+	width: 36px;
+	height: 18px;
+	flex-shrink: 0;
+	cursor: pointer;
+
+	&.is-disabled {
+		cursor: not-allowed;
+	}
+
+	input {
+		opacity: 0;
+		width: 0;
+		height: 0;
+		display: none;
+
+		&:checked + .wpcpf-module-toggle-slider {
+			background-color: var(--wpcpf-primary-color);
+			border-color: var(--wpcpf-primary-color);
+		}
+
+		&:disabled + .wpcpf-module-toggle-slider {
+			opacity: 0.6;
+			cursor: not-allowed;
+		}
+	}
+}
+
+.wpcpf-module-toggle-slider {
+	position: absolute;
+	cursor: pointer;
+	inset: 0;
+	background-color: #bbb;
+	border: 1px solid #bbb;
+	border-radius: 100px;
+	transition: all 0.2s ease;
+
+	&::before {
+		position: absolute;
+		content: '';
+		height: 12px;
+		width: 12px;
+		left: 3px;
+		bottom: 2px;
+		background-color: #fff;
+		border-radius: 50%;
+		transition: all 0.2s ease;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+	}
+
+	input:checked + &::before {
+		transform: translateX(18px);
+	}
+}
+
+@media screen and (max-width: 1023px) {
+	.wpcpf-blocks-grid,
+	.wpcpf-module-grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 16px;
+	}
+}
+
+@media screen and (max-width: 782px) {
+	.wpcpf-blocks-grid,
+	.wpcpf-module-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* ==========================================================================
+   Saved Templates table.
+   ========================================================================== */
+
+.wpcpf-saved-templates-page-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	width: 100%;
+}
+
+/* Empty-library promo, retired once the first template exists. */
+.wpcpf-saved-template-promo {
+	// The artwork is a full-width banner whose subject sits on the right, so it
+	// is anchored right and the copy keeps the clear left half.
+	display: flex;
+	align-items: center;
+	gap: 48px;
+	min-height: 275px;
+	padding: 40px;
+	background-color: #fff;
+	background-repeat: no-repeat;
+	background-position: right center;
+	background-size: cover;
+	border: 1px solid #ddd;
+	border-radius: 12px;
+
+	&__text {
+		flex: 1 0 0;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: flex-start;
+		gap: 32px;
+		overflow: hidden;
+	}
+
+	&__title-wrap {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 20px;
+		max-width: 614px;
+		word-break: break-word;
+	}
+
+	&__title {
+		width: 100%;
+		margin: 0;
+		color: #1e1e1e;
+		font-size: 30px;
+		font-weight: 600;
+		line-height: 1.3;
+	}
+
+	&__desc {
+		width: 100%;
+		margin: 0;
+		color: #2f2f2f;
+		font-size: 15px;
+		font-weight: 400;
+		line-height: 26px;
+	}
+
+	&__cta {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 2px;
+		padding: 14px 30px 14px 24px;
+		background: var(--wpcpf-primary-color);
+		border: 1px solid var(--wpcpf-primary-color);
+		border-radius: 4px;
+		color: #fff;
+		cursor: pointer;
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 20px;
+		text-decoration: none;
+		white-space: nowrap;
+		transition: background 0.2s ease-in-out;
+
+		svg {
+			width: 24px;
+			height: 24px;
+			flex-shrink: 0;
+		}
+
+		&:hover,
+		&:focus {
+			background: #117a82;
+			border-color: #117a82;
+			color: #fff;
+		}
+	}
+}
+
+@media screen and (max-width: 960px) {
+	.wpcpf-saved-template-promo {
+		// The artwork would crowd the copy at this width, so it drops out.
+		background-image: none !important;
+		gap: 32px;
+		min-height: 0;
+		padding: 32px;
+	}
+}
+
+.wpcpf-saved-templates-page-container {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	width: 100%;
+	padding: 32px;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+
+	// The empty state holds nothing but the table, whose own card supplies the
+	// frame — keeping this one would box the table inside a second border.
+	&--bare {
+		gap: 0;
+		padding: 0;
+		background: transparent;
+		border: 0;
+		border-radius: 0;
+	}
+}
+
+.wpcpf-saved-template-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	&-left {
+		display: flex;
+		gap: 12px;
+		align-items: center;
+	}
+}
+
+.wpcpf-saved-template-search-field {
+	width: 260px;
+	height: 36px;
+	padding: 6px 6px 6px 16px;
+	border: 1px solid #ddd;
+	border-radius: 4px !important;
+	background: #fff;
+
+	&:focus {
+		outline: none;
+		border-color: var(--wpcpf-primary-color);
+	}
+}
+
+.wpcpf-saved-template-select {
+	height: 36px;
+	min-width: 136px;
+	border: 1px solid #e0e0e0;
+	border-radius: 4px !important;
+
+	&:focus {
+		outline: none;
+		box-shadow: none;
+	}
+}
+
+.wpcpf-saved-template-select-apply {
+	padding: 9px 16px;
+	border: 1px solid var(--wpcpf-primary-color);
+	border-radius: 4px;
+	background: #fff;
+	color: var(--wpcpf-primary-color);
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 20px;
+	cursor: pointer;
+	transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+
+	&:hover {
+		background: var(--wpcpf-primary-color);
+		color: #fff;
+	}
+}
+
+.wpcpf-saved-template-add-new {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 24px 10px 20px;
+	border-radius: 4px;
+	background: var(--wpcpf-primary-color);
+	color: #fff;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 28px;
+	text-decoration: none;
+	transition: background-color 0.4s ease-in-out;
+
+	&:hover,
+	&:focus {
+		background: #117a82;
+		color: #fff;
+	}
+
+	.dashicons {
+		font-size: 16px;
+		width: 16px;
+		height: 16px;
+		line-height: 16px;
+	}
+}
+
+.wpcpf-saved-template-content-table {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	align-self: stretch;
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+	background: #fff;
+	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.08);
+	overflow: auto;
+
+	button {
+		padding: 0;
+		border: none;
+		background: transparent;
+		cursor: pointer;
+	}
+}
+
+.wpcpf-saved-template-table-head,
+.wpcpf-saved-template-table-body {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: flex-start;
+	align-self: stretch;
+	width: 100%;
+
+	tr {
+		display: flex;
+		width: 100%;
+		min-width: 0;
+		padding-left: 24px;
+		align-items: center;
+		align-self: stretch;
+		justify-content: flex-start;
+		box-sizing: border-box;
+	}
+}
+
+.wpcpf-saved-template-table-checkBox {
+	flex: 0 0 auto;
+
+	input {
+		margin-right: 16px;
+	}
+}
+
+.wpcpf-saved-template-table-title {
+	// Grow into leftover space; min-width:0 lets long titles shrink so
+	// fixed columns (shortcode/date/action) stay aligned across rows.
+	flex: 1 1 0%;
+	min-width: 0;
+	padding-right: 16px;
+	overflow: hidden;
+
+	a {
+		display: block;
+		max-width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		text-decoration: none;
+
+		span {
+			display: block;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			color: #135e96;
+			font-weight: 500;
+		}
+
+		&:hover span {
+			color: #0165b7;
+		}
+	}
+}
+
+.wpcpf-saved-template-table-shortcode {
+	flex: 0 0 360px;
+	width: 360px;
+	display: flex;
+	align-items: center;
+
+	.wpcpf-shortcode-copy-tooltip {
+		display: flex;
+		align-items: center;
+		gap: 3px;
+		margin-left: 5px;
+		padding: 5px 8px;
+		border-radius: 4px;
+		background-color: rgba(61, 158, 86, 0.1);
+		color: #317d46;
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 20px;
+		transition: opacity 0.3s ease;
+
+		svg {
+			width: 15px;
+			height: 15px;
+		}
+	}
+
+	> svg {
+		width: 16px;
+		height: 16px;
+		opacity: 0;
+		cursor: pointer;
+		transform: translateX(-85px);
+		transition: all 0.3s ease;
+	}
+
+	&:hover > svg {
+		opacity: 1;
+	}
+}
+
+.wpcpf-saved-template-shortcode-text {
+	display: inline-block;
+	padding: 6px 14px;
+	border: 1px solid #e0e0e0;
+	border-radius: 3px;
+	background: #f0f0f0;
+	cursor: pointer;
+	transition: all 0.3s ease;
+
+	&:hover {
+		background: #e8e8e8;
+		border-color: #d0d0d0;
+	}
+}
+
+.wpcpf-saved-template-table-date {
+	flex: 0 0 240px;
+	width: 240px;
+	text-transform: capitalize;
+}
+
+.wpcpf-saved-template-table-action {
+	flex: 0 0 110px;
+	width: 110px;
+
+	> div {
+		display: flex;
+		gap: 16px;
+	}
+}
+
+.wpcpf-saved-template-table-head {
+	tr {
+		height: 48px;
+		background-color: #f5f5f5;
+
+		th {
+			color: #2f2f2f;
+			font-size: 16px;
+			font-weight: 500;
+			line-height: 20px;
+			text-align: left;
+			text-transform: capitalize;
+		}
+	}
+}
+
+.wpcpf-saved-template-table-body {
+	tr {
+		height: 64px;
+
+		&:nth-of-type(even) {
+			background: #fafafa;
+		}
+	}
+
+	td * {
+		color: #2f2f2f;
+		font-size: 14px;
+		font-weight: 400;
+		line-height: 20px;
+	}
+}
+
+.wpcpf-saved-template-preloader-no-data,
+.wpcpf-saved-template-no-data {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+}
+
+// Nested so the shared `td *` typography rule above does not win on specificity.
+.wpcpf-saved-template-table-body {
+	tr.wpcpf-saved-template-empty-row {
+		height: auto;
+		background: transparent;
+	}
+
+	.wpcpf-saved-template-empty {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 12px;
+		width: 100%;
+		padding: 60px 24px;
+
+		&__message {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 4px;
+		}
+
+		&__text {
+			margin: 0;
+			color: #2c2d2f;
+			font-size: 16px;
+			font-weight: 400;
+			line-height: 32px;
+			text-align: center;
+		}
+
+		&__cta {
+			display: inline-flex;
+			align-items: center;
+			gap: 2px;
+			color: var(--wpcpf-primary-color);
+			font-size: 16px;
+			font-weight: 600;
+			line-height: 20px;
+			text-decoration: none;
+
+			svg {
+				width: 24px;
+				height: 24px;
+				flex-shrink: 0;
+			}
+
+			// The shared `td *` rule lands on the path too, so currentColor
+			// resolves to its own grey. Painting fill directly skips that.
+			svg path {
+				fill: var(--wpcpf-primary-color);
+			}
+
+			&:hover,
+			&:focus {
+				color: #117a82;
+				text-decoration: none;
+
+				svg path {
+					fill: #117a82;
+				}
+			}
+		}
+	}
+}
+
+.wpcpf-saved-template-loading {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.wpcpf-saved-template-action {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 4px;
+	border-radius: 3px;
+	transition: all 0.2s ease;
+
+	&:hover {
+		background: #f5f5f5;
+
+		svg {
+			stroke: var(--wpcpf-primary-color);
+		}
+	}
+
+	&.wpcpf-action-delete:hover svg {
+		stroke: #d32f2f;
+	}
+}
+
+.wpcpf-saved-template-table-action-btn {
+	display: flex;
+	gap: 16px;
+}
+
+.wpcpf-saved-template-footer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.wpcpf-saved-template-count {
+	color: #2f2f2f;
+	font-size: 14px;
+
+	span {
+		color: #666;
+	}
+}
+
+.wpcpf-saved-template-pagination {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.wpcpf-saved-template-pagination-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	box-sizing: border-box;
+	border: 1px solid #757575;
+	border-radius: 4px;
+	background-color: transparent;
+	color: #2f2f2f;
+	cursor: pointer;
+
+	&.btn-active {
+		background-color: #2f2f2f;
+		color: #fff;
+	}
+
+	&.btn-disabled {
+		border-color: #ddd;
+
+		path {
+			fill: #ddd;
+		}
+	}
+}
+
+.wpcpf-upsell-intro {
+	margin: 0 0 12px;
+	font-weight: 600;
+	color: #1e1e1e;
+}
+
+/* ==========================================================================
+   Integrations tab (Pro teaser cards).
+   ========================================================================== */
+
+/* ==========================================================================
+   Lightbox module settings drawer
+   ========================================================================== */
+
+/* Integrations tab — Figma 7403-150035. The tab sits inside the settings
+   panel's white 12px card, so this only supplies the 32px inset and the grid. */
+.wpcpf-integrations {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	width: 100%;
+	padding: 32px;
+}
+
+.wpcpf-integrations-header {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+
+	h2 {
+		margin: 0;
+		font-size: 24px;
+		font-weight: 500;
+		line-height: 1.2;
+		color: #1e1e1e;
+	}
+
+	p {
+		margin: 0;
+		font-size: 14px;
+		font-weight: 400;
+		line-height: 20px;
+		color: #4e4f52;
+	}
+}
+
+.wpcpf-integrations-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 24px;
+}
+
+.wpcpf-integration-card {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	min-height: 180px;
+	padding: 24px;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 12px;
+}
+
+.wpcpf-integration-card-head {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.wpcpf-integration-card-title {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	gap: 12px;
+	min-width: 0;
+
+	h4 {
+		margin: 0;
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 20px;
+		color: #1e1e1e;
+	}
+}
+
+/* The brand marks ship at 48px with their own rounded plate; constrain the SVG
+   to Pro's 44px icon box rather than editing every icon. */
+.wpcpf-integration-card-icon {
+	display: inline-flex;
+	flex-shrink: 0;
+
+	svg {
+		display: block;
+		width: 44px;
+		height: 44px;
+	}
+}
+
+.wpcpf-integration-card-desc {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 20px;
+	color: #757575;
+}
+
+.wpcpf-integration-card-links {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-top: auto;
+
+	.wpcpf-module-link {
+		padding: 4px 10px;
+		font-size: 13px;
+		line-height: 20px;
+	}
+}
+
+/* Held while the toggle's save is in flight. */
+.wpcpf-module-toggle.is-saving {
+	opacity: 0.6;
+	cursor: progress;
+}
+
+/* Two-up collapses straight to one: the cards sit inside the settings panel, so
+   their share of the width is already narrower than a full-width grid's. */
+@media screen and (max-width: 1023px) {
+	.wpcpf-integrations-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* A chip with nowhere to point yet — Pro's own treatment for the same case. */
+.wpcpf-module-link-disabled,
+.wpcpf-module-link-disabled:hover {
+	background-color: #f6f7f7;
+	border-color: #ecedf0;
+	color: #a7aaad;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+.wpcpf-module-settings {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	flex-shrink: 0;
+	cursor: pointer;
+	color: #757575;
+	transition: all 0.2s ease;
+	padding: 0;
+	border: none;
+	background-color: transparent;
+
+	svg {
+		width: 20px;
+		height: 20px;
+		transition: all 0.3s ease-in-out;
+	}
+
+	&:hover:not(.is-disabled) {
+		color: var(--wpcpf-primary-color);
+
+		svg path {
+			stroke: var(--wpcpf-primary-color);
+		}
+	}
+
+	// A Pro card's gear is rendered disabled, so both hooks need the same look.
+	&.is-disabled,
+	&:disabled {
+		opacity: 0.45;
+		cursor: not-allowed;
+	}
+}
+
+body.wpcp-module-drawer-active {
+	.wpcp-picker-pallet-wrapper {
+		z-index: 100060 !important;
+	}
+}
+
+.wpcp-drawer-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0);
+	z-index: 100000;
+	transition: background-color 0.3s ease;
+
+	&.is-open {
+		background-color: rgba(0, 0, 0, 0.5);
+	}
+}
+
+.wpcp-drawer {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	background: #fff;
+	box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+	overflow-y: auto;
+
+	&.wpcp-drawer-right {
+		right: 0;
+		transform: translateX(100%);
+		transition: transform 0.3s ease;
+	}
+}
+
+.wpcp-drawer-overlay.is-open .wpcp-drawer.wpcp-drawer-right {
+	transform: translateX(0);
+}
+
+.wpcp-module-settings-drawer {
+	width: 548px;
+	max-width: 90vw;
+}
+
+.wpcp-module-settings-drawer-inner {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	width: 548px;
+	max-width: 90vw;
+	background: #fff;
+	border-radius: 4px 0 0 4px;
+	overflow: hidden;
+}
+
+.wpcp-module-settings-drawer-header {
+	flex-shrink: 0;
+	padding: 12px 24px;
+	background: #f0f0f1;
+	border-bottom: 1px solid #dcdcde;
+}
+
+.wpcp-module-settings-drawer-title-wrap {
+	gap: 8px;
+}
+
+.wpcp-module-settings-drawer-title-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	line-height: 0;
+	color: var(--wpcpf-primary-color);
+
+	svg {
+		width: 22px;
+		height: 22px;
+	}
+}
+
+.wpcp-module-settings-drawer-title {
+	margin: 0;
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 1.25;
+	color: #2c2d2f;
+}
+
+.wpcp-module-settings-drawer-close {
+	border: none;
+	background: none;
+	padding: 4px;
+	margin: 0;
+	cursor: pointer;
+	line-height: 0;
+	border-radius: 4px;
+	color: #717171;
+
+	&:hover {
+		background: #f6f7f7;
+		color: #1e1e1e;
+	}
+}
+
+.wpcp-module-settings-drawer-body {
+	flex: 1;
+	overflow-y: auto;
+	padding: 24px;
+	-webkit-overflow-scrolling: touch;
+}
+
+.wpcp-module-settings-drawer-footer {
+	flex-shrink: 0;
+	display: flex;
+	justify-content: center;
+	gap: 12px;
+	padding: 16px 32px;
+	background: #fff;
+	box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.06);
+}
+
+.wpcp-module-settings-drawer-btn {
+	flex: 0 0 auto;
+	min-width: 140px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 20px;
+	padding: 12px 20px;
+	cursor: pointer;
+	transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+
+	&:disabled {
+		opacity: 0.55;
+		cursor: not-allowed;
+	}
+}
+
+.wpcp-module-settings-drawer-btn-secondary {
+	background: #fff;
+	border-color: #bbbbbb;
+	color: #757575;
+
+	&:hover:not(:disabled) {
+		border-color: #a7a7a7;
+		background: #f6f7f7;
+		color: #1e1e1e;
+	}
+}
+
+.wpcp-module-settings-drawer-btn-primary {
+	background: var(--wpcpf-primary-color);
+	border-color: var(--wpcpf-primary-color);
+	color: #fff;
+
+	&:hover:not(:disabled) {
+		background: #147d86;
+		border-color: #147d86;
+	}
+}
+
+.wpcp-module-drawer-section {
+	padding-top: 24px;
+
+	&:first-child {
+		padding-top: 0;
+	}
+}
+
+.wpcp-module-drawer-section-title {
+	margin: 0 0 16px;
+	padding-top: 24px;
+	border-top: 1px solid #e0e0e0;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 1;
+	color: #1e1e1e;
+}
+
+.wpcp-module-drawer-section:first-child .wpcp-module-drawer-section-title {
+	padding-top: 0;
+	border-top: none;
+}
+
+.wpcp-module-drawer-section-body {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.wpcp-module-drawer-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	min-height: 36px;
+
+	.wpcp-button.wpcp-component-mb {
+		margin-bottom: 0;
+	}
+
+	.wpcp-header-left.wide-area {
+		display: none;
+	}
+
+	.wpcp-header-right {
+		margin-left: auto;
+	}
+
+	/* Popup trigger stays legible on the white drawer; the shared popup/border
+	   SCSS turns it white while open. */
+	.wpcp-header-right .wpcp-border-icon-button.components-button {
+		color: #2f2f2f !important;
+
+		&:hover {
+			color: var(--wpcpf-primary-color) !important;
+		}
+
+		&.button-clicked,
+		&.button-clicked:hover {
+			color: var(--wpcpf-primary-color) !important;
+			fill: var(--wpcpf-primary-color) !important;
+
+			svg {
+				fill: var(--wpcpf-primary-color) !important;
+			}
+
+			svg path {
+				fill: #fff !important;
+			}
+
+			svg rect[stroke] {
+				stroke: var(--wpcpf-primary-color) !important;
+			}
+
+			.components-button__icon,
+			.wp-components-icon {
+				color: var(--wpcpf-primary-color) !important;
+			}
+		}
+
+		/* WP core paints `.components-button svg { fill: currentColor }`, which turns
+		   the borderless <rect> into a solid dark square — restore the outline. */
+		&:not(.button-clicked) svg {
+			fill: none;
+
+			rect {
+				fill: none;
+			}
+
+			rect:first-of-type {
+				fill: #fff;
+			}
+
+			path {
+				fill: #2f2f2f;
+			}
+		}
+	}
+}
+
+.wpcp-module-drawer-row-text {
+	flex: 1;
+	min-width: 0;
+}
+
+.wpcp-module-drawer-row-title {
+	margin: 0;
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1.35;
+	color: #1e1e1e;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.wpcp-module-drawer-row-desc {
+	margin: 4px 0 0;
+	font-size: 12px;
+	line-height: 1.45;
+	color: #757575;
+}
+
+.wpcp-module-drawer-row-control {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	overflow: visible;
+	width: 238px;
+
+	.components-base-control {
+		width: 100%;
+	}
+
+	.component-color-indicator {
+		width: 24px;
+		height: 24px;
+	}
+}
+
+/* Pro rows — same treatment as the inspector's Content Position row. */
+.wpcp-module-drawer-row--pro {
+	.wpcp-module-drawer-row-control {
+		pointer-events: none;
+	}
+}
+
+.wpcp-module-drawer-pro-title {
+	opacity: 0.6;
+}
+
+.wpcp-module-drawer-pro-tag {
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1;
+	color: #11a10c;
+	text-decoration: none;
+
+	&:hover,
+	&:focus,
+	&:active {
+		color: #0f910b;
+		box-shadow: none;
+	}
+}
+
+/* Display-only stand-in for the live popup trigger. The BorderIcon draws its
+   own bordered box, so it needs no button chrome — but it must repeat the live
+   trigger's box, or the two glyphs sit on different right edges. */
+.wpcp-module-drawer-pro-static-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	padding: 1px 6px;
+	border: 2px solid transparent;
+	opacity: 0.6;
+}
+
+.wpcp-module-drawer-pro-note {
+	padding-top: 4px;
+
+	&__text {
+		margin: 0;
+		padding: 16px;
+		border: 1px solid rgba(21, 158, 46, 0.6);
+		border-radius: 6px;
+		background: #edfaef;
+		font-size: 13px;
+		line-height: 20px;
+		color: #0f290e;
+	}
+
+	&__cta {
+		font-weight: 600;
+		color: #11a10c;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+.wpcp-module-drawer-row--stacked {
+	align-items: center;
+
+	.wpcp-module-drawer-row-control {
+		justify-content: flex-end;
+	}
+}
+
+.wpcp-module-drawer-select.wpcp-select-field {
+	min-width: 148px;
+	width: 100%;
+	margin-bottom: 0;
+
+	.wpcp-header {
+		display: none;
+	}
+
+	.components-base-control__field {
+		margin-bottom: 0;
+	}
+
+	.components-input-control__container {
+		min-height: 36px;
+	}
+
+	select.components-select-control__input {
+		min-height: 36px !important;
+		height: 36px !important;
+		font-size: 12px;
+	}
+}
+
+/* Compact number + unit field (Offset) — single row, no slider, non-responsive. */
+.wpcp-drawer-number-field {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 8px;
+
+	.wpcp-drawer-number-field__input {
+		width: 96px;
+		flex: none;
+
+		.components-input-control__input {
+			text-align: center;
+			min-width: 40px;
+			height: 36px !important;
+			min-height: 36px !important;
+		}
+	}
+
+	.wpcp-units {
+		margin: 0;
+
+		.wpcp-units-indicator-label {
+			height: 36px;
+			text-transform: uppercase;
+		}
+	}
+}
+
+.wpcp-lightbox-icon-style-panel {
+	padding: 16px;
+	box-sizing: border-box;
+	width: min(360px, calc(100vw - 24px));
+	min-width: 280px;
+	max-height: min(70vh, calc(100vh - 120px));
+	overflow-x: hidden;
+	overflow-y: auto;
+
+	.wpcp-select-field {
+		margin-bottom: 12px;
+	}
+
+	.wpcp-drawer-wp-reset.components-button {
+		min-width: 24px;
+		height: 24px;
+		padding: 0;
+		color: #8c8f94;
+
+		&:hover {
+			color: var(--wpcpf-primary-color);
+		}
+	}
+}
+
+.wpcp-lightbox-icon-style-panel {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+
+	.wpcp-range-control {
+		margin-bottom: 0;
+
+		.wpcp-header-control-left {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+		}
+	}
+
+	.wpcp-drawer-wp-color-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		min-height: 36px;
+	}
+
+	.wpcp-drawer-wp-color-row__label {
+		font-size: 13px;
+		font-weight: 500;
+		color: #1e1e1e;
+	}
+
+	.wpcp-drawer-wp-color-row__control {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 6px;
+	}
+
+	.wpcp-drawer-wp-color-trigger.components-button {
+		min-width: 30px;
+		height: 30px;
+		padding: 0;
+		border-radius: 50%;
+	}
+
+	.wpcp-drawer-wp-color-row__control .wpcp-drawer-wp-color-trigger+span {
+		display: none;
+	}
+
+	.wpcp-drawer-wp-color-popover__inner {
+		padding: 12px;
+	}
+
+	.wpcp-drawer-wp-toggle-group {
+		margin-bottom: 0;
+
+		.components-base-control__field {
+			margin-bottom: 0;
+		}
+
+		.components-base-control__label {
+			font-size: 13px;
+			font-weight: 500;
+			color: #1e1e1e;
+			margin-bottom: 8px;
+		}
+
+		.components-toggle-group-control::before {
+			background: var(--wpcp-carousel-primary-2-50) !important;
+		}
+
+		.components-toggle-group-control-option-base[aria-checked='true'] {
+			color: var(--wpcp-carousel-primary-2-800);
+		}
+	}
+
+	.components-toggle-group-control-option-base:hover {
+		color: var(--wpcp-carousel-primary-2-800) !important;
+	}
+
+	.components-toggle-group-control {
+		width: 100%;
+	}
+
+	.wpcp-border-control,
+	.wpcp-spacing-range-control {
+		margin-bottom: 0;
+	}
+
+	.wpcp-spacing-range-control {
+		.components-range-control__track {
+			background-color: var(--wpcp-carousel-primary-2-800);
+		}
+
+		.sp-link-btn.active .sp-link-side-icon {
+			background-color: var(--wpcp-carousel-primary-2-800);
+
+			svg path,
+			svg rect {
+				fill: #fff;
+			}
+		}
+
+		.sp-preset-btn {
+			color: var(--wpcp-carousel-primary-2-800);
+			cursor: pointer;
+		}
+	}
+
+	.wpcp-border-control .components-toggle-group-control-option[aria-checked='true'] {
+		background: var(--wpcp-carousel-primary-2-50);
+		color: var(--wpcp-carousel-primary-2-800);
+	}
+}
+
+.components-popover.wpcp-module-drawer-popup {
+	z-index: 100050 !important;
+}
+
+.wpcp-drawer-wp-color-popover .components-popover__content {
+	@include wpcp-popover-chrome;
+}
+
+@media screen and (max-width: 782px) {
+
+	.wpcp-module-settings-drawer,
+	.wpcp-module-settings-drawer-inner {
+		width: 100%;
+		max-width: 100%;
+	}
+
+	.wpcp-module-drawer-row {
+		flex-wrap: wrap;
+		align-items: flex-start;
+	}
+
+	.wpcp-module-drawer-row-control {
+		width: 100%;
+		justify-content: flex-start;
+	}
+}
+
+/* ==========================================================================
+   Pro module showcase drawer — Watermark
+   ========================================================================== */
+
+/* The whole body and footer are a picture of Pro's settings; nothing inside is
+   reachable. The markup also carries `inert`, so this is only the look. */
+.wpcp-module-drawer-showcase {
+	opacity: 0.3;
+	pointer-events: none;
+	user-select: none;
+}
+
+/* Only the showcase drawer becomes the CTA's containing block, so the Lightbox
+   drawer's own positioning is untouched. */
+.wpcp-module-settings-drawer-inner.is-showcase {
+	position: relative;
+}
+
+/* Centred over the dimmed body. A sibling of it, never a child — that is what
+   keeps it clickable while everything it sits on top of is `inert`. */
+.wpcp-module-drawer-showcase-cta {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 2;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 17px 24px;
+	border-radius: 4px;
+	background: #159e2e;
+	box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.16);
+	color: #fff;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 20px;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: background 0.2s ease;
+
+	&:hover,
+	&:focus {
+		background: #128626;
+		color: #fff;
+		text-decoration: none;
+	}
+
+	&:focus {
+		box-shadow: 0 0 0 2px #fff, 0 0 0 4px #159e2e;
+		outline: none;
+	}
+
+	svg {
+		width: 24px;
+		height: 24px;
+		flex-shrink: 0;
+	}
+}
+
+.wpcp-watermark-showcase-panel {
+
+	.wpcp-module-drawer-section-body {
+		gap: 12px;
+	}
+
+	.wpcp-module-drawer-row-title {
+		font-weight: 400;
+		color: #2f2f2f;
+		line-height: 20px;
+	}
+
+	.wpcp-watermark-showcase-row--wide .wpcp-module-drawer-row-control {
+		width: auto;
+		flex: 1;
+		min-width: 0;
+	}
+}
+
+.wpcp-watermark-showcase-accordion {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.wpcp-watermark-showcase-style {
+	border: 1px solid #e0e0e0;
+	border-radius: 4px;
+	overflow: hidden;
+	background: #fff;
+}
+
+.wpcp-watermark-showcase-style__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 12px 12px 16px;
+	background: #fff;
+
+	&.is-expanded {
+		background: #f0f0f0;
+	}
+}
+
+.wpcp-watermark-showcase-style__title {
+	font-size: 13px;
+	line-height: 20px;
+	color: #2f2f2f;
+}
+
+.wpcp-watermark-showcase-style__actions {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	color: #2f2f2f;
+
+	svg.is-flipped {
+		transform: rotate(180deg);
+	}
+}
+
+.wpcp-watermark-showcase-style__divider {
+	width: 1.5px;
+	height: 16px;
+	border-radius: 1px;
+	background: #ddd;
+}
+
+.wpcp-watermark-showcase-style__body {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 16px;
+}
+
+.wpcp-watermark-showcase-media {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	width: 100%;
+}
+
+.wpcp-watermark-showcase-media__preview {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	height: 40px;
+	padding: 6px;
+	border: 1px solid #ddd;
+	border-radius: 2px;
+	background: #fff;
+}
+
+.wpcp-watermark-showcase-media__thumb {
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	color: var(--wpcpf-primary-color, #19949e);
+
+	svg {
+		width: 20px;
+		height: 20px;
+	}
+}
+
+.wpcp-watermark-showcase-media__name {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 13px;
+	line-height: 20px;
+	color: #1e1e1e;
+}
+
+.wpcp-watermark-showcase-media__upload {
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border: 1px solid #ddd;
+	border-radius: 2px;
+	background: #fff;
+	color: #1e1e1e;
+}
+
+.wpcp-watermark-showcase-pair {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	width: 100%;
+}
+
+.wpcp-watermark-showcase-axis {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.wpcp-watermark-showcase-axis__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+
+	/* The shared Units chip is sized for the inspector; Figma's is smaller. */
+	.wpcp-units-indicator-label {
+		height: 20px;
+		min-width: 24px;
+		padding: 0 5px;
+		font-size: 10px;
+	}
+}
+
+.wpcp-watermark-showcase-axis__label {
+	font-size: 13px;
+	line-height: 20px;
+	color: #2f2f2f;
+}
+
+.wpcp-watermark-showcase-axis__input {
+	width: 100%;
+
+	input.components-input-control__input {
+		min-height: 32px !important;
+		height: 32px !important;
+		font-size: 12px;
+	}
+}
+
+.wpcp-watermark-showcase-add,
+.wpcp-watermark-showcase-purge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	align-self: flex-start;
+	margin-top: 4px;
+	padding: 6px 10px;
+	border: 1px solid #007cba;
+	border-radius: 4px;
+	background: #007cba;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 20px;
+}
+
+.wpcp-watermark-showcase-purge {
+	margin-top: 0;
+}
+
+/* ==========================================================================
+   About Us page — ported from Pro
+   ========================================================================== */
+
+.wpcpf-about-page {
+	.wpcpf-about-box {
+		display: flex;
+		background: #fff;
+		margin: 0 auto;
+		padding: 40px;
+		border-radius: 8px;
+		box-shadow: 0 0 6px rgba(0, 0, 0, 0.06);
+	}
+
+	.wpcpf-about-img {
+		width: 50%;
+		flex-basis: 50%;
+		flex-shrink: 0;
+		overflow: hidden;
+		align-self: center;
+
+		span {
+			display: block;
+			margin-top: 12px;
+			font-size: 13px;
+			font-style: italic;
+			font-weight: 400;
+			text-align: center;
+			color: #3c434a;
+		}
+
+		img {
+			display: block;
+			width: 100%;
+			height: auto;
+			border-radius: 8px;
+		}
+	}
+
+	.wpcpf-about-info {
+		margin-right: 40px;
+
+		h3 {
+			margin: 0 0 25px;
+			font-size: 26px;
+			line-height: 32px;
+			color: #1d2327;
+		}
+
+		.wpcpf-highlight-text {
+			position: relative;
+			z-index: 2;
+			display: inline-block;
+
+			&::after {
+				content: '';
+				position: absolute;
+				bottom: 4px;
+				left: 0;
+				right: 0;
+				z-index: -1;
+				height: 5px;
+				background-color: #b2eaee;
+				border-radius: 2px;
+			}
+		}
+
+		p {
+			margin-bottom: 15px;
+			font-size: 15px;
+			font-weight: 400;
+			line-height: 28px;
+			color: #3c434a;
+		}
+	}
+
+	.wpcpf-video-section-btn {
+		margin-top: 40px;
+
+		ul {
+			display: flex;
+			gap: 18px;
+			margin: 0;
+
+			li {
+				display: inline-flex;
+				margin-bottom: 0;
+
+				a {
+					padding: 14px 24px;
+					border: 1px solid transparent;
+					border-radius: 4px;
+					font-size: 16px;
+					font-weight: 600;
+					text-decoration: none;
+					transition: all 0.3s linear;
+				}
+			}
+
+			li:nth-child(1) a {
+				background-color: var(--wpcpf-primary-color);
+				color: #fff;
+
+				&:hover {
+					background-color: #147d86;
+				}
+			}
+
+			li:nth-child(2) a {
+				display: flex;
+				border-color: var(--wpcpf-primary-color);
+				color: var(--wpcpf-primary-color);
+
+				svg {
+					margin-left: 5px;
+					margin-right: -4px;
+					fill: var(--wpcpf-primary-color);
+					transition: all 0.3s linear;
+				}
+
+				&:hover {
+					background-color: var(--wpcpf-primary-color);
+					border-color: transparent;
+					color: #fff;
+
+					svg {
+						fill: #fff;
+					}
+				}
+			}
+		}
+	}
+}
+
+.wpcpf-more-plugins-section {
+	margin-top: 60px;
+	border-radius: 8px;
+
+	.wpcpf-more-plugins-header {
+		margin-bottom: 40px;
+		text-align: center;
+
+		.wpcpf-more-plugins-title {
+			margin: 0 0 10px;
+			font-size: 24px;
+			font-weight: 500;
+			line-height: 1.4;
+			color: #1e1e1e;
+		}
+
+		.wpcpf-more-plugins-subtitle {
+			margin: 0;
+			font-size: 14px;
+			font-weight: 400;
+			line-height: 20px;
+			color: #4e4f52;
+		}
+	}
+
+	.wpcpf-more-plugins-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 24px;
+		margin: 0 auto;
+	}
+}
+
+.wpcpf-plugin-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	padding: 24px;
+	background: #fff;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+	text-decoration: none;
+	transition: box-shadow 0.2s ease, border-color 0.2s ease;
+
+	&:hover {
+		border-color: #00a1ff;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	}
+
+	.wpcpf-plugin-card-icon {
+		margin-bottom: 16px;
+
+		img {
+			width: 48px;
+		}
+
+		img,
+		svg {
+			border-radius: 4px;
+			overflow: hidden;
+		}
+	}
+
+	.wpcpf-plugin-card-title {
+		margin: 0 0 8px;
+		font-size: 20px;
+		font-weight: 600;
+		line-height: 1.3;
+		color: #333;
+	}
+
+	.wpcpf-plugin-card-desc {
+		margin: 0;
+		font-size: 14px;
+		line-height: 1.5;
+		color: #666;
+	}
+
+	.wpcpf-plugin-card-arrow {
+		position: absolute;
+		top: 24px;
+		right: 24px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 32px;
+		height: 32px;
+		border: 1px solid rgba(0, 162, 255, 0.31);
+		border-radius: 50%;
+		color: #00a1ff;
+		opacity: 0;
+		transition: opacity 0.2s ease;
+
+		svg {
+			display: block;
+		}
+	}
+
+	&:hover .wpcpf-plugin-card-arrow {
+		opacity: 1;
+	}
+}
+
+@media screen and (max-width: 1200px) {
+	.wpcpf-more-plugins-section .wpcpf-more-plugins-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media screen and (max-width: 1023px) {
+	.wpcpf-about-page .wpcpf-about-box {
+		flex-direction: column;
+	}
+
+	.wpcpf-about-page .wpcpf-about-img {
+		width: 100%;
+		flex-basis: 100%;
+	}
+
+	.wpcpf-about-page .wpcpf-about-info {
+		margin-right: 0;
+		margin-bottom: 30px;
+	}
+}
+
+@media screen and (max-width: 782px) {
+	.wpcpf-about-page .wpcpf-video-section-btn ul {
+		flex-direction: column;
+
+		li {
+			width: 100%;
+
+			a {
+				justify-content: center;
+			}
+		}
+	}
+
+	.wpcpf-more-plugins-section .wpcpf-more-plugins-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* ==========================================================================
+   Dashboard footer — Figma 7403-150117
+   ========================================================================== */
+
+.wpcpf-admin-footer {
+	// Pushed to the bottom of the dashboard body, whatever the content height.
+	margin-top: auto;
+	padding: 20px 0;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 16px;
+	color: #6e6a69;
+}
+
+.wpcpf-footer-content {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	flex-wrap: wrap;
+	width: 100%;
+	max-width: $content-max-width;
+	margin: 0 auto;
+	padding: 0 $content-gutter;
+}
+
+.wpcpf-footer-left,
+.wpcpf-footer-center,
+.wpcpf-footer-right {
+	display: flex;
+	align-items: center;
+
+	svg {
+		display: block;
+		flex-shrink: 0;
+	}
+}
+
+// Figma fixes both outer columns at 320px so the social row stays centred.
+.wpcpf-footer-left {
+	gap: 4px;
+	width: 320px;
+}
+
+.wpcpf-footer-center {
+	gap: 8px;
+	color: #6c6a6d;
+}
+
+.wpcpf-footer-right {
+	gap: 2px;
+	width: 320px;
+	justify-content: flex-end;
+	text-align: right;
+	color: #757575;
+
+	b {
+		font-weight: 600;
+	}
+}
+
+.wpcpf-footer-link {
+	color: #2271b1;
+	font-weight: 500;
+	text-decoration: none;
+
+	&:hover,
+	&:focus {
+		color: #135e96;
+		text-decoration: underline;
+	}
+}
+
+.wpcpf-footer-socials {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.wpcpf-footer-social {
+	display: inline-flex;
+	align-items: center;
+	line-height: 0;
+	color: #757575;
+	transition: color 0.2s ease;
+
+	&:hover,
+	&:focus {
+		color: var(--wpcpf-primary-color);
+	}
+}
+
+.wpcpf-footer-rate {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	text-decoration: none;
+}
+
+@media screen and (max-width: 1200px) {
+	// Below the three-column width the fixed 320px rails stop helping.
+	.wpcpf-footer-content {
+		justify-content: center;
+		text-align: center;
+	}
+
+	.wpcpf-footer-left,
+	.wpcpf-footer-right {
+		width: auto;
+		justify-content: center;
+	}
+}
+
+/* Changelog drawer, opened from the version chip in the navbar. */
+.wpcpf-changelog {
+	display: flex;
+	flex-direction: column;
+	width: 400px;
+	max-width: 90vw;
+	height: 100%;
+}
+
+.wpcpf-changelog-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 16px 20px;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.wpcpf-changelog-title {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 600;
+	color: #1e1e1e;
+}
+
+.wpcpf-changelog-close {
+	background: transparent;
+	border: none;
+	padding: 0 4px;
+	font-size: 22px;
+	line-height: 1;
+	color: #717171;
+	cursor: pointer;
+
+	&:hover {
+		color: #1e1e1e;
+	}
+}
+
+.wpcpf-changelog-details {
+	flex: 1;
+	overflow-y: auto;
+	padding: 20px 20px 40px;
+	font-size: 14px;
+	line-height: 1.6;
+	color: #2f2f2f;
+
+	/* wp.org heads each release with an `<h4>Version …</h4>` above its list. */
+	h1,
+	h2,
+	h3,
+	h4 {
+		margin: 28px 0 10px;
+		font-size: 16px;
+		font-weight: 600;
+		color: #1e1e1e;
+	}
+
+	p {
+		margin: 0 0 10px;
+	}
+
+	> :first-child {
+		margin-top: 0;
+	}
+
+	ul {
+		margin-bottom: 0;
+		padding-left: 22px;
+		list-style: disc;
+	}
+
+	li {
+		margin-bottom: 8px;
+	}
+
+	a {
+		color: #1a74e4;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	code {
+		padding: 2px 6px;
+		border-radius: 3px;
+		background-color: #f5f5f5;
+		font-size: 13px;
+	}
+}
+
+@import './setup-wizard/style.scss';

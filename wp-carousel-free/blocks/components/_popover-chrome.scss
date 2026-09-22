@@ -1,0 +1,6 @@
+/* Shared chrome for every WPCP popover (block editor + admin dashboard). */
+@mixin wpcp-popover-chrome {
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+    box-shadow: -4px 4px 12px 2px rgba(0, 0, 0, 0.1);
+}

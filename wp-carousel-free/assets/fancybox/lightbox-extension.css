@@ -1,0 +1,587 @@
+/**
+ * Global Lightbox extension — WP core images + global icon overlay.
+ */
+
+.sp-styble-wp-lightbox-host {
+	position: relative;
+	display: block;
+	width: 100%;
+}
+
+figure.wp-block-image>.sp-styble-wp-lightbox-host:not(.sp-styble-wp-lightbox-host--gallery) {
+	display: block;
+	width: 100%;
+}
+
+/* Gallery: host covers the full figure/cell so icon offsets are relative to the image area. */
+.sp-styble-wp-lightbox-figure,
+.blocks-gallery-item figure.sp-styble-wp-lightbox-figure,
+.wp-block-gallery figure.wp-block-image {
+	position: relative;
+}
+
+/* In-flow host — absolute overlay collapsed figure height (images gone, lightbox still worked). */
+.sp-styble-wp-lightbox-host--gallery {
+	position: relative;
+	display: block;
+	width: 100%;
+	flex: 1 1 auto;
+	align-self: stretch;
+	min-height: 0;
+}
+
+.wp-block-gallery:not(.has-nested-images) .blocks-gallery-item figure .sp-styble-wp-lightbox-host--gallery,
+.wp-block-gallery:not(.has-nested-images) .blocks-gallery-image figure .sp-styble-wp-lightbox-host--gallery {
+	display: flex;
+	flex: 1 1 auto;
+	width: 100%;
+	height: 100%;
+}
+
+/* Image link stays in document flow so the thumbnail is visible. */
+.sp-styble-wp-lightbox-host a.sp-styble-wp-lightbox-image-link {
+	display: block;
+	position: relative !important;
+	inset: auto !important;
+	width: 100% !important;
+	max-width: 100%;
+	height: auto !important;
+	flex: 1 1 auto !important;
+	background: none !important;
+	text-decoration: none;
+}
+
+.sp-styble-wp-lightbox-host--gallery a.sp-styble-wp-lightbox-image-link {
+	position: relative !important;
+	inset: auto !important;
+}
+
+.sp-styble-wp-lightbox-host a.sp-styble-wp-lightbox-image-link img {
+	display: block;
+	width: 100%;
+	max-width: 100%;
+	height: auto;
+	vertical-align: bottom;
+}
+
+.wp-block-gallery.is-cropped .sp-styble-wp-lightbox-host--gallery a.sp-styble-wp-lightbox-image-link,
+.wp-block-gallery:not(.has-nested-images).is-cropped .blocks-gallery-item .sp-styble-wp-lightbox-host--gallery a.sp-styble-wp-lightbox-image-link {
+	height: 100%;
+}
+
+.wp-block-gallery.is-cropped .sp-styble-wp-lightbox-host--gallery a.sp-styble-wp-lightbox-image-link img,
+.wp-block-gallery:not(.has-nested-images).is-cropped .blocks-gallery-item .sp-styble-wp-lightbox-host--gallery a.sp-styble-wp-lightbox-image-link img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.sp-styble-wp-lightbox-host a.sp-advanced-image-lightbox-icon,
+.wp-block-gallery.is-cropped .sp-styble-wp-lightbox-host a.sp-advanced-image-lightbox-icon,
+.wp-block-gallery:not(.has-nested-images).is-cropped .blocks-gallery-item .sp-styble-wp-lightbox-host a.sp-advanced-image-lightbox-icon,
+.wp-block-gallery:not(.has-nested-images).is-cropped .blocks-gallery-image .sp-styble-wp-lightbox-host a.sp-advanced-image-lightbox-icon,
+.wp-block-gallery.has-nested-images figure.wp-block-image .sp-styble-wp-lightbox-host a.sp-advanced-image-lightbox-icon {
+	position: absolute !important;
+	top: auto;
+	right: auto;
+	bottom: auto;
+	left: auto;
+	z-index: 10;
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+	width: var(--icon-size, 48px) !important;
+	height: var(--icon-size, 48px) !important;
+	min-width: 0 !important;
+	min-height: 0 !important;
+	max-width: none !important;
+	max-height: none !important;
+	flex: none !important;
+	flex-grow: 0 !important;
+	cursor: pointer;
+	box-sizing: border-box !important;
+	pointer-events: auto;
+	text-decoration: none;
+	transition: opacity 0.35s ease, color 0.35s ease, background-color 0.35s ease, border-color 0.35s ease, fill 0.35s ease;
+}
+
+.sp-styble-wp-lightbox-host .sp-advanced-image-lightbox-icon .sp-styble-icon-container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.sp-styble-wp-lightbox-host .sp-advanced-image-lightbox-icon .sp-styble-icon-container svg,
+.sp-styble-wp-lightbox-host .sp-advanced-image-lightbox-icon .sp-styble-icon-container img {
+	width: 100%;
+	height: 100%;
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+	flex-shrink: 0;
+}
+
+/* Global icon position + offset (WP blocks do not load advancedCss.scss). */
+.sp-styble-wp-lightbox-host .sp-advanced-image-lightbox-icon.sp-position-top-left {
+	top: var(--styble-lb-offset, 12px) !important;
+	left: var(--styble-lb-offset, 12px) !important;
+	right: auto !important;
+	bottom: auto !important;
+	transform: none !important;
+}
+
+.sp-styble-wp-lightbox-host .sp-advanced-image-lightbox-icon.sp-position-top-right {
+	top: var(--styble-lb-offset, 12px) !important;
+	right: var(--styble-lb-offset, 12px) !important;
+	left: auto !important;
+	bottom: auto !important;
+	transform: none !important;
+}
+
+.sp-styble-wp-lightbox-host .sp-advanced-image-lightbox-icon.sp-position-bottom-left {
+	bottom: var(--styble-lb-offset, 12px) !important;
+	left: var(--styble-lb-offset, 12px) !important;
+	top: auto !important;
+	right: auto !important;
+	transform: none !important;
+}
+
+.sp-styble-wp-lightbox-host .sp-advanced-image-lightbox-icon.sp-position-bottom-right {
+	bottom: var(--styble-lb-offset, 12px) !important;
+	right: var(--styble-lb-offset, 12px) !important;
+	top: auto !important;
+	left: auto !important;
+	transform: none !important;
+}
+
+.sp-styble-wp-lightbox-host .sp-advanced-image-lightbox-icon.sp-position-center {
+	top: 50% !important;
+	left: 50% !important;
+	right: auto !important;
+	bottom: auto !important;
+	transform: translate(-50%, -50%) !important;
+}
+
+.sp-styble-lightbox-icon--global {
+	opacity: 1;
+	transition: opacity 0.35s ease, color 0.35s ease, background-color 0.35s ease, border-color 0.35s ease, fill 0.35s ease;
+}
+
+.sp-styble-advanced-image-lightbox-icon-always .sp-styble-lightbox-icon--global {
+	opacity: 1;
+}
+
+/* Visibility "hover": show icon when hovering the image area (WP host / figure). */
+.sp-advanced-image-lightbox-icon.sp-styble-advanced-image-lightbox-icon-hover {
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.35s ease, color 0.35s ease, background-color 0.35s ease, border-color 0.35s ease, fill 0.35s ease;
+}
+
+.sp-styble-wp-lightbox-host.sp-styble-advanced-image-lightbox-icon-hover:hover .sp-advanced-image-lightbox-icon,
+.sp-styble-wp-lightbox-host:hover .sp-advanced-image-lightbox-icon.sp-styble-advanced-image-lightbox-icon-hover {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.sp-styble-lightbox-wrapper.fancybox__container {
+	z-index: 99990;
+}
+
+/* Bottom thumbnail strip above page content when WP gallery has 2+ slides. */
+.sp-styble-lightbox-wrapper.fancybox__container .fancybox__thumbs {
+	z-index: 12;
+}
+
+/* Opened lightbox image — always centered in the popup viewport */
+.sp-styble-lightbox-wrapper.fancybox__container .fancybox__slide.is-selected {
+	justify-content: center;
+}
+
+.sp-styble-lightbox-wrapper.fancybox__container .f-panzoom,
+.sp-styble-lightbox-wrapper.fancybox__container .f-zoomable {
+	align-self: center;
+	max-width: 100%;
+}
+
+.sp-styble-lightbox-wrapper.fancybox__container .f-panzoom__wrapper {
+	margin-inline: auto;
+}
+
+.sp-styble-lightbox-wrapper.fancybox__container img.f-panzoom__content,
+.sp-styble-lightbox-wrapper.fancybox__container picture.f-panzoom__content img,
+.sp-styble-lightbox-wrapper.fancybox__container .f-panzoom__viewport>.f-panzoom__content {
+	object-fit: contain !important;
+	object-position: center center !important;
+}
+
+.sp-styble-lightbox-wrapper.fancybox__container .f-caption {
+	align-self: center;
+	text-align: center;
+	max-width: 100%;
+}
+
+/* Block video popups should fill the available browser viewport like the classic
+   shortcode Fancybox video popup, without a padded/background iframe parent. */
+.wpcp-lightbox-wrapper.fancybox__container .fancybox__slide.has-iframe {
+	padding: 44px 0;
+}
+
+.wpcp-lightbox-wrapper.fancybox__container .fancybox__slide.has-iframe .f-html {
+	padding: 0;
+	background: transparent;
+	width: 100%;
+	height: 100%;
+}
+
+.wpcp-lightbox-wrapper.fancybox__container .fancybox__slide.has-iframe .f-iframe {
+	background: transparent;
+}
+
+/* --- Lightbox open/close (showClass / hideClass) --- */
+
+.f-tubeIn {
+	animation: f-wpcp-tube-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.f-tubeOut {
+	animation: f-wpcp-tube-out 0.28s ease both;
+}
+
+@keyframes f-wpcp-tube-in {
+	from {
+		transform: translate3d(0, 0, 0) scaleX(0.72) scaleY(0.92);
+		opacity: 0;
+	}
+
+	to {
+		transform: translate3d(0, 0, 0) scaleX(1) scaleY(1);
+		opacity: 1;
+	}
+}
+
+@keyframes f-wpcp-tube-out {
+	from {
+		transform: translate3d(0, 0, 0) scaleX(1) scaleY(1);
+		opacity: 1;
+	}
+
+	to {
+		transform: translate3d(0, 0, 0) scaleX(0.82) scaleY(0.94);
+		opacity: 0;
+	}
+}
+
+.f-circularIn {
+	animation: f-wpcp-circular-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.f-circularOut {
+	animation: f-wpcp-circular-out 0.28s ease both;
+}
+
+@keyframes f-wpcp-circular-in {
+	from {
+		clip-path: circle(0% at 50% 50%);
+		transform: translate3d(0, 0, 0) scale(0.96);
+		opacity: 0;
+	}
+
+	to {
+		clip-path: circle(150% at 50% 50%);
+		transform: translate3d(0, 0, 0) scale(1);
+		opacity: 1;
+	}
+}
+
+@keyframes f-wpcp-circular-out {
+	from {
+		clip-path: circle(150% at 50% 50%);
+		transform: translate3d(0, 0, 0) scale(1);
+		opacity: 1;
+	}
+
+	to {
+		clip-path: circle(0% at 50% 50%);
+		transform: translate3d(0, 0, 0) scale(0.96);
+		opacity: 0;
+	}
+}
+
+.f-rotateIn {
+	animation: f-wpcp-rotate-in 0.4s ease both;
+}
+
+.f-rotateOut {
+	animation: f-wpcp-rotate-out 0.3s ease both;
+}
+
+@keyframes f-wpcp-rotate-in {
+	from {
+		transform: translate3d(0, 0, 0) rotate(-8deg) scale(0.9);
+		opacity: 0;
+	}
+
+	to {
+		transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+		opacity: 1;
+	}
+}
+
+@keyframes f-wpcp-rotate-out {
+	from {
+		transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+		opacity: 1;
+	}
+
+	to {
+		transform: translate3d(0, 0, 0) rotate(6deg) scale(0.92);
+		opacity: 0;
+	}
+}
+
+.f-zoomInOutIn {
+	animation: f-wpcp-zoom-in-out-in 0.45s ease both;
+}
+
+.f-zoomInOutOut {
+	animation: f-wpcp-zoom-in-out-out 0.3s ease both;
+}
+
+@keyframes f-wpcp-zoom-in-out-in {
+	0% {
+		transform: translate3d(0, 0, 0) scale(0.6);
+		opacity: 0;
+	}
+
+	60% {
+		transform: translate3d(0, 0, 0) scale(1.04);
+		opacity: 1;
+	}
+
+	100% {
+		transform: translate3d(0, 0, 0) scale(1);
+		opacity: 1;
+	}
+}
+
+@keyframes f-wpcp-zoom-in-out-out {
+	from {
+		transform: translate3d(0, 0, 0) scale(1);
+		opacity: 1;
+	}
+
+	to {
+		transform: translate3d(0, 0, 0) scale(0.7);
+		opacity: 0;
+	}
+}
+
+.f-wpcpInstantIn,
+.f-wpcpInstantOut {
+	animation: none !important;
+}
+
+/* --- Carousel slide transitions (Carousel.transition) --- */
+
+.is-horizontal .f-tubeIn.from-next,
+.is-horizontal .f-tubeIn.from-prev {
+	animation: f-wpcp-carousel-tube-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.is-horizontal .f-tubeOut.to-next,
+.is-horizontal .f-tubeOut.to-prev {
+	animation: f-wpcp-carousel-tube-out 0.35s ease both;
+}
+
+.is-horizontal .f-tubeIn.from-next {
+	--wpcp-lb-tube-offset: 48px;
+}
+
+.is-horizontal .f-tubeIn.from-prev {
+	--wpcp-lb-tube-offset: -48px;
+}
+
+.is-horizontal .f-tubeOut.to-next {
+	--wpcp-lb-tube-offset: -36px;
+}
+
+.is-horizontal .f-tubeOut.to-prev {
+	--wpcp-lb-tube-offset: 36px;
+}
+
+@keyframes f-wpcp-carousel-tube-in {
+	from {
+		clip-path: inset(0 14% 0 14% round 18px);
+		transform: translate3d(var(--wpcp-lb-tube-offset, 0), 0, 0);
+		opacity: 0;
+	}
+
+	to {
+		clip-path: inset(0 0 0 0 round 0);
+		transform: translate3d(0, 0, 0);
+		opacity: 1;
+	}
+}
+
+@keyframes f-wpcp-carousel-tube-out {
+	from {
+		clip-path: inset(0 0 0 0 round 0);
+		transform: translate3d(0, 0, 0);
+		opacity: 1;
+	}
+
+	to {
+		clip-path: inset(0 14% 0 14% round 18px);
+		transform: translate3d(var(--wpcp-lb-tube-offset, 0), 0, 0);
+		opacity: 0;
+	}
+}
+
+.is-horizontal .f-rotateIn.from-next {
+	animation: f-wpcp-carousel-rotate-fade-in 0.5s ease both;
+}
+
+.is-horizontal .f-rotateIn.from-prev {
+	animation: f-wpcp-carousel-rotate-fade-in 0.5s ease both;
+}
+
+.is-horizontal .f-rotateOut.to-next,
+.is-horizontal .f-rotateOut.to-prev {
+	animation: f-wpcp-carousel-rotate-fade-out 0.35s ease both;
+}
+
+.is-horizontal .f-rotateIn.from-next .f-panzoom__content {
+	animation: f-wpcp-carousel-rotate-content-next 0.5s ease both;
+}
+
+.is-horizontal .f-rotateIn.from-prev .f-panzoom__content {
+	animation: f-wpcp-carousel-rotate-content-prev 0.5s ease both;
+}
+
+.is-horizontal .f-rotateOut.to-next .f-panzoom__content {
+	animation: f-wpcp-carousel-rotate-content-out-next 0.35s ease both;
+}
+
+.is-horizontal .f-rotateOut.to-prev .f-panzoom__content {
+	animation: f-wpcp-carousel-rotate-content-out-prev 0.35s ease both;
+}
+
+@keyframes f-wpcp-carousel-rotate-fade-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes f-wpcp-carousel-rotate-fade-out {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes f-wpcp-carousel-rotate-content-next {
+	from {
+		transform: translate3d(18px, 0, 0) rotate(5deg);
+	}
+
+	to {
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+@keyframes f-wpcp-carousel-rotate-content-prev {
+	from {
+		transform: translate3d(-18px, 0, 0) rotate(-5deg);
+	}
+
+	to {
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+@keyframes f-wpcp-carousel-rotate-content-out-next {
+	from {
+		transform: translate3d(0, 0, 0);
+	}
+
+	to {
+		transform: translate3d(-14px, 0, 0) rotate(-4deg);
+	}
+}
+
+@keyframes f-wpcp-carousel-rotate-content-out-prev {
+	from {
+		transform: translate3d(0, 0, 0);
+	}
+
+	to {
+		transform: translate3d(14px, 0, 0) rotate(4deg);
+	}
+}
+
+.is-horizontal .f-zoomInOutIn.from-next,
+.is-horizontal .f-zoomInOutIn.from-prev {
+	animation: f-wpcp-carousel-zoom-in-out-in 0.5s ease both;
+}
+
+.is-horizontal .f-zoomInOutOut.to-next,
+.is-horizontal .f-zoomInOutOut.to-prev {
+	animation: f-wpcp-carousel-zoom-in-out-out 0.35s ease both;
+}
+
+@keyframes f-wpcp-carousel-zoom-in-out-in {
+	0% {
+		filter: blur(8px);
+		transform: translate3d(0, 0, 0);
+		opacity: 0;
+	}
+
+	70% {
+		filter: blur(0);
+	}
+
+	100% {
+		filter: blur(0);
+		transform: translate3d(0, 0, 0);
+		opacity: 1;
+	}
+}
+
+@keyframes f-wpcp-carousel-zoom-in-out-out {
+	from {
+		filter: blur(0);
+		transform: translate3d(0, 0, 0);
+		opacity: 1;
+	}
+
+	to {
+		filter: blur(8px);
+		transform: translate3d(0, 0, 0);
+		opacity: 0;
+	}
+}
+
+/* Keep toolbar and arrows visible during autoplay (Fancybox idle UI hides them without mouse movement). */
+.fancybox__container.has-autoplay.is-idle .f-carousel__toolbar,
+.fancybox__container.has-autoplay.is-idle.is-ready .f-carousel__toolbar {
+	opacity: 1;
+	pointer-events: auto;
+	animation: none;
+}
+
+.fancybox__container.has-autoplay.is-idle .f-button.is-arrow,
+.fancybox__container.has-autoplay.is-idle.is-ready .f-button.is-arrow {
+	opacity: 1;
+	animation: none;
+}
+

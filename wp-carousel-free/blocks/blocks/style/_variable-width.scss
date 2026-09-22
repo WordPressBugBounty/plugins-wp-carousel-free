@@ -1,0 +1,56 @@
+@use 'mixins' as *;
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * VARIABLE WIDTH (horizontal Swiper) – slide width from image / content
+ * ════════════════════════════════════════════════════════════════════════════ */
+.wpcp-carousel-render.wpcp-variable-width:not(.wpcp-vertical) {
+
+	/* Each slide takes its width from the per-slide `--wpcp-vw-slide-width` custom
+	 * property (the image's intrinsic width, emitted on the slide element). It has
+	 * to be a custom property rather than an inline `width`, because Swiper resets
+	 * every slide's inline width to re-measure them under `slidesPerView: 'auto'`,
+	 * which would wipe an inline width. Falls back to `max-content` for items whose
+	 * intrinsic width is unknown (natural-flow images still size themselves). */
+	.wpcp-swiper .swiper-slide {
+		width: var(--wpcp-vw-slide-width, max-content);
+		flex-shrink: 0;
+		box-sizing: border-box;
+	}
+
+	/* Fill the slide width so a fixed/custom aspect-ratio media (an aspect-ratio
+	 * frame holding an absolutely-positioned image) spans the slide instead of
+	 * collapsing — an absolute image contributes no intrinsic width, so without
+	 * this the slide would shrink to nothing for any non-original aspect ratio. */
+	.wpcp-item-inner {
+		width: 100%;
+		max-width: 100%;
+	}
+
+	/* Optional fixed Image Height (Image panel, variable width only): the image
+	 * scales to the height token and the per-slide width calc follows the scaled
+	 * width. Falls back to natural height when the token is not emitted. */
+	.wpcp-item-media--maxw-rsp img.wpcp-item-img,
+	.wpcp-item-media img.wpcp-item-img {
+		display: block;
+		width: auto;
+		height: var(--wpcp-vw-image-height, auto);
+		max-height: var(--wpcp-vw-image-max-height, none);
+		max-width: 100%;
+	}
+}
+
+/* Center style vertical – only active visible with fade */
+.wpcp-carousel-render.wpcp-style-center.wpcp-vertical {
+	.swiper-slide {
+		opacity: 0.4;
+		transform: scale(0.9);
+		transition:
+			opacity 0.3s,
+			transform 0.3s;
+	}
+
+	.swiper-slide-active {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
