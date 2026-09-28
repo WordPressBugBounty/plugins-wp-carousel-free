@@ -119,6 +119,20 @@
 		}
 	}
 
+	/* The stage's bottom margin makes room for the pagination Margin, since the
+	 * absolutely positioned dots can't; the shared wrapper is a flow root so it
+	 * can't collapse through. The slider's dots overlay the image instead. */
+	&:not(.wpcp-vertical):not(.wpcp-style-slider) {
+		&:has(> .wpcp-pagination--vpos-bottom),
+		> .wpcp-block-inner:has(> .wpcp-pagination--vpos-bottom) {
+			display: flow-root;
+		}
+
+		.wpcp-carousel-stage:has(~ .wpcp-pagination--vpos-bottom) {
+			margin-bottom: calc(var(--wpcp-pag-margin-top, 0px) + var(--wpcp-pag-margin-bottom, 0px));
+		}
+	}
+
 	&.nav-vertical-center .wpcp-nav-arrows,
 	&.nav-vertical-center-inner .wpcp-nav-arrows,
 	&.nav-vertically-inner-and-outer .wpcp-nav-arrows {
@@ -201,9 +215,10 @@
 		--wpcp-pag-active-border-color: var(--wpcp-pag-border-color);
 		--wpcp-pag-active-border-width: var(--wpcp-pag-border-width);
 		box-sizing: border-box;
-		width: 100% !important;
+		/* `auto`, not 100%: left/right are pinned, so the Margin sides inset the box. */
+		width: auto !important;
 		max-width: 100%;
-		margin-inline: 0;
+		margin: var(--wpcp-pag-margin-top, 0px) var(--wpcp-pag-margin-right, 0px) var(--wpcp-pag-margin-bottom, 0px) var(--wpcp-pag-margin-left, 0px);
 		left: 0 !important;
 		right: 0 !important;
 		transform: none !important;
@@ -252,10 +267,12 @@
 			outline-offset: 2px;
 		}
 
-		/* Vertical position: top */
+		/* Vertical position: top. `bottom: auto` releases Swiper's bottom anchor,
+		 * which otherwise stretches the box down the slides. */
 		&.wpcp-pagination--vpos-top {
 			position: absolute;
 			top: 0;
+			bottom: auto;
 			left: 0;
 			right: 0;
 			z-index: 10;

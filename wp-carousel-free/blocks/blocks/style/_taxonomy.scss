@@ -31,6 +31,14 @@
 		cursor: pointer;
 	}
 
+	// Linked terms are an <a> on the frontend but a <span> in the editor, so keep
+	// the media box's `a { width: 100% }` and theme link underlines off them.
+	a.wpcp-item-taxonomy[href] {
+		display: flex;
+		width: auto;
+		text-decoration: none;
+	}
+
 	// Hover variants — each falls back to the normal value so a hover-unset block
 	// shows no hover change (replacing the legacy `#uid .wpcp-item-taxonomy:hover`).
 	.wpcp-item-taxonomy:hover {

@@ -49,10 +49,38 @@ export const GeneratorSettingsPageArrow = () => (
 	<svg width={12} height={12} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<path
 			d="M2 9.99957L10 1.99957M10 1.99957L3.84617 1.99958M10 1.99957L10 8.15342"
-			stroke="#1A74E4"
+			stroke="currentColor"
 			strokeWidth="1.3"
 			strokeLinecap="round"
 			strokeLinejoin="round"
+		/>
+	</svg>
+);
+
+export const ClassicSettingsIcon = () => (
+	<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path
+			fillRule="evenodd"
+			clipRule="evenodd"
+			d="M5 2.35a2.15 2.15 0 0 1 2.08 1.6h7.27a.65.65 0 1 1 0 1.3H7.08A2.15 2.15 0 1 1 5 2.35m0 1.3a.85.85 0 1 0 0 1.7.85.85 0 0 0 0-1.7M1 4.6a.65.65 0 0 1 .65-.65h.5a.65.65 0 1 1 0 1.3h-.5A.65.65 0 0 1 1 4.6"
+			fill="#2f2f2f"
+		/>
+		<path
+			fillRule="evenodd"
+			clipRule="evenodd"
+			d="M11 9.25a2.15 2.15 0 1 1-2.08 2.7H1.65a.65.65 0 1 1 0-1.3h7.27A2.15 2.15 0 0 1 11 9.25m0 1.3a.85.85 0 1 0 0 1.7.85.85 0 0 0 0-1.7m2.2.1h1.15a.65.65 0 1 1 0 1.3H13.2a.65.65 0 1 1 0-1.3"
+			fill="#2f2f2f"
+		/>
+	</svg>
+);
+
+export const ToolsTabIcon = () => (
+	<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path
+			fillRule="evenodd"
+			clipRule="evenodd"
+			d="M10.9 1a4.1 4.1 0 0 1 1.3.21.65.65 0 0 1 .25 1.07L10.5 4.23l.08 1.19 1.19.08 1.95-1.95a.65.65 0 0 1 1.07.25A4.1 4.1 0 0 1 9.64 8.9l-4.58 4.58a2.05 2.05 0 1 1-2.9-2.9L6.74 6A4.1 4.1 0 0 1 10.9 1m0 1.3a2.8 2.8 0 0 0-2.66 3.7.65.65 0 0 1-.16.66l-4.99 5a.75.75 0 0 0 1.06 1.06l5-5a.65.65 0 0 1 .66-.15 2.8 2.8 0 0 0 3.68-2.36l-1.2 1.2a.65.65 0 0 1-.5.18l-1.8-.12a.65.65 0 0 1-.6-.6l-.13-1.81a.65.65 0 0 1 .19-.5l1.2-1.2z"
+			fill="#2f2f2f"
 		/>
 	</svg>
 );

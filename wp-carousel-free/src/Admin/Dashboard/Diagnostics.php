@@ -11,8 +11,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Collects non-sensitive environment data once a week, but only after the site
- * owner has explicitly consented. Free has no license, so the consent notice is
- * gated on the plugin actually being used rather than on a license status.
+ * owner has explicitly consented.
  */
 class Diagnostics {
 
@@ -152,11 +151,6 @@ class Diagnostics {
 			return;
 		}
 
-		// Free has no license to check, so ask only people who use the plugin.
-		if ( ! $this->has_published_content() ) {
-			return;
-		}
-
 		$started = (int) get_option( self::OPTION_NOTICE_STARTED, 0 );
 		if ( ! $started ) {
 			update_option( self::OPTION_NOTICE_STARTED, time() );
@@ -168,21 +162,6 @@ class Diagnostics {
 		}
 
 		$this->render_notice();
-	}
-
-	/**
-	 * Whether the site has at least one published carousel or saved template.
-	 *
-	 * @return bool
-	 */
-	private function has_published_content() {
-		$carousels = wp_count_posts( 'sp_wp_carousel' );
-		$templates = wp_count_posts( Saved_Templates::POST_TYPE );
-
-		$published  = isset( $carousels->publish ) ? (int) $carousels->publish : 0;
-		$published += isset( $templates->publish ) ? (int) $templates->publish : 0;
-
-		return $published > 0;
 	}
 
 	/**
@@ -291,7 +270,7 @@ class Diagnostics {
 					<h3><?php esc_html_e( 'Help us make WP Carousel even more awesome?', 'wp-carousel-free' ); ?></h3>
 					<p>
 						<?php esc_html_e( 'Allow us to collect non-sensitive diagnostic data to resolve problems faster and improve performance.', 'wp-carousel-free' ); ?>
-						<a href="https://wpcarousel.io/privacy-policy/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Learn More', 'wp-carousel-free' ); ?></a>
+						<a href="https://shapedplugin.com/information-we-collect/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Learn More', 'wp-carousel-free' ); ?></a>
 					</p>
 					<button type="submit" class="button" name="wpcpf_diagnostic_action" value="allow"><?php esc_html_e( 'Accept & Close', 'wp-carousel-free' ); ?></button>
 				</div>

@@ -1,5 +1,31 @@
-import { escapeAttribute } from "@wordpress/escape-html";
 const el = wp.element.createElement;
 const icons = {};
-icons.spwpcfIcon = el('img', {src: escapeAttribute( sp_wp_carousel_free.url + 'admin/GutenbergBlock/assets/wp-carousel-icon.svg' )})
+
+// Same teal as the block-based carousel icons, with a fallback where their stylesheet is not loaded.
+const iconFill = "var(--wpcp-carousel-primary-2-700, #1b9aa6)";
+
+// The WP Carousel brand glyph, centred in a square box so it sizes like the other inserter icons.
+icons.spwpcfIcon = el(
+  "svg",
+  {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: 24,
+    height: 24,
+    viewBox: "0 -2 16 16",
+    fill: "none",
+  },
+  el("path", {
+    d: "M0 0.333332V11.6667C0 11.85 0.15 12 0.333333 12H15.6667C15.85 12 16 11.85 16 11.6667V0.333332C16 0.15 15.85 0 15.6667 0H0.333333C0.15 0 0 0.15 0 0.333332ZM13.66 10.1633H2.34C2.15667 10.1633 2.00667 10.0133 2.00667 9.83V2.17C2.00667 1.98667 2.15667 1.83667 2.34 1.83667H13.66C13.8433 1.83667 13.9933 1.98667 13.9933 2.17V9.83C13.9933 10.0133 13.8433 10.1633 13.66 10.1633Z",
+    fill: iconFill,
+  }),
+  el("path", {
+    d: "M12.5866 6.10004L11.1699 7.87004C11.1132 7.9434 11.0066 7.9534 10.9366 7.89672L10.2199 7.32004C10.1499 7.2634 10.1366 7.15672 10.1932 7.08672L10.9799 6.10672C11.0299 6.04672 11.0299 5.96004 10.9799 5.89672L10.1866 4.91004C10.1299 4.83672 10.1399 4.7334 10.2132 4.67672L10.9299 4.10004C11.0032 4.0434 11.1066 4.0534 11.1632 4.12672L12.4832 5.7734L12.5832 5.8934C12.6366 5.95004 12.6366 6.03672 12.5866 6.10004Z",
+    fill: iconFill,
+  }),
+  el("path", {
+    d: "M5.01664 6.10672L5.80328 7.08672C5.85996 7.16008 5.84996 7.2634 5.77664 7.32008L5.06328 7.8934C4.98996 7.95008 4.88664 7.94008 4.82996 7.86672L3.40996 6.10008C3.35996 6.04008 3.35996 5.9534 3.40996 5.89008L3.43663 5.85672L4.83996 4.1234C4.89664 4.05008 5.00328 4.04008 5.07328 4.09672L5.78996 4.6734C5.86328 4.73008 5.87328 4.83672 5.81664 4.90672L5.01664 5.90008C4.96996 5.96008 4.96664 6.04672 5.01664 6.10672Z",
+    fill: iconFill,
+  })
+);
+
 export default icons;

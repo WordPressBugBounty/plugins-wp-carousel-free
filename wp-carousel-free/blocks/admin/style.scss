@@ -359,6 +359,14 @@ $content-gutter: 32px;
 	width: 100%;
 }
 
+/* Left column: tab menu card, then the classic-settings links card. */
+.wpcpf-settings-aside {
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	gap: 16px;
+}
+
 /* Sidebar navigation. */
 .wpcpf-settings-sidebar {
 	z-index: 10;
@@ -370,11 +378,14 @@ $content-gutter: 32px;
 	padding: 16px;
 	box-shadow: 0 1px 2px 0 rgba(17, 17, 17, 0.04);
 
-	.wpcpf-settings-tabs {
+	.wpcpf-settings-tabs,
+	.wpcpf-settings-classic-list {
 		list-style: none;
 	}
 
-	.wpcpf-settings-tab {
+	/* Shared by the classic-settings links so both cards read as one menu. */
+	.wpcpf-settings-tab,
+	.wpcpf-settings-classic-link {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -426,6 +437,32 @@ $content-gutter: 32px;
 			.wpcpf-settings-icon path {
 				fill: var(--wpcpf-primary-color);
 			}
+		}
+	}
+
+	/* Links leave the dashboard, so they never take the active state; the
+	   colour is restated on hover/focus to hold off WordPress's blue link colour. */
+	.wpcpf-settings-classic-link {
+		text-decoration: none;
+
+		&:hover,
+		&:focus {
+			color: #1e1e1e;
+		}
+
+		&:hover {
+			background: #f9fafb;
+		}
+
+		.wpcpf-settings-classic-link-arrow {
+			display: inline-flex;
+			align-items: center;
+			color: #757575;
+			transition: color 0.3s ease;
+		}
+
+		&:hover .wpcpf-settings-classic-link-arrow {
+			color: var(--wpcpf-primary-color);
 		}
 	}
 }
@@ -725,29 +762,15 @@ $content-gutter: 32px;
 	}
 }
 
-.wpcpf-classic-settings-page-link {
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-	margin-top: 24px;
-	margin-left: 280px;
-	color: #1a74e4;
-	font-weight: 500;
-	text-decoration: none;
-}
-
 @media screen and (max-width: 1023px) {
 	.wpcpf-settings-page,
 	.wpcpf-settings-section {
 		flex-direction: column;
 	}
 
+	.wpcpf-settings-aside,
 	.wpcpf-settings-sidebar {
 		width: 100%;
-	}
-
-	.wpcpf-classic-settings-page-link {
-		margin-left: 0;
 	}
 }
 

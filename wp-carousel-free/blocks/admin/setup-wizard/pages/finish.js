@@ -193,7 +193,7 @@ export default function FinishPage({ shareData, setShareData, onFinish, saving }
 								{__('Your Privacy is First', 'wp-carousel-free')}
 							</span>
 							<a
-								href="https://wpcarousel.io/privacy-policy/"
+								href="https://shapedplugin.com/information-we-collect/"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="wpcpf-sw-modal-btn-link"

@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 import { getModuleInfo } from '../../pages/modules/module-data';
-import { toastSuccessMsg, toastErrorMsg } from '../../functions';
+import { toastSuccessMsg } from '../../functions';
 import ProIcon from '../../../components/pro/proIcon';
 
 /**
@@ -30,15 +30,15 @@ export default function ModulesPage({ modulesOptions, saveOptions }) {
 			.filter((item) => !item.isPro)
 			.map((item) => (item.module_name === moduleName ? { ...item, show: !item.show } : item));
 
+		// saveOptions reports its own failures, so only success is announced here.
 		saveOptions({ modulesOptions: updated })
-			.then(() => {
-				setSaving(false);
-				toastSuccessMsg(message);
+			.then((json) => {
+				if (json?.success) {
+					toastSuccessMsg(message);
+				}
 			})
-			.catch(() => {
-				setSaving(false);
-				toastErrorMsg(__('Something went wrong', 'wp-carousel-free'));
-			});
+			.catch(() => {})
+			.finally(() => setSaving(false));
 	};
 
 	return (

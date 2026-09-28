@@ -260,6 +260,8 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	// The 16:9 poster is wider than the box; anchor left so the logo and headline stay whole.
+	object-position: left center;
 }
 
 .wpcpf-sw-play-button {

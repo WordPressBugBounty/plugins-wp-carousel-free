@@ -19,27 +19,23 @@ import {
 	OxygenIntegrationIcon,
 } from './icons';
 import { DocsIcon } from '../common-icons';
-import { toastSuccessMsg, toastErrorMsg } from '../../functions';
+import { toastSuccessMsg } from '../../functions';
 
-const DOCS_URL = 'https://docs.wpcarousel.io/guide/dashboard/integrations';
+const DOCS_URL = 'https://docs.wpcarousel.io/guide/page-builders';
 
-// The guide's anchors don't all match the row key one-to-one — divi, wpbakery
-// and beaver spell theirs out further. Anything absent here falls back to its
-// own key, which already matches (elementor, oxygen, bricks).
-const DOCS_ANCHORS = {
-	divi: 'divi-builder',
-	wpbakery: 'wpbakery-page-builder',
+// Each builder has its own guide page; only beaver's slug differs from its row key.
+const DOCS_SLUGS = {
 	beaver: 'beaver-builder',
 };
 
 /**
- * Docs URL for one builder's own section of the integrations guide.
+ * Docs URL for one builder's step-by-step guide.
  *
  * @param {string} builderKey Row key, e.g. 'oxygen'.
  * @return {string} Docs URL.
  */
 function getDocsUrl(builderKey) {
-	return `${DOCS_URL}#${DOCS_ANCHORS[builderKey] || builderKey}`;
+	return `${DOCS_URL}/${DOCS_SLUGS[builderKey] || builderKey}`;
 }
 
 // Presentation only — which integrations exist, and in what order, is the
@@ -78,8 +74,12 @@ function IntegrationCard({ item, allItems, saveOptions }) {
 			row.key === item.key ? { ...row, is_active: !isActive } : row
 		);
 
+		// saveOptions reports its own failures, so only success is announced here.
 		saveOptions({ integrations: updated })
-			.then(() => {
+			.then((json) => {
+				if (!json?.success) {
+					return;
+				}
 				toastSuccessMsg(
 					isActive
 						? /* translators: %s: page builder name, e.g. Elementor */
@@ -88,9 +88,7 @@ function IntegrationCard({ item, allItems, saveOptions }) {
 						  sprintf(__('%s integration enabled.', 'wp-carousel-free'), label)
 				);
 			})
-			.catch(() => {
-				toastErrorMsg(__('Something went wrong', 'wp-carousel-free'));
-			})
+			.catch(() => {})
 			.finally(() => {
 				setSaving(false);
 			});

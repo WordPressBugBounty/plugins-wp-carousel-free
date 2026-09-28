@@ -3,7 +3,7 @@
         'name' => 'shapedplugin/wp-carousel-free',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'f15db469484a9737b1019997813f081b019cb17d',
+        'reference' => '625c82cb5209f1c237fa03add08c6d5eeb7e7ae5',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'shapedplugin/wp-carousel-free' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'f15db469484a9737b1019997813f081b019cb17d',
+            'reference' => '625c82cb5209f1c237fa03add08c6d5eeb7e7ae5',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

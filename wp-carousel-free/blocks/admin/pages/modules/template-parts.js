@@ -4,7 +4,7 @@ import { getModuleInfo } from './module-data';
 import { DocsIcon, SettingsIcon } from './icons';
 import ProIcon from '../../../components/pro/proIcon';
 import { moduleHasDrawerSettings } from '../../modules/config/moduleSettingsRegistry';
-import { toastSuccessMsg, toastErrorMsg } from '../../functions';
+import { toastSuccessMsg } from '../../functions';
 
 const FALLBACK_GRADIENT = 'linear-gradient(135deg, rgb(247, 97, 161) 0%, rgb(140, 27, 171) 100%)';
 
@@ -53,15 +53,15 @@ export function ModuleCard({ item, allItems, saveOptions, onOpenSettings }) {
 			.filter((m) => !m.isPro && 'upcoming' !== m.status)
 			.map((m) => (m.module_name === item.module_name ? { ...m, show: !m.show } : m));
 
+		// saveOptions reports its own failures, so only success is announced here.
 		saveOptions({ modulesOptions: updated })
-			.then(() => {
-				setSaving(false);
-				toastSuccessMsg(message);
+			.then((json) => {
+				if (json?.success) {
+					toastSuccessMsg(message);
+				}
 			})
-			.catch(() => {
-				setSaving(false);
-				toastErrorMsg(__('Something went wrong', 'wp-carousel-free'));
-			});
+			.catch(() => {})
+			.finally(() => setSaving(false));
 	};
 
 	return (

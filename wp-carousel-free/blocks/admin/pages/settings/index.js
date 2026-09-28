@@ -7,6 +7,8 @@ import {
 	CustomCssJsIcon,
 	ChevronRightIcon,
 	IntegrationsTabIcon,
+	ClassicSettingsIcon,
+	ToolsTabIcon,
 } from './icons';
 import { toastSuccessMsg, toastErrorMsg } from '../../functions';
 import CodeSettingField from './CodeSettingField.jsx';
@@ -18,6 +20,23 @@ const TABS = [
 	{ id: 'integrations', label: __('Integrations', 'wp-carousel-free'), Icon: IntegrationsTabIcon },
 	{ id: 'advanced', label: __('Advanced Controls', 'wp-carousel-free'), Icon: AdvancedIcon },
 	{ id: 'custom', label: __('Custom CSS & JS', 'wp-carousel-free'), Icon: CustomCssJsIcon },
+];
+
+// Links out to the classic shortcode-generator settings page. The URLs come from
+// PHP, which knows the admin path and the options framework's tab ids.
+const CLASSIC_LINKS = [
+	{
+		id: 'classic-settings',
+		label: __('Classic Settings', 'wp-carousel-free'),
+		Icon: ClassicSettingsIcon,
+		urlKey: 'classicSettingsUrl',
+	},
+	{
+		id: 'classic-tools',
+		label: __('Tools', 'wp-carousel-free'),
+		Icon: ToolsTabIcon,
+		urlKey: 'classicToolsUrl',
+	},
 ];
 
 const ADVANCED_SETTINGS = [
@@ -162,9 +181,9 @@ export default function Settings({ pluginSettings, integrations, saveOptions }) 
 	};
 
 	return (
-		<>
-			<div className="wpcpf-settings-page">
-				<div className="wpcpf-settings-section">
+		<div className="wpcpf-settings-page">
+			<div className="wpcpf-settings-section">
+				<div className="wpcpf-settings-aside">
 					<div className="wpcpf-settings-sidebar">
 						<ul className="wpcpf-settings-tabs wpcpf-d-flex wpcpf-flex-col wpcpf-gap-8px">
 							{TABS.map(({ label, id, Icon }) => (
@@ -192,138 +211,151 @@ export default function Settings({ pluginSettings, integrations, saveOptions }) 
 						</ul>
 					</div>
 
-					<div className="wpcpf-settings-content">
-						{activeTab === 'integrations' && (
-							<Integrations integrations={integrations} saveOptions={saveOptions} />
-						)}
+					<nav
+						className="wpcpf-settings-sidebar wpcpf-settings-classic-links"
+						aria-label={__('Classic settings', 'wp-carousel-free')}
+					>
+						<ul className="wpcpf-settings-classic-list wpcpf-d-flex wpcpf-flex-col wpcpf-gap-8px">
+							{CLASSIC_LINKS.map(({ id, label, Icon, urlKey }) => (
+								<li key={id}>
+									<a
+										href={getWpcpfDashboard()[urlKey] || ''}
+										className="wpcpf-settings-classic-link wpcpf-d-flex wpcpf-align-center wpcpf-justify-between"
+									>
+										<span className="wpcpf-settings-tab-label wpcpf-d-flex wpcpf-align-center wpcpf-gap-8px">
+											<span className="wpcpf-settings-icon">
+												<Icon />
+											</span>
+											<span>{label}</span>
+										</span>
+										<span className="wpcpf-settings-classic-link-arrow">
+											<GeneratorSettingsPageArrow />
+										</span>
+									</a>
+								</li>
+							))}
+						</ul>
+					</nav>
+				</div>
 
-						{activeTab === 'advanced' && (
-							<div className="wpcpf-settings-advanced-content">
-								<div className="wpcpf-settings-list">
-									{advancedSettings.map((setting) => (
-										<div key={setting.id} className="wpcpf-setting-item">
-											<div className="wpcpf-setting-info">
-												<h4 className="wpcpf-setting-title">{setting.title}</h4>
-												<p className="wpcpf-setting-description">{setting.description}</p>
-											</div>
-											<button
-												type="button"
-												className={`wpcpf-setting-checkbox ${
-													setting.checked ? 'wpcpf-setting-checkbox-checked' : ''
-												}`}
-												onClick={() => handleToggleSetting(setting.id)}
-												aria-label={
-													setting.checked
-														? __('Unchecked', 'wp-carousel-free')
-														: __('Checked', 'wp-carousel-free')
-												}
-											>
-												{setting.checked && <CheckIcon />}
-											</button>
-										</div>
-									))}
+				<div className="wpcpf-settings-content">
+					{activeTab === 'integrations' && (
+						<Integrations integrations={integrations} saveOptions={saveOptions} />
+					)}
 
-									<div className="wpcpf-setting-item">
+					{activeTab === 'advanced' && (
+						<div className="wpcpf-settings-advanced-content">
+							<div className="wpcpf-settings-list">
+								{advancedSettings.map((setting) => (
+									<div key={setting.id} className="wpcpf-setting-item">
 										<div className="wpcpf-setting-info">
-											<h4 className="wpcpf-setting-title">{__('Clear Cached', 'wp-carousel-free')}</h4>
-											<p className="wpcpf-setting-description">
-												{__(
-													'Clear all cached data to refresh content and apply recent changes immediately.',
-													'wp-carousel-free'
-												)}
-											</p>
+											<h4 className="wpcpf-setting-title">{setting.title}</h4>
+											<p className="wpcpf-setting-description">{setting.description}</p>
 										</div>
 										<button
 											type="button"
-											className="wpcpf-flush-cache-btn"
-											onClick={handleFlushCache}
-											disabled={flushing}
+											className={`wpcpf-setting-checkbox ${
+												setting.checked ? 'wpcpf-setting-checkbox-checked' : ''
+											}`}
+											onClick={() => handleToggleSetting(setting.id)}
+											aria-label={
+												setting.checked
+													? __('Unchecked', 'wp-carousel-free')
+													: __('Checked', 'wp-carousel-free')
+											}
 										>
-											{flushing ? __('Clearing…', 'wp-carousel-free') : __('Flush Cache', 'wp-carousel-free')}
+											{setting.checked && <CheckIcon />}
 										</button>
 									</div>
-								</div>
+								))}
 
-								<div className="wpcpf-settings-actions">
+								<div className="wpcpf-setting-item">
+									<div className="wpcpf-setting-info">
+										<h4 className="wpcpf-setting-title">{__('Clear Cached', 'wp-carousel-free')}</h4>
+										<p className="wpcpf-setting-description">
+											{__(
+												'Clear all cached data to refresh content and apply recent changes immediately.',
+												'wp-carousel-free'
+											)}
+										</p>
+									</div>
 									<button
 										type="button"
-										className="wpcpf-save-btn"
-										onClick={handleSaveChanges}
-										disabled={saving}
+										className="wpcpf-flush-cache-btn"
+										onClick={handleFlushCache}
+										disabled={flushing}
 									>
-										{saving ? __('Saving…', 'wp-carousel-free') : __('Save Changes', 'wp-carousel-free')}
-									</button>
-									<button
-										type="button"
-										className="wpcpf-reset-btn"
-										onClick={handleResetChanges}
-										disabled={resetting}
-									>
-										{resetting
-											? __('Resetting…', 'wp-carousel-free')
-											: __('Reset Changes', 'wp-carousel-free')}
+										{flushing ? __('Clearing…', 'wp-carousel-free') : __('Flush Cache', 'wp-carousel-free')}
 									</button>
 								</div>
 							</div>
-						)}
 
-						{activeTab === 'custom' && (
-							<div className="wpcpf-settings-custom-content">
+							<div className="wpcpf-settings-actions">
+								<button
+									type="button"
+									className="wpcpf-save-btn"
+									onClick={handleSaveChanges}
+									disabled={saving}
+								>
+									{saving ? __('Saving…', 'wp-carousel-free') : __('Save Changes', 'wp-carousel-free')}
+								</button>
+								<button
+									type="button"
+									className="wpcpf-reset-btn"
+									onClick={handleResetChanges}
+									disabled={resetting}
+								>
+									{resetting
+										? __('Resetting…', 'wp-carousel-free')
+										: __('Reset Changes', 'wp-carousel-free')}
+								</button>
+							</div>
+						</div>
+					)}
+
+					{activeTab === 'custom' && (
+						<div className="wpcpf-settings-custom-content">
+							<CodeSettingField
+								label={__('Custom CSS', 'wp-carousel-free')}
+								value={customCss}
+								onChange={setCustomCss}
+								mode="css"
+								settings={codeEditorSettings.css}
+							/>
+							{canEditCustomJs && (
 								<CodeSettingField
-									label={__('Custom CSS', 'wp-carousel-free')}
-									value={customCss}
-									onChange={setCustomCss}
-									mode="css"
-									settings={codeEditorSettings.css}
+									label={__('Custom JS', 'wp-carousel-free')}
+									value={customJs}
+									onChange={setCustomJs}
+									mode="javascript"
+									settings={codeEditorSettings.js}
 								/>
-								{canEditCustomJs && (
-									<CodeSettingField
-										label={__('Custom JS', 'wp-carousel-free')}
-										value={customJs}
-										onChange={setCustomJs}
-										mode="javascript"
-										settings={codeEditorSettings.js}
-									/>
-								)}
+							)}
 
-								<div className="wpcpf-settings-actions">
-									<button
-										type="button"
-										className="wpcpf-save-btn"
-										onClick={handleSaveChanges}
-										disabled={saving}
-									>
-										{saving ? __('Saving…', 'wp-carousel-free') : __('Save Changes', 'wp-carousel-free')}
-									</button>
-									<button
-										type="button"
-										className="wpcpf-reset-btn"
-										onClick={handleResetChanges}
-										disabled={resetting}
-									>
-										{resetting
-											? __('Resetting…', 'wp-carousel-free')
-											: __('Reset Changes', 'wp-carousel-free')}
-									</button>
-								</div>
+							<div className="wpcpf-settings-actions">
+								<button
+									type="button"
+									className="wpcpf-save-btn"
+									onClick={handleSaveChanges}
+									disabled={saving}
+								>
+									{saving ? __('Saving…', 'wp-carousel-free') : __('Save Changes', 'wp-carousel-free')}
+								</button>
+								<button
+									type="button"
+									className="wpcpf-reset-btn"
+									onClick={handleResetChanges}
+									disabled={resetting}
+								>
+									{resetting
+										? __('Resetting…', 'wp-carousel-free')
+										: __('Reset Changes', 'wp-carousel-free')}
+								</button>
 							</div>
-						)}
-					</div>
+						</div>
+					)}
 				</div>
 			</div>
-
-			<a
-				href={`${
-					getWpcpfDashboard().homeUrl || ''
-				}wp-admin/edit.php?post_type=sp_wp_carousel&page=wpcp_settings`}
-				rel="noopener noreferrer"
-				className="wpcpf-classic-settings-page-link"
-			>
-				{__('Classic Shortcode Generator Setting', 'wp-carousel-free')}
-				<span className="wpcpf-classic-settings-page-link-arrow">
-					<GeneratorSettingsPageArrow />
-				</span>
-			</a>
-		</>
+		</div>
 	);
 }

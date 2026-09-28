@@ -561,7 +561,8 @@ class Dashboard {
 			);
 		}
 
-		$current_user = wp_get_current_user();
+		$current_user         = wp_get_current_user();
+		$classic_settings_url = admin_url( 'edit.php?post_type=sp_wp_carousel&page=wpcp_settings' );
 		wp_localize_script(
 			'wpcpf-admin-dashboard',
 			'wpcpfDashboard',
@@ -578,6 +579,10 @@ class Dashboard {
 				'current_user'       => $current_user->display_name ?? '',
 				'recommendedPlugins' => $this->get_recommended_plugins(),
 				'canEditCustomJs'    => current_user_can( 'unfiltered_html' ),
+				'classicSettingsUrl' => $classic_settings_url,
+				// The options framework names each tab after its translated title, so the
+				// hash is built the same way to keep the link working in any locale.
+				'classicToolsUrl'    => $classic_settings_url . '#tab=' . sanitize_title( __( 'Tools', 'wp-carousel-free' ) ),
 				'codeEditor'         => array(
 					'css' => false !== $css_editor_settings ? $css_editor_settings : null,
 					'js'  => false !== $js_editor_settings ? $js_editor_settings : null,

@@ -76,7 +76,7 @@ const GettingStarted = ({ readyPatternsEnabled = true }) => {
 							aria-label={__('Play the introduction video', 'wp-carousel-free')}
 						>
 							<img
-								src={`${wpcpf?.pluginUrl}src/Admin/img/dashboard-video-poster.png`}
+								src={`${wpcpf?.pluginUrl}src/Admin/img/dashboard-video-poster.jpg`}
 								alt=""
 								className="wpcpf-qs-video-placeholder"
 							/>

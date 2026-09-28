@@ -4,7 +4,7 @@ import { buildPatternLibraryEditorUrl } from '@wp-carousel-pro/common/readyPatte
 import { carouselBlocksInfo, showcaseBlocks } from './block-data';
 import { DocsIcon, DemoIcon } from './icons';
 import ProIcon from '../../../components/pro/proIcon';
-import { toastSuccessMsg, toastErrorMsg } from '../../functions';
+import { toastSuccessMsg } from '../../functions';
 
 /**
  * Accessible name for a block's switch, which also has to explain why it is off.
@@ -63,15 +63,15 @@ export function BlockCard({ item, saveOptions, blockVisibility }) {
 			.filter((block) => !block.isPro)
 			.map((block) => (block.name === item.name ? { ...block, show: !block.show } : block));
 
+		// saveOptions reports its own failures, so only success is announced here.
 		saveOptions({ blockVisibility: updatedVisibility })
-			.then(() => {
-				setSaving(false);
-				toastSuccessMsg(message);
+			.then((json) => {
+				if (json?.success) {
+					toastSuccessMsg(message);
+				}
 			})
-			.catch(() => {
-				setSaving(false);
-				toastErrorMsg(__('Something went wrong', 'wp-carousel-free'));
-			});
+			.catch(() => {})
+			.finally(() => setSaving(false));
 	};
 
 	return (

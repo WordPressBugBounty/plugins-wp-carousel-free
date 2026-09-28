@@ -45,6 +45,7 @@
 		"test:php:item-text": "bash scripts/test-php.sh tests/php/item-text-sanitizers.php",
 		"test:php:image-sizes": "bash scripts/test-php.sh tests/php/image-source-sizes.php",
 		"test:php:nav-arrow-size": "bash scripts/test-php.sh tests/php/nav-arrow-size-css.php",
+		"test:php:pagination-dots": "bash scripts/test-php.sh tests/php/pagination-dots-css.php",
 		"test:php:baseline": "bash scripts/test-php.sh tests/php/render-baseline.php diff",
 		"test:php:baseline:capture": "bash scripts/test-php.sh tests/php/render-baseline.php capture",
 		"test": "jest",

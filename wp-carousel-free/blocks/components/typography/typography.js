@@ -145,10 +145,17 @@ const Typography = ({
 			return undefined;
 		}
 		const clickOutSite = (e) => {
-			const target = e.target.closest('.wpcp-typography-fonts');
-			const buttonTarget = e.target.closest(`.wpcp-typography-trigger button.${typoBtnClass}`);
-			const familyTarget = e.target.closest('.wpcp-react-select');
-			if (!target && !buttonTarget && !familyTarget && !typoBtnRef.current?.contains(e.target)) {
+			// composedPath() is fixed at dispatch, so it still holds a font option react-select unmounted on select.
+			const isInside = e
+				.composedPath()
+				.some(
+					(node) =>
+						node === typoBtnRef.current ||
+						node?.matches?.(
+							`.wpcp-typography-fonts, .wpcp-react-select, .wpcp-typography-trigger button.${typoBtnClass}`
+						)
+				);
+			if (!isInside) {
 				setIsVisible(false);
 			}
 		};

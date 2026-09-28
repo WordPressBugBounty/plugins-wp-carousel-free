@@ -4,7 +4,7 @@ Tags: slider, carousel, slideshow, gallery, video slider
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 3.0.0
+Stable tag: 3.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -193,6 +193,20 @@ Yes, WP Carousel works perfectly with WordPress multi-site network.
 
 
 == Changelog ==
+
+= Version 3.0.1 – Sep 28, 2026 =
+* New: The WP Carousel Shortcode block now appears under the WP Carousel category with the brand icon.
+* Improved: Each page builder's Docs button on the Integrations page opens its own step-by-step guide.
+* Improved: The diagnostics notice and setup wizard Learn More links.
+* Improved: The dashboard and setup wizard intro video posters have been sharpened.
+* Improved: The Classic Shortcode Settings and Tools page links added to block settings page.
+* Fix: The Fancybox lightbox no longer overwrites global variables other plugins rely on.
+* Fix: The typography popover stayed closed after choosing a font family.
+* Fix: The dashboard module toggle announced success before the server confirmed the save.
+* Fix: Linked taxonomy terms stretched full width and showed underlines on the frontend.
+* Fix: The pagination Top position option placed the dots at the offset's bottom side.
+* Fix: The pagination Margin control moved the dots on some blocks but not others.
+* Tested: WooCommerce 11.1.2 compatibility.
 
 = Version 3.0.0 – Sep 22, 2026 =
 * New: The Carousel block with 4 source types (Images, Video, Posts, Products) and 2 carousel styles.

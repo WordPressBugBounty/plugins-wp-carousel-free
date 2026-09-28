@@ -1,3 +1,6 @@
+( function () {
+var exports = {};
+var module = { exports: exports };
 !(
 	/*! License details at fancyapps.com/license */ (function (e, t) {
 		'object' == typeof exports && 'u' > typeof module
@@ -5675,3 +5678,6 @@
 			(e.Zoomable = eL);
 	})
 );
+
+window.Fancybox = exports.Fancybox;
+} )();

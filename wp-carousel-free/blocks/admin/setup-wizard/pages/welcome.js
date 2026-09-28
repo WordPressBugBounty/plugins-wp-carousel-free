@@ -5,7 +5,7 @@ import { useSelect } from '@wordpress/data';
 const wpcpf = typeof window !== 'undefined' ? window.wpcpfDashboard : null;
 const overlayImg = `${
 	wpcpf?.pluginUrl || ''
-}src/Admin/img/setup-wizard/welcome-video-overlay-img.png`;
+}src/Admin/img/setup-wizard/welcome-video-overlay-img.jpg`;
 
 const VIDEO_SRC = 'https://www.youtube.com/embed/a2ggJ4U5oi0?enablejsapi=1';
 

@@ -256,8 +256,9 @@ class NavigationBuilder {
 			return $fallback;
 		};
 
-		$selector   = '#' . $dom_id . ' .wpcp-pagination.swiper-pagination';
-		$config     = array_values(
+		$root_selector = '#' . $dom_id;
+		$selector      = $root_selector . ' .wpcp-pagination.swiper-pagination';
+		$config        = array_values(
 			array_filter(
 				StyleConfig::all(),
 				static function ( $row ) {
@@ -265,32 +266,52 @@ class NavigationBuilder {
 				}
 			)
 		);
-		$token_bags = ( new EmitTokens() )->emit(
+		$token_bags    = ( new EmitTokens() )->emit(
 			$config,
 			array( 'paginationDotsOptions' => $pbo )
 		);
 
-		// Layer-5 direct properties (not tokenized): top offset + margin.
+		// Layer-5 direct property (not tokenized): the top-position offset.
 		$build_layout_props = static function ( string $device ) use ( $pbo, $get_device_value ) {
 			$props = array();
 			$style = AllowedValues::pagination_style( $pbo['paginationStyle'] ?? '' );
 			if ( 'scrollbar' !== $style && isset( $pbo['verticalPos'] ) && 'top' === $pbo['verticalPos'] ) {
-				$voff         = isset( $pbo['verticalPosition']['device'] ) ? (float) $get_device_value( $pbo['verticalPosition']['device'], $device, 30 ) : 30;
+				$voff_raw = isset( $pbo['verticalPosition']['device'] ) ? $get_device_value( $pbo['verticalPosition']['device'], $device, 30 ) : 30;
+				// Each device holds a four-sided spacing value; the offset is its top side.
+				if ( is_array( $voff_raw ) ) {
+					$voff_raw = $voff_raw['top'] ?? 30;
+				}
+				$voff         = is_numeric( $voff_raw ) ? max( -200, min( 400, (float) $voff_raw ) ) : 30;
 				$voff_unit    = isset( $pbo['verticalPosition']['unit'] ) ? (string) $get_device_value( $pbo['verticalPosition']['unit'], $device, 'px' ) : 'px';
 				$props['top'] = $voff . $voff_unit;
 			}
-			if ( isset( $pbo['margin']['device'][ $device ] ) && is_array( $pbo['margin']['device'][ $device ] ) ) {
-				$margin_device = $pbo['margin']['device'][ $device ];
-				$margin_unit   = isset( $pbo['margin']['unit'] ) ? $get_device_value( $pbo['margin']['unit'], $device, 'px' ) : 'px';
-				$margin_top    = (float) ( $margin_device['top'] ?? 0 );
-				$margin_right  = (float) ( $margin_device['right'] ?? 0 );
-				$margin_bottom = (float) ( $margin_device['bottom'] ?? 0 );
-				$margin_left   = (float) ( $margin_device['left'] ?? 0 );
-				if ( $margin_top || $margin_right || $margin_bottom || $margin_left ) {
-					$props['margin'] = $margin_top . $margin_unit . ' ' . $margin_right . $margin_unit . ' ' . $margin_bottom . $margin_unit . ' ' . $margin_left . $margin_unit;
-				}
-			}
 			return $props;
+		};
+
+		// Margin sides as custom properties on the block root, where the stage can read them too.
+		$build_margin_vars = static function ( string $device ) use ( $pbo, $get_device_value ) {
+			if ( ! isset( $pbo['margin']['device'][ $device ] ) || ! is_array( $pbo['margin']['device'][ $device ] ) ) {
+				return array();
+			}
+			$margin_device = $pbo['margin']['device'][ $device ];
+			$unit_raw      = $pbo['margin']['unit'] ?? 'px';
+			$margin_unit   = strtolower( is_array( $unit_raw ) ? (string) $get_device_value( $unit_raw, $device, 'px' ) : (string) $unit_raw );
+			if ( ! in_array( $margin_unit, array( 'px', 'em', '%' ), true ) ) {
+				$margin_unit = 'px';
+			}
+			$margin_top    = (float) ( $margin_device['top'] ?? 0 );
+			$margin_right  = (float) ( $margin_device['right'] ?? 0 );
+			$margin_bottom = (float) ( $margin_device['bottom'] ?? 0 );
+			$margin_left   = (float) ( $margin_device['left'] ?? 0 );
+			if ( ! $margin_top && ! $margin_right && ! $margin_bottom && ! $margin_left ) {
+				return array();
+			}
+			return array(
+				'--wpcp-pag-margin-top'    => $margin_top . $margin_unit,
+				'--wpcp-pag-margin-right'  => $margin_right . $margin_unit,
+				'--wpcp-pag-margin-bottom' => $margin_bottom . $margin_unit,
+				'--wpcp-pag-margin-left'   => $margin_left . $margin_unit,
+			);
 		};
 
 		$build_styles = static function ( string $device ) use ( $token_bags, $build_layout_props ) {
@@ -298,11 +319,15 @@ class NavigationBuilder {
 			return array_merge( $tokens, $build_layout_props( $device ) );
 		};
 
-		$device_rules = static function ( string $device ) use ( $selector, $build_styles ) {
+		$device_rules = static function ( string $device ) use ( $selector, $root_selector, $build_styles, $build_margin_vars ) {
 			return array(
 				array(
 					'selector' => $selector,
 					'styles'   => $build_styles( $device ),
+				),
+				array(
+					'selector' => $root_selector,
+					'styles'   => $build_margin_vars( $device ),
 				),
 			);
 		};

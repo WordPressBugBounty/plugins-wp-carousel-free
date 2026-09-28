@@ -2,7 +2,7 @@ import icons from "./shortcode/blockIcon";
 import DynamicShortcodeInput from "./shortcode/dynamicShortcode";
 import { escapeAttribute, escapeHTML } from "@wordpress/escape-html";
 import { __ } from '@wordpress/i18n';
-import { createBlock, registerBlockType } from '@wordpress/blocks';
+import { createBlock, getCategories, registerBlockType } from '@wordpress/blocks';
 import { PanelBody, PanelRow } from '@wordpress/components';
 import { createElement, useEffect, useRef } from '@wordpress/element';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
@@ -27,13 +27,14 @@ registerBlockType("sp-wp-carousel-pro/shortcode", {
   // Block API v3 marks the block as compatible with the iframed editor canvas,
   // which WordPress 7.1 uses for every editor.
   apiVersion: 3,
-  title: escapeHTML( __("WP Carousel", "wp-carousel-free") ),
+  title: escapeHTML( __("WP Carousel Shortcode", "wp-carousel-free") ),
   description: escapeHTML( __(
     "Use WP Carousel to insert a carousel or gallery in your page.",
     "wp-carousel-free"
   )),
   icon: icons.spwpcfIcon,
-  category: "media",
+  // WP Carousel when the block module has registered it (WP 5.8+), Media otherwise.
+  category: getCategories().some( ( { slug } ) => "wp-carousel-pro" === slug ) ? "wp-carousel-pro" : "media",
   supports: {
     html: true,
   },
@@ -158,7 +159,7 @@ registerBlockType("sp-wp-carousel-pro/shortcode", {
           el('div', {className: 'components-placeholder components-placeholder is-large'},
             el('div', {className: 'components-placeholder__label'},
               el('img', {className: 'block-editor-block-icon', src: escapeAttribute( sp_wp_carousel_free.url + 'admin/GutenbergBlock/assets/wp-carousel-icon.svg' )}),
-              escapeHTML( __("WP Carousel", "wp-carousel-free") )
+              escapeHTML( __("WP Carousel Shortcode", "wp-carousel-free") )
             ),
             el('div', {className: 'components-placeholder__instructions'},
               escapeHTML( __("No shortcode found. ", "wp-carousel-free") ),
@@ -188,7 +189,7 @@ registerBlockType("sp-wp-carousel-pro/shortcode", {
           el('div', {className: 'components-placeholder components-placeholder is-large'},
             el('div', {className: 'components-placeholder__label'},
               el('img', { className: 'block-editor-block-icon', src: escapeAttribute( sp_wp_carousel_free.url + "admin/GutenbergBlock/assets/wp-carousel-icon.svg" )}),
-              escapeHTML( __("WP Carousel", "wp-carousel-free") )
+              escapeHTML( __("WP Carousel Shortcode", "wp-carousel-free") )
             ),
             el('div', {className: 'components-placeholder__instructions'}, escapeHTML( __("Select a shortcode", "wp-carousel-free") ) ),
             <DynamicShortcodeInput
