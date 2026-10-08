@@ -13,6 +13,7 @@ import { WPCarouselCategoryIcon, WPCarouselProCategoryIcon } from '@wp-carousel-
 
 import manifest from './block-manifest.json';
 import { registerReadyPatternsLauncher } from './shared/ready-patterns/toolbarButton';
+import { registerAIBuilderLauncher } from './shared/ai-builder';
 // Opens the block inserter when the editor is reached from a dashboard
 // "Add New" link (?wpcpblock_inserter), and the Ready Patterns library when
 // reached with ?wpcp_pattern_library.
@@ -25,6 +26,10 @@ import './style.scss';
 // Mounts the header "WP Carousel Library" button and the single modal host the
 // wizard and inspector CTAs open through; a no-op when the module is off.
 registerReadyPatternsLauncher();
+
+// Mounts the header "Build with AI" button and the AI builder modal host;
+// a no-op when the module is off or the site disallows AI.
+registerAIBuilderLauncher();
 
 const MAIN_CATEGORY = 'wp-carousel-pro';
 const PRO_CATEGORY = 'wp-carousel-pro-blocks';

@@ -7,6 +7,7 @@
 	"category": "wp-carousel-pro",
 	"keywords": ["tiles", "grid", "gallery"],
 	"textdomain": "wp-carousel-free",
+	"editorScript": "wpcpf-blocks-editor",
 	"example": { "viewportWidth": 320 },
 	"providesContext": {
 		"wp-carousel-pro/uniqueId": "uniqueId",

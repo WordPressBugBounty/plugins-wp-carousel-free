@@ -9,11 +9,11 @@ export const LIGHTBOX_ICON_VISIBILITY_OPTIONS = [
 ];
 
 export const LIGHTBOX_ICON_POSITION_OPTIONS = [
-	{ label: __('Top Left', 'wp-carousel-free'), value: 'top-left' },
 	{ label: __('Top Right', 'wp-carousel-free'), value: 'top-right' },
 	{ label: __('Center', 'wp-carousel-free'), value: 'center' },
-	{ label: __('Bottom Left', 'wp-carousel-free'), value: 'bottom-left' },
-	{ label: __('Bottom Right', 'wp-carousel-free'), value: 'bottom-right' },
+	{ label: __('Top Left', 'wp-carousel-free'), value: 'top-left', pro: true },
+	{ label: __('Bottom Left', 'wp-carousel-free'), value: 'bottom-left', pro: true },
+	{ label: __('Bottom Right', 'wp-carousel-free'), value: 'bottom-right', pro: true },
 ];
 
 export const LIGHTBOX_THEME_OPTIONS = [
@@ -34,9 +34,18 @@ export const LIGHTBOX_TRANSITION_OPTIONS = [
 	{ label: __('None', 'wp-carousel-free'), value: 'none' },
 ];
 
+export const LIGHTBOX_SLIDE_TRANSITION_OPTIONS = [
+	{ label: __('Fade', 'wp-carousel-free'), value: 'fade' },
+	{ label: __('Slide', 'wp-carousel-free'), value: 'slide' },
+	{ label: __('Tube', 'wp-carousel-free'), value: 'tube' },
+	{ label: __('Zoom-In-Out', 'wp-carousel-free'), value: 'zoom-in-out' },
+	{ label: __('Rotate', 'wp-carousel-free'), value: 'rotate' },
+	{ label: __('None', 'wp-carousel-free'), value: 'none' },
+];
+
 export const LIGHTBOX_THUMBNAIL_OPTIONS = [
-	{ label: __('Modern Thumbnails', 'wp-carousel-free'), value: 'modern' },
 	{ label: __('Classic Thumbnails', 'wp-carousel-free'), value: 'classic' },
-	{ label: __('Scrollable Thumbnails', 'wp-carousel-free'), value: 'scrollable' },
 	{ label: __('No Thumbnails', 'wp-carousel-free'), value: 'none' },
+	{ label: __('Modern Thumbnails', 'wp-carousel-free'), value: 'modern', pro: true },
+	{ label: __('Scrollable Thumbnails', 'wp-carousel-free'), value: 'scrollable', pro: true },
 ];

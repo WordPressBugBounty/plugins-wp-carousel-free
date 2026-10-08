@@ -34,6 +34,7 @@ function moduleLabels() {
 		lightbox: __('Lightbox', 'wp-carousel-free'),
 		hover: __('Hover Animations', 'wp-carousel-free'),
 		'ready-patterns': __('Ready Patterns Library', 'wp-carousel-free'),
+		'ai-carousel-builder': __('Create Carousel with AI', 'wp-carousel-free'),
 	};
 }
 

@@ -1,9 +1,10 @@
 import { __ } from '@wordpress/i18n';
-import { useState, useEffect } from '@wordpress/element';
+import { useState, useEffect, useMemo } from '@wordpress/element';
 import {
 	CheckIcon,
 	GeneratorSettingsPageArrow,
 	AdvancedIcon,
+	AITabIcon,
 	CustomCssJsIcon,
 	ChevronRightIcon,
 	IntegrationsTabIcon,
@@ -13,14 +14,47 @@ import {
 import { toastSuccessMsg, toastErrorMsg } from '../../functions';
 import CodeSettingField from './CodeSettingField.jsx';
 import Integrations from '../integrations';
+import AiConfiguration from './ai-configuration/AiConfiguration';
 
 const getWpcpfDashboard = () => (typeof window !== 'undefined' ? window.wpcpfDashboard || {} : {});
 
 const TABS = [
 	{ id: 'integrations', label: __('Integrations', 'wp-carousel-free'), Icon: IntegrationsTabIcon },
+	{
+		id: 'ai',
+		label: __('AI Configuration', 'wp-carousel-free'),
+		Icon: AITabIcon,
+		module: 'ai-carousel-builder',
+	},
 	{ id: 'advanced', label: __('Advanced Controls', 'wp-carousel-free'), Icon: AdvancedIcon },
 	{ id: 'custom', label: __('Custom CSS & JS', 'wp-carousel-free'), Icon: CustomCssJsIcon },
 ];
+
+/**
+ * Tabs this site has: a tab tied to a module goes with it.
+ *
+ * @param {Array} modulesOptions Module registry rows from the server.
+ * @return {Array} Visible tab definitions.
+ */
+const getVisibleTabs = (modulesOptions) =>
+	TABS.filter((tab) => {
+		if (!tab.module) {
+			return true;
+		}
+		const entry = (modulesOptions || []).find((item) => item.module_name === tab.module);
+		return entry ? !!entry.show : true;
+	});
+
+/**
+ * Sub-tab from a `#settings=<tab>` deep link, e.g. the AI builder's settings link.
+ *
+ * @param {Array} visibleTabs Tabs currently available.
+ * @return {string} Tab id to open.
+ */
+const getInitialTab = (visibleTabs) => {
+	const subTab = (window.location.hash || '').split('=')[1];
+	return visibleTabs.some((tab) => tab.id === subTab) ? subTab : 'integrations';
+};
 
 // Links out to the classic shortcode-generator settings page. The URLs come from
 // PHP, which knows the admin path and the options framework's tab ids.
@@ -60,8 +94,19 @@ const ADVANCED_SETTINGS = [
 	},
 ];
 
-export default function Settings({ pluginSettings, integrations, saveOptions }) {
-	const [activeTab, setActiveTab] = useState('integrations');
+export default function Settings({
+	pluginSettings,
+	integrations,
+	modulesOptions,
+	aiSettings,
+	saveOptions,
+}) {
+	const visibleTabs = useMemo(() => getVisibleTabs(modulesOptions), [modulesOptions]);
+	const [requestedTab, setActiveTab] = useState(() => getInitialTab(getVisibleTabs(modulesOptions)));
+	// A tab whose module was switched off falls back rather than rendering orphaned.
+	const activeTab = visibleTabs.some((tab) => tab.id === requestedTab)
+		? requestedTab
+		: 'integrations';
 	const [advancedSettings, setAdvancedSettings] = useState(ADVANCED_SETTINGS);
 	const [saving, setSaving] = useState(false);
 	const [resetting, setResetting] = useState(false);
@@ -186,7 +231,7 @@ export default function Settings({ pluginSettings, integrations, saveOptions }) 
 				<div className="wpcpf-settings-aside">
 					<div className="wpcpf-settings-sidebar">
 						<ul className="wpcpf-settings-tabs wpcpf-d-flex wpcpf-flex-col wpcpf-gap-8px">
-							{TABS.map(({ label, id, Icon }) => (
+							{visibleTabs.map(({ label, id, Icon }) => (
 								// eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
 								<li
 									key={id}
@@ -242,6 +287,8 @@ export default function Settings({ pluginSettings, integrations, saveOptions }) 
 					{activeTab === 'integrations' && (
 						<Integrations integrations={integrations} saveOptions={saveOptions} />
 					)}
+
+					{activeTab === 'ai' && <AiConfiguration aiSettings={aiSettings} saveOptions={saveOptions} />}
 
 					{activeTab === 'advanced' && (
 						<div className="wpcpf-settings-advanced-content">

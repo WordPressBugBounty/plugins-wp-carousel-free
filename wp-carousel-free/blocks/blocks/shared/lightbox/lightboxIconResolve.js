@@ -6,12 +6,10 @@ import { getLightboxModuleSettings, isLightboxModuleActive } from './useLightbox
 
 const BLOCK_DEFAULT_ICON = 'search';
 
+// Other global icon positions are Pro.
 const GLOBAL_POSITION_TO_OVERLAY = {
-	'top-left': 'top-left',
 	'top-right': 'top-right',
 	center: 'center-center',
-	'bottom-left': 'bottom-left',
-	'bottom-right': 'bottom-right',
 };
 
 /**
@@ -61,7 +59,7 @@ export function resolveGlobalLightboxIcon(settings = null) {
 		iconType: 'custom' === icon.source ? 'custom' : 'library',
 		iconName: icon.iconName || DEFAULT_LIGHTBOX_ICON_NAME,
 		customIcon: icon.image || {},
-		position: mapGlobalPositionToOverlaySlug(migrated.iconDisplayPosition || 'top-right'),
+		position: mapGlobalPositionToOverlaySlug(migrated.iconDisplayPosition),
 		visibility: migrated.iconVisible || 'hover',
 		iconStyle: migrated.iconStyle || {},
 	};

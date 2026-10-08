@@ -10,6 +10,11 @@ $wpcp-pro-green: #11a10c;
 $wpcp-pro-green-hover: #0f910b;
 $wpcp-pro-green-border: #6cc37c;
 
+// Crown chip — matches the dashboard's block and module card badge.
+$wpcp-pro-chip-icon: #4ab866;
+$wpcp-pro-chip-surface: #effff5;
+$wpcp-pro-chip-border: #93dcac;
+
 // Figma "Pro notes" upsell card — https://www.figma.com/design/jSLI4lZNWowWPHate1tBQP node 7890:210313
 $wpcp-pro-note-border: #b2eaee;
 $wpcp-pro-note-glow: #e0f7f8;
@@ -139,6 +144,70 @@ $wpcp-pro-upsell-button-hover: #128627;
       height: 12px;
       opacity: 1;
     }
+  }
+}
+
+/* ── Locked wizard card (source, orientation, video provider) ──────────── */
+
+// Crown chip pinned to the card's corner and always visible. Repeats the
+// .wpcp-pro-locked ancestor so it outranks the centred hover reveal above.
+.wpcp-pro-locked .wpcp-pro-badge.wpcp-pro-badge--corner {
+  top: 6px;
+  right: 6px;
+  left: auto;
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  line-height: 0;
+
+  .wpcp-pro-badge-link {
+    padding: 3px;
+    border: 0.8px solid $wpcp-pro-chip-border;
+    border-radius: 4px;
+    background: $wpcp-pro-chip-surface;
+    color: $wpcp-pro-chip-icon;
+  }
+}
+
+.wpcp-pro-card-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  z-index: 10;
+  padding: 4px 8px;
+  border-radius: 2px;
+  background: #1e1e1e;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 4px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #1e1e1e;
+  }
+}
+
+.wpcp-pro-locked:hover,
+.wpcp-pro-locked:focus-visible {
+  .wpcp-pro-card-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
   }
 }
 
@@ -283,13 +352,12 @@ $wpcp-pro-upsell-button-hover: #128627;
   content: '';
   display: inline-block;
   flex-shrink: 0;
-  width: 18px;
-  height: 18px;
+  width: 12px;
+  height: 12px;
   margin-left: 6px;
-  border-radius: 4px;
   vertical-align: middle;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 16 16'%3E%3Cpath fill='%23ff9437' d='M10.384 5.882c.18.329.478.572.842.648.322.068.652-.007.922-.203l.112-.092 1.396-1.279 1.159-1.062-.81 6.437H2.124l-.812-6.437 2.556 2.341c.288.264.666.373 1.035.295.364-.076.662-.32.841-.648l2.32-4.254 2.32 4.254Z'/%3E%3Cpath fill='%23ff9437' d='M13.851 14.873H2.274c-.373 0-.674-.369-.674-.824V12.24h12.925v1.81c0 .454-.301.823-.674.823Z'/%3E%3C/svg%3E")
-    center / 11px no-repeat;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' viewBox='0 0 16 16'%3E%3Cpath stroke='%234ab866' stroke-width='1.185' d='M10.384 5.882c.18.329.478.572.842.648.322.068.652-.007.922-.203l.112-.092 1.396-1.279 1.159-1.062-.81 6.437H2.124l-.812-6.437 2.556 2.341c.288.264.666.373 1.035.295.364-.076.662-.32.841-.648l2.32-4.254 2.32 4.254Z'/%3E%3Cpath fill='%234ab866' d='M13.851 14.873H2.274c-.373 0-.674-.369-.674-.824V12.24h12.925v1.81c0 .454-.301.823-.674.823Z'/%3E%3C/svg%3E")
+    center / 12px no-repeat;
 }
 
 /* ── Locked option inside a button group ────────────────────────────────── */

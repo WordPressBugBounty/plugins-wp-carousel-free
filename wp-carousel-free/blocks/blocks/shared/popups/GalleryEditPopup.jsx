@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { useState, useCallback, useRef, createPortal } from '@wordpress/element';
 import { Button } from '@wordpress/components';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import { SpProBadge, openPricingPage } from '@wp-carousel-pro/components';
+import { SpProCardBadge, openPricingPage } from '@wp-carousel-pro/components';
 import { DndContext, useSensor, useSensors, PointerSensor } from '@dnd-kit/core';
 import {
 	SortableContext,
@@ -306,7 +306,7 @@ function SortableVideoPanel({ blockName, item, isExpanded, onToggle, onDelete, o
 								>
 									<span className="wpcp-wizard-card-icon">{meta.icon}</span>
 									<span className="wpcp-wizard-card-label">{meta.label}</span>
-									{meta.pro && <SpProBadge />}
+									{meta.pro && <SpProCardBadge />}
 								</div>
 							);
 						})}

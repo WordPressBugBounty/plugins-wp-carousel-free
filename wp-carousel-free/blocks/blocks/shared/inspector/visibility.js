@@ -110,31 +110,6 @@ export function isReadMoreSuppressedByClickAction(attributes) {
 }
 
 /**
- * Fly-content slot visibility — a render-time "title only" default. The fly
- * bubble shows the title unless it is explicitly hidden, and every other slot
- * is hidden until the user explicitly enables it in the Content Area panel
- * (opt-in, the inverse of the normal "omitted ⇒ on" rule). The bubble carries
- * no image slot. Used ONLY for the fly-content orientation, which only the two
- * Pro editor previews can select; other orientations keep `isSlotVisible`.
- *
- * @param {Object} attributes - Block attributes
- * @param {string} slotId     - Slot identifier
- * @return {boolean} True if the slot shows in the fly bubble
- */
-export function isFlySlotVisible(attributes, slotId) {
-	// The fly bubble never carries the image, Read More / Add to Cart, or Social
-	// Share slots — always hidden in this orientation regardless of saved
-	// visibility.
-	if (slotId === 'image' || slotId === 'readmore' || slotId === 'social') {
-		return false;
-	}
-	if (slotId === 'title') {
-		return isSlotVisible(attributes, 'title');
-	}
-	return getElementVisibility(attributes)[slotId] === true;
-}
-
-/**
  * Merge patch for toggling a slot in Content Area (updates elementVisibility + legacy flags).
  *
  * @param {Object}  attributes - Block attributes

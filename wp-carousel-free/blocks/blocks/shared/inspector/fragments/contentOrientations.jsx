@@ -5,7 +5,6 @@
 import { memo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { Layouts } from '@wp-carousel-pro/components';
-import { isEditorPreviewBlock } from '../../constants/editorPreviewBlocks';
 import {
 	ContentOrientationClassicIcon,
 	ContentOrientationOverlayIcon,
@@ -63,28 +62,6 @@ const DEFAULT_ITEMS = [
 	FLY_CONTENT_ITEM,
 ];
 
-/** Panorama: no stacked layout on a curved stage, so Classic is out. */
-const PANORAMA_ITEMS = [OVERLAY_ITEM, DIAGONAL_ITEM, CONTENT_BOX_ITEM];
-
-/**
- * Drops the `onlyPro` badge so every card in a list is selectable.
- *
- * @param {object[]} items Orientation cards.
- * @return {object[]} The same cards, none of them locked.
- */
-const unlockProItems = (items) => items.map(({ onlyPro, ...item }) => item); // eslint-disable-line no-unused-vars
-
-/**
- * Every orientation is live on the two Pro editor previews, locked everywhere
- * else — the same rule the marquee's Variable Width toggle already follows.
- * Safe because neither block has a PHP render path to disagree with:
- * `EditorPreviewBlock::render()` returns before it reads an attribute, so
- * `AllowedValues::content_orientation_items()` stays as it is and nothing a
- * user picks here reaches a visitor.
- */
-const PANORAMA_PREVIEW_ITEMS = unlockProItems(PANORAMA_ITEMS);
-const DEFAULT_PREVIEW_ITEMS = unlockProItems(DEFAULT_ITEMS);
-
 /** Slider block: overlay-style orientations only — Classic has no stacked layout here. */
 export const SLIDER_CONTENT_ORIENTATIONS = ['overlay', 'diagonal'];
 
@@ -96,18 +73,12 @@ const THUMBNAIL_ITEMS = [OVERLAY_ITEM, DIAGONAL_ITEM];
 /** A Thumbnails Slider carrying a Classic or Pro orientation lands on Diagonal. */
 const THUMBNAIL_FALLBACK = 'diagonal';
 
-const isPanoramaContext = (context = {}) => {
-	const blockName = String(context?.blockName || context?.layoutType || '');
-	return blockName === 'carousel-panorama' || blockName === 'wp-carousel-pro/carousel-panorama';
-};
 const isSliderContext = (context = {}) => {
 	const blockName = String(context?.blockName || context?.layoutType || '');
 	return (
 		blockName === 'slider' || blockName === 'wp-carousel-pro/slider' || blockName.endsWith('/slider')
 	);
 };
-const isEditorPreviewContext = (context = {}) =>
-	isEditorPreviewBlock(String(context?.blockName || context?.layoutType || ''));
 const isThumbnailContext = (context = {}) => {
 	const blockName = String(context?.blockName || context?.layoutType || '');
 	return blockName === 'thumbnails-slider' || blockName === 'wp-carousel-pro/thumbnails-slider';
@@ -117,17 +88,11 @@ const isThumbnailContext = (context = {}) => {
 // signature every consumer shares with the PHP mirror.
 // eslint-disable-next-line no-unused-vars
 export function getContentOrientationItems(sourceType = 'image', context = {}) {
-	if (isPanoramaContext(context)) {
-		return PANORAMA_PREVIEW_ITEMS;
-	}
 	if (isSliderContext(context)) {
 		return SLIDER_ITEMS;
 	}
 	if (isThumbnailContext(context)) {
 		return THUMBNAIL_ITEMS;
-	}
-	if (isEditorPreviewContext(context)) {
-		return DEFAULT_PREVIEW_ITEMS;
 	}
 	return DEFAULT_ITEMS;
 }

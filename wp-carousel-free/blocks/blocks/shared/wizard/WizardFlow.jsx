@@ -18,7 +18,8 @@
 import { __ } from '@wordpress/i18n';
 import { useState, useCallback, useEffect, useRef } from '@wordpress/element';
 import { Button, FormFileUpload, Spinner } from '@wordpress/components';
-import { SpProBadge, openPricingPage } from '@wp-carousel-pro/components';
+import BrandMarkIcon from '../ai-builder/BrandMarkIcon';
+import { SpProCardBadge, openPricingPage } from '@wp-carousel-pro/components';
 import { MediaUploadCheck, store as blockEditorStore } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import { DndContext, useSensor, useSensors, PointerSensor } from '@dnd-kit/core';
@@ -212,6 +213,8 @@ function StepSource({
 	onSelect,
 	onOpenReadyPatterns,
 	readyPatternsEnabled,
+	onOpenAIBuilder,
+	aiBuilderEnabled,
 }) {
 	const allowedSet = new Set([
 		...getAllowedTopLevelSources(blockName),
@@ -247,7 +250,7 @@ function StepSource({
 					>
 						<span className="wpcp-wizard-card-icon">{src.icon}</span>
 						<span className="wpcp-wizard-card-label">{src.label}</span>
-						{src.pro && <SpProBadge />}
+						{src.pro && <SpProCardBadge />}
 					</div>
 				))}
 			</div>
@@ -255,6 +258,16 @@ function StepSource({
 				{readyPatternsEnabled && (
 					<Button isPrimary onClick={onOpenReadyPatterns}>
 						{__('Start with Ready Patterns', 'wp-carousel-free')}
+					</Button>
+				)}
+				{aiBuilderEnabled && (
+					<Button
+						isSecondary
+						className="wpcp-wizard-ai-btn"
+						icon={<BrandMarkIcon size={18} />}
+						onClick={onOpenAIBuilder}
+					>
+						{__('Build with AI', 'wp-carousel-free')}
 					</Button>
 				)}
 			</div>
@@ -303,7 +316,7 @@ function StepOrientation({
 						onKeyDown={(e) => e.key === 'Enter' && (onlyPro ? openPricingPage() : onSelect(value))}
 					>
 						<Icon value={null} />
-						{onlyPro && <SpProBadge />}
+						{onlyPro && <SpProCardBadge />}
 					</div>
 				))}
 			</div>
@@ -618,7 +631,7 @@ function SortableVideoPanel({ blockName, item, isExpanded, onToggle, onDelete, o
 								>
 									<span className="wpcp-wizard-card-icon">{meta.icon}</span>
 									<span className="wpcp-wizard-card-label">{meta.label}</span>
-									{meta.pro && <SpProBadge />}
+									{meta.pro && <SpProCardBadge />}
 								</div>
 							);
 						})}
@@ -1106,6 +1119,8 @@ function StepReview({
  * @param {Function} [props.onComplete]           Optional callback after wizard completion.
  * @param {Function} [props.onOpenReadyPatterns]  Opens the Ready Patterns modal.
  * @param {boolean}  [props.readyPatternsEnabled] Whether Ready Patterns entry is shown.
+ * @param {Function} [props.onOpenAIBuilder]      Opens the AI Carousel Builder for this block.
+ * @param {boolean}  [props.aiBuilderEnabled]     Whether the Build with AI entry is shown.
  * @return {JSX.Element} Wizard UI.
  */
 export default function WizardFlow({
@@ -1115,6 +1130,8 @@ export default function WizardFlow({
 	onComplete,
 	onOpenReadyPatterns,
 	readyPatternsEnabled,
+	onOpenAIBuilder,
+	aiBuilderEnabled,
 }) {
 	const { sourceType, items = [], blockName } = attributes;
 	const layoutOptions = attributes.layoutOptions || {};
@@ -1315,6 +1332,8 @@ export default function WizardFlow({
 					onSelect={handleSourceSelect}
 					onOpenReadyPatterns={onOpenReadyPatterns}
 					readyPatternsEnabled={readyPatternsEnabled}
+					onOpenAIBuilder={onOpenAIBuilder}
+					aiBuilderEnabled={aiBuilderEnabled}
 				/>
 			)}
 

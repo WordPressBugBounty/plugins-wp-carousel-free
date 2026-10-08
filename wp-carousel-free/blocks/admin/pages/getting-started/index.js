@@ -1,8 +1,11 @@
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
-import { PlayIcon } from './icons';
+import { useEffect, useState } from '@wordpress/element';
+import BrandMarkIcon from '../../../blocks/shared/ai-builder/BrandMarkIcon';
+import { AI_BUILDER_QUERY_ARG } from '../../../blocks/shared/ai-builder/constants';
+import Placements from './Placements';
+import { getFirstName, getGreeting } from './greeting';
+import { getSalutation, getWelcomeCopy } from './welcomeCopy';
 import './style.scss';
-import { DocumentationCard, SupportCard, ShowYourLoveCard } from './template-parts';
 
 const wpcpf = typeof window !== 'undefined' ? window.wpcpfDashboard : null;
 
@@ -16,118 +19,140 @@ const createUrl = blockEditorReady
 	? `${wpcpf?.adminUrl}post-new.php?post_type=page&wpcpblock_inserter=true`
 	: `${wpcpf?.adminUrl}post-new.php?post_type=sp_wp_carousel`;
 
-// The welcome copy names only the entry points actually on screen.
-const welcomeText = (showPatterns) => {
-	if (showPatterns) {
-		return __(
-			"Thanks for choosing WP Carousel! Everything's ready to go. Create your first carousel or gallery in the block editor — or start from a Ready Pattern.",
-			'wp-carousel-free'
-		);
-	}
-	if (blockEditorReady) {
-		return __(
-			"Thanks for choosing WP Carousel! Everything's ready to go. Create your first carousel or gallery in the block editor.",
-			'wp-carousel-free'
-		);
-	}
-	return __(
-		"Thanks for choosing WP Carousel! Everything's ready to go. Create your first carousel or gallery, then place it anywhere with a shortcode.",
-		'wp-carousel-free'
-	);
-};
-
-const GettingStarted = ({ readyPatternsEnabled = true }) => {
+const GettingStarted = ({ readyPatternsEnabled = true, aiBuilderEnabled = true }) => {
 	const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 	const showPatterns = blockEditorReady && readyPatternsEnabled;
+	// Offered only when the editor will mount the builder, so the link never lands on an empty page.
+	const showAIBuilder = blockEditorReady && !!wpcpf?.siteAllowsAi && aiBuilderEnabled;
+
+	// First visit or returning: the stored report decides on load, each scan or Sync after that.
+	const [placementsExist, setPlacementsExist] = useState(!!wpcpf?.hasPlacements);
+
+	useEffect(() => {
+		if (!isVideoModalOpen) {
+			return undefined;
+		}
+		const onKeyDown = (event) => {
+			if ('Escape' === event.key) {
+				setIsVideoModalOpen(false);
+			}
+		};
+		document.addEventListener('keydown', onKeyDown);
+		return () => document.removeEventListener('keydown', onKeyDown);
+	}, [isVideoModalOpen]);
+
+	// The ways to start, in order; the first one shown is the primary.
+	const startActions = [
+		showPatterns && {
+			key: 'patterns',
+			href: `${wpcpf?.adminUrl}post-new.php?post_type=page&wpcp_pattern_library`,
+			label: __('Use a Pattern', 'wp-carousel-free'),
+			icon: 'dashicons-screenoptions',
+		},
+		showAIBuilder && {
+			key: 'ai',
+			href: `${wpcpf?.adminUrl}post-new.php?post_type=page&${AI_BUILDER_QUERY_ARG}=true`,
+			label: __('Build with AI', 'wp-carousel-free'),
+			iconNode: <BrandMarkIcon size={17} />,
+		},
+		{
+			key: 'scratch',
+			href: createUrl,
+			label: blockEditorReady
+				? __('Start Blank', 'wp-carousel-free')
+				: __('Create New Carousel', 'wp-carousel-free'),
+			icon: 'dashicons-plus-alt2',
+		},
+	].filter(Boolean);
+
+	const salutation = getSalutation(
+		getGreeting(new Date().getHours()),
+		getFirstName(wpcpf?.userFirstName, wpcpf?.current_user)
+	);
+	const welcome = getWelcomeCopy({
+		hasPlacements: placementsExist,
+		blockEditor: blockEditorReady,
+		patterns: showPatterns,
+		ai: showAIBuilder,
+	});
 
 	return (
-		<div className="wpcpf-qs-page">
-			<div className="wpcpf-qs-content">
-				{/* Left: welcome copy, the two entry points, intro video */}
-				<div className="wpcpf-qs-left">
-					<div className="wpcpf-qs-about-section">
-						<div className="wpcpf-qs-about-text">
-							<div className="wpcpf-qs-about-copy">
-								<h3 className="wpcpf-qs-welcome-title">
-									{__('Welcome to WP Carousel!', 'wp-carousel-free')}
-								</h3>
-								<p className="wpcpf-qs-welcome-desc">{welcomeText(showPatterns)}</p>
-							</div>
-							<div className="wpcpf-qs-actions">
-								<a href={createUrl} className="wpcpf-qs-create-btn">
-									<i className="dashicons dashicons-plus-alt2"></i>
-									{__('Create New Carousel / Gallery', 'wp-carousel-free')}
-								</a>
-								{showPatterns && (
-									<a
-										href={`${wpcpf?.adminUrl}post-new.php?post_type=page&wpcp_pattern_library`}
-										className="wpcpf-qs-patterns-btn"
-									>
-										{__('Start with Ready Patterns', 'wp-carousel-free')}
-									</a>
-								)}
-							</div>
-						</div>
-
-						<button
-							type="button"
-							className="wpcpf-qs-video-wrapper"
-							onClick={() => setIsVideoModalOpen(true)}
-							aria-label={__('Play the introduction video', 'wp-carousel-free')}
-						>
-							<img
-								src={`${wpcpf?.pluginUrl}src/Admin/img/dashboard-video-poster.jpg`}
-								alt=""
-								className="wpcpf-qs-video-placeholder"
-							/>
-							<span className="wpcpf-qs-play-btn">
-								<PlayIcon />
-							</span>
-						</button>
+		<section className="wpcpf-qs-page">
+			<div className="wpcpf-qs-hero">
+				<div className="wpcpf-qs-hero__text">
+					<p className="wpcpf-qs-greeting">{salutation}</p>
+					<h1 className="wpcpf-qs-title">{welcome.title}</h1>
+					<p className="wpcpf-qs-lead">{welcome.lead}</p>
+					<div className="wpcpf-qs-actions">
+						{startActions.map((action, index) => (
+							<a
+								key={action.key}
+								className={`wpcpf-qs-start-btn wpcpf-qs-start-btn--${action.key}${
+									0 === index ? ' is-primary' : ''
+								}`}
+								href={action.href}
+							>
+								{action.iconNode || <span className={`dashicons ${action.icon}`} aria-hidden="true" />}
+								{action.label}
+							</a>
+						))}
 					</div>
 				</div>
 
-				{/* Right: docs, support, review */}
-				<div className="wpcpf-qs-sidebar">
-					<DocumentationCard />
-					<SupportCard />
-					<ShowYourLoveCard />
-				</div>
+				<button
+					type="button"
+					className="wpcpf-qs-video"
+					onClick={() => setIsVideoModalOpen(true)}
+					aria-label={__('Play the introduction video', 'wp-carousel-free')}
+				>
+					<img
+						className="wpcpf-qs-video__thumb"
+						src={`${wpcpf?.pluginUrl}src/Admin/img/dashboard-video-poster.jpg`}
+						alt=""
+						loading="eager"
+						decoding="async"
+					/>
+					<span className="wpcpf-qs-play-btn">
+						<span className="dashicons dashicons-controls-play" aria-hidden="true" />
+					</span>
+				</button>
 			</div>
 
+			<Placements
+				createUrl={createUrl}
+				onReport={(report) => setPlacementsExist(Array.isArray(report?.rows) && report.rows.length > 0)}
+			/>
+
 			{isVideoModalOpen && (
-				<div className="wpcpf-qs-video-modal" onClick={() => setIsVideoModalOpen(false)}>
-					<div className="wpcpf-qs-video-modal-content" onClick={(e) => e.stopPropagation()}>
+				<div
+					className="wpcpf-qs-modal"
+					onClick={(event) => {
+						if (event.target === event.currentTarget) {
+							setIsVideoModalOpen(false);
+						}
+					}}
+				>
+					<div className="wpcpf-qs-modal__content" role="dialog" aria-modal="true">
 						<button
 							type="button"
-							className="wpcpf-qs-video-modal-close"
+							className="wpcpf-qs-modal__close"
 							onClick={() => setIsVideoModalOpen(false)}
 							aria-label={__('Close video', 'wp-carousel-free')}
 						>
-							<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-								<path
-									d="M12 4L4 12M4 4L12 12"
-									stroke="currentColor"
-									strokeWidth="1.5"
-									strokeLinecap="round"
-								/>
-							</svg>
+							×
 						</button>
-						<div className="wpcpf-qs-video-modal-wrapper">
+						<div className="wpcpf-qs-modal__video">
 							<iframe
-								width="100%"
-								height="100%"
 								src={TUTORIAL_EMBED_URL}
 								title={__('WP Carousel introduction video', 'wp-carousel-free')}
-								frameBorder="0"
 								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 								allowFullScreen
-							></iframe>
+							/>
 						</div>
 					</div>
 				</div>
 			)}
-		</div>
+		</section>
 	);
 };
 

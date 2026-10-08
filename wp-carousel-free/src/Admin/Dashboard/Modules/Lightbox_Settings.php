@@ -30,11 +30,8 @@ class Lightbox_Settings {
 	 * Allowed icon display positions (dashboard global lightbox).
 	 */
 	const ICON_POSITIONS = array(
-		'top-left',
 		'top-right',
 		'center',
-		'bottom-left',
-		'bottom-right',
 	);
 
 	/**
@@ -72,12 +69,22 @@ class Lightbox_Settings {
 	);
 
 	/**
+	 * Allowed slide transition effects.
+	 */
+	const SLIDE_TRANSITION_EFFECTS = array(
+		'fade',
+		'slide',
+		'tube',
+		'zoom-in-out',
+		'rotate',
+		'none',
+	);
+
+	/**
 	 * Allowed thumbnail display styles.
 	 */
 	const THUMBNAIL_STYLES = array(
-		'modern',
 		'classic',
-		'scrollable',
 		'none',
 	);
 
@@ -115,6 +122,9 @@ class Lightbox_Settings {
 			),
 			'lightboxTheme'          => 'dark',
 			'closeOnClickOutside'    => true,
+			'sliderSettings'         => array(
+				'slideTransitionEffect' => 'fade',
+			),
 			'navigationArrow'        => true,
 			'transitionEffect'       => 'zoom',
 			'itemCounter'            => true,
@@ -123,7 +133,7 @@ class Lightbox_Settings {
 				'size'         => self::default_responsive_range( 20 ),
 				'borderRadius' => self::default_spacing( '0' ),
 				'padding'      => self::default_spacing( '11' ),
-				'normal'       => self::default_icon_state_style(),
+				'normal'       => self::default_icon_state_style( '#1e1e1e' ),
 				'hover'        => self::default_icon_state_style(),
 			),
 		);
@@ -132,11 +142,12 @@ class Lightbox_Settings {
 	/**
 	 * Default icon style state (normal / hover).
 	 *
+	 * @param string $icon_color Default icon color; hover leaves it empty to follow normal.
 	 * @return array<string, mixed>
 	 */
-	private static function default_icon_state_style() {
+	private static function default_icon_state_style( $icon_color = '' ) {
 		return array(
-			'iconColor'       => '',
+			'iconColor'       => $icon_color,
 			'backgroundColor' => '',
 			'border'          => array(
 				'style' => 'none',
@@ -244,6 +255,10 @@ class Lightbox_Settings {
 			? $incoming['iconStyle']
 			: array();
 
+		$slider_in = isset( $incoming['sliderSettings'] ) && is_array( $incoming['sliderSettings'] )
+			? $incoming['sliderSettings']
+			: array();
+
 		return array(
 			'lightboxProvider'       => self::sanitize_enum(
 				$incoming['lightboxProvider'] ?? '',
@@ -270,6 +285,13 @@ class Lightbox_Settings {
 				$defaults['lightboxTheme']
 			),
 			'closeOnClickOutside'    => self::sanitize_bool( $incoming, 'closeOnClickOutside', $defaults['closeOnClickOutside'] ),
+			'sliderSettings'         => array(
+				'slideTransitionEffect' => self::sanitize_enum(
+					$slider_in['slideTransitionEffect'] ?? '',
+					self::SLIDE_TRANSITION_EFFECTS,
+					$defaults['sliderSettings']['slideTransitionEffect']
+				),
+			),
 			'navigationArrow'        => self::sanitize_bool( $incoming, 'navigationArrow', $defaults['navigationArrow'] ),
 			'transitionEffect'       => self::sanitize_enum(
 				$incoming['transitionEffect'] ?? '',

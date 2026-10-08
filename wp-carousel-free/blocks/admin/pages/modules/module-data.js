@@ -12,6 +12,7 @@ import {
 	BuildCustomLayoutIcon,
 	WhiteLabelingIcon,
 	RoleManagementIcon,
+	AICarouselBuilderIcon,
 } from './icons';
 
 // Presentation metadata only — which modules exist, and which are Free, is
@@ -79,6 +80,16 @@ export const modulesInfo = {
 			'wp-carousel-free'
 		),
 		docLink: 'https://docs.wpcarousel.io/guide/features/ready-made-patterns',
+	},
+	'ai-carousel-builder': {
+		icon: <AICarouselBuilderIcon />,
+		gradient: 'linear-gradient(135deg, rgb(21, 117, 146) 0%, rgb(0, 180, 196) 100%)',
+		title: __('Build with AI', 'wp-carousel-free'),
+		description: __(
+			'This lets you describe the showcase you want and have the AI builder assemble it for you, then refine it in place.',
+			'wp-carousel-free'
+		),
+		docLink: 'https://docs.wpcarousel.io/guide/features/ai-carousel-builder',
 	},
 	'video-player': {
 		icon: <VideoPlayerIcon />,

@@ -3,8 +3,10 @@ import { Fragment, useEffect, useRef, useState } from '@wordpress/element';
 import Drawer from './Drawer';
 import useChangelogData from '../hooks/useChangelogData';
 import {
+	AboutUsIcon,
 	Arrow,
 	BlogIcon,
+	ChangelogIcon,
 	Community,
 	DocumentationIcon,
 	FeatRequest,
@@ -18,7 +20,7 @@ import {
 
 const wpcpf = typeof window !== 'undefined' ? window.wpcpfDashboard : null;
 
-// Same items, order, icons and links as Pro's dropdown.
+// Pro's dropdown items, plus About Us (an in-dashboard page) ahead of Join Community.
 const GET_HELP_ITEMS = [
 	{
 		title: __('Documentation', 'wp-carousel-free'),
@@ -63,6 +65,11 @@ const GET_HELP_ITEMS = [
 		link: 'https://shapedplugin.com/blog/',
 	},
 	{
+		title: __('About Us', 'wp-carousel-free'),
+		Icon: AboutUsIcon,
+		page: 'about-us',
+	},
+	{
 		title: __('Join Community', 'wp-carousel-free'),
 		Icon: Community,
 		link: 'https://community.shapedplugin.com/',
@@ -86,6 +93,8 @@ export default function Header({ menuItems, currentPage, setPageAndHash }) {
 		const item = itemsRef.current[currentPage];
 		const nav = navRef.current;
 		if (!item || !nav) {
+			// Off-navbar routes such as About Us have no tab to underline.
+			setIndicator({ left: 0, width: 0 });
 			return undefined;
 		}
 
@@ -113,7 +122,7 @@ export default function Header({ menuItems, currentPage, setPageAndHash }) {
 								onClick={() => setShowChangelog(true)}
 								aria-label={__('View changelog', 'wp-carousel-free')}
 							>
-								<img src={img('icon-changelog.svg')} alt="" aria-hidden="true" />
+								<ChangelogIcon />
 								{wpcpf.pluginVersion}
 							</button>
 						)}
@@ -124,34 +133,36 @@ export default function Header({ menuItems, currentPage, setPageAndHash }) {
 							className="wpcpf-nav-sliding-indicator"
 							style={{ left: `${indicator.left}px`, width: `${indicator.width}px` }}
 						/>
-						{menuItems.map((item) =>
-							item.divider ? (
-								<span key={item.value} className="wpcpf-navbar-divider" aria-hidden="true" />
-							) : (
-								<a
-									key={item.value}
-									ref={(el) => {
-										itemsRef.current[item.value] = el;
-									}}
-									href={item.hash || item.link}
-									className={`wpcpf-navbar-item${currentPage === item.value ? ' is-active' : ''}`}
-									{...(item.link
-										? { target: '_blank', rel: 'noopener noreferrer' }
-										: {
-												onClick: (e) => {
-													e.preventDefault();
-													setPageAndHash(item.value);
-												},
-										  })}
-								>
-									{item.icon && <img src={img(item.icon)} alt="" aria-hidden="true" />}
-									{item.label}
-									{item.badge && (
-										<span className="wpcpf-navbar-badge">{__('New!', 'wp-carousel-free')}</span>
-									)}
-								</a>
-							)
-						)}
+						{menuItems
+							.filter((item) => !item.hidden)
+							.map((item) =>
+								item.divider ? (
+									<span key={item.value} className="wpcpf-navbar-divider" aria-hidden="true" />
+								) : (
+									<a
+										key={item.value}
+										ref={(el) => {
+											itemsRef.current[item.value] = el;
+										}}
+										href={item.hash || item.link}
+										className={`wpcpf-navbar-item${currentPage === item.value ? ' is-active' : ''}`}
+										{...(item.link
+											? { target: '_blank', rel: 'noopener noreferrer' }
+											: {
+													onClick: (e) => {
+														e.preventDefault();
+														setPageAndHash(item.value);
+													},
+											  })}
+									>
+										{item.Icon && <item.Icon />}
+										{item.label}
+										{item.badge && (
+											<span className="wpcpf-navbar-badge">{__('New!', 'wp-carousel-free')}</span>
+										)}
+									</a>
+								)
+							)}
 					</nav>
 
 					<div
@@ -165,21 +176,30 @@ export default function Header({ menuItems, currentPage, setPageAndHash }) {
 						</button>
 						{showHelp && (
 							<div className="wpcpf-navbar-help-menu">
-								{GET_HELP_ITEMS.filter(({ link }) => link).map(({ title, link, Icon }) => (
-									<a
-										key={link}
-										className="wpcpf-navbar-help-link"
-										href={link}
-										target="_blank"
-										rel="noopener noreferrer"
-									>
-										<Icon />
-										<span>{title}</span>
-										<span className="wpcpf-navbar-help-arrow">
-											<Arrow />
-										</span>
-									</a>
-								))}
+								{GET_HELP_ITEMS.filter(({ link, page }) => link || page).map(
+									({ title, link, page, Icon }) => (
+										<a
+											key={link || page}
+											className="wpcpf-navbar-help-link"
+											{...(page
+												? {
+														href: `#${page}`,
+														onClick: (e) => {
+															e.preventDefault();
+															setShowHelp(false);
+															setPageAndHash(page);
+														},
+												  }
+												: { href: link, target: '_blank', rel: 'noopener noreferrer' })}
+										>
+											<Icon />
+											<span>{title}</span>
+											<span className="wpcpf-navbar-help-arrow">
+												<Arrow />
+											</span>
+										</a>
+									)
+								)}
 							</div>
 						)}
 					</div>

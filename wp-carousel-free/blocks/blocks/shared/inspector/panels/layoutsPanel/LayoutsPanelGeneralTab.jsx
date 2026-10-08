@@ -80,8 +80,7 @@ const MARQUEE_BLOCK = 'wp-carousel-pro/marquee';
 
 /**
  * The marquee's axis. Vertical is Pro elsewhere in Free, but a Pro editor
- * preview reaches no PHP render path, so the preview may draw it —
- * `useFreeLayoutGuard` skips these blocks for the same reason.
+ * preview reaches no PHP render path, so the preview may draw it.
  */
 const MARQUEE_DISPLAY_STYLES = [
 	{ label: __('Horizontal', 'wp-carousel-free'), value: 'horizontal' },

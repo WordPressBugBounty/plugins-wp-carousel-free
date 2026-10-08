@@ -9,7 +9,7 @@
  * Plugin Name:       WP Carousel
  * Plugin URI:        https://wpcarousel.io/
  * Description:       Create beautiful image carousels, sliders, video sliders, video galleries, and photo galleries with built-in Lightbox. Easily showcase images, videos, posts, and WooCommerce products with responsive layouts, grids, and fast performance—no code required.
- * Version:           3.0.1
+ * Version:           4.0.0
  * Author:            ShapedPlugin LLC
  * Author URI:        https://shapedplugin.com/
  * License:           GPL-2.0+
@@ -18,7 +18,7 @@
  * Domain Path:       /languages
  * Requires PHP: 7.4
  * WC requires at least: 6.4
- * WC tested up to:   11.1.2
+ * WC tested up to:   11.2.0
  */
 
 // If this file is called directly, abort.
@@ -227,7 +227,7 @@ class SP_WP_Carousel_Free {
 	 */
 	public function setup() {
 		$this->plugin_name = 'wp-carousel-free';
-		$this->version     = '3.0.1';
+		$this->version     = '4.0.0';
 		$this->define_constants();
 		$this->includes();
 		$this->load_dependencies();
@@ -308,7 +308,7 @@ class SP_WP_Carousel_Free {
 		/*
 		 * Admin dashboard (Getting Started, Lite vs Pro, Settings). Same
 		 * isolated-subsystem treatment as the block module above — see
-		 * src/Admin/Dashboard/CLAUDE.md.
+		 * CLAUDE.md §10.
 		 */
 		if ( PHP_VERSION_ID >= 70400 && file_exists( WPCAROUSELF_PATH . 'src/Admin/Dashboard/bootstrap.php' ) ) {
 			require_once WPCAROUSELF_PATH . 'src/Admin/Dashboard/bootstrap.php';

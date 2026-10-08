@@ -9,9 +9,9 @@
  * `.wpcp-content-slot` wrapper.
  */
 
-import { Fragment, useMemo, useRef, useContext, RawHTML } from '@wordpress/element';
+import { Fragment, useMemo, useRef, RawHTML } from '@wordpress/element';
 import classNames from 'classnames';
-import { isSlotVisible, isFlySlotVisible } from '../inspector/visibility';
+import { isSlotVisible } from '../inspector/visibility';
 import { getContentField } from './carouselItem/contentFields';
 import { resolveContentOrder } from './carouselItem/defaultContentOrder';
 import { splitContentRuns, runsRequireDomOrder } from './carouselItem/contentRuns';
@@ -26,8 +26,6 @@ import {
 	getContentBoxWidthStyle,
 } from './carouselItem/itemStyleHelpers';
 import useContentBoxFlowShift from './carouselItem/useContentBoxFlowShift';
-import FlyContentContext from './carouselItem/FlyContentContext';
-import { resolveFlyWidthSpec, flyWidthFromItem } from '../utils/flyContentWidth';
 import ItemEditButton from './carouselItem/ItemEditButton';
 import OverlayIcons from './carouselItem/OverlayIcons';
 import SocialShareList from './carouselItem/SocialShareList';
@@ -192,9 +190,6 @@ export default function CarouselItem({
 	const descriptionSource = contentOptions.descriptionSource || '';
 
 	const slotOn = (slotId) => isSlotVisible(attributes, slotId);
-	// Fly-content bubble visibility: title shown by default, every other slot
-	// opt-in.
-	const slotOnFly = (slotId) => isFlySlotVisible(attributes, slotId);
 	const { showRating, showPrice, isPostOrProduct } = getSourceSlotFlags(
 		sourceType,
 		slotOn,
@@ -297,10 +292,7 @@ export default function CarouselItem({
 	// overlaps it.
 	useContentBoxFlowShift(itemRef, contentRef, contentOrientation);
 
-	const flyApi = useContext(FlyContentContext);
-
-	const isFlyContent = contentOrientation === 'fly-content';
-	const isOverlayStyle = ['overlay', 'diagonal', 'fly-content'].includes(contentOrientation);
+	const isOverlayStyle = ['overlay', 'diagonal'].includes(contentOrientation);
 
 	const { mediaStyle, imageStyle } = buildItemMediaStyles(imageOptions, aspect);
 
@@ -589,52 +581,7 @@ export default function CarouselItem({
 			}
 		});
 
-	// Fly-content bubble: the floating element (rendered once per block by
-	// CarouselEdit, outside the Swiper clip, so it is never cropped) shows the
-	// SAME ordered slots as a content box, gated by the fly "title only"
-	// visibility default. We report those slot nodes + the cursor position
-	// (relative to `.wpcp-block-inner`) through context as the pointer moves.
-	const flyContentNodes = isFlyContent ? renderOrderedContent(slotOnFly).filter(Boolean) : null;
-
-	const handleFlyMove = (event) => {
-		if (!isFlyContent || !flyApi || !itemRef.current) {
-			return;
-		}
-		// No visible slots (e.g. an item with an empty Title under the fly
-		// "title only" default) → keep the bubble hidden.
-		if (!flyContentNodes || flyContentNodes.length === 0) {
-			flyApi.report({ visible: false });
-			return;
-		}
-		const innerWrap = itemRef.current.closest('.wpcp-block-inner');
-		if (!innerWrap) {
-			return;
-		}
-		const rect = innerWrap.getBoundingClientRect();
-		// Width is a fraction of the hovered item (default 60%), so the bubble
-		// scales with the slide rather than the whole block.
-		const itemWidth = itemRef.current.getBoundingClientRect().width;
-		flyApi.report({
-			visible: true,
-			x: event.clientX - rect.left,
-			y: event.clientY - rect.top,
-			content: flyContentNodes,
-			align: contentAlignment,
-			width: flyWidthFromItem(resolveFlyWidthSpec(contentOptions), itemWidth),
-		});
-	};
-
-	const handleFlyLeave = () => {
-		if (isFlyContent && flyApi) {
-			flyApi.report({ visible: false });
-		}
-	};
-
 	const renderContent = (slotIds = contentOrder) => {
-		// The bubble is the only content surface in this orientation.
-		if (isFlyContent) {
-			return null;
-		}
 		const ordered = renderOrderedContent(slotOn, slotIds);
 		if (!ordered.some(Boolean)) {
 			return null;
@@ -740,8 +687,6 @@ export default function CarouselItem({
 						'aria-hidden': 'true',
 				  }
 				: {})}
-			onMouseMove={isFlyContent ? handleFlyMove : undefined}
-			onMouseLeave={isFlyContent ? handleFlyLeave : undefined}
 		>
 			{isClassicOrientation && contentRuns ? (
 				contentRuns.map((contentRun, runIndex) =>

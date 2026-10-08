@@ -1,13 +1,14 @@
 /**
  * Block toolbar controls per content source: edit/add items for the image
- * source and popup-based add for video. Renders nothing until the source has
- * items (the wizard handles the empty state).
+ * source and popup-based add for video, plus a source-agnostic "Refine with
+ * AI" button once the block is configured.
  */
 
 import { __ } from '@wordpress/i18n';
 import { BlockControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { extractMediaSizeUrls } from '../utils/media';
+import BrandMarkIcon from '../ai-builder/BrandMarkIcon';
 
 /**
  * Merges selected media with existing items while preserving current item metadata.
@@ -49,10 +50,11 @@ function createImageItem(mediaItem) {
  * @param {Object}   props
  * @param {string}   props.sourceType
  * @param {object[]} props.items
- * @param {boolean}  [props.patternDemo] Block holds demo images from a pattern; Edit Gallery opens the media library to replace them.
+ * @param {boolean}  [props.patternDemo]    Block holds demo images from a pattern; Edit Gallery opens the media library to replace them.
  * @param {Function} props.setAttributes
- * @param {Function} props.onEditItems   Open the gallery/items edit popup.
- * @param {Function} props.onAddVideo    Open the video add popup.
+ * @param {Function} props.onEditItems      Open the gallery/items edit popup.
+ * @param {Function} props.onAddVideo       Open the video add popup.
+ * @param {Function} [props.onRefineWithAI] Reopen the AI builder on this configured block.
  */
 export default function SourceToolbar({
 	sourceType,
@@ -61,7 +63,21 @@ export default function SourceToolbar({
 	setAttributes,
 	onEditItems,
 	onAddVideo,
+	onRefineWithAI,
 }) {
+	const refineGroup = onRefineWithAI ? (
+		<ToolbarGroup>
+			<ToolbarButton
+				className="wpcp-source-toolbar__refine-with-ai"
+				icon={<BrandMarkIcon size={18} />}
+				label={__('Refine with AI', 'wp-carousel-free')}
+				onClick={onRefineWithAI}
+			>
+				{__('Refine with AI', 'wp-carousel-free')}
+			</ToolbarButton>
+		</ToolbarGroup>
+	) : null;
+
 	const mergeAndCommit = (selected, createItemFromMedia) => {
 		setAttributes({
 			items: mergeSelectedMediaItems(selected, items, createItemFromMedia),
@@ -122,6 +138,7 @@ export default function SourceToolbar({
 						/>
 					</MediaUploadCheck>
 				</ToolbarGroup>
+				{refineGroup}
 			</BlockControls>
 		);
 	}
@@ -146,9 +163,11 @@ export default function SourceToolbar({
 						{__('Add Videos', 'wp-carousel-free')}
 					</ToolbarButton>
 				</ToolbarGroup>
+				{refineGroup}
 			</BlockControls>
 		);
 	}
 
-	return null;
+	// Query-driven sources (post, product) have no item toolbar of their own.
+	return refineGroup ? <BlockControls>{refineGroup}</BlockControls> : null;
 }

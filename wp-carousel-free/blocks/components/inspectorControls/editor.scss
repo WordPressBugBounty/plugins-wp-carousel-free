@@ -1,5 +1,4 @@
-// Inspector header: Documentation link + Ready Patterns / Block Preview buttons.
-// Matches the "Block Description" Figma spec (node 331:30072).
+// Inspector header: Ready Patterns + Documentation buttons.
 .wpcp-tab-panel {
   .components-panel__body {
     transition: box-shadow 0.6s ease;
@@ -40,88 +39,73 @@
     }
   }
 
-  // Documentation link sits just below Gutenberg's auto-rendered block description.
-  // Negative top margin tucks it under the description text; left padding aligns with
-  // `.block-editor-block-card__description` in the content column (past the block icon).
-  .wpcp-tab-panel-doc-link-wrapper {
-    padding: 0 16px 0 52px;
-    margin-top: -8px;
-    margin-bottom: 12px;
+  // Ready Patterns + Documentation pills, tucked under the block card description.
+  .wpcp-tab-panel-header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: -4px;
+    margin-bottom: 16px;
 
-    .wpcp-block-doc-link a {
+    .wpcp-header-action {
       display: inline-flex;
       align-items: center;
-      column-gap: 2px;
-      font-size: 12px;
-      font-weight: 600;
-      line-height: 16px;
-      color: #2271b1;
+      justify-content: center;
+      height: 32px;
+      padding: 0 11px;
+      margin: 0;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1;
       text-decoration: none;
-      width: fit-content;
+      white-space: nowrap;
+      cursor: pointer;
+      border: 1px solid;
+      border-radius: 4px;
+      box-shadow: none;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
 
       &:focus {
-        box-shadow: none;
         outline: none;
+        box-shadow: none;
       }
 
-      svg {
-        flex-shrink: 0;
+      &:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 1px;
       }
     }
-  }
 
-  .wpcp-tab-panel-header-btn-wrapper {
-    padding: 0 18px 18px;
+    // Matches the editor header's Build with AI launcher.
+    .wpcp-header-action-patterns {
+      color: #0f766e;
+      background: #f0fdfa;
+      border-color: #19949e;
 
-    .wpcp-btn-group {
-      display: flex;
-      flex-direction: row;
-      gap: 8px;
-
-      .wpcp-btn-item {
-        display: flex;
-        flex: 1 0 0;
-        align-self: stretch;
-        justify-content: center;
-        align-items: center;
-        padding: 12px 7px;
-        color: #fff;
-        font-size: 13px;
-        font-weight: 600;
-        line-height: 18px;
-        text-decoration: none;
-        cursor: pointer;
-        user-select: none;
-        border-radius: 2px;
-        transition: filter 0.2s ease-in-out;
-        font-family: inherit;
-
-        &:is(button) {
-          width: 100%;
-        }
-
-        &:hover {
-          color: #fff;
-          filter: brightness(1.08);
-        }
-
-        &:focus {
-          box-shadow: none;
-          outline: none;
-        }
+      &:hover {
+        color: #0f766e;
+        background: #ccfbf1;
+        border-color: #19949e;
       }
+    }
 
-      // Block Preview – blue/secondary (matches Figma "Secondary Color").
-      .wpcp-block-preview {
-        background: #1a74e4;
-        border: 1px solid #1a74e4;
+    .wpcp-header-action-docs {
+      color: #1e5fbf;
+      background: #edf4fe;
+      border-color: #bcd4f6;
+
+      &:hover {
+        color: #1e5fbf;
+        background: #dfeafc;
+        border-color: #9dbff0;
       }
     }
   }
 }
 
 .wp-admin[class*="version-7-"] {
-  .wpcp-tab-panel-doc-link-wrapper {
+  .wpcp-tab-panel-header-actions {
     padding: 0 16px 0 16px;
   }
 }

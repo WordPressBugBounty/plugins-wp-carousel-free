@@ -98,6 +98,13 @@ export const CheckIcon = () => (
 );
 
 // Integrations Tab Icon
+export const AITabIcon = () => (
+	<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path d="M8 1 9.6 6.4 15 8 9.6 9.6 8 15 6.4 9.6 1 8 6.4 6.4Z" fill="currentColor" />
+		<path d="M13 1.2 13.7 2.3 15.4 3 13.7 3.7 13 4.8 12.3 3.7 10.6 3 12.3 2.3Z" fill="currentColor" />
+	</svg>
+);
+
 export const IntegrationsTabIcon = () => (
 	<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<g clipPath="url(#a)" fill="currentColor">

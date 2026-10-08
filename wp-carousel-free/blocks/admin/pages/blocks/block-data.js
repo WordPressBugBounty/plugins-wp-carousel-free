@@ -8,13 +8,18 @@ import {
 	MarqueeIcon,
 	Carousel3DIcon,
 	GridIcon,
+	MasonryIcon,
+	JustifiedIcon,
 } from './icons';
 
 // Announced but unreleased on both Free and Pro. Listed so the page can show
 // what is coming; they are client-side only — the server never sends them and
 // its slug allow-list would reject them, so a card here can never be toggled
 // or persisted.
-export const upcomingBlocks = ['carousel-3d', 'grid'];
+export const upcomingBlocks = ['carousel-3d', 'grid', 'masonry', 'justified'];
+
+// Upcoming blocks that will ship in Pro only, so their cards carry the PRO badge.
+export const upcomingProBlocks = ['masonry', 'justified'];
 
 // Blocks whose Demo link opens the Ready Patterns Library filtered to that block.
 // Mirrors BLOCK_NAME_TO_CATEGORY — a slug with no library category has nothing to
@@ -94,6 +99,21 @@ export const carouselBlocksInfo = {
 		icon: <GridIcon />,
 		title: __('Grid', 'wp-carousel-free'),
 		description: __('Display content in a responsive grid layout.', 'wp-carousel-free'),
+		docLink: 'https://docs.wpcarousel.io/guide/blocks/tiles',
+	},
+	masonry: {
+		icon: <MasonryIcon />,
+		title: __('Masonry', 'wp-carousel-free'),
+		description: __('Create masonry-style layouts with varying item sizes.', 'wp-carousel-free'),
+		docLink: 'https://docs.wpcarousel.io/guide/blocks/tiles',
+	},
+	justified: {
+		icon: <JustifiedIcon />,
+		title: __('Justified', 'wp-carousel-free'),
+		description: __(
+			'Create justified image galleries with consistent row heights.',
+			'wp-carousel-free'
+		),
 		docLink: 'https://docs.wpcarousel.io/guide/blocks/tiles',
 	},
 };

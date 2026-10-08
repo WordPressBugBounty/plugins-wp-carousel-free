@@ -2,6 +2,7 @@ import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { Toaster } from 'react-hot-toast';
 import { Header, Footer } from './templates';
+import { OurPluginsIcon } from './templates/help-icons';
 import GettingStarted from './pages/getting-started';
 import Blocks from './pages/blocks';
 import Modules from './pages/modules';
@@ -9,29 +10,32 @@ import SavedTemplates from './pages/saved-templates';
 import Settings from './pages/settings';
 import LiteVsPro from './pages/lite-vs-pro';
 import AboutUs from './pages/about-us';
+import OurPlugins from './pages/our-plugins';
 import SetupWizard from './setup-wizard';
 import useDashboardData from './hooks/useDashboardData';
+import usePinAdminMenu from './hooks/usePinAdminMenu';
 
 const MENU_ITEMS = [
 	{ label: __('Dashboard', 'wp-carousel-free'), value: 'getting-start', hash: '#getting-start' },
 	{ label: __('Blocks', 'wp-carousel-free'), value: 'blocks', hash: '#blocks', badge: true },
-	{ label: __('Modules', 'wp-carousel-free'), value: 'modules', hash: '#modules' },
 	{
 		label: __('Saved Templates', 'wp-carousel-free'),
 		value: 'saved_templates',
 		hash: '#saved_templates',
 		module: 'saved-templates',
 	},
+	{ label: __('Modules', 'wp-carousel-free'), value: 'modules', hash: '#modules' },
 	{ label: __('Settings', 'wp-carousel-free'), value: 'settings', hash: '#settings' },
 	{ divider: true, value: 'divider' },
 	{ label: __('Lite vs Pro', 'wp-carousel-free'), value: 'lite-vs-pro', hash: '#lite-vs-pro' },
-	{ label: __('About Us', 'wp-carousel-free'), value: 'about-us', hash: '#about-us' },
 	{
 		label: __('Our Plugins', 'wp-carousel-free'),
 		value: 'our-plugins',
-		link: 'https://shapedplugin.com/plugins/',
-		icon: 'icon-our-plugins.svg',
+		hash: '#our-plugins',
+		Icon: OurPluginsIcon,
 	},
+	// Routable but not in the navbar: reached from Get Help.
+	{ label: __('About Us', 'wp-carousel-free'), value: 'about-us', hash: '#about-us', hidden: true },
 ];
 
 /**
@@ -50,7 +54,9 @@ const isModuleOn = (modulesOptions, moduleName) => {
 // Keeps the native WP admin submenu's "current" highlight in sync with the
 // SPA's hash route. The Getting Started slug must stay in step with
 // Dashboard::PAGE_SLUG_GETTING_STARTED, otherwise no item ever matches.
-const updateSidebarActive = (pageName) => {
+const updateSidebarActive = (route) => {
+	// A sub-tab deep link (#settings=ai) still belongs to its page's row.
+	const pageName = String(route || '').split('=')[0];
 	const postMenu = document.getElementById('menu-posts-sp_wp_carousel');
 	if (!postMenu) {
 		return;
@@ -63,7 +69,12 @@ const updateSidebarActive = (pageName) => {
 			? 'li a[href="edit.php?post_type=sp_wp_carousel&page=wpcpf_dashboard"]'
 			: `li a[href*="#${pageName}"]`;
 
-	postMenu.querySelector(selector)?.closest('li')?.classList.add('current');
+	// Pages with no submenu row of their own (Our Plugins, About Us, Blocks…)
+	// fall back to Getting Started, so the sidebar always shows where you are.
+	const row =
+		postMenu.querySelector(selector) ||
+		postMenu.querySelector('li a[href="edit.php?post_type=sp_wp_carousel&page=wpcpf_dashboard"]');
+	row?.closest('li')?.classList.add('current');
 };
 
 function getPageFromHash() {
@@ -74,6 +85,7 @@ function getPageFromHash() {
 export default function Render() {
 	const [page, setPage] = useState(getPageFromHash());
 	const { options, setModifiedData, saveOptions } = useDashboardData();
+	usePinAdminMenu();
 
 	updateSidebarActive(window.location.hash.replace('#', ''));
 
@@ -141,6 +153,7 @@ export default function Render() {
 						{currentPage === 'getting-start' && (
 							<GettingStarted
 								readyPatternsEnabled={isModuleOn(options?.modulesOptions, 'ready-patterns')}
+								aiBuilderEnabled={isModuleOn(options?.modulesOptions, 'ai-carousel-builder')}
 							/>
 						)}
 						{currentPage === 'blocks' && (
@@ -159,11 +172,14 @@ export default function Render() {
 							<Settings
 								pluginSettings={options.pluginSettings}
 								integrations={options?.integrations}
+								modulesOptions={options?.modulesOptions}
+								aiSettings={options?.aiSettings}
 								setModifiedData={setModifiedData}
 								saveOptions={saveOptions}
 							/>
 						)}
 						{currentPage === 'lite-vs-pro' && <LiteVsPro />}
+						{currentPage === 'our-plugins' && <OurPlugins />}
 						{currentPage === 'about-us' && <AboutUs />}
 					</div>
 					<Footer />

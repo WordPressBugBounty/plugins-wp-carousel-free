@@ -8,8 +8,7 @@
 
 import { __ } from '@wordpress/i18n';
 
-const REVIEW_URL =
-	'https://wordpress.org/support/plugin/wp-carousel-free/reviews/?filter=5#new-post';
+const REVIEW_URL = 'https://wordpress.org/support/plugin/wp-carousel-free/reviews/';
 
 const SOCIAL_LINKS = [
 	{

@@ -16,7 +16,7 @@
 
 import classNames from 'classnames';
 import { __ } from '@wordpress/i18n';
-import { useState, useCallback, useRef, useMemo } from '@wordpress/element';
+import { useState, useCallback, useRef } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useBlockProps, store as blockEditorStore } from '@wordpress/block-editor';
 import { PanelNotice } from '@wp-carousel-pro/components';
@@ -24,20 +24,17 @@ import { GalleryEditPopup, VideoSourceAddPopup } from '../popups';
 import InspectorControl from '../../../components/inspectorControls/inspectorControls';
 import WizardFlow from '../wizard';
 import { openReadyPatterns, isReadyPatternsEnabled } from '../ready-patterns';
+import { openAIBuilder, isAIBuilderEnabled } from '../ai-builder';
 import CarouselInspector from './CarouselInspector';
 import EditorPreview from './EditorPreview';
 import PaginationPreview from './PaginationPreview';
 import BlockPreviewShape from './BlockPreviewShape';
 import SourceToolbar from './SourceToolbar';
 import ItemEditPopupRouter from './ItemEditPopupRouter';
-import ProPreviewNotice from './ProPreviewNotice';
 import useProgrammaticSourceGuard from './useProgrammaticSourceGuard';
 import useFreeLayoutGuard from './useFreeLayoutGuard';
 import { resolveThumbsLayout } from '../constants/freeValues';
-import { isEditorPreviewBlock } from '../constants/editorPreviewBlocks';
-import { resolveContentOrientation } from '../inspector/fragments/contentOrientations';
-import FlyContentContext from '../carousel-render/carouselItem/FlyContentContext';
-import FlyContentBubble from '../carousel-render/carouselItem/FlyContentBubble';
+import { needsSetup } from '../utils/needsSetup';
 import useEditorDynamicCss from './useEditorDynamicCss';
 import useUniqueId from '../hooks/useUniqueId';
 import useOpenBlockInspector from '../hooks/useOpenBlockInspector';
@@ -49,28 +46,6 @@ import useEditorContentSelect from '../hooks/useEditorContentSelect';
 import 'swiper/swiper-bundle.css';
 
 /* ── Helpers ─────────────────────────────────────────────────────────────── */
-
-/**
- * Determines if a newly inserted block still needs source configuration.
- *
- * @param {Object} attributes - Block attributes
- * @param {string} name       - Block type name
- * @return {boolean}        - True if block needs source setup
- */
-function needsSetup(attributes, name) {
-	// Pro editor previews have no Source step — the canvas uses the curated demo set.
-	if (isEditorPreviewBlock(name)) {
-		return false;
-	}
-	const { sourceType, items } = attributes;
-	if (sourceType === 'post' || sourceType === 'product') {
-		return false;
-	}
-	if ((sourceType === 'image' || sourceType === 'video') && (!items || items.length === 0)) {
-		return true;
-	}
-	return !sourceType;
-}
 
 function sanitizeDomId(value) {
 	return String(value ?? '').replace(/[^a-zA-Z0-9_-]/g, '');
@@ -110,7 +85,7 @@ function CarouselEdit({ attributes, setAttributes, name, clientId }) {
 	const displayStyle = attributes?.layoutOptions?.displayStyle;
 
 	useProgrammaticSourceGuard(attributes, setAttributes);
-	useFreeLayoutGuard(attributes, setAttributes, name);
+	useFreeLayoutGuard(attributes, setAttributes);
 	const { selectBlock } = useDispatch(blockEditorStore);
 	const openBlockInspector = useOpenBlockInspector();
 
@@ -172,34 +147,14 @@ function CarouselEdit({ attributes, setAttributes, name, clientId }) {
 		attributes.layoutOptions?.pagination === true &&
 		['post', 'product', 'image', 'video'].includes(sourceType);
 
-	// Fly Content is selectable only on the Pro editor previews, so the bubble
-	// and its channel mount nowhere else.
-	const isFlyOrientation =
-		resolveContentOrientation(sourceType, attributes.layoutOptions?.contentOrientation, {
-			blockName: name,
-		}) === 'fly-content';
-	const flyReportRef = useRef(null);
-	// Routing pointer moves through the ref keeps the re-render inside the
-	// bubble; lifting them to state here would remount Swiper on every move.
-	const flyApi = useMemo(
-		() => ({
-			report: (partial) => {
-				if (flyReportRef.current) {
-					flyReportRef.current(partial);
-				}
-			},
-		}),
-		[]
-	);
-
-	const isProPreview = isEditorPreviewBlock(name);
-	const isSetup = needsSetup(attributes, name);
+	const isSetup = needsSetup(attributes);
 	useEditorContentSelect(carouselScopeRef, onEditorSlotClick, !isSetup);
 
 	const [editingGallery, setEditingGallery] = useState(false);
 	const [editingItemId, setEditingItemId] = useState(null);
 	const [showAddVideo, setShowAddVideo] = useState(false);
 	const readyPatternsEnabled = isReadyPatternsEnabled();
+	const aiBuilderEnabled = isAIBuilderEnabled();
 	const [panelTabs, setPanelTabs] = useState({
 		layouts: 'general',
 		contentArea: 'general',
@@ -237,10 +192,21 @@ function CarouselEdit({ attributes, setAttributes, name, clientId }) {
 				setAttributes={setAttributes}
 				onEditItems={() => setEditingGallery(true)}
 				onAddVideo={() => setShowAddVideo(true)}
+				onRefineWithAI={
+					aiBuilderEnabled && !isSetup
+						? () => openAIBuilder({ clientId, blockName: name, isRefining: true })
+						: undefined
+				}
 			/>
 
 			{/* ── Inspector sidebar ── */}
-			<InspectorControl attributes={attributes} setAttributes={setAttributes} clientId={clientId}>
+			<InspectorControl
+				attributes={attributes}
+				setAttributes={setAttributes}
+				onOpenReadyPatterns={
+					readyPatternsEnabled ? () => openReadyPatterns({ clientId, blockName: name }) : undefined
+				}
+			>
 				<CarouselInspector
 					attributes={attributes}
 					setAttributes={setAttributes}
@@ -278,10 +244,11 @@ function CarouselEdit({ attributes, setAttributes, name, clientId }) {
 								setAttributes={setAttributes}
 								onOpenReadyPatterns={() => openReadyPatterns({ clientId, blockName: name })}
 								readyPatternsEnabled={readyPatternsEnabled}
+								onOpenAIBuilder={() => openAIBuilder({ clientId, blockName: name })}
+								aiBuilderEnabled={aiBuilderEnabled}
 							/>
 						) : (
-							<FlyContentContext.Provider value={flyApi}>
-								{isProPreview && <ProPreviewNotice name={name} />}
+							<>
 								<EditorPreview
 									key={initKey}
 									attributes={attributes}
@@ -291,10 +258,7 @@ function CarouselEdit({ attributes, setAttributes, name, clientId }) {
 									onEditorPaginationClick={onEditorPaginationClick}
 								/>
 								{showTilesPaginationPreview && <PaginationPreview attributes={attributes} />}
-								{/* Mounted at `.wpcp-block-inner` scope, outside the Swiper
-								    viewport's `overflow: hidden`, so the bubble is never clipped. */}
-								{isFlyOrientation && <FlyContentBubble reportRef={flyReportRef} />}
-							</FlyContentContext.Provider>
+							</>
 						)}
 					</div>
 				</div>

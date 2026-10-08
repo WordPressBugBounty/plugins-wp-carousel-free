@@ -269,7 +269,7 @@ class Diagnostics {
 				<div>
 					<h3><?php esc_html_e( 'Help us make WP Carousel even more awesome?', 'wp-carousel-free' ); ?></h3>
 					<p>
-						<?php esc_html_e( 'Allow us to collect non-sensitive diagnostic data to resolve problems faster and improve performance.', 'wp-carousel-free' ); ?>
+						<?php esc_html_e( 'Allow us to collect diagnostic data to resolve problems faster and improve performance.', 'wp-carousel-free' ); ?>
 						<a href="https://shapedplugin.com/information-we-collect/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Learn More', 'wp-carousel-free' ); ?></a>
 					</p>
 					<button type="submit" class="button" name="wpcpf_diagnostic_action" value="allow"><?php esc_html_e( 'Accept & Close', 'wp-carousel-free' ); ?></button>

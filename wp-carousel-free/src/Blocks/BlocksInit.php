@@ -60,7 +60,11 @@ final class BlocksInit {
 
 		new Rest\PreviewController();
 		new Rest\AjaxPaginationController();
+		new Rest\AIGenerateController();
 		new ReadyPatterns\Controller();
+
+		// Keeps cached WordPress Connectors state in step with Settings → Connectors.
+		AI\ConnectorBridge::init();
 
 		add_action( 'enqueue_block_editor_assets', array( $assets, 'enqueue_editor_assets' ) );
 

@@ -9,6 +9,9 @@ namespace ShapedPlugin\WPCarouselFree\Admin\Dashboard;
 
 use ShapedPlugin\WPCarouselFree\Admin\PageBuilders\Manager;
 use ShapedPlugin\WPCarouselFree\Admin\Dashboard\Modules\Module_Settings_Helper;
+use ShapedPlugin\WPCarouselFree\Blocks\AI\AIFeature;
+use ShapedPlugin\WPCarouselFree\Blocks\AI\AIKeyManager;
+use ShapedPlugin\WPCarouselFree\Blocks\AI\ConnectorBridge;
 use ShapedPlugin\WPCarouselFree\Blocks\Cache;
 use ShapedPlugin\WPCarouselFree\Blocks\Lightbox\Lightbox_Icon_Helper;
 
@@ -18,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * Free's own trimmed dashboard. Unlike Pro's 1200+ line class this owns only
  * what Free actually ships: module-state reads (unchanged from the original
  * shim), the Getting Started and Lite vs Pro pages, and a Settings page with
- * Advanced Controls, Custom CSS & JS and Integrations only — no License.
+ * Advanced Controls, Custom CSS & JS, Integrations and AI Configuration — no License.
  */
 class Dashboard {
 
@@ -41,6 +44,8 @@ class Dashboard {
 	const PAGE_SLUG_LITE_VS_PRO     = 'wpcpf_lite_vs_pro';
 	const UPGRADE_URL               = 'https://wpcarousel.io/pricing/?ref=1';
 	const NONCE_KEY                 = 'wpcpf_dashboard_nonce';
+	const ACTION_ACTIVATE_PLUGIN    = 'wpcpf_activate_plugin';
+	const PLUGINS_TRANSIENT         = 'wpcpf_shapedplugin_plugins';
 
 	/**
 	 * Cache key for the WordPress.org changelog feed.
@@ -148,6 +153,7 @@ class Dashboard {
 			'lightbox'        => __( 'Lightbox', 'wp-carousel-free' ),
 			'ready-patterns'  => __( 'Ready Patterns Library', 'wp-carousel-free' ),
 			'saved-templates' => __( 'Saved Templates', 'wp-carousel-free' ),
+			AIFeature::MODULE => __( 'Create Carousel with AI', 'wp-carousel-free' ),
 		);
 
 		$pro_modules = array(
@@ -173,7 +179,8 @@ class Dashboard {
 			$list[] = array(
 				'module_name' => $slug,
 				'title'       => $title,
-				'show'        => self::is_module_active( $slug ),
+				// The AI module also honours its code filter, so the toggle shows what runs.
+				'show'        => AIFeature::MODULE === $slug ? AIFeature::is_module_enabled() : self::is_module_active( $slug ),
 				'isPro'       => false,
 			);
 		}
@@ -222,6 +229,10 @@ class Dashboard {
 		add_action( 'wp_ajax_wpcp_dashboard_get_options', array( $instance, 'ajax_get_options' ) );
 		add_action( 'wp_ajax_wpcpf_flush_cache', array( $instance, 'ajax_flush_cache' ) );
 		add_action( 'wp_ajax_wpcpf_changelog_data', array( $instance, 'ajax_changelog_data' ) );
+		add_action( 'wp_ajax_wpcpf_placements', array( $instance, 'ajax_placements' ) );
+		add_action( 'wp_ajax_wpcpf_ai_verify_key', array( $instance, 'ajax_verify_ai_key' ) );
+		add_action( 'wp_ajax_wpcpf_ai_settings', array( $instance, 'ajax_ai_settings' ) );
+		add_action( 'admin_post_' . self::ACTION_ACTIVATE_PLUGIN, array( $instance, 'handle_activate_plugin' ) );
 		add_action( 'wpcf_options_before', array( $instance, 'render_back_to_settings_link' ) );
 		// Late enough to win over Classic's own callbacks on the same two filters.
 		add_filter( 'admin_footer_text', array( $instance, 'remove_classic_footer_text' ), 99 );
@@ -576,7 +587,13 @@ class Dashboard {
 				'getOptions'         => $this->get_options_for_js(),
 				'postType'           => 'sp_wp_carousel',
 				'blockEditorReady'   => $this->block_editor_is_available(),
+				// Site-wide AI switch; the module toggle is read live from getOptions.
+				'siteAllowsAi'       => ConnectorBridge::site_allows_ai(),
 				'current_user'       => $current_user->display_name ?? '',
+				// Profile First Name for the greeting; empty falls back to the display name's first word.
+				'userFirstName'      => trim( (string) ( $current_user->first_name ?? '' ) ),
+				// Picks the welcome copy (first visit vs returning); null until the first scan.
+				'hasPlacements'      => Placements::stored_has_placements(),
 				'recommendedPlugins' => $this->get_recommended_plugins(),
 				'canEditCustomJs'    => current_user_can( 'unfiltered_html' ),
 				'classicSettingsUrl' => $classic_settings_url,
@@ -626,17 +643,74 @@ class Dashboard {
 	}
 
 	/**
-	 * Other ShapedPlugin free plugins, for the Getting Started page's
-	 * "Recommended" grid. Read-only (name, description, icon, WordPress.org
-	 * link) — no install/activate actions, so no plugin-management capability
-	 * surface is needed beyond `manage_options`, already required to see this
-	 * page at all. Cached for a day to avoid a wp.org API round trip on every
-	 * page load.
+	 * Other ShapedPlugin free plugins for the Our Plugins page, with this
+	 * site's install state and the one action the current user may take on
+	 * each. The WordPress.org listing is cached for a day; state and links are
+	 * computed per request so they never go stale.
 	 *
-	 * @return array<int, array<string, string>>
+	 * @return array<int, array<string, mixed>>
 	 */
 	private function get_recommended_plugins() {
-		$cached = get_transient( 'wpcpf_recommended_plugins' );
+		$can_install  = current_user_can( 'install_plugins' );
+		$can_activate = current_user_can( 'activate_plugins' );
+		$installed    = $this->get_installed_plugin_files();
+
+		$plugins = array();
+		foreach ( $this->get_shapedplugin_listing() as $listing ) {
+			$slug        = $listing['slug'];
+			$plugin_file = $installed[ $slug ] ?? '';
+
+			if ( '' !== $plugin_file && is_plugin_active( $plugin_file ) ) {
+				$status = 'active';
+				$action = '';
+			} elseif ( '' !== $plugin_file ) {
+				$status = 'installed';
+				$action = $can_activate
+					? add_query_arg(
+						array(
+							'action'   => self::ACTION_ACTIVATE_PLUGIN,
+							'plugin'   => $slug,
+							'_wpnonce' => wp_create_nonce( self::ACTION_ACTIVATE_PLUGIN . '_' . $slug ),
+						),
+						admin_url( 'admin-post.php' )
+					)
+					: '';
+			} else {
+				$status = 'not-installed';
+				$action = $can_install
+					? add_query_arg(
+						array(
+							'action'   => 'install-plugin',
+							'plugin'   => $slug,
+							'_wpnonce' => wp_create_nonce( 'install-plugin_' . $slug ),
+						),
+						self_admin_url( 'update.php' )
+					)
+					: '';
+			}
+
+			// wp.org sends entity-encoded text; React escapes on output.
+			$listing['name']        = html_entity_decode( $listing['name'], ENT_QUOTES, 'UTF-8' );
+			$listing['description'] = html_entity_decode( $listing['description'], ENT_QUOTES, 'UTF-8' );
+
+			$plugins[] = $listing + array(
+				'status'         => $status,
+				'actionUrl'      => $action,
+				'lastUpdatedAgo' => ! empty( $listing['lastUpdated'] ) ? human_time_diff( $listing['lastUpdated'] ) : '',
+			);
+		}
+
+		return $plugins;
+	}
+
+	/**
+	 * The cached WordPress.org listing of ShapedPlugin's free plugins, most
+	 * installed first, without this plugin itself.
+	 *
+	 * @return array<int, array<string, mixed>>
+	 */
+	private function get_shapedplugin_listing() {
+		$cached = get_transient( self::PLUGINS_TRANSIENT );
 		if ( is_array( $cached ) ) {
 			return $cached;
 		}
@@ -649,32 +723,110 @@ class Dashboard {
 			'query_plugins',
 			array(
 				'author'   => 'shapedplugin',
-				'per_page' => 20,
+				'per_page' => 60,
 				'fields'   => array(
 					'icons'             => true,
 					'short_description' => true,
+					'active_installs'   => true,
+					'last_updated'      => true,
 				),
 			)
 		);
 
+		if ( is_wp_error( $response ) || empty( $response->plugins ) ) {
+			// Short negative cache, so a wp.org outage does not retry on every page load.
+			set_transient( self::PLUGINS_TRANSIENT, array(), 10 * MINUTE_IN_SECONDS );
+			return array();
+		}
+
 		$plugins = array();
-		if ( ! is_wp_error( $response ) && ! empty( $response->plugins ) ) {
-			foreach ( $response->plugins as $plugin ) {
-				if ( 'wp-carousel-free' === $plugin['slug'] ) {
-					continue;
-				}
-				$plugins[] = array(
-					'name'        => wp_strip_all_tags( $plugin['name'] ),
-					'description' => wp_strip_all_tags( $plugin['short_description'] ),
-					'icon'        => $plugin['icons']['1x'] ?? $plugin['icons']['default'] ?? '',
-					'link'        => 'https://wordpress.org/plugins/' . $plugin['slug'] . '/',
-				);
+		foreach ( $response->plugins as $plugin ) {
+			$plugin = (array) $plugin;
+			if ( empty( $plugin['slug'] ) || 'wp-carousel-free' === $plugin['slug'] ) {
+				continue;
+			}
+			$icons     = isset( $plugin['icons'] ) ? (array) $plugin['icons'] : array();
+			$plugins[] = array(
+				'slug'           => sanitize_key( $plugin['slug'] ),
+				'name'           => wp_strip_all_tags( $plugin['name'] ?? '' ),
+				'description'    => wp_strip_all_tags( $plugin['short_description'] ?? '' ),
+				'icon'           => esc_url_raw( $icons['2x'] ?? $icons['1x'] ?? $icons['default'] ?? '' ),
+				'link'           => 'https://wordpress.org/plugins/' . sanitize_key( $plugin['slug'] ) . '/',
+				'version'        => sanitize_text_field( $plugin['version'] ?? '' ),
+				'rating'         => (float) ( $plugin['rating'] ?? 0 ),
+				'numRatings'     => (int) ( $plugin['num_ratings'] ?? 0 ),
+				'activeInstalls' => (int) ( $plugin['active_installs'] ?? 0 ),
+				'lastUpdated'    => (int) strtotime( $plugin['last_updated'] ?? '' ),
+			);
+		}
+
+		usort(
+			$plugins,
+			static function ( $first, $second ) {
+				return $second['activeInstalls'] <=> $first['activeInstalls'];
+			}
+		);
+
+		set_transient( self::PLUGINS_TRANSIENT, $plugins, DAY_IN_SECONDS );
+
+		return $plugins;
+	}
+
+	/**
+	 * Installed plugin main files keyed by their directory slug, so a plugin
+	 * is found whatever its main file is called.
+	 *
+	 * @return array<string, string>
+	 */
+	private function get_installed_plugin_files() {
+		if ( ! function_exists( 'get_plugins' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		$files = array();
+		foreach ( array_keys( get_plugins() ) as $plugin_file ) {
+			if ( false !== strpos( $plugin_file, '/' ) ) {
+				$files[ strtok( $plugin_file, '/' ) ] = $plugin_file;
 			}
 		}
 
-		set_transient( 'wpcpf_recommended_plugins', $plugins, DAY_IN_SECONDS );
+		return $files;
+	}
 
-		return $plugins;
+	/**
+	 * Admin-post handler: activate an installed ShapedPlugin plugin from the
+	 * Our Plugins page. Accepts slugs in the WordPress.org listing, or — when
+	 * that listing is unavailable — installed plugins authored by ShapedPlugin.
+	 */
+	public function handle_activate_plugin() {
+		$slug = isset( $_GET['plugin'] ) ? sanitize_key( wp_unslash( $_GET['plugin'] ) ) : '';
+
+		check_admin_referer( self::ACTION_ACTIVATE_PLUGIN . '_' . $slug );
+
+		$plugin_file = $this->get_installed_plugin_files()[ $slug ] ?? '';
+
+		if ( ! current_user_can( 'activate_plugin', $plugin_file ) ) {
+			wp_die( esc_html__( 'Sorry, you are not allowed to activate plugins on this site.', 'wp-carousel-free' ), '', array( 'response' => 403 ) );
+		}
+
+		$listed = in_array( $slug, wp_list_pluck( $this->get_shapedplugin_listing(), 'slug' ), true );
+		if ( ! $listed && '' !== $plugin_file ) {
+			$headers = get_plugins()[ $plugin_file ] ?? array();
+			$listed  = false !== stripos( $headers['Author'] ?? '', 'shapedplugin' );
+		}
+
+		$failed = true;
+		if ( $listed && '' !== $plugin_file && ! is_network_only_plugin( $plugin_file ) ) {
+			$failed = is_wp_error( activate_plugin( $plugin_file ) );
+		}
+
+		$url = admin_url( 'edit.php?post_type=sp_wp_carousel&page=' . self::PAGE_SLUG_GETTING_STARTED );
+		if ( $failed ) {
+			$url = add_query_arg( 'wpcpf_activate_failed', $slug, $url );
+		}
+
+		wp_safe_redirect( $url . '#our-plugins' );
+		exit;
 	}
 
 	/**
@@ -691,6 +843,8 @@ class Dashboard {
 			'extensionSettings' => Module_Settings_Helper::get_all_for_js(),
 			'integrations'      => $this->get_integrations_list(),
 			'diagnosticConsent' => Diagnostics::has_consent(),
+			// Unprobed: the AI tab fetches live connector state itself via wpcpf_ai_settings.
+			'aiSettings'        => AIFeature::is_module_enabled() ? AIKeyManager::get_public_settings() : array(),
 		);
 	}
 
@@ -752,7 +906,14 @@ class Dashboard {
 				// Classic echoes this option raw inside a <style> element, so strip only
 				// the sequences that can break out of one. Not wp_strip_all_tags, which
 				// would mangle legitimate CSS containing a bare "<".
-				$sanitized['wpcp_custom_css'] = Lightbox_Icon_Helper::sanitize_dynamic_css( (string) $incoming['wpcp_custom_css'] );
+				$custom_css = (string) $incoming['wpcp_custom_css'];
+				// Classic html_entity_decode()s this before printing, so an encoded
+				// "&lt;/style&gt;" must be decoded first or it escapes the sanitizer.
+				do {
+					$decoded    = $custom_css;
+					$custom_css = html_entity_decode( $decoded, ENT_QUOTES, 'UTF-8' );
+				} while ( $custom_css !== $decoded );
+				$sanitized['wpcp_custom_css'] = Lightbox_Icon_Helper::sanitize_dynamic_css( $custom_css );
 			}
 			// Printed verbatim inside a <script> by print_custom_js(), so it needs the
 			// same capability core requires for raw markup. `manage_options` alone would
@@ -792,7 +953,7 @@ class Dashboard {
 		}
 
 		if ( isset( $data['modulesOptions'] ) && is_array( $data['modulesOptions'] ) ) {
-			$known   = array( 'lightbox', 'ready-patterns', 'saved-templates' );
+			$known   = array( 'lightbox', 'ready-patterns', 'saved-templates', AIFeature::MODULE );
 			$by_name = array();
 			foreach ( $data['modulesOptions'] as $item ) {
 				if ( empty( $item['module_name'] ) ) {
@@ -842,7 +1003,71 @@ class Dashboard {
 			Module_Settings_Helper::sanitize_and_save( $data['extensionSettings'] );
 		}
 
-		wp_send_json_success( array( 'getOptions' => $this->get_options_for_js() ) );
+		// A key the provider refused is not stored, and the screen has to say so.
+		$ai_key_result = null;
+		if ( isset( $data['aiSettings'] ) && is_array( $data['aiSettings'] ) && AIFeature::is_module_enabled() ) {
+			$ai_save       = AIKeyManager::save( $data['aiSettings'] );
+			$ai_key_result = array(
+				'provider' => $ai_save['provider'],
+				'active'   => $ai_save['active'],
+				'state'    => $ai_save['key']['state'],
+				'message'  => $ai_save['key']['message'],
+				'stored'   => $ai_save['key']['stored'],
+			);
+		}
+
+		wp_send_json_success(
+			array(
+				'getOptions'  => $this->get_options_for_js(),
+				'aiKeyResult' => $ai_key_result,
+			)
+		);
+	}
+
+	/**
+	 * AJAX: AI settings with live connector state, for the AI tab only. No model lists: the tab picks no model.
+	 */
+	public function ajax_ai_settings() {
+		if ( ! current_user_can( apply_filters( 'wpcpf_ui_permission', 'manage_options' ) ) ) {
+			wp_send_json_error( array( 'message' => __( 'Unauthorized.', 'wp-carousel-free' ) ), 403 );
+		}
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), self::NONCE_KEY ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid nonce.', 'wp-carousel-free' ) ) );
+		}
+		if ( ! AIFeature::is_module_enabled() ) {
+			wp_send_json_error( array( 'message' => AIFeature::unavailable_error()->get_error_message() ), 403 );
+		}
+
+		wp_send_json_success( array( 'aiSettings' => AIKeyManager::get_public_settings( true, false ) ) );
+	}
+
+	/**
+	 * AJAX: verify one provider's stored API key, reusing a fresh verdict unless forced.
+	 */
+	public function ajax_verify_ai_key() {
+		if ( ! current_user_can( apply_filters( 'wpcpf_ui_permission', 'manage_options' ) ) ) {
+			wp_send_json_error( array( 'message' => __( 'Unauthorized.', 'wp-carousel-free' ) ), 403 );
+		}
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), self::NONCE_KEY ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid nonce.', 'wp-carousel-free' ) ) );
+		}
+		if ( ! AIFeature::is_module_enabled() ) {
+			wp_send_json_error( array( 'message' => AIFeature::unavailable_error()->get_error_message() ), 403 );
+		}
+
+		$provider = isset( $_POST['provider'] ) ? sanitize_key( wp_unslash( $_POST['provider'] ) ) : '';
+		if ( ! in_array( $provider, AIKeyManager::PROVIDERS, true ) ) {
+			wp_send_json_error( array( 'message' => __( 'Unknown AI provider.', 'wp-carousel-free' ) ) );
+		}
+
+		$force = isset( $_POST['force'] ) && 'true' === sanitize_text_field( wp_unslash( $_POST['force'] ) );
+
+		wp_send_json_success(
+			array(
+				'provider' => $provider,
+				'status'   => AIKeyManager::verify_stored_key( $provider, $force ),
+			)
+		);
 	}
 
 	/**
@@ -873,6 +1098,22 @@ class Dashboard {
 		}
 
 		wp_send_json_success( array( 'changelog' => $this->get_changelog() ) );
+	}
+
+	/**
+	 * AJAX: the Carousel Placements report; `refresh` is the Sync button.
+	 */
+	public function ajax_placements() {
+		if ( ! current_user_can( apply_filters( 'wpcpf_ui_permission', 'manage_options' ) ) ) {
+			wp_send_json_error( array( 'message' => __( 'Unauthorized.', 'wp-carousel-free' ) ), 403 );
+		}
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), self::NONCE_KEY ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid nonce.', 'wp-carousel-free' ) ) );
+		}
+
+		$refresh = isset( $_POST['refresh'] ) && rest_sanitize_boolean( sanitize_text_field( wp_unslash( $_POST['refresh'] ) ) );
+
+		wp_send_json_success( Placements::report( $refresh ) );
 	}
 
 	/**

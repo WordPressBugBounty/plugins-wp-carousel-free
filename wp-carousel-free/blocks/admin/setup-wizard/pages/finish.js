@@ -116,7 +116,7 @@ export default function FinishPage({ shareData, setShareData, onFinish, saving }
 				<div className="wpcpf-sw-footer-text">
 					<span>
 						{__(
-							'Help us improve WP Carousel and get useful tips by sharing non-sensitive diagnostic data. See',
+							'Help us improve WP Carousel and get useful tips by sharing diagnostic data. See',
 							'wp-carousel-free'
 						)}
 					</span>
@@ -160,7 +160,7 @@ export default function FinishPage({ shareData, setShareData, onFinish, saving }
 						<div className="wpcpf-sw-modal-content">
 							<p className="wpcpf-sw-modal-text">
 								{__(
-									'We collect only non-sensitive diagnostic data and basic plugin usage information. This may include:',
+									'We collect only diagnostic data and basic plugin usage information. This may include:',
 									'wp-carousel-free'
 								)}
 							</p>

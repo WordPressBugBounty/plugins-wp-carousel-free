@@ -86,7 +86,7 @@ export function ModuleCard({ item, allItems, saveOptions, onOpenSettings }) {
 							(isPro ? (
 								<span className="wpcpf-module-pro-badge">
 									<ProIcon width={12} height={12} />
-									{__('PRO', 'wp-carousel-free')}
+									<span className="wpcpf-module-pro-badge-label">{__('PRO', 'wp-carousel-free')}</span>
 								</span>
 							) : (
 								<label

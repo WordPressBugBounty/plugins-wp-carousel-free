@@ -1,9 +1,8 @@
 /**
- * Panorama Carousel — Pro editor preview.
+ * Panorama Carousel — Pro block.
  *
- * Fully previewable and configurable in the editor and completely absent from
- * the front end: no view script, `save` returns null, and the PHP render
- * callback returns an empty string.
+ * The editor shows an upgrade card and the front end nothing: no view script,
+ * `save` returns null, and the PHP render callback returns an empty string.
  */
 
 import { registerBlockType } from '@wordpress/blocks';

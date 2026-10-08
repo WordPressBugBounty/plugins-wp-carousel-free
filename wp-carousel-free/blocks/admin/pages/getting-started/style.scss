@@ -1,480 +1,325 @@
-// Getting Started page. Colors that also exist as dashboard-wide custom
-// properties are read from those rather than duplicated here.
-$white: #ffffff;
-$border-color: #ddd;
-$heading-color: #1d2327;
-$body-color: #3c434a;
-$title-color: #2f2f2f;
-$outline-border: #949494;
-$outline-text: #757575;
-$banner-bg: #e0f7f8;
+// Dashboard page: the welcome card and the intro video modal, ported from Logo
+// Carousel's. The placements table below it has its own sheet (placements.scss).
+// The card wraps: copy and start buttons take the room, and the video poster sits
+// beside them at up to 380px, dropping underneath when the copy would fall under 520px.
+
+$hero-btn-height: 46px;
+$hero-ink: #1d2327;
+$hero-muted: #646970;
+$hero-body: #50575e;
+$hero-tint: #cdeef0;
+$hero-ai-tint: #e4f3f5;
+$hero-shadow: rgba(25, 148, 158, 0.14);
+$hero-shadow-strong: rgba(25, 148, 158, 0.28);
 $max-width: 1400px;
 
-// Both hero buttons stand on this line so the outlined one matches the height
-// the primary gets from its padding.
-$hero-btn-height: 54px;
-
-// Breathing room at the foot of the page below the last sidebar card.
+// Breathing room at the foot of the page below the placements table.
 $page-bottom-space: 40px;
 
-// Play control, taken from the design's component: a 72px white disc sitting
-// inside a 92px white halo held at 30% opacity.
-$play-disc: 72px;
-$play-halo-scale: 1.2778; // 92 / 72
-
-// ====================
-// Layout
-// ====================
-
-.wpcpf-qs-page {
-	max-width: $max-width;
-	margin: 0 auto;
-	padding-bottom: $page-bottom-space;
-
-	* {
-		box-sizing: border-box;
-	}
-}
-
-.wpcpf-qs-content {
-	display: flex;
-	gap: 40px;
-	align-items: flex-start;
-}
-
-.wpcpf-qs-left {
-	flex: 1;
-	min-width: 0;
-}
-
-.wpcpf-qs-sidebar {
-	width: 380px;
-	flex-shrink: 0;
-	display: flex;
-	flex-direction: column;
-	gap: 30px;
-	position: sticky;
-	top: 20px;
-}
-
-// ====================
-// Welcome card
-// ====================
-
-.wpcpf-qs-about-section {
-	background: $white;
-	border: 1px solid $border-color;
-	border-radius: 12px;
-	padding: 35px 40px;
-	display: flex;
-	flex-direction: column;
-	gap: 30px;
-}
-
-.wpcpf-qs-about-text {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: 25px;
-}
-
-.wpcpf-qs-about-copy {
-	display: flex;
-	flex-direction: column;
-	gap: 18px;
-}
-
-.wpcpf-qs-welcome-title {
-	font-size: 28px;
-	font-weight: 600;
-	line-height: 28px;
-	color: $heading-color;
-	margin: 0;
-}
-
-.wpcpf-qs-welcome-desc {
-	font-size: 15px;
-	line-height: 22px;
-	color: $body-color;
-	margin: 0;
-}
-
-.wpcpf-qs-actions {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: 18px;
-}
-
-.wpcpf-qs-create-btn {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	gap: 8px;
-	background: var(--wpcpf-primary-color);
-	color: $white;
-	min-height: $hero-btn-height;
-	padding: 17px 24px;
-	border-radius: 4px;
-	font-size: 16px;
-	font-weight: 600;
-	line-height: 20px;
-	text-decoration: none;
-	white-space: nowrap;
-	transition: background 0.2s ease;
-
-	.dashicons {
-		font-size: 14px;
-		width: 14px;
-		height: 14px;
-		line-height: 14px;
-	}
-
-	&:hover,
-	&:focus {
-		background: var(--wpcpf-primary-dark);
-		color: $white;
-	}
-}
-
-// Second entry point beside the primary action: the same shape, drawn as an
-// outline so the block editor stays the louder of the two.
-.wpcpf-qs-patterns-btn {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	background: $white;
-	border: 1.5px solid var(--wpcpf-primary-color);
-	color: var(--wpcpf-primary-color);
-	min-height: $hero-btn-height;
-	padding: 12px 18px;
-	border-radius: 4px;
-	font-size: 14px;
-	font-weight: 600;
-	line-height: 20px;
-	text-decoration: none;
-	white-space: nowrap;
-	transition: background 0.2s ease, color 0.2s ease;
-
-	&:hover,
-	&:focus {
-		background: var(--wpcpf-primary-color);
-		color: $white;
-	}
-}
-
-// ====================
-// Intro video
-// ====================
-
-.wpcpf-qs-video-wrapper {
-	position: relative;
-	display: block;
-	width: 100%;
-	aspect-ratio: 804 / 452;
-	padding: 0;
-	border: 0;
-	border-radius: 8px;
-	overflow: hidden;
-	cursor: pointer;
-	background: $banner-bg;
-
-	// Teal wash over the poster, matching the design's overlay layer.
-	&::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: rgba(25, 148, 158, 0.15);
-		pointer-events: none;
-	}
-
-	&:hover .wpcpf-qs-play-btn {
-		background: #f0f0f1;
-	}
-}
-
-.wpcpf-qs-video-placeholder {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	display: block;
-}
-
-.wpcpf-qs-play-btn {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: $play-disc;
-	height: $play-disc;
-	background: $white;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	z-index: 2;
-	transition: background 0.2s ease;
-
-	// The glyph is drawn apex-up, so turn it to point right.
-	svg {
-		width: 25.1715px;
-		height: 20.1076px;
-		transform: rotate(90deg);
-		position: relative;
-		z-index: 2;
-	}
-
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 100%;
-		height: 100%;
-		border-radius: 50%;
-		background: $white;
-		transform: translate(-50%, -50%) scale($play-halo-scale);
-		z-index: 1;
-	}
-
-	// Resting halo, matching the design's static ring.
-	&::before {
-		opacity: 0.3;
-	}
-
-	// Pulse travelling outward from that halo.
-	&::after {
-		opacity: 0;
-		animation: wp_pulse 2.4s ease-out infinite;
-	}
-}
-
-@keyframes wp_pulse {
-	0% {
-		transform: translate(-50%, -50%) scale($play-halo-scale);
-		opacity: 0.3;
-	}
-
-	100% {
-		transform: translate(-50%, -50%) scale($play-halo-scale * 1.45);
-		opacity: 0;
-	}
-}
-
-// The resting halo stays; only the travelling pulse is dropped.
-@media (prefers-reduced-motion: reduce) {
-	.wpcpf-qs-play-btn::after {
-		animation: none;
-	}
-}
-
-// ====================
-// Video modal
-// ====================
-
-.wpcpf-qs-video-modal {
-	position: fixed;
-	inset: 0;
-	background: rgba(0, 0, 0, 0.8);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	z-index: 100000;
-	padding: 20px;
-}
-
-.wpcpf-qs-video-modal-content {
-	position: relative;
-	width: 100%;
-	max-width: 900px;
-	background: $white;
-	border-radius: 12px;
-	overflow: hidden;
-}
-
-.wpcpf-qs-video-modal-close {
-	position: absolute;
-	top: 16px;
-	right: 16px;
-	width: 36px;
-	height: 36px;
-	padding: 0;
-	background: rgba(0, 0, 0, 0.6);
-	color: $white;
-	border: none;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
-	z-index: 10;
-	transition: background 0.2s ease;
-
-	svg {
-		display: block;
-		flex-shrink: 0;
-	}
-
-	&:hover {
-		background: rgba(0, 0, 0, 0.8);
-	}
-
-	&:focus {
-		color: $white;
-	}
-}
-
-.wpcpf-qs-video-modal-wrapper {
-	position: relative;
-	width: 100%;
-	aspect-ratio: 16 / 9;
-	display: flex;
-
-	iframe {
-		width: 100%;
-		height: 100%;
-		border: none;
-	}
-}
-
-// ====================
-// Documentation / Technical Support / Show Your Love cards
-// ====================
-
-.wpcpf-qs-info-card {
-	background: $white;
-	border: 1px solid $border-color;
-	border-radius: 12px;
-	padding: 28px;
-	min-height: 216px;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	justify-content: space-between;
-	gap: 20px;
-}
-
-.wpcpf-qs-info-text {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
-}
-
-.wpcpf-qs-info-header {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-}
-
-// Each glyph carries its own dimensions — the star is 22 x 20.9, not square —
-// so the box only centres what it is given.
-.wpcpf-qs-info-icon {
-	width: 24px;
-	height: 24px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-shrink: 0;
-
-	svg {
-		display: block;
-		flex-shrink: 0;
-	}
-}
-
-.wpcpf-qs-info-title {
-	font-size: 18px;
-	font-weight: 600;
-	line-height: 20px;
-	color: $title-color;
-	margin: 0;
-	text-transform: capitalize;
-}
-
-.wpcpf-qs-info-desc {
-	font-size: 14px;
-	line-height: 22px;
-	color: $title-color;
-	margin: 0;
-}
-
-// ====================
-// Outlined link shared by the sidebar cards
-// ====================
-
-.wpcpf-qs-info-link {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	background: $white;
-	border: 1px solid $outline-border;
-	color: $outline-text;
-	padding: 12px 16px;
-	font-size: 14px;
-	font-weight: 600;
-	line-height: 20px;
-	border-radius: 4px;
-	text-decoration: none;
-	white-space: nowrap;
-	transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-
-	&:hover,
-	&:focus {
-		background: var(--wpcpf-primary-color);
-		border-color: var(--wpcpf-primary-color);
-		color: $white;
-	}
-}
-
-// ====================
-// Responsive
-// ====================
-
-@media (max-width: 1200px) {
-	.wpcpf-qs-content {
-		flex-direction: column;
-	}
-
-	.wpcpf-qs-sidebar {
-		width: 100%;
-		position: static;
-	}
-}
-
-@media (max-width: 782px) {
+.wpcpf-admin-dashboard-container {
 	.wpcpf-qs-page {
-		padding: 0 12px $page-bottom-space;
+		max-width: $max-width;
+		margin: 0 auto;
+		padding-bottom: $page-bottom-space;
+
+		* {
+			box-sizing: border-box;
+		}
 	}
 
-	.wpcpf-qs-about-section {
-		padding: 24px;
-		gap: 32px;
+	/* ====================
+	   Welcome card
+	   ==================== */
+
+	.wpcpf-qs-hero {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: clamp(24px, 3vw, 40px);
+		padding: clamp(24px, 3vw, 36px) clamp(20px, 3vw, 40px);
+		background: #fff;
+		border: 1px solid #e5e5e7;
+		border-radius: 10px;
 	}
 
-	.wpcpf-qs-welcome-title {
+	.wpcpf-qs-hero__text {
+		flex: 999 1 520px;
+		min-width: 0;
+	}
+
+	.wpcpf-qs-greeting {
+		margin: 0 0 6px;
+		font-size: 16px;
+		font-weight: 500;
+		line-height: 1.45;
+		color: $hero-muted;
+	}
+
+	.wpcpf-qs-title {
+		margin: 0 0 12px;
+		padding: 0;
 		font-size: 22px;
+		font-weight: 700;
 		line-height: 1.3;
+		color: $hero-ink;
+	}
+
+	.wpcpf-qs-lead {
+		margin: 0 0 26px;
+		font-size: 16px;
+		line-height: 1.45;
+		color: $hero-body;
 	}
 
 	.wpcpf-qs-actions {
-		width: 100%;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 18px;
 	}
 
-	.wpcpf-qs-create-btn,
-	.wpcpf-qs-patterns-btn {
+	/* The ways to start: 46px tall, brand outline; the first one shown is filled. */
+	.wpcpf-qs-start-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 9px;
+		height: $hero-btn-height;
+		padding: 0 22px;
+		background: #fff;
+		border: 1px solid var(--wpcpf-primary-color);
+		border-radius: 4px;
+		color: var(--wpcpf-primary-color);
+		font-size: 15px;
+		font-weight: 600;
+		line-height: 1;
+		text-decoration: none;
+		white-space: nowrap;
+		transition:
+			background-color 0.25s ease,
+			border-color 0.25s ease,
+			color 0.25s ease,
+			transform 0.25s ease,
+			box-shadow 0.25s ease;
+
+		.dashicons {
+			display: block;
+			width: 17px;
+			height: 17px;
+			font-size: 17px;
+			line-height: 17px;
+		}
+
+		// Build with AI's mark, sized like the dashicons beside it.
+		svg {
+			display: block;
+			flex-shrink: 0;
+			width: 17px;
+			height: 17px;
+		}
+
+		&:hover,
+		&:focus {
+			background: #f0f9fa;
+			border-color: var(--wpcpf-primary-dark);
+			color: var(--wpcpf-primary-dark);
+			box-shadow: 0 6px 16px $hero-shadow;
+			transform: translateY(-2px);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--wpcpf-primary-color);
+			outline-offset: 2px;
+		}
+
+		&.is-primary {
+			background: var(--wpcpf-primary-color);
+			color: #fff;
+
+			&:hover,
+			&:focus {
+				background: var(--wpcpf-primary-dark);
+				border-color: var(--wpcpf-primary-dark);
+				color: #fff;
+				box-shadow: 0 8px 20px $hero-shadow-strong;
+			}
+		}
+	}
+
+	/* Build with AI keeps its soft tint even when it is the first (primary) button shown. */
+	.wpcpf-qs-start-btn--ai,
+	.wpcpf-qs-start-btn--ai.is-primary {
+		background: $hero-ai-tint;
+		border-color: var(--wpcpf-primary-color);
+		color: var(--wpcpf-primary-dark);
+
+		&:hover,
+		&:focus {
+			background: $hero-tint;
+			border-color: var(--wpcpf-primary-dark);
+			color: var(--wpcpf-primary-dark);
+			box-shadow: 0 6px 16px $hero-shadow;
+		}
+	}
+
+	/* ====================
+	   Intro video poster
+	   ==================== */
+
+	/* Only the play control reacts on hover; the picture stays still. */
+	.wpcpf-qs-video {
+		position: relative;
+		display: block;
+		flex: 1 1 300px;
+		max-width: 380px;
+		aspect-ratio: 16 / 9;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		background: linear-gradient(135deg, #f0f9fa, #d9f1f3);
+		border: 1px solid $hero-tint;
+		border-radius: 8px;
+		box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+		cursor: pointer;
+
+		// Light tint under the play button, so the title in the image stays readable.
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background: rgba(16, 24, 40, 0.2);
+			pointer-events: none;
+		}
+
+		&:hover,
+		&:focus-visible {
+			.wpcpf-qs-play-btn {
+				background: var(--wpcpf-primary-color);
+
+				.dashicons {
+					color: #fff;
+				}
+			}
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--wpcpf-primary-color);
+			outline-offset: 2px;
+		}
+	}
+
+	.wpcpf-qs-video__thumb {
+		display: block;
 		width: 100%;
-		white-space: normal;
-		text-align: center;
+		height: 100%;
+		object-fit: cover;
 	}
 
 	.wpcpf-qs-play-btn {
-		width: 54px;
-		height: 54px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		background: #fff;
+		border-radius: 50%;
+		transform: translate(-50%, -50%);
+		transition: all 0.4s ease-in-out;
 
-		svg {
-			width: 18.88px;
-			height: 15.08px;
+		.dashicons {
+			display: block;
+			width: 26px;
+			height: 26px;
+			margin-left: 3px;
+			font-size: 26px;
+			line-height: 26px;
+			color: var(--wpcpf-primary-color);
+		}
+	}
+
+	/* ====================
+	   Video modal
+	   ==================== */
+
+	.wpcpf-qs-modal {
+		position: fixed;
+		inset: 0;
+		z-index: 100000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 20px;
+		background: rgba(0, 0, 0, 0.8);
+	}
+
+	.wpcpf-qs-modal__content {
+		position: relative;
+		width: 100%;
+		max-width: 900px;
+		background: #fff;
+		border-radius: 12px;
+		overflow: hidden;
+	}
+
+	.wpcpf-qs-modal__close {
+		position: absolute;
+		top: 12px;
+		right: 12px;
+		z-index: 2;
+		width: 36px;
+		height: 36px;
+		border: 0;
+		border-radius: 50%;
+		background: rgba(0, 0, 0, 0.6);
+		color: #fff;
+		font-size: 24px;
+		line-height: 1;
+		cursor: pointer;
+	}
+
+	.wpcpf-qs-modal__video {
+		aspect-ratio: 16 / 9;
+
+		iframe {
+			width: 100%;
+			height: 100%;
+			border: 0;
+		}
+	}
+
+	/* ====================
+	   Responsive
+	   ==================== */
+
+	@media (max-width: 782px) {
+		.wpcpf-qs-actions {
+			width: 100%;
+		}
+
+		.wpcpf-qs-start-btn {
+			flex: 1 1 100%;
+		}
+
+		.wpcpf-qs-video {
+			max-width: none;
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.wpcpf-admin-dashboard-container {
+		.wpcpf-qs-start-btn,
+		.wpcpf-qs-play-btn {
+			transition: none;
+		}
+
+		.wpcpf-qs-start-btn:hover,
+		.wpcpf-qs-start-btn:focus {
+			transform: none;
 		}
 	}
 }

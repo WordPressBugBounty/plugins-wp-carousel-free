@@ -65,14 +65,16 @@ export const LEGACY_ICON_SIZE_PX = 75;
 export const iconOffsetDefault = { value: 12, unit: 'px' };
 
 export const DEFAULT_LIGHTBOX_ICON_NAME = 'search';
+// Hover leaves the color empty so it follows Normal.
+export const DEFAULT_LIGHTBOX_ICON_COLOR = '#1e1e1e';
 
 export const defaultLightboxIcon = () => ({
 	source: 'icon',
 	iconName: DEFAULT_LIGHTBOX_ICON_NAME,
 	image: {},
 });
-const defaultIconStateStyle = () => ({
-	iconColor: '',
+const defaultIconStateStyle = (iconColor = '') => ({
+	iconColor,
 	backgroundColor: '',
 	border: { ...iconBorderDefault },
 	borderWidth: { ...iconBorderWidthDefault },
@@ -92,6 +94,9 @@ export function getLightboxDefaults() {
 		iconOffset: { ...iconOffsetDefault },
 		lightboxTheme: 'dark',
 		closeOnClickOutside: true,
+		sliderSettings: {
+			slideTransitionEffect: 'fade',
+		},
 		navigationArrow: true,
 		transitionEffect: 'zoom',
 		itemCounter: true,
@@ -100,7 +105,7 @@ export function getLightboxDefaults() {
 			size: { ...iconSizeDefault },
 			borderRadius: { ...iconBorderRadiusDefault },
 			padding: { ...iconPaddingDefault },
-			normal: defaultIconStateStyle(),
+			normal: defaultIconStateStyle(DEFAULT_LIGHTBOX_ICON_COLOR),
 			hover: defaultIconStateStyle(),
 		},
 	};

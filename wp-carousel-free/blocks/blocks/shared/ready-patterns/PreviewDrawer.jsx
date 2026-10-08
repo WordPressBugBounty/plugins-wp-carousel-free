@@ -9,7 +9,6 @@ import {
 	CloseIcon,
 	DesktopIcon,
 	DownloadIcon,
-	ExternalLinkIcon,
 	MobileIcon,
 	RefreshIcon,
 	TabletIcon,
@@ -206,20 +205,6 @@ export default function PreviewDrawer({
 					</div>
 
 					<div className="wpcp-ready-patterns-drawer-header-right">
-						{/* The pattern host may refuse to be framed, so the preview is
-						    always reachable outside the drawer as well. */}
-						{previewUrl && (
-							<a
-								className="wpcp-ready-patterns-drawer-external"
-								href={previewUrl}
-								target="_blank"
-								rel="noopener noreferrer"
-								aria-label={__('Open preview in a new tab', 'wp-carousel-free')}
-								title={__('Open preview in a new tab', 'wp-carousel-free')}
-							>
-								<ExternalLinkIcon />
-							</a>
-						)}
 						{isLocked ? (
 							<UpgradeButton label={__('Upgrade to Pro', 'wp-carousel-free')} />
 						) : (

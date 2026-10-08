@@ -167,12 +167,10 @@ class Lightbox_Icon_Helper {
 	 * @return string Slug for `.wpcp-overlay-pos-*`.
 	 */
 	public static function map_global_position_to_overlay_slug( $global_position ) {
+		// Other global icon positions are Pro.
 		$map = array(
-			'top-left'     => 'top-left',
-			'top-right'    => 'top-right',
-			'center'       => 'center-center',
-			'bottom-left'  => 'bottom-left',
-			'bottom-right' => 'bottom-right',
+			'top-right' => 'top-right',
+			'center'    => 'center-center',
 		);
 
 		return $map[ sanitize_key( (string) $global_position ) ] ?? 'top-right';

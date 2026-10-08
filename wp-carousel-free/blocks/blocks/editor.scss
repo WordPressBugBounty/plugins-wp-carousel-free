@@ -194,11 +194,11 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 18px;
-	height: 18px;
-	border-radius: 12px;
-	background: rgba(240, 120, 0, 0.1);
-	border: 1px solid rgba(240, 120, 0, 0.6);
+	padding: 3px;
+	border: 0.8px solid #93dcac;
+	border-radius: 50%;
+	background: #effff5;
+	line-height: 0;
 }
 
 .wpcp-icon-set-group {

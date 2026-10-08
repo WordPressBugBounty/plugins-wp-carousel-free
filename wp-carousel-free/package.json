@@ -39,6 +39,7 @@
 		"test:php:patterns": "bash scripts/test-php.sh tests/php/ready-patterns-tier-gate.php",
 		"test:php:pattern-markup": "bash scripts/test-php.sh tests/php/ready-patterns-markup-validation.php",
 		"test:php:builder-assets": "bash scripts/test-php.sh tests/php/builder-frontend-assets.php",
+		"test:php:ai": "bash scripts/test-php.sh tests/php/ai-builder.php",
 		"test:php:snapshot": "bash scripts/test-php.sh tests/php/attribute-snapshot.php diff",
 		"test:php:snapshot:capture": "bash scripts/test-php.sh tests/php/attribute-snapshot.php capture",
 		"test:php:content-runs": "bash scripts/test-php.sh tests/php/content-runs.php",

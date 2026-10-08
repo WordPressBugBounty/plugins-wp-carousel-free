@@ -14,30 +14,12 @@ export const PRO_BLOCKS = {
 	'wp-carousel-pro/marquee': {
 		slug: 'marquee',
 		title: __('Marquee', 'wp-carousel-free'),
-		description: __(
-			'Scroll images, posts and products in a continuous ticker. Available in WP Carousel Pro.',
-			'wp-carousel-free'
-		),
-		previewNotice: __('Upgrade to scroll your content in a continuous marquee.', 'wp-carousel-free'),
-		features: [
-			__('Continuous horizontal and vertical scroll', 'wp-carousel-free'),
-			__('Pause on hover and direction control', 'wp-carousel-free'),
-			__('Variable-width items', 'wp-carousel-free'),
-		],
+		previewImage: 'marquee.png',
 	},
 	'wp-carousel-pro/carousel-panorama': {
 		slug: 'carousel-panorama',
 		title: __('Panorama Carousel', 'wp-carousel-free'),
-		description: __(
-			'Show wide, cover-flow style slides with a mirrored reflection. Available in WP Carousel Pro.',
-			'wp-carousel-free'
-		),
-		previewNotice: __('Upgrade to create immersive panoramic showcases.', 'wp-carousel-free'),
-		features: [
-			__('Panorama and cover-flow layouts', 'wp-carousel-free'),
-			__('Adjustable reflection height and distance', 'wp-carousel-free'),
-			__('Overlay, diagonal and content-box orientations', 'wp-carousel-free'),
-		],
+		previewImage: 'panorama-carousel-preview.png',
 	},
 };
 

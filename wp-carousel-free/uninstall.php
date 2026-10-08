@@ -145,6 +145,10 @@ $wpcf_plugin_data = isset( $option_settings['wpcf_delete_all_data'] ) ? $option_
 delete_option( 'sp_wp_carousel_free_review_notice_dismiss' );
 delete_site_option( 'sp_wp_carousel_free_review_notice_dismiss' );
 
+// Dashboard Placements table: a rebuildable scan cache and the widgets-saved stamp.
+delete_option( 'wpcp_placements_report' );
+delete_option( 'wpcp_placements_widgets_modified' );
+
 // Diagnostics consent and its weekly reporting event.
 wp_clear_scheduled_hook( 'wpcpf_weekly_scheduled_events' );
 foreach ( array( 'wpcp_allow_diagnostic_data', 'wpcp_ignored_consent_notice', 'wpcp_consent_notice_started' ) as $wpcpf_diagnostic_option ) {

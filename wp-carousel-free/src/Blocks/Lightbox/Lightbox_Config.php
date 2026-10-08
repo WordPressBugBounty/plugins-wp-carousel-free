@@ -42,11 +42,15 @@ class Lightbox_Config {
 			$theme = 'auto';
 		}
 
+		$slider = isset( $settings['sliderSettings'] ) && is_array( $settings['sliderSettings'] )
+			? $settings['sliderSettings']
+			: array();
+
 		$open_transition = self::map_open_transition( $settings['transitionEffect'] ?? 'zoom' );
 
 		$carousel = array(
 			'infinite'   => true,
-			'transition' => 'fade',
+			'transition' => self::map_carousel_transition( $slider['slideTransitionEffect'] ?? 'fade' ),
 			'Arrows'     => ! empty( $settings['navigationArrow'] ),
 			'Toolbar'    => self::build_carousel_toolbar( $settings ),
 			'Autoplay'   => false,
@@ -143,11 +147,9 @@ class Lightbox_Config {
 			return false;
 		}
 
-		$allowed = array( 'modern', 'classic', 'scrollable' );
-		$type    = in_array( $style, $allowed, true ) ? $style : 'modern';
-
+		// Modern and Scrollable are Pro; any stored style other than none renders Classic.
 		return array(
-			'type'        => $type,
+			'type'        => 'classic',
 			'minCount'    => 2,
 			'showOnStart' => true,
 			'Carousel'    => array(
@@ -161,7 +163,27 @@ class Lightbox_Config {
 	}
 
 	/**
-	 * Map "Lightbox Transition Effect" (open/close animation).
+	 * Map "Slide Transition Effect" to a Fancybox Carousel transition name.
+	 *
+	 * @param string $effect Effect slug.
+	 * @return string|false
+	 */
+	private static function map_carousel_transition( $effect ) {
+		$map = array(
+			'fade'        => 'fade',
+			'slide'       => 'slide',
+			'tube'        => 'tube',
+			'zoom-in-out' => 'zoomInOut',
+			'rotate'      => 'rotate',
+			'none'        => false,
+		);
+
+		$key = sanitize_key( (string) $effect );
+		return array_key_exists( $key, $map ) ? $map[ $key ] : 'fade';
+	}
+
+	/**
+	 * Map "Open/Close Animation Type" (open/close animation).
 	 *
 	 * @param string $effect Effect slug.
 	 * @return array{show: string, hide: string, zoomEffect: bool}

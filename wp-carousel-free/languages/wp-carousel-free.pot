@@ -3889,7 +3889,7 @@ msgstr ""
 
 #: blocks/admin/setup-wizard/pages/finish.js:163
 msgid ""
-"We collect only non-sensitive diagnostic data and basic plugin usage "
+"We collect only diagnostic data and basic plugin usage "
 "information. This may include:"
 msgstr ""
 
@@ -5174,7 +5174,7 @@ msgstr ""
 
 #: src/Admin/Dashboard/Diagnostics.php:293
 msgid ""
-"Allow us to collect non-sensitive diagnostic data to resolve problems faster "
+"Allow us to collect diagnostic data to resolve problems faster "
 "and improve performance."
 msgstr ""
 

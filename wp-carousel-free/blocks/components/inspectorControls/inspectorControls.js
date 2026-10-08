@@ -8,22 +8,36 @@ const InspectorControl = ({
 	attributes,
 	setAttributes,
 	isSelected = false,
+	onOpenReadyPatterns,
 	children,
 }) => {
 	const { blockName } = attributes;
 	const docHref = blockDocLink[blockName];
-	// Patterns CTA moved to ReadyPatternsPanel inspector panel - no header button needed.
 
 	return (
 		<InspectorControls>
 			<div className="wpcp-tab-panel">
-				{docHref && (
-					<div className="wpcp-tab-panel-doc-link-wrapper">
-						<div className="wpcp-block-doc-link">
-							<a href={docHref} target="_blank" rel="noreferrer">
+				{(onOpenReadyPatterns || docHref) && (
+					<div className="wpcp-tab-panel-header-actions">
+						{onOpenReadyPatterns && (
+							<button
+								type="button"
+								className="wpcp-header-action wpcp-header-action-patterns"
+								onClick={onOpenReadyPatterns}
+							>
+								{__('Ready Patterns', 'wp-carousel-free')}
+							</button>
+						)}
+						{docHref && (
+							<a
+								className="wpcp-header-action wpcp-header-action-docs"
+								href={docHref}
+								target="_blank"
+								rel="noreferrer"
+							>
 								{__('Documentation', 'wp-carousel-free')}
 							</a>
-						</div>
+						)}
 					</div>
 				)}
 

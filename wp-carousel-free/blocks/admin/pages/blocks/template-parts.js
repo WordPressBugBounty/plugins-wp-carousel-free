@@ -83,7 +83,7 @@ export function BlockCard({ item, saveOptions, blockVisibility }) {
 			{isPro && (
 				<span className="wpcpf-block-card-pro-badge">
 					<ProIcon width={12} height={12} />
-					{__('PRO', 'wp-carousel-free')}
+					<span className="wpcpf-block-card-pro-badge-label">{__('PRO', 'wp-carousel-free')}</span>
 				</span>
 			)}
 			<div className="wpcpf-block-card-icon">{blockInfo.icon}</div>

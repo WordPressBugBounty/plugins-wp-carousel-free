@@ -34,24 +34,13 @@ import {
 	getFreeAjaxPaginationCorrections,
 	getFreeVideoCorrections,
 } from '../constants/freeValues';
-import { isEditorPreviewBlock } from '../constants/editorPreviewBlocks';
 
 /**
  * @param {Object}   attributes    Block attributes.
  * @param {Function} setAttributes Block attribute updater.
- * @param {string}   [blockName]   Block type name; skips the guard for a Pro preview.
  */
-export default function useFreeLayoutGuard(attributes, setAttributes, blockName = '') {
+export default function useFreeLayoutGuard(attributes, setAttributes) {
 	useEffect(() => {
-		// A Pro editor preview renders nothing on the front end, so Free's value
-		// ceiling does not apply — the preview has to be able to draw the Pro
-		// choice. The marquee needs both halves of that: `displayStyle` would be
-		// rewritten back to `horizontal`, and `carouselStyle` off the `ticker`
-		// engine the preview is built on.
-		if (isEditorPreviewBlock(blockName)) {
-			return;
-		}
-
 		const layoutOptions = attributes.layoutOptions || {};
 		const navigationOptions = attributes.navigationOptions || {};
 		const paginationDotsOptions = attributes.paginationDotsOptions || {};

@@ -3,8 +3,7 @@
  * preview (`CarouselRender`).
  *
  * For image/video/audio → items come from the `items` attribute
- * (mapped by `previewItems.js`). For the Pro editor-preview blocks → the
- * curated set in `previewDemoItems.js`. For post/product → fetched via REST
+ * (mapped by `previewItems.js`). For post/product → fetched via REST
  * Tiles + AJAX pagination renders only the first page, mirroring
  * `BlockRenderer::compute_tiles_pagination_state`.
  */
@@ -23,8 +22,6 @@ import {
 	buildAudioPreviewItems,
 	buildFallbackPreviewItems,
 } from './previewItems';
-import getPreviewDemoItems from './previewDemoItems';
-import { isEditorPreviewBlock } from '../constants/editorPreviewBlocks';
 
 // Stable empty result for the mediaById selector — returning a fresh `{}`
 // from useSelect would fail its reference equality check on every store
@@ -141,15 +138,6 @@ export default function EditorPreview({
 			? attributes.audioOptions?.imageOptions?.resolution ?? 'large'
 			: attributes.imageOptions?.resolution ?? 'large';
 	const thumbnailResolution = attributes.thumbnail?.imageSize ?? 'thumbnail';
-
-	// Marquee and Panorama have no Source step, so their canvas renders the
-	// curated showcase set instead of the user's media. Keyed on the block type
-	// name, never the saved `blockName`, so a crafted attribute cannot reach
-	// this path.
-	const demoPreviewItems = useMemo(
-		() => (isEditorPreviewBlock(name) ? getPreviewDemoItems() : null),
-		[name]
-	);
 
 	const imagePreviewItems = useMemo(() => {
 		if (sourceType !== 'image' || !items.length) {
@@ -294,7 +282,7 @@ export default function EditorPreview({
 	}
 
 	if (sourceType === 'image') {
-		if (!items.length && !demoPreviewItems) {
+		if (!items.length) {
 			return (
 				<EmptyPreviewNotice
 					message={__('No images selected. Use "Edit Gallery" in the toolbar.', 'wp-carousel-free')}
@@ -304,15 +292,12 @@ export default function EditorPreview({
 
 		return (
 			<CarouselRender
-				items={demoPreviewItems ?? slicedImageItemsForRender ?? []}
+				items={slicedImageItemsForRender ?? []}
 				attributes={attributes}
 				isEditor={true}
 				onUpdateLayoutOptions={(layoutOptions) => setAttributes({ layoutOptions })}
-				// Demo items are not the block's own, so they stay read-only:
-				// reordering would persist them into `items`, and the per-item popup
-				// would open against ids `items` does not hold.
-				onUpdateItems={demoPreviewItems ? undefined : handleImageItemsReorder}
-				onItemEdit={demoPreviewItems ? undefined : onItemEdit}
+				onUpdateItems={handleImageItemsReorder}
+				onItemEdit={onItemEdit}
 				onEditorPaginationClick={onEditorPaginationClick}
 			/>
 		);

@@ -113,6 +113,7 @@
 		}
 	}
 }
+
 .wpcp-wizard-external-source-grid {
 	.wpcp-wizard-external-card.is-active {
 		border-color: #19949E;
@@ -140,12 +141,12 @@
 	border-radius: 4px;
 	transition: transform 0.15s ease;
 
-	> svg {
+	>svg {
 		display: block;
 		width: 104px;
 		height: 100px;
 
-		> rect[stroke-width] {
+		>rect[stroke-width] {
 			transition: stroke 0.15s ease;
 		}
 	}
@@ -153,7 +154,7 @@
 	&:hover:not(.wpcp-pro-locked) {
 		transform: translateY(-2px);
 
-		> svg > rect[stroke-width] {
+		>svg>rect[stroke-width] {
 			stroke: #19949E;
 		}
 	}
@@ -479,6 +480,28 @@
 		&:hover {
 			background: #157a82;
 			border-color: #157a82;
+		}
+	}
+
+	// Mirrors the header toolbar's "Build with AI" launcher button.
+	.wpcp-wizard-ai-btn.components-button.is-secondary {
+		border-radius: 4px;
+		border: 1px solid #19949e;
+		background: #f0fdfa;
+		padding: 13px 24px;
+		font-size: 14px;
+		line-height: 1;
+		font-weight: 500;
+		color: #0f766e;
+		height: auto;
+		gap: 8px;
+		box-shadow: none;
+		outline: none;
+
+		&:hover {
+			background: #e0fbf7;
+			border-color: #157a82;
+			color: #0f766e;
 		}
 	}
 
@@ -1321,22 +1344,19 @@
 	color: #666;
 	margin: 0;
 }
-// Pro teaser cards in the source and orientation grids. The icon dim +
-// hover-reveal badge come from `components/pro/editor.scss`; this dims the
-// label to match (that file only knows about icons/images) and holds the
-// card's own hover treatment (teal border, lift, icon/label recolor) off so
-// the badge reads as the only feedback on a locked card.
+
+// Pro teaser cards in the source, orientation and video provider grids: dimmed,
+// with a corner crown and a hover tooltip from `components/pro/editor.scss`. The
+// card's own hover treatment (teal border, lift, icon/label recolor) stays off
+// so the tooltip reads as the only feedback on a locked card.
 .wpcp-wizard-card.wpcp-pro-locked,
 .wpcp-wizard-orient-card.wpcp-pro-locked {
 	position: relative;
 	overflow: visible;
 
+	.sp-smart-layout-img,
+	svg,
 	.wpcp-wizard-card-label {
-		opacity: 0.6;
-		transition: opacity 0.2s ease;
-	}
-
-	&:hover .wpcp-wizard-card-label {
 		// Matches $wpcp-pro-locked-opacity in components/pro/editor.scss.
 		opacity: 0.35;
 	}

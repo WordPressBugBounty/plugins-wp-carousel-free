@@ -1,9 +1,5 @@
 /* Editor preview shell styles */
 
-// The ticker and panorama engines for the Marquee and Panorama editor
-// previews. Editor-only — never load this from `style.scss`.
-@use 'pro-preview';
-
 .wpcp-block-editor-wrap {
 	position: relative;
 	min-height: 80px;
@@ -1266,6 +1262,17 @@
 
 /* Image source — "Edit Gallery" block-toolbar button (brand color). */
 .wpcp-source-toolbar__edit-gallery.components-button {
+	color: var(--wpcp-carousel-primary-2-800, #19949e);
+	font-weight: 500;
+
+	&:hover:not(:disabled),
+	&:focus:not(:disabled) {
+		color: var(--wpcp-carousel-primary-2-700, #1b9aa6);
+	}
+}
+
+/* "Refine with AI" block-toolbar button (brand color, matches Edit Gallery). */
+.wpcp-source-toolbar__refine-with-ai.components-button {
 	color: var(--wpcp-carousel-primary-2-800, #19949e);
 	font-weight: 500;
 

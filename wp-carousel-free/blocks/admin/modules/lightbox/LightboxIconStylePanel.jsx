@@ -6,6 +6,7 @@ import SPRangeControl from '@wp-carousel-pro/components/rangeControl/rangeContro
 import Spacing from '@wp-carousel-pro/components/spacing/spacing';
 import { DrawerColorField, DrawerToggleGroupField } from '../components/DrawerWpControlFields';
 import {
+	DEFAULT_LIGHTBOX_ICON_COLOR,
 	iconSizeDefault,
 	iconBorderWidthDefault,
 	iconBorderRadiusDefault,
@@ -144,7 +145,7 @@ export default function LightboxIconStylePanel({ attributes, setAttributes }) {
 			<DrawerColorField
 				label={__('Icon Color', 'wp-carousel-free')}
 				value={state.iconColor || ''}
-				defaultValue=""
+				defaultValue={'normal' === activeTab ? DEFAULT_LIGHTBOX_ICON_COLOR : ''}
 				onChange={(nextColor) => patchState({ iconColor: nextColor })}
 			/>
 			<DrawerColorField

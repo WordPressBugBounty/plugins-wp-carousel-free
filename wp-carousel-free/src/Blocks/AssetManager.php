@@ -78,6 +78,13 @@ final class AssetManager {
 	private $frontend_registered = false;
 
 	/**
+	 * Whether the AI builder state is already attached to the editor bundle.
+	 *
+	 * @var bool
+	 */
+	private $ai_localized = false;
+
+	/**
 	 * Conditionally-built stylesheets, as chunk key to built file name.
 	 *
 	 * The wp-scripts build prefixes the extracted CSS of an entry that imports
@@ -192,6 +199,7 @@ final class AssetManager {
 					Lightbox_Settings::MODULE        => Dashboard::is_module_active( Lightbox_Settings::MODULE ),
 					Saved_Templates::MODULE          => Dashboard::is_module_active( Saved_Templates::MODULE ),
 					ReadyPatterns\Controller::MODULE => Dashboard::is_module_active( ReadyPatterns\Controller::MODULE ),
+					AI\AIFeature::MODULE             => AI\AIFeature::is_module_enabled(),
 				),
 				'extensionSettings' => $this->get_block_editor_extension_settings(),
 				// Where the saved-template editor sidebar points for management.
@@ -294,6 +302,50 @@ final class AssetManager {
 		$this->enqueue_all_block_style_chunks();
 
 		$this->maybe_enqueue_block_lightbox_assets();
+		$this->localize_ai_builder();
+	}
+
+	/**
+	 * Merge the AI builder's state into `wpcpBlockLocalize`.
+	 *
+	 * Attached at enqueue, not registration, so key status is only read on
+	 * editor screens. Every AI entry point in the editor reads `aiBuilder.enabled`.
+	 *
+	 * @return void
+	 */
+	private function localize_ai_builder() {
+		if ( $this->ai_localized ) {
+			return;
+		}
+
+		$this->ai_localized = true;
+		$available          = AI\AIFeature::is_available();
+		$dashboard_url      = admin_url( 'edit.php?post_type=sp_wp_carousel&page=' . Dashboard::PAGE_SLUG_GETTING_STARTED );
+
+		// The builder needs to know whether a request can run, never the keys.
+		$settings = $available
+			? array_intersect_key(
+				AI\AIKeyManager::get_public_settings(),
+				array_flip( array( 'provider', 'has_key', 'key_status', 'connectors', 'connectors_url', 'ai_enabled' ) )
+			)
+			: array();
+
+		$data = array(
+			'aiBuilder'     => array(
+				'enabled'    => $available,
+				'modulesUrl' => $dashboard_url . '#modules',
+			),
+			'aiSettings'    => $settings,
+			// Footer picker rows: no key material, only what can run and on which models.
+			'aiProviders'   => $available ? AI\AIKeyManager::usable_providers() : array(),
+			'aiSettingsUrl' => $dashboard_url . '#settings=ai',
+		);
+
+		wp_add_inline_script(
+			self::EDITOR,
+			'window.wpcpBlockLocalize = Object.assign( window.wpcpBlockLocalize || {}, ' . wp_json_encode( $data ) . ' );',
+			'before'
+		);
 	}
 
 	/**

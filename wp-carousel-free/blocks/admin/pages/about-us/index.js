@@ -191,11 +191,11 @@ export default function AboutUs() {
 			<div className="wpcpf-more-plugins-section">
 				<div className="wpcpf-more-plugins-header">
 					<h2 className="wpcpf-more-plugins-title">
-						{__('Enhance your Website with our Free Robust Plugins', 'wp-carousel-free')}
+						{__('Your Website Deserves More Than Typical — Go Premium Today!', 'wp-carousel-free')}
 					</h2>
 					<p className="wpcpf-more-plugins-subtitle">
 						{__(
-							'Some of our powerful premium plugins are ready to make your website awesome.',
+							'Unlock powerful plugins built to boost performance, elevate design, and grow your business.',
 							'wp-carousel-free'
 						)}
 					</p>

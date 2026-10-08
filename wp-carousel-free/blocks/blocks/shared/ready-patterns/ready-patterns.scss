@@ -852,31 +852,6 @@
 	gap: 12px;
 }
 
-/* Escape hatch for a pattern host that refuses to be framed. */
-.wpcp-ready-patterns-drawer-external {
-	box-sizing: border-box;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	width: 40px;
-	height: 40px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	background: #fff;
-	color: #2f2f2f;
-	transition:
-		background 0.15s ease,
-		border-color 0.15s ease,
-		color 0.15s ease;
-
-	&:hover,
-	&:focus {
-		background: #f1f5f9;
-		border-color: #19949e;
-		color: #19949e;
-	}
-}
-
 /* Icon-only width switcher drawn as browser tabs: the selected width is the only
    outlined chip, and its white fill runs past the header's lower edge to hide the
    header shadow underneath, so the tab reads as open into the stage below. */

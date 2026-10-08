@@ -4,7 +4,7 @@ Tags: slider, carousel, slideshow, gallery, video slider
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 3.0.1
+Stable tag: 4.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -194,8 +194,26 @@ Yes, WP Carousel works perfectly with WordPress multi-site network.
 
 == Changelog ==
 
+= Version 4.0.0 – Oct 08, 2026 =
+* New: AI Carousel Builder module – describe the carousel or gallery you want and let AI build it for you.
+* New: "Build with AI" button in the editor header.
+* New: "Refine with AI" option in the block toolbar to adjust an existing carousel.
+* New: AI Configuration tab on the Settings page.
+* New: Connect OpenAI, Anthropic, Google, or Groq as your AI provider, with API keys stored encrypted.
+* New: Primary provider selector to choose which provider the builder opens with.
+* New: Carousel Placements card on the dashboard, listing every page, post, template, and widget area that uses a carousel block, shortcode, or saved template.
+* New: Sync button, type filters, and search on the Carousel Placements card.
+* Improved: Simplified the plugin dashboard and navigation menu for a cleaner, more minimal look.
+* Improved: Refreshed the Lightbox module option styling.
+* Improved: Moved the Ready Patterns button beside the documentation link in the block inspector header.
+* Fixed: Admin sidebar menu staying pinned while scrolling long plugin dashboard pages.
+* Fixed: Block list not displaying on the WordPress.org plugin description page.
+* Removed: External live preview link from the Ready Patterns live preview iframe.
+* Tested: WordPress 7.1.3 compatibility.
+* Tested: WooCommerce 11.2.0 compatibility.
+
 = Version 3.0.1 – Sep 28, 2026 =
-* New: The WP Carousel Shortcode block now appears under the WP Carousel category with the brand icon.
+* Improved: WP Carousel block is renamed to WP Carousel Shortcode with a new icon.
 * Improved: Each page builder's Docs button on the Integrations page opens its own step-by-step guide.
 * Improved: The diagnostics notice and setup wizard Learn More links.
 * Improved: The dashboard and setup wizard intro video posters have been sharpened.

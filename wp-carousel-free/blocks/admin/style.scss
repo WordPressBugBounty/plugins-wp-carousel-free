@@ -141,14 +141,9 @@ $content-gutter: 32px;
 	background: transparent;
 	cursor: pointer;
 
-	&:hover,
-	&:focus {
-		border-color: #1a74e4;
-		color: #1a74e4;
-	}
-
-	img {
+	svg {
 		display: block;
+		flex-shrink: 0;
 		width: 12px;
 		height: 12px;
 	}
@@ -195,8 +190,9 @@ $content-gutter: 32px;
 		box-shadow: none;
 	}
 
-	img {
+	svg {
 		display: block;
+		flex-shrink: 0;
 		width: 16px;
 		height: 16px;
 	}
@@ -210,7 +206,7 @@ $content-gutter: 32px;
 .wpcpf-navbar-badge {
 	position: absolute;
 	top: 11px;
-	right: -14px;
+	right: -3px;
 	font-size: 10px;
 	font-weight: 500;
 	text-transform: uppercase;
@@ -763,6 +759,7 @@ $content-gutter: 32px;
 }
 
 @media screen and (max-width: 1023px) {
+
 	.wpcpf-settings-page,
 	.wpcpf-settings-section {
 		flex-direction: column;
@@ -1061,14 +1058,14 @@ $content-gutter: 32px;
 		color: #444c50;
 	}
 
-	> span {
+	>span {
 		font-size: 14px;
 		font-weight: 500;
 		line-height: 1.4;
 		color: #575f62;
 	}
 
-	> img {
+	>img {
 		display: block;
 		flex-shrink: 0;
 	}
@@ -1148,7 +1145,7 @@ $content-gutter: 32px;
 	width: 60px;
 	height: 60px;
 
-	> img {
+	>img {
 		display: block;
 		width: 60px;
 		height: 60px;
@@ -1199,6 +1196,7 @@ $content-gutter: 32px;
 }
 
 @media screen and (max-width: 782px) {
+
 	.wpcpf-lite-vs-pro-card,
 	.wpcpf-lite-vs-pro-title {
 		padding: 16px;
@@ -1372,27 +1370,60 @@ $content-gutter: 32px;
 	transition: all 0.2s ease;
 }
 
-/* Figma 3860-84499: crown + PRO pill pinned to the card's top-right corner. */
+/* Figma 3860-84499: crown + PRO badge pinned to the card's top-right corner; the label slides out on card hover. */
 .wpcpf-block-card-pro-badge {
 	position: absolute;
 	top: 5px;
 	right: 5px;
 	display: inline-flex;
 	align-items: center;
-	justify-content: center;
-	gap: 3px;
-	padding: 3px 4px 3px 3px;
+	justify-content: flex-start;
+	padding: 3px;
 	border: 0.8px solid #93dcac;
-	border-radius: 9999px;
+	border-radius: 4px;
 	background-color: #effff5;
 	color: #4ab866;
 	font-size: 11px;
 	font-weight: 600;
 	line-height: 1;
 	white-space: nowrap;
+	overflow: hidden;
+	transition: padding 0.3s ease;
 
 	svg {
 		flex-shrink: 0;
+	}
+}
+
+.wpcpf-block-card-pro-badge-label,
+.wpcpf-module-pro-badge-label {
+	max-width: 0;
+	opacity: 0;
+	overflow: hidden;
+	transition:
+		max-width 0.3s ease,
+		margin 0.3s ease,
+		opacity 0.3s ease;
+}
+
+.wpcpf-block-card,
+.wpcpf-module-card,
+.wpcpf-sw-module-card {
+
+	&:hover,
+	&:focus-within {
+
+		.wpcpf-block-card-pro-badge,
+		.wpcpf-module-pro-badge {
+			padding-right: 4px;
+		}
+
+		.wpcpf-block-card-pro-badge-label,
+		.wpcpf-module-pro-badge-label {
+			max-width: 40px;
+			margin-left: 3px;
+			opacity: 1;
+		}
 	}
 }
 
@@ -1541,12 +1572,12 @@ $content-gutter: 32px;
 		height: 0;
 		display: none;
 
-		&:checked + .wpcpf-block-toggle-slider {
+		&:checked+.wpcpf-block-toggle-slider {
 			background-color: var(--wpcpf-primary-color);
 			border-color: var(--wpcpf-primary-color);
 		}
 
-		&:disabled + .wpcpf-block-toggle-slider {
+		&:disabled+.wpcpf-block-toggle-slider {
 			opacity: 0.6;
 			cursor: not-allowed;
 		}
@@ -1586,7 +1617,7 @@ $content-gutter: 32px;
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 	}
 
-	input:checked + &::before {
+	input:checked+&::before {
 		transform: translateX(18px);
 	}
 }
@@ -1659,21 +1690,23 @@ $content-gutter: 32px;
 	flex: 1;
 }
 
+/* Crown-only until card hover, like the block card badge. */
 .wpcpf-module-pro-badge {
 	display: inline-flex;
 	align-items: center;
-	justify-content: center;
-	gap: 3px;
+	justify-content: flex-start;
 	flex-shrink: 0;
-	padding: 3px 4px 3px 3px;
+	padding: 3px;
 	border: 0.8px solid #93dcac;
-	border-radius: 9999px;
+	border-radius: 4px;
 	background-color: #effff5;
 	color: #4ab866;
 	font-size: 11px;
 	font-weight: 600;
 	line-height: 1;
 	white-space: nowrap;
+	overflow: hidden;
+	transition: padding 0.3s ease;
 
 	svg {
 		flex-shrink: 0;
@@ -1780,12 +1813,12 @@ $content-gutter: 32px;
 		height: 0;
 		display: none;
 
-		&:checked + .wpcpf-module-toggle-slider {
+		&:checked+.wpcpf-module-toggle-slider {
 			background-color: var(--wpcpf-primary-color);
 			border-color: var(--wpcpf-primary-color);
 		}
 
-		&:disabled + .wpcpf-module-toggle-slider {
+		&:disabled+.wpcpf-module-toggle-slider {
 			opacity: 0.6;
 			cursor: not-allowed;
 		}
@@ -1814,12 +1847,13 @@ $content-gutter: 32px;
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 	}
 
-	input:checked + &::before {
+	input:checked+&::before {
 		transform: translateX(18px);
 	}
 }
 
 @media screen and (max-width: 1023px) {
+
 	.wpcpf-blocks-grid,
 	.wpcpf-module-grid {
 		grid-template-columns: repeat(2, 1fr);
@@ -1828,6 +1862,7 @@ $content-gutter: 32px;
 }
 
 @media screen and (max-width: 782px) {
+
 	.wpcpf-blocks-grid,
 	.wpcpf-module-grid {
 		grid-template-columns: 1fr;
@@ -2152,7 +2187,7 @@ $content-gutter: 32px;
 		}
 	}
 
-	> svg {
+	>svg {
 		width: 16px;
 		height: 16px;
 		opacity: 0;
@@ -2161,7 +2196,7 @@ $content-gutter: 32px;
 		transition: all 0.3s ease;
 	}
 
-	&:hover > svg {
+	&:hover>svg {
 		opacity: 1;
 	}
 }
@@ -2191,7 +2226,7 @@ $content-gutter: 32px;
 	flex: 0 0 110px;
 	width: 110px;
 
-	> div {
+	>div {
 		display: flex;
 		gap: 16px;
 	}
@@ -2874,6 +2909,51 @@ body.wpcp-module-drawer-active {
 	.wpcp-module-drawer-row-control {
 		pointer-events: none;
 	}
+
+	/* A showcase popup opens; its body stays inert. */
+	&.wpcp-module-drawer-row--pro-popup .wpcp-module-drawer-row-control {
+		pointer-events: auto;
+	}
+}
+
+.wpcp-module-drawer-pro-popup {
+	&__body {
+		opacity: 0.6;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.wpcp-module-drawer-pro-note {
+		padding: 0 16px 16px;
+	}
+}
+
+/* Pro's Lightbox Slider Settings and Toolbar popups, shown as Free showcases. */
+.wpcp-lightbox-slider-panel,
+.wpcp-lightbox-toolbar-panel {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding: 16px;
+	box-sizing: border-box;
+	width: min(360px, calc(100vw - 24px));
+	min-width: 280px;
+}
+
+.wpcp-drawer-toggle-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-height: 36px;
+
+	&__label {
+		font-size: 13px;
+		font-weight: 500;
+		color: #1e1e1e;
+		flex: 1;
+		min-width: 0;
+	}
 }
 
 .wpcp-module-drawer-pro-title {
@@ -3166,7 +3246,7 @@ body.wpcp-module-drawer-active {
 /* The whole body and footer are a picture of Pro's settings; nothing inside is
    reachable. The markup also carries `inert`, so this is only the look. */
 .wpcp-module-drawer-showcase {
-	opacity: 0.3;
+	opacity: 0.5;
 	pointer-events: none;
 	user-select: none;
 }
@@ -3799,6 +3879,7 @@ body.wpcp-module-drawer-active {
 }
 
 @media screen and (max-width: 1200px) {
+
 	// Below the three-column width the fixed 320px rails stop helping.
 	.wpcpf-footer-content {
 		justify-content: center;

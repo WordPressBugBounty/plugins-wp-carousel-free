@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { BlockCard } from './template-parts';
-import { upcomingBlocks } from './block-data';
+import { upcomingBlocks, upcomingProBlocks } from './block-data';
 
 export default function Blocks({ blockVisibility, saveOptions }) {
 	// Free and Pro share one grid; a Pro row is told apart by its badge, not by
@@ -9,7 +9,12 @@ export default function Blocks({ blockVisibility, saveOptions }) {
 
 	// Client-side only: the server never sends these, so they carry no saved
 	// state and their toggle is inert.
-	const upcomingItems = upcomingBlocks.map((name) => ({ name, show: false, coming_soon: true }));
+	const upcomingItems = upcomingBlocks.map((name) => ({
+		name,
+		show: false,
+		coming_soon: true,
+		isPro: upcomingProBlocks.includes(name),
+	}));
 
 	return (
 		<div className="wpcpf-dashboard-blocks">
@@ -23,12 +28,7 @@ export default function Blocks({ blockVisibility, saveOptions }) {
 			{list.length > 0 && (
 				<div className="wpcpf-blocks-grid">
 					{list.map((item) => (
-						<BlockCard
-							key={item.name}
-							item={item}
-							saveOptions={saveOptions}
-							blockVisibility={list}
-						/>
+						<BlockCard key={item.name} item={item} saveOptions={saveOptions} blockVisibility={list} />
 					))}
 				</div>
 			)}
@@ -38,12 +38,7 @@ export default function Blocks({ blockVisibility, saveOptions }) {
 					<h3 className="wpcpf-blocks-section-title">{__('Upcoming Blocks', 'wp-carousel-free')}</h3>
 					<div className="wpcpf-blocks-grid">
 						{upcomingItems.map((item) => (
-							<BlockCard
-								key={item.name}
-								item={item}
-								saveOptions={saveOptions}
-								blockVisibility={list}
-							/>
+							<BlockCard key={item.name} item={item} saveOptions={saveOptions} blockVisibility={list} />
 						))}
 					</div>
 				</>

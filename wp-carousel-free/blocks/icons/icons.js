@@ -38,14 +38,14 @@ export const WPCarouselCategoryIcon = () => (
 // Small crown badge shown next to the "WP Carousel Pro Blocks" category header.
 export const WPCarouselProCategoryIcon = () => (
 	<span className="wpcp-pro-category-badge" aria-hidden="true">
-		<svg xmlns="http://www.w3.org/2000/svg" width={10} height={10} viewBox="0 0 16 16" fill="none">
+		<svg xmlns="http://www.w3.org/2000/svg" width={12} height={12} viewBox="0 0 16 16" fill="none">
 			<path
-				stroke="#F07800"
+				stroke="#4AB866"
 				strokeWidth={1.185}
 				d="M10.384 5.882c.18.329.478.572.842.648.322.068.652-.007.922-.203l.112-.092 1.396-1.279 1.159-1.062-.81 6.437H2.124l-.812-6.437 2.556 2.341c.288.264.666.373 1.035.295.364-.076.662-.32.841-.648l2.32-4.254 2.32 4.254Z"
 			/>
 			<path
-				fill="#F07800"
+				fill="#4AB866"
 				d="M13.851 14.873H2.274c-.373 0-.674-.369-.674-.824V12.24h12.925v1.81c0 .454-.301.823-.674.823Z"
 			/>
 		</svg>

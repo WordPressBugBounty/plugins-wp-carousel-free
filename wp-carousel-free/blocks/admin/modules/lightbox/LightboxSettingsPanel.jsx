@@ -8,6 +8,10 @@ import ModuleDrawerRow from '../components/ModuleDrawerRow';
 import ModuleDrawerPopupRow from '../components/ModuleDrawerPopupRow';
 import LightboxIconPicker from './LightboxIconPicker';
 import LightboxIconStylePanel from './LightboxIconStylePanel';
+import {
+	LightboxSliderShowcasePanel,
+	LightboxToolbarShowcasePanel,
+} from './LightboxProShowcasePanels';
 import ModuleDrawerProNote from '../components/ModuleDrawerProNote';
 import {
 	ModuleDrawerProPopupRow,
@@ -17,6 +21,7 @@ import {
 	LIGHTBOX_ICON_POSITION_OPTIONS,
 	LIGHTBOX_THEME_OPTIONS,
 	LIGHTBOX_TRANSITION_OPTIONS,
+	LIGHTBOX_SLIDE_TRANSITION_OPTIONS,
 	LIGHTBOX_THUMBNAIL_OPTIONS,
 } from '../config/lightboxConfig';
 import {
@@ -24,6 +29,9 @@ import {
 	iconOffsetDefault,
 	normalizeOffset,
 } from '../config/lightboxDefaults';
+
+// Top Right and Center are free; other stored positions show as Top Right.
+const FREE_ICON_POSITIONS = ['top-right', 'center'];
 
 export default function LightboxSettingsPanel({ draft, patchDraft, disabled, upgradeUrl }) {
 	const attributes = draft || {};
@@ -60,6 +68,21 @@ export default function LightboxSettingsPanel({ draft, patchDraft, disabled, upg
 		},
 		[disabled, patchDraft]
 	);
+	const setSliderSettings = useCallback(
+		(partial) => {
+			if (disabled || !partial || typeof partial !== 'object') {
+				return;
+			}
+			patchDraft((prev) => ({
+				...prev,
+				sliderSettings: {
+					...(prev?.sliderSettings || {}),
+					...partial,
+				},
+			}));
+		},
+		[disabled, patchDraft]
+	);
 
 	if (!draft) {
 		return null;
@@ -84,7 +107,11 @@ export default function LightboxSettingsPanel({ draft, patchDraft, disabled, upg
 					<ModuleDrawerRow title={__('Icon Display Position', 'wp-carousel-free')}>
 						<SelectField
 							label=""
-							attributes={attributes.iconDisplayPosition || 'top-right'}
+							attributes={
+								FREE_ICON_POSITIONS.includes(attributes.iconDisplayPosition)
+									? attributes.iconDisplayPosition
+									: 'top-right'
+							}
 							attributesKey="iconDisplayPosition"
 							setAttributes={setAttributes}
 							items={LIGHTBOX_ICON_POSITION_OPTIONS}
@@ -110,7 +137,7 @@ export default function LightboxSettingsPanel({ draft, patchDraft, disabled, upg
 					</ModuleDrawerRow>
 				</ModuleDrawerSection>
 
-				<ModuleDrawerSection title={__('General Setting', 'wp-carousel-free')}>
+				<ModuleDrawerSection title={__('General Settings', 'wp-carousel-free')}>
 					<ModuleDrawerRow title={__('Lightbox Theme', 'wp-carousel-free')}>
 						<SelectField
 							label=""
@@ -132,7 +159,9 @@ export default function LightboxSettingsPanel({ draft, patchDraft, disabled, upg
 					<ModuleDrawerProPopupRow
 						title={__('Lightbox Slider Settings', 'wp-carousel-free')}
 						upgradeUrl={upgradeUrl}
-					/>
+					>
+						<LightboxSliderShowcasePanel />
+					</ModuleDrawerProPopupRow>
 					<ModuleDrawerRow title={__('Lightbox Navigation Arrow', 'wp-carousel-free')}>
 						<DrawerToggleSwitch
 							label={__('Lightbox Navigation Arrow', 'wp-carousel-free')}
@@ -140,13 +169,24 @@ export default function LightboxSettingsPanel({ draft, patchDraft, disabled, upg
 							onChange={(value) => setAttributes({ navigationArrow: value })}
 						/>
 					</ModuleDrawerRow>
-					<ModuleDrawerRow title={__('Lightbox Transition Effect', 'wp-carousel-free')}>
+					<ModuleDrawerRow title={__('Open/Close Animation Type', 'wp-carousel-free')}>
 						<SelectField
 							label=""
 							attributes={attributes.transitionEffect || 'zoom'}
 							attributesKey="transitionEffect"
 							setAttributes={setAttributes}
 							items={LIGHTBOX_TRANSITION_OPTIONS}
+							flexStyle
+							extraClassName="wpcp-module-drawer-select"
+						/>
+					</ModuleDrawerRow>
+					<ModuleDrawerRow title={__('Slide Transition Effect', 'wp-carousel-free')}>
+						<SelectField
+							label=""
+							attributes={attributes.sliderSettings?.slideTransitionEffect || 'fade'}
+							attributesKey="slideTransitionEffect"
+							setAttributes={setSliderSettings}
+							items={LIGHTBOX_SLIDE_TRANSITION_OPTIONS}
 							flexStyle
 							extraClassName="wpcp-module-drawer-select"
 						/>
@@ -171,7 +211,7 @@ export default function LightboxSettingsPanel({ draft, patchDraft, disabled, upg
 					<ModuleDrawerRow title={__('Lightbox Thumbnails Display Style', 'wp-carousel-free')}>
 						<SelectField
 							label=""
-							attributes={attributes.thumbnailsDisplayStyle || 'classic'}
+							attributes={'none' === attributes.thumbnailsDisplayStyle ? 'none' : 'classic'}
 							attributesKey="thumbnailsDisplayStyle"
 							setAttributes={setAttributes}
 							items={LIGHTBOX_THUMBNAIL_OPTIONS}
@@ -180,19 +220,20 @@ export default function LightboxSettingsPanel({ draft, patchDraft, disabled, upg
 						/>
 					</ModuleDrawerRow>
 					<ModuleDrawerProToggleRow
-						title={__('Transformation controls', 'wp-carousel-free')}
+						title={__('Transformation Controls', 'wp-carousel-free')}
 						upgradeUrl={upgradeUrl}
 					/>
 					<ModuleDrawerProPopupRow
 						title={__('Lightbox Toolbar', 'wp-carousel-free')}
 						upgradeUrl={upgradeUrl}
-					/>
-					<ModuleDrawerProToggleRow
-						title={__('Right Click Protection', 'wp-carousel-free')}
-						upgradeUrl={upgradeUrl}
-					/>
+					>
+						<LightboxToolbarShowcasePanel />
+					</ModuleDrawerProPopupRow>
 					<ModuleDrawerProNote
-						text={__('Want these lightbox options?', 'wp-carousel-free')}
+						text={__(
+							'To unleash the full potential of your images with 20+ Pro Lightbox options,',
+							'wp-carousel-free'
+						)}
 						href={upgradeUrl}
 					/>
 				</ModuleDrawerSection>

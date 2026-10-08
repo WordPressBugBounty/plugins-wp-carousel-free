@@ -21,6 +21,10 @@ if ( file_exists( $wpcpf_dashboard_autoloader ) ) {
 
 	\ShapedPlugin\WPCarouselFree\Admin\Dashboard\Dashboard::init();
 
+	// Stamps widget saves for the Placements table. Not admin-guarded: the block
+	// widget editor saves over REST, which is not an admin request.
+	\ShapedPlugin\WPCarouselFree\Admin\Dashboard\Placements::register_hooks();
+
 	// Opt-in diagnostics. Not admin-guarded internally: its cron hook has to be
 	// registered on front-end requests too, since WP-Cron is not an admin request.
 	\ShapedPlugin\WPCarouselFree\Admin\Dashboard\Diagnostics::init();
