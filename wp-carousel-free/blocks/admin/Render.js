@@ -174,6 +174,7 @@ export default function Render() {
 								integrations={options?.integrations}
 								modulesOptions={options?.modulesOptions}
 								aiSettings={options?.aiSettings}
+								diagnosticConsent={!!options?.diagnosticConsent}
 								setModifiedData={setModifiedData}
 								saveOptions={saveOptions}
 							/>

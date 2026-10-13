@@ -51,7 +51,6 @@ class Lightbox_Frontend {
 	 * @return void
 	 */
 	private function register_hooks() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_assets' ), 25 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'localize_fancybox_config' ), 100 );
 
 		// Second pass for anything enqueued after `wp_enqueue_scripts` was done:
@@ -60,9 +59,6 @@ class Lightbox_Frontend {
 		// attaches. Runs before core's `_wp_footer_scripts` at 10.
 		add_action( 'wp_print_footer_scripts', array( $this, 'localize_fancybox_config' ), 5 );
 		add_filter( 'wpcp_should_enqueue_lightbox_assets', array( $this, 'filter_should_enqueue' ), 10, 1 );
-
-		$wp_images = new Lightbox_Wp_Images();
-		$wp_images->register();
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_extension_style_with_fancybox' ), 50 );
 	}
@@ -117,28 +113,6 @@ class Lightbox_Frontend {
 	}
 
 	/**
-	 * Enqueue Fancybox + scripts for WP core images when needed.
-	 *
-	 * @return void
-	 */
-	public function maybe_enqueue_assets() {
-		if ( ! self::is_lightbox_active() ) {
-			return;
-		}
-
-		$settings = Lightbox_Settings::get_settings();
-		if ( empty( $settings['wpImagesEnable'] ) ) {
-			return;
-		}
-
-		if ( ! $this->content_has_wp_image_blocks() ) {
-			return;
-		}
-
-		$this->enqueue_lightbox_stack();
-	}
-
-	/**
 	 * Attach config whenever fancybox scripts are enqueued.
 	 *
 	 * @return void
@@ -148,14 +122,7 @@ class Lightbox_Frontend {
 			return;
 		}
 
-		$handle = '';
-		if ( wp_script_is( 'wpcpf-blocks-lightbox-global', 'enqueued' ) || wp_script_is( 'wpcpf-blocks-lightbox-global', 'done' ) ) {
-			$handle = 'wpcpf-blocks-lightbox-global';
-		} elseif ( wp_script_is( 'wpcpf-blocks-frontend', 'enqueued' ) || wp_script_is( 'wpcpf-blocks-frontend', 'done' ) ) {
-			$handle = 'wpcpf-blocks-frontend';
-		}
-
-		if ( '' === $handle ) {
+		if ( ! wp_script_is( 'wpcpf-blocks-frontend', 'enqueued' ) && ! wp_script_is( 'wpcpf-blocks-frontend', 'done' ) ) {
 			return;
 		}
 
@@ -164,42 +131,11 @@ class Lightbox_Frontend {
 		}
 
 		wp_localize_script(
-			$handle,
+			'wpcpf-blocks-frontend',
 			'wpcp_lightbox',
 			Lightbox_Config::get_public_config()
 		);
 
 		$this->localized = true;
-	}
-
-	/**
-	 * Register and enqueue shared lightbox assets.
-	 *
-	 * @return void
-	 */
-	public static function enqueue_lightbox_stack() {
-		wp_enqueue_style( 'wpcpf-blocks-fancybox-style' );
-		wp_enqueue_style( 'wpcpf-blocks-lightbox-extension' );
-		wp_enqueue_script( 'wpcpf-blocks-fancybox' );
-		wp_enqueue_script( 'wpcpf-blocks-lightbox-global' );
-		wp_enqueue_script( 'wpcpf-blocks-frontend' );
-	}
-
-	/**
-	 * Whether the queried content holds a core Image or Gallery block.
-	 *
-	 * @return bool
-	 */
-	private function content_has_wp_image_blocks() {
-		if ( ! is_singular() ) {
-			return true;
-		}
-
-		$post = get_post();
-		if ( ! $post instanceof \WP_Post ) {
-			return false;
-		}
-
-		return has_block( 'core/image', $post ) || has_block( 'core/gallery', $post );
 	}
 }

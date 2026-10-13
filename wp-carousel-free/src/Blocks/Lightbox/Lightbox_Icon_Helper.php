@@ -785,26 +785,6 @@ class Lightbox_Icon_Helper {
 	}
 
 	/**
-	 * Queue global lightbox icon CSS once (WP core images / early render paths).
-	 *
-	 * @param array<string, mixed>|null $settings Optional settings.
-	 * @return void
-	 */
-	public static function ensure_global_icon_css_queued( $settings = null ) {
-		if ( self::$global_icon_css_printed || ! Lightbox_Frontend::is_lightbox_active() ) {
-			return;
-		}
-
-		$css = self::build_global_icon_css( $settings );
-		if ( '' === $css ) {
-			return;
-		}
-
-		self::queue_icon_dynamic_css( $css );
-		self::$global_icon_css_printed = true;
-	}
-
-	/**
 	 * Build scoped CSS for block icon style overrides.
 	 *
 	 * @param string               $scope_id Block wrapper id.
@@ -824,7 +804,7 @@ class Lightbox_Icon_Helper {
 		$padding_css = self::spacing_to_css( $icon_style['padding'] ?? null );
 		$radius_css  = self::spacing_to_css( $icon_style['borderRadius'] ?? null );
 		$selector    = self::build_icon_style_selector( $scope_id, $resolved );
-		$size_box    = 'width:var(--icon-size,48px)!important;height:var(--icon-size,48px)!important;min-width:var(--icon-size,48px);min-height:var(--icon-size,48px);flex:none!important;box-sizing:border-box!important;';
+		$size_box    = 'width:var(--icon-size,48px)!important;height:var(--icon-size,48px)!important;min-width:var(--icon-size,48px);min-height:var(--icon-size,48px);flex:none!important;box-sizing:content-box!important;';
 		$vars_css    = self::build_icon_css_variables_declaration( $resolved );
 
 		$rules   = array();
@@ -1072,7 +1052,7 @@ class Lightbox_Icon_Helper {
 	}
 
 	/**
-	 * Resolve global extension icon for WP core images or non-customized blocks.
+	 * Resolve global extension icon for non-customized blocks.
 	 *
 	 * @param array<string, mixed>|null $settings Optional settings; loads defaults when null.
 	 * @return array<string, mixed>
@@ -1131,99 +1111,6 @@ class Lightbox_Icon_Helper {
 	}
 
 	/**
-	 * CSS classes for WP core image/gallery lightbox host wrapper.
-	 *
-	 * @param array<string, mixed>|null $settings Settings.
-	 * @return string[]
-	 */
-	public static function get_wp_host_classes( $settings = null ) {
-		if ( ! is_array( $settings ) ) {
-			$settings = Lightbox_Settings::get_settings();
-		}
-
-		$visibility = self::sanitize_visibility( $settings['iconVisible'] ?? 'hover' );
-
-		return array(
-			'wpcp-wp-lightbox-host',
-			'wpcp-advanced-image-lightbox-icon-' . $visibility,
-		);
-	}
-
-	/**
-	 * Space-separated host class string.
-	 *
-	 * @param array<string, mixed>|null $settings Settings.
-	 * @param string                    $suffix   Optional extra class.
-	 * @return string
-	 */
-	public static function get_wp_host_class_attr( $settings = null, $suffix = '' ) {
-		$classes = self::get_wp_host_classes( $settings );
-		if ( '' !== $suffix ) {
-			$classes[] = sanitize_html_class( $suffix );
-		}
-		return implode( ' ', array_filter( $classes ) );
-	}
-
-	/**
-	 * Render lightbox icon anchor HTML.
-	 *
-	 * @param string               $href     Full image URL.
-	 * @param string               $group    Fancybox group id.
-	 * @param array<string, mixed> $resolved Resolved icon from resolve_* methods.
-	 * @param string               $caption     Optional caption for Fancybox.
-	 * @param array<string, mixed> $extra_attrs Optional data-* (thumbSrc, wpcpLbSingle).
-	 * @return string
-	 */
-	public static function render_icon_trigger( $href, $group, array $resolved, $caption = '', array $extra_attrs = array() ) {
-		$href = esc_url( $href );
-		if ( '' === $href ) {
-			return '';
-		}
-
-		$position    = esc_attr( $resolved['position'] ?? 'center' );
-		$visibility  = esc_attr( $resolved['visibility'] ?? 'hover' );
-		$extra       = self::sanitize_icon_extra_classes( $resolved['extra_class'] ?? '' );
-		$source      = isset( $resolved['source'] ) ? sanitize_html_class( (string) $resolved['source'] ) : 'global';
-		$icon_preset = isset( $resolved['icon_preset'] ) ? sanitize_key( (string) $resolved['icon_preset'] ) : '';
-		$preset_cls  = '';
-		if ( '' !== $icon_preset && in_array( $icon_preset, Lightbox_Settings::ICON_STYLES, true ) ) {
-			$preset_cls = ' wpcp-lb-icon-style-' . $icon_preset;
-		}
-
-		// Fancybox renders the caption with innerHTML, so filter the markup here
-		// as well as escaping it for the attribute.
-		$safe_caption = Item_Text::caption( $caption );
-		$data_caption = '';
-		if ( '' !== $safe_caption ) {
-			$data_caption = sprintf( ' data-caption="%s"', esc_attr( $safe_caption ) );
-		}
-
-		$data_extra = '';
-		if ( ! empty( $extra_attrs['thumbSrc'] ) ) {
-			$data_extra .= sprintf( ' data-thumb-src="%s"', esc_attr( (string) $extra_attrs['thumbSrc'] ) );
-		}
-		if ( ! empty( $extra_attrs['wpcpLbSingle'] ) ) {
-			$data_extra .= ' data-wpcp-lb-single="1"';
-		}
-
-		$icon_html = self::render_icon_markup( $resolved['icon'] ?? array() );
-
-		return sprintf(
-			'<a href="%1$s" data-fancybox="%2$s" class="wpcp-lightbox-trigger wpcp-advanced-image-lightbox-icon wpcp-position-%3$s wpcp-advanced-image-lightbox-icon-%4$s %5$s" data-wpcp-lb-icon-source="%6$s" aria-label="%7$s"%8$s%9$s>%10$s</a>',
-			$href,
-			esc_attr( $group ),
-			$position,
-			$visibility,
-			esc_attr( trim( 'wpcp-global-lightbox-icon ' . $extra . $preset_cls ) ),
-			$source,
-			esc_attr__( 'Open image in lightbox', 'wp-carousel-free' ),
-			$data_caption,
-			$data_extra,
-			$icon_html
-		);
-	}
-
-	/**
 	 * Build inline CSS for global icon style states (no external inline attributes on elements).
 	 *
 	 * @param array<string, mixed>|null $settings Settings.
@@ -1266,8 +1153,8 @@ class Lightbox_Icon_Helper {
 			);
 
 		$global_icon = '.wpcp-advanced-image-lightbox-icon.wpcp-lightbox-icon--global,.wpcp-advanced-image-lightbox-icon.wpcp-lightbox-icon--uses-global-style';
-		$size_box    = 'width:var(--icon-size,48px)!important;height:var(--icon-size,48px)!important;min-width:var(--icon-size,48px);min-height:var(--icon-size,48px);flex:none!important;box-sizing:border-box!important;';
-		$host_vars   = '.wpcp-wp-lightbox-host,.wpcp-wp-lightbox-host--gallery,.wpcp-image-gallery-item,.wpcp-image-gallery-wrapper,.wpcp-image-wrapper';
+		$size_box    = 'width:var(--icon-size,48px)!important;height:var(--icon-size,48px)!important;min-width:var(--icon-size,48px);min-height:var(--icon-size,48px);flex:none!important;box-sizing:content-box!important;';
+		$host_vars   = '.wpcp-image-gallery-item,.wpcp-image-gallery-wrapper,.wpcp-image-wrapper';
 
 		$rules   = array();
 		$devices = array(
@@ -1312,7 +1199,6 @@ class Lightbox_Icon_Helper {
 			$rules[] = '@media only screen and (max-width: ' . (int) $max_width . 'px){' . implode( '', $media_rules ) . '}';
 		}
 
-		$rules[] = '.wp-block-gallery.is-cropped .wpcp-wp-lightbox-host ' . $global_icon . ',.wp-block-gallery.is-cropped .blocks-gallery-item .wpcp-wp-lightbox-host ' . $global_icon . '{' . $size_box . '}';
 		$rules[] = $global_icon . ' .wpcp-icon-container{display:flex;align-items:center;justify-content:center;width:100%;height:100%;min-width:0;min-height:0;}';
 		$rules[] = $global_icon . ' .wpcp-icon-container svg,' . $global_icon . ' .wpcp-icon-container img{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;flex-shrink:0;}';
 
@@ -1340,9 +1226,9 @@ class Lightbox_Icon_Helper {
 		}
 
 		// Visibility "hover": reveal icon when the image/host is hovered (style colors still use icon:hover above).
-		$hover_reveal = '.wpcp-wp-lightbox-host.wpcp-advanced-image-lightbox-icon-hover:hover .wpcp-advanced-image-lightbox-icon,.wpcp-wp-lightbox-host:hover .wpcp-advanced-image-lightbox-icon.wpcp-advanced-image-lightbox-icon-hover,.wpcp-image-wrapper.wpcp-advanced-image-lightbox-icon-hover:hover .wpcp-advanced-image-lightbox-icon,.wpcp-gallery-item__inner.wpcp-advanced-image-lightbox-icon-hover:hover .wpcp-advanced-image-lightbox-icon';
+		$hover_reveal = '.wpcp-image-wrapper.wpcp-advanced-image-lightbox-icon-hover:hover .wpcp-advanced-image-lightbox-icon,.wpcp-gallery-item__inner.wpcp-advanced-image-lightbox-icon-hover:hover .wpcp-advanced-image-lightbox-icon';
 
-		$rules[] = '.wpcp-wp-lightbox-host .wpcp-advanced-image-lightbox-icon.wpcp-advanced-image-lightbox-icon-always,.wpcp-advanced-image-lightbox-icon-always .wpcp-lightbox-icon--global,.wpcp-advanced-image-lightbox-icon-always .wpcp-advanced-image-lightbox-icon{opacity:1;pointer-events:auto;}';
+		$rules[] = '.wpcp-advanced-image-lightbox-icon-always .wpcp-lightbox-icon--global,.wpcp-advanced-image-lightbox-icon-always .wpcp-advanced-image-lightbox-icon{opacity:1;pointer-events:auto;}';
 		$rules[] = '.wpcp-advanced-image-lightbox-icon.wpcp-advanced-image-lightbox-icon-hover{opacity:0;pointer-events:none;transition:opacity .35s ease,color .35s ease,background-color .35s ease,border-color .35s ease,fill .35s ease;}';
 		$rules[] = $hover_reveal . '{opacity:1;pointer-events:auto;}';
 
@@ -1356,9 +1242,14 @@ class Lightbox_Icon_Helper {
 	 * @return string[]
 	 */
 	private static function global_position_offset_rules( $offset_css ) {
-		$off  = self::sanitize_css_length( $offset_css, '12px' );
-		$host = '.wpcp-wp-lightbox-host .wpcp-advanced-image-lightbox-icon.wpcp-lightbox-icon--global,.wpcp-image-wrapper .wpcp-advanced-image-lightbox-icon.wpcp-lightbox-icon--uses-global-style,.wpcp-image-gallery-item .wpcp-advanced-image-lightbox-icon.wpcp-lightbox-icon--global,.wpcp-image-gallery-item .wpcp-advanced-image-lightbox-icon.wpcp-lightbox-icon--uses-global-style';
-		$base = '.wpcp-lightbox-icon--global,.wpcp-advanced-image-lightbox-icon.wpcp-lightbox-icon--uses-global-style';
+		$off       = self::sanitize_css_length( $offset_css, '12px' );
+		$selectors = array(
+			'.wpcp-image-wrapper .wpcp-advanced-image-lightbox-icon.wpcp-lightbox-icon--uses-global-style',
+			'.wpcp-image-gallery-item .wpcp-advanced-image-lightbox-icon.wpcp-lightbox-icon--global',
+			'.wpcp-image-gallery-item .wpcp-advanced-image-lightbox-icon.wpcp-lightbox-icon--uses-global-style',
+			'.wpcp-lightbox-icon--global',
+			'.wpcp-advanced-image-lightbox-icon.wpcp-lightbox-icon--uses-global-style',
+		);
 
 		$positions = array(
 			'top-left',
@@ -1378,7 +1269,14 @@ class Lightbox_Icon_Helper {
 			if ( '' === $decl ) {
 				continue;
 			}
-			$rules[] = $host . '.wpcp-position-' . $position . ',' . $base . '.wpcp-position-' . $position . '{' . $decl . '}';
+			// The position class has to follow every selector in the list, not just the last one.
+			$scoped = array_map(
+				static function ( string $selector ) use ( $position ): string {
+					return $selector . '.wpcp-position-' . $position;
+				},
+				$selectors
+			);
+			$rules[] = implode( ',', $scoped ) . '{' . $decl . '}';
 		}
 
 		return $rules;

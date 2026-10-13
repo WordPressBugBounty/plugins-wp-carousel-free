@@ -4,7 +4,7 @@ Tags: slider, carousel, slideshow, gallery, video slider
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 4.0.0
+Stable tag: 4.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -193,6 +193,12 @@ Yes, WP Carousel works perfectly with WordPress multi-site network.
 
 
 == Changelog ==
+
+= Version 4.0.1 – Oct 13, 2026 =
+* New: Added the "Contribute to WP Carousel" option in Settings → Advanced Controls to let you opt in to sharing anonymous usage data and help improve the plugin.
+* Fixed: The lightbox icon position and offset now apply correctly to all icon placements.
+* Fixed: The lightbox no longer modifies WordPress core Image and Gallery blocks.
+* Tested: Compatibility with WooCommerce 11.2.1.
 
 = Version 4.0.0 – Oct 08, 2026 =
 * New: AI Carousel Builder module – describe the carousel or gallery you want and let AI build it for you.

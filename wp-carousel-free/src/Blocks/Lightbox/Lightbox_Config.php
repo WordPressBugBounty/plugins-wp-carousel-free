@@ -25,7 +25,6 @@ class Lightbox_Config {
 		$settings = Lightbox_Settings::get_settings();
 
 		return array(
-			'wpImages' => ! empty( $settings['wpImagesEnable'] ),
 			'fancybox' => self::build_fancybox_options( $settings ),
 		);
 	}

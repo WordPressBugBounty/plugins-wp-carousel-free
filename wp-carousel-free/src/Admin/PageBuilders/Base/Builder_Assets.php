@@ -34,7 +34,6 @@ class Builder_Assets {
 			AssetManager::SWIPER,
 			AssetManager::FRONTEND,
 			AssetManager::FANCYBOX,
-			AssetManager::LIGHTBOX_GLOBAL,
 		);
 
 		foreach ( $scripts as $handle ) {

@@ -113,14 +113,18 @@ class Diagnostics {
 
 	/**
 	 * Store the consent choice. The single write path, shared by the admin
-	 * notice and the Setup Wizard's Finish step. Sends on every save that grants consent,
-	 * matching Pro — a transition-only send makes the obvious re-tick gesture
-	 * do nothing.
+	 * notice, the Setup Wizard's Finish step and Settings → Advanced Controls.
+	 * Sends on every save that grants consent; withdrawing also dismisses the notice.
 	 *
 	 * @param bool $consent Whether diagnostic data may be collected.
 	 */
 	public static function set_consent( $consent ) {
 		$consent = (bool) $consent;
+
+		// A withdrawal is an answer, so the notice must not ask again.
+		if ( ! $consent && self::has_consent() ) {
+			update_option( self::OPTION_NOTICE_IGNORED, true );
+		}
 
 		update_option( self::OPTION_CONSENT, $consent );
 
@@ -272,8 +276,8 @@ class Diagnostics {
 						<?php esc_html_e( 'Allow us to collect diagnostic data to resolve problems faster and improve performance.', 'wp-carousel-free' ); ?>
 						<a href="https://shapedplugin.com/information-we-collect/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Learn More', 'wp-carousel-free' ); ?></a>
 					</p>
-					<button type="submit" class="button" name="wpcpf_diagnostic_action" value="allow"><?php esc_html_e( 'Accept & Close', 'wp-carousel-free' ); ?></button>
 				</div>
+				<button type="submit" class="button" name="wpcpf_diagnostic_action" value="allow"><?php esc_html_e( 'Accept', 'wp-carousel-free' ); ?></button>
 				<button type="submit" class="wpcpf-diagnostic-dismiss dashicons dashicons-dismiss" name="wpcpf_diagnostic_action" value="deny" aria-label="<?php esc_attr_e( 'Dismiss', 'wp-carousel-free' ); ?>"></button>
 			</form>
 		</div>

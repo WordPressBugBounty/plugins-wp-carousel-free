@@ -107,7 +107,6 @@ class Lightbox_Settings {
 	public static function get_defaults() {
 		return array(
 			'lightboxProvider'       => 'fancybox',
-			'wpImagesEnable'         => true,
 			'lightboxIcon'           => array(
 				'source'   => 'icon',
 				'iconName' => 'search',
@@ -265,7 +264,6 @@ class Lightbox_Settings {
 				self::PROVIDERS,
 				$defaults['lightboxProvider']
 			),
-			'wpImagesEnable'         => self::sanitize_bool( $incoming, 'wpImagesEnable', $defaults['wpImagesEnable'] ),
 			'lightboxIcon'           => self::sanitize_icon( $incoming['lightboxIcon'] ?? null ),
 			'lightboxIconStyle'      => self::sanitize_enum(
 				$incoming['lightboxIconStyle'] ?? '',

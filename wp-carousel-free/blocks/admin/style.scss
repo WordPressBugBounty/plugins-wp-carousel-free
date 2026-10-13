@@ -529,6 +529,23 @@ $content-gutter: 32px;
 		line-height: 20px;
 		color: #757575;
 	}
+
+	/* Text-styled button that opens the "What We Collect?" modal. */
+	.wpcpf-setting-inline-link {
+		padding: 0;
+		border: none;
+		background: none;
+		font: inherit;
+		font-weight: 500;
+		color: #2271b1;
+		text-decoration: underline;
+		cursor: pointer;
+
+		&:hover,
+		&:focus-visible {
+			color: #135e96;
+		}
+	}
 }
 
 /* Custom checkbox. */

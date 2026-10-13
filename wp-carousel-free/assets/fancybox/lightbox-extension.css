@@ -1,223 +1,55 @@
 /**
- * Global Lightbox extension — WP core images + global icon overlay.
+ * Global Lightbox extension — global icon overlay and lightbox chrome.
  */
 
-.sp-styble-wp-lightbox-host {
-	position: relative;
-	display: block;
-	width: 100%;
-}
-
-figure.wp-block-image>.sp-styble-wp-lightbox-host:not(.sp-styble-wp-lightbox-host--gallery) {
-	display: block;
-	width: 100%;
-}
-
-/* Gallery: host covers the full figure/cell so icon offsets are relative to the image area. */
-.sp-styble-wp-lightbox-figure,
-.blocks-gallery-item figure.sp-styble-wp-lightbox-figure,
-.wp-block-gallery figure.wp-block-image {
-	position: relative;
-}
-
-/* In-flow host — absolute overlay collapsed figure height (images gone, lightbox still worked). */
-.sp-styble-wp-lightbox-host--gallery {
-	position: relative;
-	display: block;
-	width: 100%;
-	flex: 1 1 auto;
-	align-self: stretch;
-	min-height: 0;
-}
-
-.wp-block-gallery:not(.has-nested-images) .blocks-gallery-item figure .sp-styble-wp-lightbox-host--gallery,
-.wp-block-gallery:not(.has-nested-images) .blocks-gallery-image figure .sp-styble-wp-lightbox-host--gallery {
-	display: flex;
-	flex: 1 1 auto;
-	width: 100%;
-	height: 100%;
-}
-
-/* Image link stays in document flow so the thumbnail is visible. */
-.sp-styble-wp-lightbox-host a.sp-styble-wp-lightbox-image-link {
-	display: block;
-	position: relative !important;
-	inset: auto !important;
-	width: 100% !important;
-	max-width: 100%;
-	height: auto !important;
-	flex: 1 1 auto !important;
-	background: none !important;
-	text-decoration: none;
-}
-
-.sp-styble-wp-lightbox-host--gallery a.sp-styble-wp-lightbox-image-link {
-	position: relative !important;
-	inset: auto !important;
-}
-
-.sp-styble-wp-lightbox-host a.sp-styble-wp-lightbox-image-link img {
-	display: block;
-	width: 100%;
-	max-width: 100%;
-	height: auto;
-	vertical-align: bottom;
-}
-
-.wp-block-gallery.is-cropped .sp-styble-wp-lightbox-host--gallery a.sp-styble-wp-lightbox-image-link,
-.wp-block-gallery:not(.has-nested-images).is-cropped .blocks-gallery-item .sp-styble-wp-lightbox-host--gallery a.sp-styble-wp-lightbox-image-link {
-	height: 100%;
-}
-
-.wp-block-gallery.is-cropped .sp-styble-wp-lightbox-host--gallery a.sp-styble-wp-lightbox-image-link img,
-.wp-block-gallery:not(.has-nested-images).is-cropped .blocks-gallery-item .sp-styble-wp-lightbox-host--gallery a.sp-styble-wp-lightbox-image-link img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-.sp-styble-wp-lightbox-host a.sp-advanced-image-lightbox-icon,
-.wp-block-gallery.is-cropped .sp-styble-wp-lightbox-host a.sp-advanced-image-lightbox-icon,
-.wp-block-gallery:not(.has-nested-images).is-cropped .blocks-gallery-item .sp-styble-wp-lightbox-host a.sp-advanced-image-lightbox-icon,
-.wp-block-gallery:not(.has-nested-images).is-cropped .blocks-gallery-image .sp-styble-wp-lightbox-host a.sp-advanced-image-lightbox-icon,
-.wp-block-gallery.has-nested-images figure.wp-block-image .sp-styble-wp-lightbox-host a.sp-advanced-image-lightbox-icon {
-	position: absolute !important;
-	top: auto;
-	right: auto;
-	bottom: auto;
-	left: auto;
-	z-index: 10;
-	display: flex !important;
-	align-items: center;
-	justify-content: center;
-	width: var(--icon-size, 48px) !important;
-	height: var(--icon-size, 48px) !important;
-	min-width: 0 !important;
-	min-height: 0 !important;
-	max-width: none !important;
-	max-height: none !important;
-	flex: none !important;
-	flex-grow: 0 !important;
-	cursor: pointer;
-	box-sizing: border-box !important;
-	pointer-events: auto;
-	text-decoration: none;
-	transition: opacity 0.35s ease, color 0.35s ease, background-color 0.35s ease, border-color 0.35s ease, fill 0.35s ease;
-}
-
-.sp-styble-wp-lightbox-host .sp-advanced-image-lightbox-icon .sp-styble-icon-container {
-	width: 100%;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.sp-styble-wp-lightbox-host .sp-advanced-image-lightbox-icon .sp-styble-icon-container svg,
-.sp-styble-wp-lightbox-host .sp-advanced-image-lightbox-icon .sp-styble-icon-container img {
-	width: 100%;
-	height: 100%;
-	max-width: 100%;
-	max-height: 100%;
-	object-fit: contain;
-	flex-shrink: 0;
-}
-
-/* Global icon position + offset (WP blocks do not load advancedCss.scss). */
-.sp-styble-wp-lightbox-host .sp-advanced-image-lightbox-icon.sp-position-top-left {
-	top: var(--styble-lb-offset, 12px) !important;
-	left: var(--styble-lb-offset, 12px) !important;
-	right: auto !important;
-	bottom: auto !important;
-	transform: none !important;
-}
-
-.sp-styble-wp-lightbox-host .sp-advanced-image-lightbox-icon.sp-position-top-right {
-	top: var(--styble-lb-offset, 12px) !important;
-	right: var(--styble-lb-offset, 12px) !important;
-	left: auto !important;
-	bottom: auto !important;
-	transform: none !important;
-}
-
-.sp-styble-wp-lightbox-host .sp-advanced-image-lightbox-icon.sp-position-bottom-left {
-	bottom: var(--styble-lb-offset, 12px) !important;
-	left: var(--styble-lb-offset, 12px) !important;
-	top: auto !important;
-	right: auto !important;
-	transform: none !important;
-}
-
-.sp-styble-wp-lightbox-host .sp-advanced-image-lightbox-icon.sp-position-bottom-right {
-	bottom: var(--styble-lb-offset, 12px) !important;
-	right: var(--styble-lb-offset, 12px) !important;
-	top: auto !important;
-	left: auto !important;
-	transform: none !important;
-}
-
-.sp-styble-wp-lightbox-host .sp-advanced-image-lightbox-icon.sp-position-center {
-	top: 50% !important;
-	left: 50% !important;
-	right: auto !important;
-	bottom: auto !important;
-	transform: translate(-50%, -50%) !important;
-}
-
-.sp-styble-lightbox-icon--global {
+.wpcp-lightbox-icon--global {
 	opacity: 1;
 	transition: opacity 0.35s ease, color 0.35s ease, background-color 0.35s ease, border-color 0.35s ease, fill 0.35s ease;
 }
 
-.sp-styble-advanced-image-lightbox-icon-always .sp-styble-lightbox-icon--global {
+.wpcp-advanced-image-lightbox-icon-always .wpcp-lightbox-icon--global {
 	opacity: 1;
 }
 
-/* Visibility "hover": show icon when hovering the image area (WP host / figure). */
-.sp-advanced-image-lightbox-icon.sp-styble-advanced-image-lightbox-icon-hover {
+/* Visibility "hover": the icon starts hidden; the dynamic icon CSS reveals it on hover. */
+.wpcp-advanced-image-lightbox-icon.wpcp-advanced-image-lightbox-icon-hover {
 	opacity: 0;
 	pointer-events: none;
 	transition: opacity 0.35s ease, color 0.35s ease, background-color 0.35s ease, border-color 0.35s ease, fill 0.35s ease;
 }
 
-.sp-styble-wp-lightbox-host.sp-styble-advanced-image-lightbox-icon-hover:hover .sp-advanced-image-lightbox-icon,
-.sp-styble-wp-lightbox-host:hover .sp-advanced-image-lightbox-icon.sp-styble-advanced-image-lightbox-icon-hover {
-	opacity: 1;
-	pointer-events: auto;
-}
-
-.sp-styble-lightbox-wrapper.fancybox__container {
+.wpcp-lightbox-wrapper.fancybox__container {
 	z-index: 99990;
 }
 
 /* Bottom thumbnail strip above page content when WP gallery has 2+ slides. */
-.sp-styble-lightbox-wrapper.fancybox__container .fancybox__thumbs {
+.wpcp-lightbox-wrapper.fancybox__container .fancybox__thumbs {
 	z-index: 12;
 }
 
 /* Opened lightbox image — always centered in the popup viewport */
-.sp-styble-lightbox-wrapper.fancybox__container .fancybox__slide.is-selected {
+.wpcp-lightbox-wrapper.fancybox__container .fancybox__slide.is-selected {
 	justify-content: center;
 }
 
-.sp-styble-lightbox-wrapper.fancybox__container .f-panzoom,
-.sp-styble-lightbox-wrapper.fancybox__container .f-zoomable {
+.wpcp-lightbox-wrapper.fancybox__container .f-panzoom,
+.wpcp-lightbox-wrapper.fancybox__container .f-zoomable {
 	align-self: center;
 	max-width: 100%;
 }
 
-.sp-styble-lightbox-wrapper.fancybox__container .f-panzoom__wrapper {
+.wpcp-lightbox-wrapper.fancybox__container .f-panzoom__wrapper {
 	margin-inline: auto;
 }
 
-.sp-styble-lightbox-wrapper.fancybox__container img.f-panzoom__content,
-.sp-styble-lightbox-wrapper.fancybox__container picture.f-panzoom__content img,
-.sp-styble-lightbox-wrapper.fancybox__container .f-panzoom__viewport>.f-panzoom__content {
+.wpcp-lightbox-wrapper.fancybox__container img.f-panzoom__content,
+.wpcp-lightbox-wrapper.fancybox__container picture.f-panzoom__content img,
+.wpcp-lightbox-wrapper.fancybox__container .f-panzoom__viewport>.f-panzoom__content {
 	object-fit: contain !important;
 	object-position: center center !important;
 }
 
-.sp-styble-lightbox-wrapper.fancybox__container .f-caption {
+.wpcp-lightbox-wrapper.fancybox__container .f-caption {
 	align-self: center;
 	text-align: center;
 	max-width: 100%;

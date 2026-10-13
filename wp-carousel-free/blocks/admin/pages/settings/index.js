@@ -15,6 +15,7 @@ import { toastSuccessMsg, toastErrorMsg } from '../../functions';
 import CodeSettingField from './CodeSettingField.jsx';
 import Integrations from '../integrations';
 import AiConfiguration from './ai-configuration/AiConfiguration';
+import DiagnosticDataModal from '../../templates/DiagnosticDataModal';
 
 const getWpcpfDashboard = () => (typeof window !== 'undefined' ? window.wpcpfDashboard || {} : {});
 
@@ -99,6 +100,7 @@ export default function Settings({
 	integrations,
 	modulesOptions,
 	aiSettings,
+	diagnosticConsent,
 	saveOptions,
 }) {
 	const visibleTabs = useMemo(() => getVisibleTabs(modulesOptions), [modulesOptions]);
@@ -113,6 +115,13 @@ export default function Settings({
 	const [flushing, setFlushing] = useState(false);
 	const [customCss, setCustomCss] = useState('');
 	const [customJs, setCustomJs] = useState('');
+	const [shareDiagnosticData, setShareDiagnosticData] = useState(!!diagnosticConsent);
+	const [showDiagnosticModal, setShowDiagnosticModal] = useState(false);
+
+	// Follows the stored choice, so a save from the wizard or this page shows here.
+	useEffect(() => {
+		setShareDiagnosticData(!!diagnosticConsent);
+	}, [diagnosticConsent]);
 
 	// Per-language wp.codeEditor settings from wp_enqueue_code_editor(). Absent when
 	// the user has switched syntax highlighting off in their profile — the fields then
@@ -161,6 +170,8 @@ export default function Settings({
 					wpcp_custom_css: customCss,
 					...(canEditCustomJs ? { wpcp_custom_js: customJs } : {}),
 				},
+				// Only a changed choice is sent, so saving custom CSS never records consent.
+				...(shareDiagnosticData !== !!diagnosticConsent ? { diagnosticConsent: shareDiagnosticData } : {}),
 			});
 			if (result?.success) {
 				toastSuccessMsg(__('Settings saved successfully!', 'wp-carousel-free'));
@@ -218,6 +229,8 @@ export default function Settings({
 
 		setResetting(true);
 		setAdvancedSettings(ADVANCED_SETTINGS);
+		// Sharing is opt-in, so its default is off.
+		setShareDiagnosticData(false);
 		setCustomCss('');
 		setCustomJs('');
 		setTimeout(() => {
@@ -335,7 +348,45 @@ export default function Settings({
 										{flushing ? __('Clearing…', 'wp-carousel-free') : __('Flush Cache', 'wp-carousel-free')}
 									</button>
 								</div>
+
+								<div className="wpcpf-setting-item">
+									<div className="wpcpf-setting-info">
+										<h4 className="wpcpf-setting-title" id="wpcpf-diagnostic-data-title">
+											{__('Contribute to WP Carousel', 'wp-carousel-free')}
+										</h4>
+										<p className="wpcpf-setting-description">
+											{__(
+												'Share diagnostic data to help us fix bugs faster, make smarter decisions, and build features that truly matter to you. Nothing is sent unless this is checked. See',
+												'wp-carousel-free'
+											)}{' '}
+											<button
+												type="button"
+												className="wpcpf-setting-inline-link"
+												onClick={() => setShowDiagnosticModal(true)}
+											>
+												{__('what we collect', 'wp-carousel-free')}
+											</button>
+											.
+										</p>
+									</div>
+									<button
+										type="button"
+										role="checkbox"
+										aria-checked={shareDiagnosticData}
+										aria-labelledby="wpcpf-diagnostic-data-title"
+										className={`wpcpf-setting-checkbox ${
+											shareDiagnosticData ? 'wpcpf-setting-checkbox-checked' : ''
+										}`}
+										onClick={() => setShareDiagnosticData((previous) => !previous)}
+									>
+										{shareDiagnosticData && <CheckIcon />}
+									</button>
+								</div>
 							</div>
+
+							{showDiagnosticModal && (
+								<DiagnosticDataModal onClose={() => setShowDiagnosticModal(false)} />
+							)}
 
 							<div className="wpcpf-settings-actions">
 								<button

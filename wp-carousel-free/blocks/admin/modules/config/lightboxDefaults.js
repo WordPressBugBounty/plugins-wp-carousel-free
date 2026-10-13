@@ -86,7 +86,6 @@ const defaultIconStateStyle = (iconColor = '') => ({
 export function getLightboxDefaults() {
 	return {
 		lightboxProvider: 'fancybox',
-		wpImagesEnable: true,
 		lightboxIcon: defaultLightboxIcon(),
 		lightboxIconStyle: 'default',
 		iconDisplayPosition: 'top-right',
