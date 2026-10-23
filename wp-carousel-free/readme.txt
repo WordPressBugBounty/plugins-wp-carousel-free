@@ -179,16 +179,18 @@ Yes, WP Carousel works perfectly with WordPress multi-site network.
 
 == Screenshots ==
 
-1. Live Demo.
-2. Carousel Settings.
-3. General Settings (Image Carousel).
-4. Style Settings.
-5. Post Carousel.
-6. Product Carousel.
-7. All Carousels.
-8. Advanced Settings.
-9. Custom CSS.
-10. Drag & Drop Image Re-order.
+1. Carousel block with responsive columns, autoplay, and navigation controls
+2. Slider block for full-width image and content slides
+3. Thumbnails slider with synced navigation for easy browsing
+4. Tiles block with a flexible, magazine-style grid layout
+5. All available blocks in the Gutenberg inserter
+6. Build with AI: generate carousels and sliders from a simple prompt
+7. Four content sources: images, posts, products, and video
+8. Ready-made patterns library, insert in one click
+9. Saved templates to reuse your favorite designs on any page
+10. Classic Shortcode General settings
+11. Display settings: item styles, image styles, title and description, typography
+12. Classic shortcode generator with support for multi post types
 
 
 
