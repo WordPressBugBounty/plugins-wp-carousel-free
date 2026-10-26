@@ -501,13 +501,13 @@ export default function AIBuilderModal({
 		handleGenerate({ provider: fallbackProvider.slug, model: fallbackProvider.model });
 	};
 
-	let generateButtonLabel = __('Build Carousel', 'wp-carousel-free');
+	let generateButtonLabel = __('Build Showcase', 'wp-carousel-free');
 	if (loading) {
 		generateButtonLabel = PROGRESS_STEP_LABELS[progressStep] + '…';
 	} else if (applying) {
 		generateButtonLabel = __('Applying…', 'wp-carousel-free');
 	} else if (isRefining) {
-		generateButtonLabel = __('Update Carousel', 'wp-carousel-free');
+		generateButtonLabel = __('Update Showcase', 'wp-carousel-free');
 	}
 
 	// Caps below 100% while a label is still showing — the request may still be
@@ -634,7 +634,7 @@ export default function AIBuilderModal({
 				<label htmlFor="wpcp-ai-prompt" className="wpcp-ai-heading">
 					{isRefining
 						? __('What should change?', 'wp-carousel-free')
-						: __('What do you want to create?', 'wp-carousel-free')}
+						: __('What do you want to build?', 'wp-carousel-free')}
 				</label>
 
 				<div className="wpcp-ai-textarea-card">

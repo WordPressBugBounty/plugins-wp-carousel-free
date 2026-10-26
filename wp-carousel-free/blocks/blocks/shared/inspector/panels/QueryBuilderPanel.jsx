@@ -13,9 +13,9 @@ import {
 	SelectField,
 	MultiSelectDndKit,
 	SpProNotice,
-	getPricingUrl,
 } from '@wp-carousel-pro/components';
 import { PRO_QUERY_BUILDER_POST, PRO_QUERY_BUILDER_PRODUCT } from '../../constants/proFeatures';
+import { isGridLayoutBlock } from '../../constants/blockCapabilities';
 
 const ExcludePostArrowIcon = () => (
 	<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} aria-hidden="true">
@@ -96,7 +96,7 @@ function QueryBuilderPanel({ attributes, setAttributes, panelOpen, onPanelToggle
 		? __('Filter Products', 'wp-carousel-free')
 		: __('Filter Posts', 'wp-carousel-free');
 	const isTilesAjaxPaginated =
-		attributes.blockName === 'tiles' &&
+		isGridLayoutBlock(attributes.blockName) &&
 		attributes.layoutOptions?.pagination === true &&
 		(sourceType === 'post' || sourceType === 'product');
 	let limitLabel = __('Limit', 'wp-carousel-free');
@@ -133,14 +133,7 @@ function QueryBuilderPanel({ attributes, setAttributes, panelOpen, onPanelToggle
 			<div className="wpcp-select-field wpcp-component-mb">
 				<div className="wpcp-header wpcp-header-left">
 					<span className="wpcp-component-title wpcp-pro-inline-title">{excludeItemsLabel}</span>
-					<a
-						className="wpcp-pro-inline-tag"
-						href={getPricingUrl()}
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						{__('(Pro)', 'wp-carousel-free')}
-					</a>
+					<span className="wpcp-pro-inline-tag">{__('(Pro)', 'wp-carousel-free')}</span>
 				</div>
 				<div className="shaped-plugin-multiple-select wpcp-pro-locked-row">
 					<div className="sp-multiple-select-dnd-container">
@@ -200,15 +193,7 @@ function QueryBuilderPanel({ attributes, setAttributes, panelOpen, onPanelToggle
 				defaultValue={10}
 				units={false}
 			/>
-			<SpProNotice
-				className="is-upsell"
-				title={proQueryBuilder.title}
-				subtitle={proQueryBuilder.subtitle}
-				features={proQueryBuilder.features}
-				linkText={proQueryBuilder.linkText}
-				icon={false}
-				linkButton
-			/>
+			<SpProNotice {...proQueryBuilder} />
 		</PanelBody>
 	);
 }

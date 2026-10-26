@@ -332,6 +332,10 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 		 * @return void
 		 */
 		public function ajax_save() {
+			// Capability first; the nonce is verified in set_options().
+			if ( ! current_user_can( apply_filters( 'wpcpf_ui_permission', 'manage_options' ) ) ) {
+				wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized.', 'wp-carousel-free' ) ), 403 );
+			}
 
 			$result = $this->set_options( true );
 
@@ -502,6 +506,11 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 			// Check nonce.
 			$nonce = $ajax && ( ! empty( $_POST['nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : ( ( ! empty( $_POST[ 'wpcf_options_nonce' . $this->unique ] ) ) ? sanitize_text_field( wp_unslash( $_POST[ 'wpcf_options_nonce' . $this->unique ] ) ) : '' );
 			if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'wpcf_options_nonce' ) ) {
+				return false;
+			}
+
+			// Covers the non-AJAX form submit, which never passes through ajax_save().
+			if ( ! current_user_can( apply_filters( 'wpcpf_ui_permission', 'manage_options' ) ) ) {
 				return false;
 			}
 

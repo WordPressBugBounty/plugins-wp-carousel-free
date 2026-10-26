@@ -141,8 +141,8 @@ export default function CarouselInspector({
 			content: <SocialSharePanel {...socialShareProps} />,
 		},
 		{ name: 'effects', show: showEffectsPanel, content: <EffectsPanel {...effectsProps} /> },
-		{ name: 'scheduling', show: true, content: <ProPanel panelId="scheduling" /> },
-		{ name: 'motion', show: true, content: <ProPanel panelId="motion" /> },
+		{ name: 'scheduling', show: true, content: <ProPanel panelId="scheduling" blockName={layoutType} /> },
+		{ name: 'motion', show: true, content: <ProPanel panelId="motion" blockName={layoutType} /> },
 		{ name: 'advanced', show: true, content: <AdvancedPanel {...advancedProps} /> },
 	];
 

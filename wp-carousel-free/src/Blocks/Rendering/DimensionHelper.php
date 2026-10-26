@@ -12,6 +12,8 @@
 
 namespace ShapedPlugin\WPCarouselFree\Blocks\Rendering;
 
+use ShapedPlugin\WPCarouselFree\Blocks\Schema\AllowedValues;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -94,7 +96,7 @@ class DimensionHelper {
 			return false;
 		}
 		$resolved = self::resolve_variable_width_style( $attributes );
-		if ( 'tiles' === $resolved['block_name'] ) {
+		if ( AllowedValues::is_grid_layout_block( $resolved['block_name'] ) ) {
 			return false;
 		}
 
@@ -117,7 +119,7 @@ class DimensionHelper {
 			return false;
 		}
 		$resolved = self::resolve_variable_width_style( $attributes );
-		if ( 'tiles' === $resolved['block_name'] || 'grid' === $resolved['style'] ) {
+		if ( AllowedValues::is_grid_layout_block( $resolved['block_name'] ) || 'grid' === $resolved['style'] ) {
 			return false;
 		}
 

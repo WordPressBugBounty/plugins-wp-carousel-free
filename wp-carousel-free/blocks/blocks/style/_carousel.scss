@@ -24,13 +24,22 @@
 		list-style: none;
 	}
 
+	// Base sizes match the schema defaults; dynamic CSS only emits values that differ.
+	@include wpcp-tablet-down {
+		gap: 8px;
+	}
+
+	@include wpcp-mobile {
+		gap: 6px;
+	}
+
 	.wpcp-social-share-link,
 	.wpcp-share-btn {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 36px;
-		height: 36px;
+		width: 40px;
+		height: 40px;
 		text-decoration: none;
 		background-color: #f3f3f3;
 		color: #2f2f2f;
@@ -40,8 +49,28 @@
 
 		// Use CSS custom properties for icon size when set
 		svg {
-			width: var(--wpcp-social-icon-size, 18px);
-			height: var(--wpcp-social-icon-size, 18px);
+			width: var(--wpcp-social-icon-size, 20px);
+			height: var(--wpcp-social-icon-size, 20px);
+		}
+
+		@include wpcp-tablet-down {
+			width: 36px;
+			height: 36px;
+
+			svg {
+				width: var(--wpcp-social-icon-size, 18px);
+				height: var(--wpcp-social-icon-size, 18px);
+			}
+		}
+
+		@include wpcp-mobile {
+			width: 32px;
+			height: 32px;
+
+			svg {
+				width: var(--wpcp-social-icon-size, 16px);
+				height: var(--wpcp-social-icon-size, 16px);
+			}
 		}
 
 		// Use CSS custom properties for custom colors

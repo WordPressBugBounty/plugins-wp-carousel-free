@@ -11,7 +11,7 @@ import './editor.scss';
 
 const ProCardBadge = () => (
 	<>
-		<ProBadge iconOnly isStatic className="wpcp-pro-badge--corner" />
+		<ProBadge iconOnly className="wpcp-pro-badge--corner" />
 		<span className="wpcp-pro-card-tooltip">{__('Upgrade to Pro', 'wp-carousel-free')}</span>
 	</>
 );

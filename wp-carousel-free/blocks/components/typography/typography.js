@@ -185,15 +185,19 @@ const Typography = ({
 		...family,
 	};
 
+	const knownFont = allFonts?.find((font) => font.value === safeFamily.family);
 	const activeFontFamily =
 		!safeFamily.family || safeFamily.family === ''
 			? defaultFamilyOption
 			: {
-					label: allFonts?.find((font) => font.value === safeFamily.family)?.label || safeFamily.family,
+					label: knownFont?.label || safeFamily.family,
 					value: safeFamily.family,
 					font: {
 						family: safeFamily.family,
-						variants: ['300', '400', '500', '600', '700', '800'], // Default variants, could be improved
+						// Offer only the weights the family ships; an unknown family keeps the generic list.
+						variants: knownFont?.font?.variants?.length
+							? knownFont.font.variants
+							: ['300', '400', '500', '600', '700', '800'],
 					},
 			  };
 

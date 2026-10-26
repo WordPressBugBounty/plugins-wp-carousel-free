@@ -28,6 +28,7 @@ final class BlockTypesController {
 	 * @return void
 	 */
 	public function init() {
+		BlockVisibility::init();
 		add_action( 'init', array( $this, 'register_blocks' ), 20 );
 		add_filter( 'allowed_block_types_all', array( BlockVisibility::class, 'filter_allowed_block_types' ), 10, 2 );
 	}
@@ -61,11 +62,15 @@ final class BlockTypesController {
 	private static function get_block_types() {
 		return array(
 			'carousel'          => 'Carousel',
+			'carousel-3d'       => 'Carousel3D',
 			'marquee'           => 'Marquee',
 			'carousel-panorama' => 'CarouselPanorama',
 			'slider'            => 'Slider',
 			'thumbnails-slider' => 'ThumbnailsSlider',
 			'tiles'             => 'Tiles',
+			'grid'              => 'Grid',
+			'masonry'           => 'Masonry',
+			'justified'         => 'Justified',
 		);
 	}
 

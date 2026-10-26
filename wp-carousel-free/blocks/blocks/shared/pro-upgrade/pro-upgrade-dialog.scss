@@ -1,0 +1,287 @@
+// "Do more with WP Carousel Pro" dialog (editor only). The CTA takes the
+// plugin's primary teal; the greens follow the inspector's Pro notice.
+$wpcp-pro-upgrade-primary: var(--wpcp-carousel-primary-2-800, #19949e);
+$wpcp-pro-upgrade-primary-hover: var(--wpcp-carousel-primary-2-900, #135c5d);
+$wpcp-pro-upgrade-surface: #eaf8f0;
+$wpcp-pro-upgrade-border: #dcefe4;
+$wpcp-pro-upgrade-marker: #7cc9a0;
+$wpcp-pro-upgrade-ink: #1e1e1e;
+$wpcp-pro-upgrade-muted: #50575e;
+
+@keyframes wpcp-pro-upgrade-lane {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes wpcp-pro-upgrade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.wpcp-pro-upgrade-overlay {
+  background: rgba(18, 26, 44, 0.4);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+.components-modal__frame.wpcp-pro-upgrade {
+  width: 768px;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 48px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.06);
+  color: $wpcp-pro-upgrade-ink;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  animation: wpcp-pro-upgrade-in 0.36s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+
+  .components-modal__content {
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  @media (max-width: 600px) {
+    width: auto;
+    max-width: none;
+    border-radius: 0;
+  }
+}
+
+.wpcp-pro-upgrade-visual {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  border-bottom: 1px solid $wpcp-pro-upgrade-border;
+  background: linear-gradient(225deg, $wpcp-pro-upgrade-surface 0%, #f7fcf9 60%, #fff 100%);
+
+  // No plugin URL to load the artwork from: just room for the close button.
+  &.is-bare {
+    height: 56px;
+  }
+}
+
+.wpcp-pro-upgrade-lanes {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+}
+
+.wpcp-pro-upgrade-lane {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  padding-left: 16px;
+  animation: wpcp-pro-upgrade-lane 36s linear infinite;
+}
+
+// Typed selector so the editor's figure margins stay out.
+figure.wpcp-pro-upgrade-card {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 196px;
+  margin: 0;
+
+  img {
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    margin: 0;
+  }
+
+  figcaption {
+    margin: 0;
+    color: $wpcp-pro-upgrade-ink;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+  }
+}
+
+.wpcp-pro-upgrade-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: $wpcp-pro-upgrade-muted;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    color: $wpcp-pro-upgrade-ink;
+    transform: rotate(90deg);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $wpcp-pro-upgrade-primary;
+    outline-offset: 2px;
+  }
+}
+
+.wpcp-pro-upgrade-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 26px 28px 24px;
+}
+
+.wpcp-pro-upgrade-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+// Typed selectors so the editor's heading and paragraph rules cannot reclaim the spacing.
+h2.wpcp-pro-upgrade-title {
+  margin: 0;
+  color: $wpcp-pro-upgrade-ink;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+p.wpcp-pro-upgrade-subtitle {
+  margin: 0;
+  color: $wpcp-pro-upgrade-muted;
+  font-size: 15px;
+  line-height: 1.5;
+  text-wrap: pretty;
+
+  strong {
+    color: $wpcp-pro-upgrade-ink;
+    font-weight: 600;
+  }
+}
+
+ul.wpcp-pro-upgrade-features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    color: $wpcp-pro-upgrade-ink;
+    font-size: 15px;
+    line-height: 1.4;
+
+    &::before {
+      content: '';
+      flex: 0 0 auto;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: $wpcp-pro-upgrade-marker;
+    }
+  }
+
+  @media (max-width: 420px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.wpcp-pro-upgrade-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding-top: 4px;
+}
+
+.wpcp-pro-upgrade-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 6px;
+  background: $wpcp-pro-upgrade-primary;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgba(25, 148, 158, 0.25);
+  box-sizing: border-box;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &:visited {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background: $wpcp-pro-upgrade-primary-hover;
+    box-shadow: 0 6px 16px rgba(25, 148, 158, 0.28);
+    transform: translateY(-1px);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $wpcp-pro-upgrade-primary;
+    outline-offset: 2px;
+  }
+}
+
+.wpcp-pro-upgrade-guarantee {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #646970;
+  font-size: 12.5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .components-modal__frame.wpcp-pro-upgrade,
+  .wpcp-pro-upgrade-lane {
+    animation: none;
+  }
+
+  .wpcp-pro-upgrade-close,
+  .wpcp-pro-upgrade-cta {
+    transition: none;
+  }
+}

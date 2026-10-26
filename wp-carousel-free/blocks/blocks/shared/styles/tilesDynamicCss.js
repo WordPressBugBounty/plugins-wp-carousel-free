@@ -14,11 +14,12 @@ import {
 } from './constants';
 import { isBentoTileLayout, TILE_BENTO_COLUMNS } from '../utils/tilePresets';
 import { resolveTileLayout } from '../constants/freeValues';
+import { isGridLayoutBlock } from '../constants/blockCapabilities';
 
 /** @typedef {'Desktop'|'Tablet'|'Mobile'} DeviceType */
 
 /**
- * Whether the block is the tiles layout (gates generateTiles*).
+ * Whether the block is the Tiles block (gates the bento collapse queries).
  *
  * @param {Object} attributes - Block attributes.
  * @return {boolean} True when blockName matches.
@@ -73,7 +74,7 @@ const getTilesModeSettings = (layoutOptions = {}, device = DEVICES.DESKTOP) => {
  * @return {Array} CSS rule objects.
  */
 export const generateTilesBaseStyles = (selectors, attributes = {}) => {
-	if (!isTilesBlockAttributes(attributes)) {
+	if (!isGridLayoutBlock(attributes?.blockName)) {
 		return [];
 	}
 	const s = getTilesModeSettings(attributes.layoutOptions || {}, DEVICES.DESKTOP);
@@ -106,7 +107,7 @@ export const generateTilesBaseStyles = (selectors, attributes = {}) => {
  * @return {Array} CSS rule objects.
  */
 export const generateTilesResponsiveStyles = (selectors, attributes = {}, device) => {
-	if (!isTilesBlockAttributes(attributes)) {
+	if (!isGridLayoutBlock(attributes?.blockName)) {
 		return [];
 	}
 	const s = getTilesModeSettings(attributes.layoutOptions || {}, device);

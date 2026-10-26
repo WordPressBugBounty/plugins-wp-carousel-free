@@ -44,6 +44,7 @@ import useEditorContentSelect from '../hooks/useEditorContentSelect';
 // the editor rule-set identical to the frontend `wpcp-blocks-swiper-style`
 // handle (swiper-bundle.min.css) — do not swap back to piecemeal module CSS.
 import 'swiper/swiper-bundle.css';
+import { isGridLayoutBlock } from '../constants/blockCapabilities';
 
 /* ── Helpers ─────────────────────────────────────────────────────────────── */
 
@@ -143,7 +144,7 @@ function CarouselEdit({ attributes, setAttributes, name, clientId }) {
 		useEditorDynamicCss(attributes, name);
 
 	const showTilesPaginationPreview =
-		name === 'wp-carousel-pro/tiles' &&
+		isGridLayoutBlock(name) &&
 		attributes.layoutOptions?.pagination === true &&
 		['post', 'product', 'image', 'video'].includes(sourceType);
 
@@ -223,6 +224,8 @@ function CarouselEdit({ attributes, setAttributes, name, clientId }) {
 				<div
 					ref={carouselScopeRef}
 					className={classNames('wpcp-block-carousel-scope', {
+						// Root-class hook the static Grid rules key on, as PHP's `wpcp-block-grid`.
+						'wpcp-block-grid': name === 'wp-carousel-pro/grid',
 						'wpcp-block-thumbnails-slider': isThumbnailsSliderBlock,
 						[`wpcp-thumbs-layout-${thumbsLayoutClass}`]: isThumbnailsSliderBlock,
 						[`wpcp-thumbs-position-${thumbsPositionClass}`]: isThumbnailsSliderBlock,

@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * how server-side terms silently vanished before. Explicit `blocks[]` on the item
  * wins; this map answers only when the source declares nothing.
  *
- * Only Free's four blocks are mapped. A Pro-block pattern still lists and still
+ * Only Free's registered blocks are mapped. A Pro-block pattern still lists and still
  * previews; it simply resolves no block name, and its tier locks the insert.
  */
 class CategoryMap {
@@ -29,10 +29,11 @@ class CategoryMap {
 	 */
 	public const BLOCK_MAP = array(
 		'carousel'          => 'wp-carousel-pro/carousel',
+		'carousel-3d'       => 'wp-carousel-pro/carousel-3d',
 		'slider'            => 'wp-carousel-pro/slider',
 		'thumbnails-slider' => 'wp-carousel-pro/thumbnails-slider',
 		'tiles'             => 'wp-carousel-pro/tiles',
-		'grid'              => 'wp-carousel-pro/tiles',
+		'grid'              => 'wp-carousel-pro/grid',
 	);
 
 	/**
@@ -46,6 +47,8 @@ class CategoryMap {
 	public const PRO_BLOCK_CATEGORIES = array(
 		'wp-carousel-pro/carousel-panorama' => 'carousel-panorama',
 		'wp-carousel-pro/marquee'           => 'marquee',
+		'wp-carousel-pro/masonry'           => 'masonry',
+		'wp-carousel-pro/justified'         => 'justified',
 	);
 
 	/**
@@ -55,10 +58,13 @@ class CategoryMap {
 	 */
 	public const LABEL_MAP = array(
 		'carousel'          => 'Carousel',
+		'carousel-3d'       => 'Carousel 3D',
 		'slider'            => 'Slider',
 		'thumbnails-slider' => 'Thumbnails Slider',
 		'tiles'             => 'Tiles',
 		'grid'              => 'Grid',
+		'masonry'           => 'Masonry',
+		'justified'         => 'Justified',
 	);
 
 	/**
@@ -85,7 +91,7 @@ class CategoryMap {
 	 *
 	 * A v2 item declares `blocks[]` and may omit `category` entirely; without this
 	 * the block axis would show a zero badge for a pattern it plainly belongs to.
-	 * The first mapping wins, so `tiles` beats its `grid` alias; a Pro block falls
+	 * A Pro block falls
 	 * through to PRO_BLOCK_CATEGORIES.
 	 *
 	 * @param string $block_name Registered block name.

@@ -114,7 +114,7 @@ $nav_dynamic_style = '';
 if ( $wpcp_arrows ) {
 	$wpcp_nav_color       = isset( $shortcode_data['wpcp_nav_colors']['color1'] ) ? $shortcode_data['wpcp_nav_colors']['color1'] : '#aaa';
 	$wpcp_nav_hover_color = isset( $shortcode_data['wpcp_nav_colors']['color2'] ) ? $shortcode_data['wpcp_nav_colors']['color2'] : '#fff';
-	$navigation_icon      = isset( $shortcode_data['navigation_icons'] ) ? $shortcode_data['wpcp_nav_colors'] : 'right_open';
+	$navigation_icon      = isset( $shortcode_data['navigation_icons'] ) ? $shortcode_data['navigation_icons'] : 'right_open';
 	if ( 'right_open' !== $navigation_icon ) {
 		$nav_dynamic_style .= '
 		#sp-wp-carousel-free-id-' . $post_id . '.wpcp-carousel-section.sp-wpcp-' . $post_id . ' .swiper-button-prev,

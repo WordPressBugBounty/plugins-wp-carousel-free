@@ -3,8 +3,7 @@
  *
  * Free ships the uniform 3 × 3 grid, the Asymmetric 2-column preset and the
  * Hero + 2 × 2 bento preset; the six remaining presets are Pro, drawn in place
- * as badged cards that open the pricing page instead of writing
- * `layoutOptions.tileLayout`. Wired in `LayoutsPanel.jsx` only when the active
+ * as badged cards that never write `layoutOptions.tileLayout`. Wired in `LayoutsPanel.jsx` only when the active
  * block is `wp-carousel-pro/tiles`.
  *
  * SVGs live inline rather than as imported asset files so the component is

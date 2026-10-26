@@ -5,6 +5,13 @@
         .components-button {
             color: #ffffff;
 
+            // Shrink to the 24px icon so it lines up with the other right-edge controls.
+            &.is-compact.has-icon {
+                width: auto;
+                min-width: 0;
+                padding: 0;
+            }
+
             &.active {
                 svg {
                     border-radius: 4px;

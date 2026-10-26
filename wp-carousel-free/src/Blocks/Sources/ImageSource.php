@@ -8,6 +8,7 @@
 namespace ShapedPlugin\WPCarouselFree\Blocks\Sources;
 
 use ShapedPlugin\WPCarouselFree\Blocks\Includes\Utils\Item_Text;
+use ShapedPlugin\WPCarouselFree\Blocks\Schema\AllowedValues;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -55,10 +56,11 @@ class ImageSource implements SourceInterface {
 			}
 
 			$attachment_id = (int) ( isset( $raw['id'] ) ? $raw['id'] : 0 );
+			$attachment    = AttachmentAccess::get_readable( $attachment_id );
 
 			$extra = array();
 
-			if ( $attachment_id > 0 ) {
+			if ( null !== $attachment ) {
 				$src = wp_get_attachment_image_src( $attachment_id, $resolution );
 				$url = ( $src && isset( $src[0] ) ) ? $src[0] : ( isset( $raw['url'] ) ? (string) $raw['url'] : '' );
 
@@ -74,7 +76,7 @@ class ImageSource implements SourceInterface {
 				if ( '' === $alt ) {
 					$alt = $raw_alt;
 				}
-				$post = get_post( $attachment_id );
+				$post = $attachment;
 
 				$title = $raw_title;
 				if ( '' === $title ) {
@@ -176,7 +178,7 @@ class ImageSource implements SourceInterface {
 			}
 
 			// For thumbnails-slider, add thumbImg with the thumbnail resolution.
-			if ( $is_thumbnails_slider && $attachment_id > 0 ) {
+			if ( $is_thumbnails_slider && null !== $attachment ) {
 				$thumb_src = wp_get_attachment_image_src( $attachment_id, $thumb_resolution );
 				if ( $thumb_src && isset( $thumb_src[0] ) ) {
 					$normalized['thumbImg'] = $thumb_src[0];
@@ -205,7 +207,7 @@ class ImageSource implements SourceInterface {
 		// break the pagination contract (visitors would see duplicates/gaps as
 		// they page through). For every other consumer (carousel, slider, tiles
 		// without pagination) we keep the historic non-deterministic shuffle.
-		$is_paginated_tiles = isset( $attributes['blockName'] ) && 'tiles' === $attributes['blockName']
+		$is_paginated_tiles = isset( $attributes['blockName'] ) && AllowedValues::is_grid_layout_block( $attributes['blockName'] )
 			&& ! empty( $layout_options['pagination'] );
 		if ( ! empty( $layout_options['randomOrder'] ) && ! $is_paginated_tiles ) {
 			shuffle( $items );

@@ -201,11 +201,7 @@ export default function GeneralTabContent({ options, setOpt, blockName }) {
 				/>
 			)}
 
-			<SpProNotice
-				className="is-upsell"
-				message={PRO_NAVIGATION.message}
-				linkText={PRO_NAVIGATION.linkText}
-			/>
+			<SpProNotice {...PRO_NAVIGATION} />
 		</>
 	);
 }

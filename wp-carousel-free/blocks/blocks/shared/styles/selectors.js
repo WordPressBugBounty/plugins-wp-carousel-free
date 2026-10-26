@@ -72,7 +72,6 @@ export const createSelectors = (uniqueId, sourceType) => {
 		// Item-scoped hover so Overlay orientation (content on image) keeps the
 		// tint when the cursor is over the caption, not only empty media.
 		imageOverlayBeforeHover: `${wrapper} .wpcp-item:hover .wpcp-image-overlay.wpcp-item-media::before`,
-		imageOverlayBeforeSocialHover: `${wrapper} .wpcp-item:has(.wpcp-social-share-link:hover) .wpcp-image-overlay.wpcp-item-media::before`,
 		img: `${wrapper} .wpcp-item-img`,
 		taxonomyWrapper: `${wrapper} .wpcp-taxonomy-wrapper`,
 		taxonomy: `${wrapper} .wpcp-item-taxonomy`,

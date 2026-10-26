@@ -293,11 +293,7 @@ export default function VideoItemEditPopup({
 							</span>
 							<SocialMediaSelectLocked />
 						</div>
-						<SpProNotice
-							className="is-upsell"
-							message={PRO_ITEM_SOCIAL_SHARE.message}
-							linkText={PRO_ITEM_SOCIAL_SHARE.linkText}
-						/>
+						<SpProNotice {...PRO_ITEM_SOCIAL_SHARE} />
 					</div>
 				</div>
 

@@ -28,3 +28,22 @@ export function getContentField(item, source, defaultKey) {
 
 	return item?.[key] ?? item?.[defaultKey] ?? '';
 }
+
+/** Default title source for the image source — the attachment caption. */
+export const DEFAULT_IMAGE_TITLE_SOURCE = 'image_caption';
+
+/**
+ * Only the image source chooses a title source; every other source titles from the item.
+ * Mirrors `SlotRenderer::resolve_title_source()`.
+ *
+ * @param {string} sourceType  Block sourceType attribute.
+ * @param {string} titleSource Stored contentOptions.titleSource.
+ * @return {string} Source key to feed `getContentField`.
+ */
+export function resolveTitleSource(sourceType, titleSource) {
+	if ('image' !== sourceType) {
+		return 'image_title';
+	}
+
+	return titleSource || DEFAULT_IMAGE_TITLE_SOURCE;
+}

@@ -62,6 +62,12 @@
  * orientation is non-Classic AND Display-on-Hover is on. Free ships Zoom Out
  * and Zoom In — the rest of the overlay-effect catalog is Pro.
  * ────────────────────────────────────────────────────────────────────────── */
+@property --wpcp-zoom-out-hole {
+	syntax: '<percentage>';
+	inherits: false;
+	initial-value: 100%;
+}
+
 .wpcp-has-overlay-anim .wpcp-overlay-anim-layer {
 	position: absolute;
 	inset: 0;
@@ -102,10 +108,18 @@
 
 /* Zoom Out and Zoom In — the layer scales to its resting size on hover. The
  * rest of the overlay-effect catalog is Pro. */
-.wpcp-overlay-anim-zoomOut .wpcp-overlay-anim-layer { transform: scale(1.6); }
+/* Zoom Out is Zoom In reversed: the tint closes in from the edges to the centre. A flat
+ * tint scaled past the clip shows no motion, so a shrinking mask hole drives it instead. */
+.wpcp-overlay-anim-zoomOut .wpcp-overlay-anim-layer {
+	--wpcp-zoom-out-hole: 100%;
+	opacity: 1;
+	-webkit-mask-image: radial-gradient(circle farthest-corner, transparent var(--wpcp-zoom-out-hole), #000 var(--wpcp-zoom-out-hole));
+	mask-image: radial-gradient(circle farthest-corner, transparent var(--wpcp-zoom-out-hole), #000 var(--wpcp-zoom-out-hole));
+	transition: --wpcp-zoom-out-hole 300ms ease;
+}
 .wpcp-overlay-anim-zoomInCenter .wpcp-overlay-anim-layer { transform: scale(0); border-radius: 50%; }
 .wpcp-item-inner.wpcp-overlay-anim-zoomOut:hover .wpcp-overlay-anim-layer,
-.wpcp-item-inner.wpcp-overlay-anim-zoomOut:has(:focus-visible) .wpcp-overlay-anim-layer { transform: scale(1); }
+.wpcp-item-inner.wpcp-overlay-anim-zoomOut:has(:focus-visible) .wpcp-overlay-anim-layer { --wpcp-zoom-out-hole: 0%; }
 .wpcp-item-inner.wpcp-overlay-anim-zoomInCenter:hover .wpcp-overlay-anim-layer,
 .wpcp-item-inner.wpcp-overlay-anim-zoomInCenter:has(:focus-visible) .wpcp-overlay-anim-layer { transform: scale(1); border-radius: 0; }
 
@@ -135,9 +149,6 @@
  * 5) ACCESSIBILITY & PERFORMANCE
  * ────────────────────────────────────────────────────────────────────────── */
 
-/* Limit repaint scope to the media box while an overlay animation is active. */
-.wpcp-item-inner.wpcp-has-overlay-anim .wpcp-item-media { contain: layout paint; }
-
 /* Contrast scrim: legibility over the animated tint — only when the overlay is
  * revealed (hover/focus). Applying it on selection alone made visible caption
  * text pick up a shadow before the tint animates in. */
@@ -164,6 +175,8 @@
 		transform: none;
 		clip-path: none;
 		filter: none;
+		-webkit-mask-image: none;
+		mask-image: none;
 	}
 	.wpcp-item-inner.wpcp-has-overlay-anim .wpcp-overlay-anim-layer::before,
 	.wpcp-item-inner.wpcp-has-overlay-anim .wpcp-overlay-anim-layer::after {
@@ -192,6 +205,8 @@
 		opacity: 0 !important;
 		transform: none !important;
 		clip-path: none !important;
+		-webkit-mask-image: none !important;
+		mask-image: none !important;
 		filter: none !important;
 		animation: none !important;
 		transition: opacity 300ms ease !important;

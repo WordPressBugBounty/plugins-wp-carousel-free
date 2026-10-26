@@ -1,0 +1,17 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wp-carousel-pro/carousel-3d",
+	"title": "3D Carousel",
+	"description": "Create immersive 3D carousels with images, videos, posts or products.",
+	"category": "wp-carousel-pro",
+	"keywords": ["3d", "carousel", "rotation"],
+	"textdomain": "wp-carousel-free",
+	"example": { "viewportWidth": 320 },
+	"supports": {
+		"align": ["wide", "full"],
+		"html": false,
+		"customClassName": false,
+		"customCSS": false
+	}
+}

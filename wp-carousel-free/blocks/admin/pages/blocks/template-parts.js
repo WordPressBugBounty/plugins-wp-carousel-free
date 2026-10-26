@@ -1,10 +1,12 @@
 import { __ } from '@wordpress/i18n';
 import { useState, useId } from '@wordpress/element';
-import { buildPatternLibraryEditorUrl } from '@wp-carousel-pro/common/readyPatternsDeepLink';
 import { carouselBlocksInfo, showcaseBlocks } from './block-data';
 import { DocsIcon, DemoIcon } from './icons';
 import ProIcon from '../../../components/pro/proIcon';
 import { toastSuccessMsg } from '../../functions';
+import { blockPreviewPanelLink } from '../../../controls/constants';
+
+const READY_PATTERNS_URL = 'https://wpcarousel.io/ready-patterns/';
 
 /**
  * Accessible name for a block's switch, which also has to explain why it is off.
@@ -42,14 +44,15 @@ export function BlockCard({ item, saveOptions, blockVisibility }) {
 
 	const toggleDisabled = isPro || comingSoon;
 
-	// A carousel block's demo is its Ready Patterns: open a fresh page with the
-	// library already filtered to that block. Pro blocks included — their patterns
-	// preview in the editor and carry the upgrade path. An upcoming block has no
-	// patterns yet, so it shows no Demo link.
-	const demoHref =
-		!comingSoon && showcaseBlocks.includes(item.name)
-			? buildPatternLibraryEditorUrl(window.wpcpfDashboard?.adminUrl, item.name)
-			: null;
+	// A carousel block's demo is its Ready Patterns page on the product site,
+	// filtered to that block. A block with no pattern category falls back to its
+	// hosted demo page, and an upcoming block has no demo yet.
+	let demoHref = null;
+	if (!comingSoon) {
+		demoHref = showcaseBlocks.includes(item.name)
+			? `${READY_PATTERNS_URL}?wpc_block=${encodeURIComponent(item.name)}`
+			: blockPreviewPanelLink[item.name] || null;
+	}
 
 	const handleChange = () => {
 		if (toggleDisabled) {
@@ -110,7 +113,12 @@ export function BlockCard({ item, saveOptions, blockVisibility }) {
 							</a>
 						)}
 						{demoHref && (
-							<a href={demoHref} className="wpcpf-block-card-link">
+							<a
+								href={demoHref}
+								className="wpcpf-block-card-link"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
 								<DemoIcon />
 								<span>{__('Demo', 'wp-carousel-free')}</span>
 							</a>

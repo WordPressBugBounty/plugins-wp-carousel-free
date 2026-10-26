@@ -12,7 +12,22 @@
  * thumbnails-slider (one large navigation-driven stage) are excluded — a hover
  * flip there is noise, so the popup hides the Flipping Image tab for them.
  */
-export const FLIP_IMAGE_BLOCKS = ['carousel', 'tiles'];
+export const FLIP_IMAGE_BLOCKS = ['carousel', 'tiles', 'grid', 'carousel-3d'];
+
+/** Blocks that render through the Tiles grid engine. Mirrors `AllowedValues::GRID_LAYOUT_BLOCKS`. */
+export const GRID_LAYOUT_BLOCKS = ['tiles', 'grid'];
+
+/**
+ * @param {string} blockName Block name, with or without the `wp-carousel-pro/` prefix.
+ * @return {boolean} True for a block on the Tiles grid engine.
+ */
+export function isGridLayoutBlock(blockName) {
+	return GRID_LAYOUT_BLOCKS.includes(
+		String(blockName || '')
+			.toLowerCase()
+			.replace(/^wp-carousel-pro\//, '')
+	);
+}
 
 /**
  * Tells whether a block supports the per-image Flip Image feature.

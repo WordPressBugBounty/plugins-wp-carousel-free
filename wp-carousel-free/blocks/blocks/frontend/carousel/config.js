@@ -3,6 +3,8 @@
  * Promoted from the main `frontend.js` IIFE closure for cross-module reuse.
  */
 
+import { isGridLayoutBlock } from '../../shared/constants/blockCapabilities';
+
 export const WPCP_AUDIO_INTERACTIVE_SELECTOR =
 	'.wpcp-audio-card__player, .wpcp-audio-card__player *, .wpcp-audio-card__player-element';
 
@@ -43,7 +45,7 @@ export function isTilesLayout(cfg) {
 	if (cfg.isTiles === true) {
 		return true;
 	}
-	if (cfg.slug === 'tiles') {
+	if (isGridLayoutBlock(cfg.slug)) {
 		return true;
 	}
 	const style = cfg.style || 'standard';

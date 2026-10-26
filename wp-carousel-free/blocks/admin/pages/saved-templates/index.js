@@ -31,8 +31,10 @@ const templateQuery = (search) => ({
 	status: 'any',
 	per_page: -1,
 	search,
-	_fields: ['id', 'modified', 'title', 'status'],
+	_fields: ['id', 'modified', 'title', 'status', 'wpcp_block_title'],
 });
+
+const getBlockLabel = (item) => item?.wpcp_block_title || __('Block Editor', 'wp-carousel-free');
 
 /**
  * Resolve a WP REST title field to a display string. REST may return a string
@@ -311,17 +313,18 @@ const SavedTemplates = () => {
 								/>
 							</th>
 							<th className="wpcpf-saved-template-table-title">{__('Title', 'wp-carousel-free')}</th>
+							<th className="wpcpf-saved-template-table-editor_type">{__('Block', 'wp-carousel-free')}</th>
 							<th className="wpcpf-saved-template-table-shortcode">
 								{__('Shortcode', 'wp-carousel-free')}
 							</th>
 							<th className="wpcpf-saved-template-table-date">{__('Date', 'wp-carousel-free')}</th>
-							<th className="wpcpf-saved-template-table-action">{__('Action', 'wp-carousel-free')}</th>
+							<th className="wpcpf-saved-template-table-action">{__('Actions', 'wp-carousel-free')}</th>
 						</tr>
 					</thead>
 					<tbody className="wpcpf-saved-template-table-body">
 						{!noPostText && isEmpty && (
 							<tr>
-								<td colSpan={5} className="wpcpf-saved-template-preloader-no-data">
+								<td colSpan={6} className="wpcpf-saved-template-preloader-no-data">
 									<span className="wpcpf-saved-template-loading">
 										<Spinner />
 									</span>
@@ -352,6 +355,9 @@ const SavedTemplates = () => {
 										>
 											<span>{getPlainTemplateTitle(getTemplateTitle(item?.title))}</span>
 										</a>
+									</td>
+									<td className="wpcpf-saved-template-table-editor_type">
+										<span className="wpcpf-editor-type-badge">{getBlockLabel(item)}</span>
 									</td>
 									<td className="wpcpf-saved-template-table-shortcode">
 										<span
@@ -420,7 +426,7 @@ const SavedTemplates = () => {
 
 						{noPostText && isEmpty && (
 							<tr className="wpcpf-saved-template-empty-row">
-								<td colSpan={5} className="wpcpf-saved-template-preloader-no-data">
+								<td colSpan={6} className="wpcpf-saved-template-preloader-no-data">
 									<div className="wpcpf-saved-template-empty">
 										<div className="wpcpf-saved-template-empty__message">
 											<EmptyStateFolderIcon />

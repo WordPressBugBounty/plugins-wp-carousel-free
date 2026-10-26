@@ -15,41 +15,46 @@ export const READY_PATTERNS_PREFIX = 'wpcp-ready-patterns';
  */
 export const CATEGORY_SLUGS = [
 	'carousel',
+	'carousel-3d',
 	'carousel-panorama',
 	'marquee',
 	'slider',
 	'thumbnails-slider',
 	'tiles',
+	'grid',
+	'masonry',
+	'justified',
 ];
 
 export const CATEGORY_LABELS = {
 	all: 'All Patterns',
 	carousel: 'Carousel',
+	'carousel-3d': 'Carousel 3D',
 	'carousel-panorama': 'Panorama Carousel',
 	marquee: 'Marquee',
 	slider: 'Slider',
 	'thumbnails-slider': 'Thumbnails Slider',
 	tiles: 'Tiles',
+	grid: 'Grid',
+	masonry: 'Masonry',
+	justified: 'Justified',
 };
 
-/**
- * Source category slugs that are an alias of another row.
- *
- * `grid` is the demo server's name for what this plugin renders with the Tiles
- * block, so its patterns count toward Tiles rather than opening a row of their own.
- */
-export const CATEGORY_ALIASES = {
-	grid: 'tiles',
-};
+/** Source category slugs that are an alias of another row; none today. */
+export const CATEGORY_ALIASES = {};
 
 /** Map block name → default sidebar category slug. */
 export const BLOCK_NAME_TO_CATEGORY = {
 	'wp-carousel-pro/carousel': 'carousel',
+	'wp-carousel-pro/carousel-3d': 'carousel-3d',
 	'wp-carousel-pro/carousel-panorama': 'carousel-panorama',
 	'wp-carousel-pro/marquee': 'marquee',
 	'wp-carousel-pro/slider': 'slider',
 	'wp-carousel-pro/thumbnails-slider': 'thumbnails-slider',
 	'wp-carousel-pro/tiles': 'tiles',
+	'wp-carousel-pro/grid': 'grid',
+	'wp-carousel-pro/masonry': 'masonry',
+	'wp-carousel-pro/justified': 'justified',
 };
 
 /**

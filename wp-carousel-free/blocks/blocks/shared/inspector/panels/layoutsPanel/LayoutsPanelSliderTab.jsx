@@ -17,6 +17,7 @@ import { useOptionSetter } from '../../../hooks/useOptionSetter';
 
 const SLIDER_BLOCK = 'wp-carousel-pro/slider';
 const THUMBNAILS_SLIDER_BLOCK = 'wp-carousel-pro/thumbnails-slider';
+const CAROUSEL_3D_BLOCK = 'wp-carousel-pro/carousel-3d';
 const CAROUSEL_STYLE_STANDARD = 'standard';
 
 const SLIDE_EFFECTS = [
@@ -53,18 +54,24 @@ export default memo(function LayoutsPanelSliderTab({ attributes, setAttributes, 
 	const isThumbnailsSliderBlock = layoutType === THUMBNAILS_SLIDER_BLOCK;
 	const carouselStyle = attributes.layoutOptions?.carouselStyle ?? CAROUSEL_STYLE_STANDARD;
 	const isSliderBlock = layoutType === SLIDER_BLOCK;
+	// The 3D Carousel stages its own transition one card at a time.
+	const isCarousel3dBlock = layoutType === CAROUSEL_3D_BLOCK;
 	const isVerticalDisplay = attributes.layoutOptions?.displayStyle === 'vertical';
 	/** Swiper creative effects only apply to the standard layout (see CarouselRender). */
 	const showCarouselSlideEffect =
 		carouselStyle === CAROUSEL_STYLE_STANDARD &&
 		!isVerticalDisplay &&
 		!isThumbnailsSliderBlock &&
-		!isSliderBlock;
+		!isSliderBlock &&
+		!isCarousel3dBlock;
 	const showSlideEffect = showCarouselSlideEffect || isThumbnailsSliderBlock;
 	const slideEffect = isVerticalDisplay ? 'slide' : so.effect ?? 'slide';
 	/** Fade and cube always advance one slide; slidesPerGroup is forced to 1 on the frontend. */
 	const showSlidesToScroll =
-		!isSliderBlock && !isThumbnailsSliderBlock && !SWIPER_SINGLE_SLIDE_EFFECTS.has(slideEffect);
+		!isSliderBlock &&
+		!isThumbnailsSliderBlock &&
+		!isCarousel3dBlock &&
+		!SWIPER_SINGLE_SLIDE_EFFECTS.has(slideEffect);
 
 	const slidesScrollValue = {
 		device: {
@@ -173,13 +180,15 @@ export default memo(function LayoutsPanelSliderTab({ attributes, setAttributes, 
 				attributesKey="infiniteLoop"
 				setAttributes={set}
 			/>
-			<Toggle
-				label={__('Adaptive Height', 'wp-carousel-free')}
-				attributes={so.adaptiveHeight ?? false}
-				attributesKey="adaptiveHeight"
-				setAttributes={set}
-				onlyPro
-			/>
+			{!isCarousel3dBlock && (
+				<Toggle
+					label={__('Adaptive Height', 'wp-carousel-free')}
+					attributes={so.adaptiveHeight ?? false}
+					attributesKey="adaptiveHeight"
+					setAttributes={set}
+					onlyPro
+				/>
+			)}
 			<Toggle
 				label={__('Keyboard Navigation', 'wp-carousel-free')}
 				attributes={so.keyboardNav ?? true}
@@ -192,7 +201,7 @@ export default memo(function LayoutsPanelSliderTab({ attributes, setAttributes, 
 				attributesKey="mousewheel"
 				setAttributes={set}
 			/>
-			{!isSliderBlock && !isThumbnailsSliderBlock && (
+			{!isSliderBlock && !isThumbnailsSliderBlock && !isCarousel3dBlock && (
 				<Toggle
 					label={__('Free Scroll Mode', 'wp-carousel-free')}
 					attributes={so.freeScroll ?? false}

@@ -6,13 +6,12 @@
  * Used by the Navigation Arrow "Arrow Style" control; reusable anywhere a small
  * set of visual presets reads better as a grid than a dropdown.
  *
- * An option flagged `pro` renders dimmed with a crown badge and opens the
- * pricing page instead of selecting — the handler is never called for it.
+ * An option flagged `pro` renders dimmed with a crown badge and selects
+ * nothing — the handler is never called for it.
  */
 
 import { BaseControl } from '@wordpress/components';
 import ProBadge from '../pro/proBadge';
-import { openPricingPage } from '../pro/proLinks';
 import './editor.scss';
 import '../pro/editor.scss';
 
@@ -52,10 +51,10 @@ export default function IconGrid({
 						aria-label={option.label}
 						aria-pressed={option.pro ? undefined : isActive}
 						title={option.label}
-						onClick={() => (option.pro ? openPricingPage() : onChange(option.value))}
+						onClick={() => !option.pro && onChange(option.value)}
 					>
 						{option.icon}
-						{option.pro && <ProBadge iconOnly isStatic />}
+						{option.pro && <ProBadge iconOnly className="wpcp-pro-badge--corner" />}
 					</button>
 				);
 			})}

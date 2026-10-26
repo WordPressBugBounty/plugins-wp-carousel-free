@@ -20,6 +20,7 @@ import LayoutsPanelMarqueeTab from './layoutsPanel/LayoutsPanelMarqueeTab';
 /** Blocks that have slider behavior */
 const SLIDER_BLOCKS = [
 	'wp-carousel-pro/carousel',
+	'wp-carousel-pro/carousel-3d',
 	'wp-carousel-pro/slider',
 	'wp-carousel-pro/thumbnails-slider',
 	'wp-carousel-pro/carousel-panorama',
@@ -55,11 +56,12 @@ function LayoutsPanel({
 	const isMarquee = MARQUEE_BLOCK === layoutType;
 	const SecondaryTab = isMarquee ? LayoutsPanelMarqueeTab : LayoutsPanelSliderTab;
 
-	// Slider/thumbnails-slider keep "Slider"; the carousel family labels it "Carousel".
+	// Slider/thumbnails-slider/3D keep "Slider"; the carousel family labels it "Carousel".
 	let sliderTabTitle = __('Carousel', 'wp-carousel-free');
 	if (
 		'wp-carousel-pro/slider' === layoutType ||
-		'wp-carousel-pro/thumbnails-slider' === layoutType
+		'wp-carousel-pro/thumbnails-slider' === layoutType ||
+		'wp-carousel-pro/carousel-3d' === layoutType
 	) {
 		sliderTabTitle = __('Slider', 'wp-carousel-free');
 	}

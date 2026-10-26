@@ -111,9 +111,11 @@ trait ImageCss {
 			$overlay_color_changed   = $hov['css'] !== $norm['css'] || $hov['prop'] !== $norm['prop'];
 			$overlay_opacity_changed = $overlay_opacity_hover !== $image_overlay_opacity;
 			if ( ( $overlay_color_changed || $overlay_opacity_changed ) && ! $this->is_slider_block_for_image_css() ) {
-				$hover_styles = array();
+				// A gradient on either side needs the `background` shorthand so it resets the other's image.
+				$overlay_mixes_gradient = 'gradient' === $norm['style'] || 'gradient' === $hov['style'];
+				$hover_styles           = array();
 				if ( $overlay_color_changed && '' !== $hov['css'] ) {
-					$hover_styles[ $hov['prop'] ] = $hov['css'];
+					$hover_styles[ $overlay_mixes_gradient ? 'background' : $hov['prop'] ] = $hov['css'];
 				}
 				if ( $overlay_opacity_changed ) {
 					$hover_styles['opacity'] = $overlay_opacity_hover;
@@ -122,21 +124,6 @@ trait ImageCss {
 					$base_styles[] = array(
 						'selector' => $this->image_overlay_hover_selector,
 						'styles'   => $hover_styles,
-					);
-				}
-
-				// Social-share items restore the NORMAL tint while their parent hovers.
-				$social_hover_styles = array();
-				if ( $overlay_color_changed && '' !== $norm['css'] ) {
-					$social_hover_styles[ $norm['prop'] ] = $norm['css'];
-				}
-				if ( $overlay_opacity_changed ) {
-					$social_hover_styles['opacity'] = $image_overlay_opacity;
-				}
-				if ( ! empty( $social_hover_styles ) ) {
-					$base_styles[] = array(
-						'selector' => $this->image_overlay_share_selector,
-						'styles'   => $social_hover_styles,
 					);
 				}
 			}
@@ -197,6 +184,11 @@ trait ImageCss {
 						'border-radius' => $border_radius,
 						'overflow'      => 'hidden',
 					),
+				);
+				// Overlay/Diagonal content sits beside the media, so clip it to the same corners.
+				$rules[] = array(
+					'selector' => $this->unique_id . ' .wpcp-item-inner.wpcp-has-overlay',
+					'styles'   => array( 'border-radius' => $border_radius ),
 				);
 			}
 		}

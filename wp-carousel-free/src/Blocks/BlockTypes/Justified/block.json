@@ -1,0 +1,20 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wp-carousel-pro/justified",
+	"title": "Justified",
+	"description": "Display images, videos, posts or products in justified rows of even height. Available in WP Carousel Pro.",
+	"category": "wp-carousel-pro",
+	"keywords": ["justified", "gallery", "rows", "flickr"],
+	"textdomain": "wp-carousel-free",
+	"editorScript": "wpcpf-blocks-editor",
+	"example": {
+		"viewportWidth": 320
+	},
+	"supports": {
+		"align": ["wide", "full"],
+		"html": false,
+		"customClassName": false,
+		"customCSS": false
+	}
+}

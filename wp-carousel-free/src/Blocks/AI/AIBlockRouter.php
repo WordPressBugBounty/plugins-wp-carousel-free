@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * AIBlockRouter class.
  *
  * Attribute generation is per-block — catalog, enums and schema — so a prompt
- * that names a block of its own ("thumbnails", "tiles grid") is built on that
+ * that names a block of its own ("thumbnails", "coverflow") is built on that
  * block rather than on whichever one the editor opened with. Only decisive
  * words count: "carousel" and "slider" describe the container, and a prompt
  * naming two blocks equally names neither.

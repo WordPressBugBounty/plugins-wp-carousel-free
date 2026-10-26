@@ -36,6 +36,7 @@ import {
 import { AlignLeftIcon, AlignCenterIcon, AlignRightIcon } from '@wp-carousel-pro/icons/icons';
 import { useOptionSetter } from '../../hooks/useOptionSetter';
 import { PRO_AJAX_PAGINATION } from '../../constants/proFeatures';
+import { isGridLayoutBlock } from '../../constants/blockCapabilities';
 
 const TILES_BLOCK = 'wp-carousel-pro/tiles';
 
@@ -264,11 +265,7 @@ function SettingsTab({ attributes, setAttributes }) {
 				/>
 			)}
 
-			<SpProNotice
-				className="is-upsell"
-				message={PRO_AJAX_PAGINATION.message}
-				linkText={PRO_AJAX_PAGINATION.linkText}
-			/>
+			<SpProNotice {...PRO_AJAX_PAGINATION} />
 		</>
 	);
 }
@@ -453,7 +450,7 @@ function AjaxPaginationPanel({
 	activeTab,
 	onTabChange,
 }) {
-	const isTilesBlock = attributes.blockName === 'tiles';
+	const isTilesBlock = isGridLayoutBlock(attributes.blockName);
 	const paginationEnabled = attributes.layoutOptions?.pagination === true;
 	const sourceType = attributes.sourceType;
 	const sourceSupportsAjax =

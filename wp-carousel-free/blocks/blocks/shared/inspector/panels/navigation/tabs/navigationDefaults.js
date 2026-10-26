@@ -1,6 +1,5 @@
 import { __ } from '@wordpress/i18n';
 import { ARROW_ICON_OPTIONS } from '@wp-carousel-pro/icons/arrowIcons';
-import { ARROW_STYLES as FREE_ARROW_STYLES } from '../../../../constants/freeValues';
 
 /**
  * Arrow position presets. The three side presets are Free; the six top/bottom
@@ -19,16 +18,8 @@ export const POSITION_OPTIONS = [
 	{ label: __('Bottom Right', 'wp-carousel-free'), value: 'nav-bottom-right', pro: true },
 ];
 
-/**
- * Arrow Style picker options. Free renders the first preset only; the rest are
- * locked tiles that open the pricing page instead of writing the attribute.
- * Built from the shared icon set, which the Read More button icon library also
- * consumes unlocked — so the `pro` flags live here, not on ARROW_ICON_OPTIONS.
- */
-export const ARROW_STYLE_OPTIONS = ARROW_ICON_OPTIONS.map((option) => ({
-	...option,
-	...(FREE_ARROW_STYLES.includes(option.value) ? {} : { pro: true }),
-}));
+/** Arrow Style picker options — every preset is Free. */
+export const ARROW_STYLE_OPTIONS = ARROW_ICON_OPTIONS;
 
 /**
  * Side-arrow presets (arrows on the left & right edges); the horizontal "gap

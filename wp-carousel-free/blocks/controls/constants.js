@@ -386,6 +386,7 @@ export const arrowIcons = {
  */
 export const blockPreviewPanelLink = {
 	carousel: 'https://wpcarousel.io/simple-image-carousel/',
+	'carousel-3d': 'https://wpcarousel.io/3d-carousel/',
 	'carousel-panorama': 'https://wpcarousel.io/panorama-carousel/',
 	slider: 'https://wpcarousel.io/slider-sliding-effects/',
 	'thumbnails-slider': 'https://wpcarousel.io/thumbnails-slider/',
@@ -404,10 +405,14 @@ export const blockPreviewPanelLink = {
  */
 export const blockDocLink = {
 	carousel: 'https://docs.wpcarousel.io/guide/blocks/carousel',
+	'carousel-3d': 'https://docs.wpcarousel.io/guide/blocks/carousel-3d',
 	'carousel-panorama': 'https://docs.wpcarousel.io/guide/blocks/carousel-panorama',
 	slider: 'https://docs.wpcarousel.io/guide/blocks/slider',
 	'thumbnails-slider': 'https://docs.wpcarousel.io/guide/blocks/thumbnails-slider',
 	tiles: 'https://docs.wpcarousel.io/guide/blocks/tiles',
+	grid: 'https://docs.wpcarousel.io/guide/blocks/grid',
+	masonry: 'https://docs.wpcarousel.io/guide/blocks/masonry',
+	justified: 'https://docs.wpcarousel.io/guide/blocks/justified',
 	marquee: 'https://docs.wpcarousel.io/guide/blocks/marquee',
 };
 export const sideAxisIcons = {

@@ -12,11 +12,49 @@
  * `await import(...)` without a WordPress runtime.
  */
 
+import { isGridLayoutBlock } from './blockCapabilities';
+
 /** Content orientations Free renders for the carousel family. */
 export const CONTENT_ORIENTATIONS = ['image-top', 'overlay', 'diagonal'];
 
 /** Content orientations Free renders for the one-slide blocks — Classic has no place here. */
 export const SLIDER_CONTENT_ORIENTATIONS = ['overlay', 'diagonal'];
+
+/** Content orientations the 3D Carousel offers. */
+export const CAROUSEL_3D_CONTENT_ORIENTATIONS = ['overlay', 'diagonal', 'image-top'];
+
+/** 3D Carousel styles Free renders — Coverflow only. */
+export const CAROUSEL_3D_STYLES = ['style-one'];
+
+/** 3D Carousel Side Items choices. */
+export const CAROUSEL_3D_SIDE_ITEMS = ['2', '3', '4', 'all'];
+
+/** `layoutOptions` keys only Pro's 3D styles and 3D Settings write. */
+export const PRO_CAROUSEL_3D_KEYS = [
+	'ringStyle',
+	'sideItemsPosition',
+	'showReflection',
+	'centerItemDistance',
+	'sideSlidesSpacing',
+	'slidesDepth',
+	'slidesDepthSpacing',
+	'sidesPerspective',
+	'sidesYRotation',
+	'slidesFlipAngle',
+	'deckYRotation',
+	'carouselXRadius',
+	'carouselYRadius',
+	'carouselYRotation',
+	'carouselYOffset',
+	'carouselXRotation',
+	'backItemsOpacity',
+	'stackRadius',
+	'stackShiftDistance',
+	'reflectionDistance',
+	'reflectionHeight',
+];
+
+export { GRID_LAYOUT_BLOCKS } from './blockCapabilities';
 
 /** Slider block styles Free renders. */
 export const SLIDER_LAYOUTS = ['slide', 'flip', 'coverflow', 'cube'];
@@ -33,8 +71,21 @@ export const THUMBNAIL_ACTIVE_STYLES = ['none'];
 /** Tile layout presets Free renders. */
 export const TILE_LAYOUTS = ['one', 'two', 'three'];
 
-/** Navigation arrow styles Free renders — the first preset only. */
-export const ARROW_STYLES = ['chevron-solid'];
+/** Navigation arrow styles — all twelve presets are Free. */
+export const ARROW_STYLES = [
+	'chevron-solid',
+	'chevron-outline',
+	'chevron-bold',
+	'double-chevron',
+	'arrow-solid',
+	'arrow-outline',
+	'arrow-minimal',
+	'chevron-border-line',
+	'double-chevron-outline',
+	'triangle-outline',
+	'arrow-line',
+	'arrow-send',
+];
 
 /** Navigation arrow positions Free renders — the three side presets. */
 export const NAV_POSITIONS = [
@@ -150,10 +201,15 @@ export const PRO_VIDEO_KEYS = [
  * @param {string} blockName Block name attribute.
  * @return {string[]} Allowed orientation values, most-default first.
  */
-export const contentOrientationsForBlock = (blockName) =>
-	['slider', 'thumbnails-slider'].includes(String(blockName || '').toLowerCase())
+export const contentOrientationsForBlock = (blockName) => {
+	const name = String(blockName || '').toLowerCase();
+	if ('carousel-3d' === name) {
+		return CAROUSEL_3D_CONTENT_ORIENTATIONS;
+	}
+	return ['slider', 'thumbnails-slider'].includes(name)
 		? SLIDER_CONTENT_ORIENTATIONS
 		: CONTENT_ORIENTATIONS;
+};
 
 /**
  * The orientation a rejected value lands on.
@@ -306,11 +362,34 @@ export const resolveExcerptLength = (value) => pick(value, EXCERPT_LENGTHS, 'ful
  * @return {string} A Free carousel style.
  */
 export const carouselStyleFallback = (blockName) => {
-	const name = String(blockName || '').toLowerCase();
-	if ('tiles' === name) {
+	if (isGridLayoutBlock(blockName)) {
 		return 'grid';
 	}
+	const name = String(blockName || '').toLowerCase();
 	return 'thumbnails-slider' === name ? 'thumbnails' : 'standard';
+};
+
+/**
+ * Resolve a 3D Carousel style.
+ *
+ * @param {*} value Saved `layoutOptions.carousel3dStyle`.
+ * @return {string} A Free 3D Carousel style.
+ */
+export const resolveCarousel3dStyle = (value) => pick(value, CAROUSEL_3D_STYLES, 'style-one');
+
+/** Side Items device defaults, mirroring `Carousel3DSchema`. */
+const CAROUSEL_3D_SIDE_ITEM_DEFAULTS = { sideItems: 4, sideItemsTablet: 3, sideItemsMobile: 2 };
+
+/**
+ * Resolve a 3D Carousel Side Items count.
+ *
+ * @param {*}      value    Saved count or `all`.
+ * @param {number} fallback Device default.
+ * @return {number|string} A count, or `all`.
+ */
+export const resolveCarousel3dSideItems = (value, fallback) => {
+	const resolved = pick(String(value ?? ''), CAROUSEL_3D_SIDE_ITEMS, String(fallback));
+	return 'all' === resolved ? 'all' : Number(resolved);
 };
 
 /**
@@ -438,6 +517,32 @@ export function getFreeLayoutCorrections(layoutOptions = {}, blockName = '') {
 			corrections.contentOrientation = resolved;
 		}
 	}
+
+	if (undefined !== layoutOptions.carousel3dStyle) {
+		const resolved = resolveCarousel3dStyle(layoutOptions.carousel3dStyle);
+		if (resolved !== layoutOptions.carousel3dStyle) {
+			corrections.carousel3dStyle = resolved;
+		}
+	}
+
+	Object.entries(CAROUSEL_3D_SIDE_ITEM_DEFAULTS).forEach(([key, fallback]) => {
+		if (undefined === layoutOptions[key]) {
+			return;
+		}
+		const resolved = resolveCarousel3dSideItems(layoutOptions[key], fallback);
+		if (resolved !== layoutOptions[key]) {
+			corrections[key] = resolved;
+		}
+	});
+
+	// Cylinder, Card Stack, Orbit and the 3D Settings popup are Pro.
+	PRO_CAROUSEL_3D_KEYS.forEach((key) => {
+		['', 'Tablet', 'Mobile'].forEach((device) => {
+			if (undefined !== layoutOptions[key + device]) {
+				corrections[key + device] = undefined;
+			}
+		});
+	});
 
 	return corrections;
 }

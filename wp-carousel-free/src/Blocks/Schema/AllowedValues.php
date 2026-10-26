@@ -63,7 +63,66 @@ class AllowedValues {
 	 *
 	 * @var string[]
 	 */
-	const BLOCK_NAMES = array( 'carousel', 'slider', 'thumbnails-slider', 'tiles', 'marquee', 'carousel-panorama' );
+	const BLOCK_NAMES = array( 'carousel', 'carousel-3d', 'slider', 'thumbnails-slider', 'tiles', 'grid', 'marquee', 'carousel-panorama' );
+
+	/**
+	 * Blocks that render through the Tiles grid engine.
+	 *
+	 * @var string[]
+	 */
+	const GRID_LAYOUT_BLOCKS = array( 'tiles', 'grid' );
+
+	/**
+	 * 3D Carousel styles available in Free — Coverflow only. Cylinder, Card
+	 * Stack and Orbit are Pro; their geometry is absent, so a saved value
+	 * lands back on `style-one`.
+	 *
+	 * @var string[]
+	 */
+	const CAROUSEL_3D_STYLES = array( 'style-one' );
+
+	/**
+	 * Content orientations the 3D Carousel offers.
+	 *
+	 * @var string[]
+	 */
+	const CAROUSEL_3D_CONTENT_ORIENTATIONS = array( 'overlay', 'diagonal' );
+
+	/**
+	 * Side Items choices the 3D Carousel offers.
+	 *
+	 * @var string[]
+	 */
+	const CAROUSEL_3D_SIDE_ITEMS = array( '2', '3', '4', 'all' );
+
+	/**
+	 * `layoutOptions` keys only Pro's 3D styles and 3D Settings write.
+	 *
+	 * @var string[]
+	 */
+	const PRO_CAROUSEL_3D_KEYS = array(
+		'ringStyle',
+		'sideItemsPosition',
+		'showReflection',
+		'centerItemDistance',
+		'sideSlidesSpacing',
+		'slidesDepth',
+		'slidesDepthSpacing',
+		'sidesPerspective',
+		'sidesYRotation',
+		'slidesFlipAngle',
+		'deckYRotation',
+		'carouselXRadius',
+		'carouselYRadius',
+		'carouselYRotation',
+		'carouselYOffset',
+		'carouselXRotation',
+		'backItemsOpacity',
+		'stackRadius',
+		'stackShiftDistance',
+		'reflectionDistance',
+		'reflectionHeight',
+	);
 
 	/**
 	 * Content orientations available in Free.
@@ -149,14 +208,24 @@ class AllowedValues {
 	const TILE_LAYOUTS = array( 'one', 'two', 'three' );
 
 	/**
-	 * Navigation arrow styles available in Free — the first preset only. The
-	 * remaining eleven are Pro; their SVGs are absent from
-	 * `Rendering\NavigationBuilder`, so a saved value lands back on
-	 * `chevron-solid`.
+	 * Navigation arrow styles — all twelve presets are Free.
 	 *
 	 * @var string[]
 	 */
-	const ARROW_STYLES = array( 'chevron-solid' );
+	const ARROW_STYLES = array(
+		'chevron-solid',
+		'chevron-outline',
+		'chevron-bold',
+		'double-chevron',
+		'arrow-solid',
+		'arrow-outline',
+		'arrow-minimal',
+		'chevron-border-line',
+		'double-chevron-outline',
+		'triangle-outline',
+		'arrow-line',
+		'arrow-send',
+	);
 
 	/**
 	 * Navigation arrow positions available in Free — the three side presets.
@@ -368,9 +437,49 @@ class AllowedValues {
 	public static function content_orientations_for_block( $block_name ) {
 		$block_name = is_string( $block_name ) ? strtolower( $block_name ) : '';
 
+		if ( 'carousel-3d' === $block_name ) {
+			return self::CAROUSEL_3D_CONTENT_ORIENTATIONS;
+		}
+
 		return in_array( $block_name, array( 'slider', 'thumbnails-slider' ), true )
 			? self::SLIDER_CONTENT_ORIENTATIONS
 			: self::CONTENT_ORIENTATIONS;
+	}
+
+	/**
+	 * Whether a block renders through the Tiles grid engine.
+	 *
+	 * @param mixed $block_name Block slug, with or without the namespace.
+	 * @return bool
+	 */
+	public static function is_grid_layout_block( $block_name ) {
+		$block_name = is_string( $block_name ) ? preg_replace( '#^wp-carousel-pro/#', '', strtolower( $block_name ) ) : '';
+
+		return in_array( $block_name, self::GRID_LAYOUT_BLOCKS, true );
+	}
+
+	/**
+	 * Resolve a 3D Carousel style.
+	 *
+	 * @param mixed $value Saved value.
+	 * @return string
+	 */
+	public static function carousel_3d_style( $value ) {
+		return self::pick( $value, self::CAROUSEL_3D_STYLES, 'style-one' );
+	}
+
+	/**
+	 * Resolve a 3D Carousel Side Items count.
+	 *
+	 * @param mixed $value    Saved value.
+	 * @param int   $fallback Device default.
+	 * @return int|string A count, or `all`.
+	 */
+	public static function carousel_3d_side_items( $value, $fallback ) {
+		$value = is_int( $value ) || is_float( $value ) ? (string) (int) $value : $value;
+		$value = self::pick( $value, self::CAROUSEL_3D_SIDE_ITEMS, (string) $fallback );
+
+		return 'all' === $value ? 'all' : (int) $value;
 	}
 
 	/**
@@ -653,6 +762,17 @@ class AllowedValues {
 
 			if ( isset( $layout['displayStyle'] ) ) {
 				$layout['displayStyle'] = self::display_style( $layout['displayStyle'] );
+			}
+
+			if ( isset( $layout['carousel3dStyle'] ) ) {
+				$layout['carousel3dStyle'] = self::carousel_3d_style( $layout['carousel3dStyle'] );
+			}
+
+			// Cylinder, Card Stack, Orbit and the 3D Settings popup are Pro.
+			foreach ( self::PRO_CAROUSEL_3D_KEYS as $pro_key ) {
+				foreach ( array( '', 'Tablet', 'Mobile' ) as $device ) {
+					unset( $layout[ $pro_key . $device ] );
+				}
 			}
 
 			// Gallery / Category Filter, Ajax Search and the Custom Layout
@@ -1001,7 +1121,7 @@ class AllowedValues {
 			return 'diagonal';
 		}
 
-		return 'slider' === $block_name ? 'overlay' : 'image-top';
+		return in_array( $block_name, array( 'slider', 'carousel-3d' ), true ) ? 'overlay' : 'image-top';
 	}
 
 	/**
@@ -1018,7 +1138,7 @@ class AllowedValues {
 	public static function carousel_style_fallback( $block_name ) {
 		$block_name = is_string( $block_name ) ? strtolower( $block_name ) : '';
 
-		if ( 'tiles' === $block_name ) {
+		if ( self::is_grid_layout_block( $block_name ) ) {
 			return 'grid';
 		}
 

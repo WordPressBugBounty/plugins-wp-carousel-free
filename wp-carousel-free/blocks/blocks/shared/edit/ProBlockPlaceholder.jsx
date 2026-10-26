@@ -1,93 +1,52 @@
 /**
- * ProBlockPlaceholder – the canvas card a Pro block renders instead of an
- * editor UI: what it is, a demo link, an upgrade link, a remove button, and a
- * stacked preview of the layout.
+ * ProBlockPlaceholder – the editor view every Pro block shares.
  *
- * Marquee and Panorama mount it. Their PHP side is still an EditorPreviewBlock
- * with the full schema, so attributes saved by 3.0.x survive a round trip; the
- * card itself never writes one.
+ * Picking one in the inserter opens the "Do more with WP Carousel Pro" dialog
+ * and takes the block straight back out: Free has nothing to render for it. A
+ * Pro block already saved in a post (by 3.0.x, or by Pro before a downgrade)
+ * stays put as a slim line that opens the same dialog, so no content is lost.
+ *
+ * Marquee and Panorama keep their full PHP schema, so attributes saved by
+ * 3.0.x survive a round trip; this view never writes one.
  */
 
 import { __, sprintf } from '@wordpress/i18n';
-import { useBlockProps, store as blockEditorStore } from '@wordpress/block-editor';
-import { useDispatch, useSelect } from '@wordpress/data';
-import { memo } from '@wordpress/element';
-import { Icon, close } from '@wordpress/icons';
+import { BlockIcon, useBlockProps, store as blockEditorStore } from '@wordpress/block-editor';
+import { getBlockType } from '@wordpress/blocks';
+import { useSelect } from '@wordpress/data';
+import { memo, useEffect, useRef } from '@wordpress/element';
 import { getPricingUrl } from '@wp-carousel-pro/components/pro/proLinks';
-import ProIcon from '@wp-carousel-pro/components/pro/proIcon';
-import { getProBlockInfo, getProBlockDemoLink } from '../constants/proFeatures';
-import { BLOCK_NAME_TO_CATEGORY, isReadyPatternsEnabled } from '../ready-patterns/constants';
-import { openReadyPatterns } from '../ready-patterns/openerRegistry';
+import { getProBlockInfo } from '../constants/proFeatures';
+import { hasProUpgradeOpener, openProUpgradeDialog } from '../pro-upgrade/openerRegistry';
+import useInsertedTeaser from '../pro-upgrade/useInsertedTeaser';
 import BlockPreviewShape from './BlockPreviewShape';
-import getPluginUrl from '../utils/pluginUrl';
 import './ProBlockPlaceholder.scss';
 
-// Card artwork ships under `src/` so it is packaged; `blocks/` is not.
-const IMAGE_DIR = 'src/Blocks/img/';
-
-/**
- * The stacked-sheets artwork for the block's layout.
- *
- * @param {Object} props
- * @param {string} props.file Image file name in `src/Blocks/img/`.
- * @return {JSX.Element|null} Decorative artwork, or null without a plugin URL to load it from.
- */
-function ProBlockArtwork({ file }) {
-	const base = getPluginUrl();
-
-	if (!base || !file) {
-		return null;
-	}
-
-	return (
-		<div className="wpcp-pro-block-placeholder-art" aria-hidden="true">
-			<img src={`${base}${IMAGE_DIR}${file}`} alt="" width="326" height="231" decoding="async" />
-		</div>
-	);
-}
-
-/**
- * View Demo: the block's Ready Patterns when the library is on, else the hosted demo.
- *
- * @param {Object} props
- * @param {string} props.name Full block type name.
- * @return {JSX.Element|null} Demo action, or null when there is nowhere to go.
- */
-function DemoAction({ name }) {
-	const className = 'wpcp-pro-block-placeholder-demo';
-
-	if (
-		isReadyPatternsEnabled() &&
-		Object.prototype.hasOwnProperty.call(BLOCK_NAME_TO_CATEGORY, name)
-	) {
-		return (
-			<button
-				type="button"
-				className={className}
-				onClick={() => openReadyPatterns({ blockName: name })}
-			>
-				{__('View Demo', 'wp-carousel-free')}
-			</button>
-		);
-	}
-
-	const demoLink = getProBlockDemoLink(name);
-
-	if (!demoLink) {
-		return null;
-	}
-
-	return (
-		<a className={className} href={demoLink} target="_blank" rel="noopener noreferrer">
-			{__('View Demo', 'wp-carousel-free')}
-		</a>
-	);
-}
-
-const ProBlockCard = ({ name, clientId }) => {
+const ProBlockLine = ({ name, clientId }) => {
 	const blockProps = useBlockProps({ className: 'wpcp-pro-block-placeholder' });
-	const { removeBlock } = useDispatch(blockEditorStore);
+	const { justInserted, removeSilently } = useInsertedTeaser(clientId);
 	const info = getProBlockInfo(name);
+	// Without a dialog host the block stays and its line links to the pricing page.
+	const hasDialog = hasProUpgradeOpener();
+	const handsOff = justInserted && hasDialog;
+	// StrictMode runs mount effects twice; a ref survives that, so the dialog opens and the block goes once.
+	const hasHandedOff = useRef(false);
+
+	useEffect(() => {
+		if (!handsOff || hasHandedOff.current) {
+			return;
+		}
+
+		hasHandedOff.current = true;
+		openProUpgradeDialog({ blockName: name });
+		removeSilently();
+		// Once, for the insert that mounted this block.
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [handsOff]);
+
+	if (handsOff) {
+		return <div {...blockProps} />;
+	}
 
 	if (!info) {
 		return null;
@@ -95,48 +54,45 @@ const ProBlockCard = ({ name, clientId }) => {
 
 	return (
 		<div {...blockProps}>
-			<div className="wpcp-pro-block-placeholder-inner">
-				<div className="wpcp-pro-block-placeholder-body">
-					<h3 className="wpcp-pro-block-placeholder-title">{info.title}</h3>
-					<p className="wpcp-pro-block-placeholder-desc">
-						{sprintf(
-							/* translators: %s: Pro block title, e.g. "Panorama Carousel" */
-							__('Unlock %s and advanced layouts by upgrading to the Pro plan.', 'wp-carousel-free'),
-							info.title
-						)}
-					</p>
-					<div className="wpcp-pro-block-placeholder-actions">
-						<DemoAction name={name} />
-						<a
-							className="wpcp-pro-block-placeholder-upgrade"
-							href={getPricingUrl()}
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<ProIcon width={18} height={18} />
-							{__('Upgrade to Pro', 'wp-carousel-free')}
-						</a>
-					</div>
-				</div>
-				<ProBlockArtwork file={info.previewImage} />
-				<button
-					type="button"
-					className="wpcp-pro-block-placeholder-remove"
-					aria-label={__('Remove block', 'wp-carousel-free')}
-					onClick={() => removeBlock(clientId)}
-				>
-					<Icon icon={close} size={20} />
-				</button>
+			<div className="wpcp-pro-block-placeholder-line">
+				<span className="wpcp-pro-block-placeholder-icon" aria-hidden="true">
+					<BlockIcon icon={getBlockType(name)?.icon} />
+				</span>
+				<span className="wpcp-pro-block-placeholder-text">
+					{sprintf(
+						/* translators: %s: Pro block title, e.g. "Marquee". */
+						__('%s is a WP Carousel Pro block.', 'wp-carousel-free'),
+						info.title
+					)}
+				</span>
+				{hasDialog ? (
+					<button
+						type="button"
+						className="wpcp-pro-block-placeholder-learn-more"
+						onClick={() => openProUpgradeDialog({ blockName: name })}
+					>
+						{__('Learn more', 'wp-carousel-free')}
+					</button>
+				) : (
+					<a
+						className="wpcp-pro-block-placeholder-learn-more"
+						href={getPricingUrl()}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						{__('Upgrade to Pro', 'wp-carousel-free')}
+					</a>
+				)}
 			</div>
 		</div>
 	);
 };
 
 /**
- * The inserter preview shows the layout shape, like every other block; the canvas shows the card.
+ * The inserter preview shows the layout shape, like every other block; the canvas hands off to the dialog.
  *
  * @param {Object} props Block edit props.
- * @return {JSX.Element|null} Inserter preview or the card.
+ * @return {JSX.Element|null} Inserter preview or the line.
  */
 const ProBlockPlaceholder = (props) => {
 	const isPreviewMode = useSelect((select) => {
@@ -148,7 +104,7 @@ const ProBlockPlaceholder = (props) => {
 		return <BlockPreviewShape name={props.name} />;
 	}
 
-	return <ProBlockCard {...props} />;
+	return <ProBlockLine {...props} />;
 };
 
 export default memo(ProBlockPlaceholder);

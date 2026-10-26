@@ -28,6 +28,44 @@ class BlockVisibility {
 	const OPTION = 'wpcp_block_visibility';
 
 	/**
+	 * Slug the dashboard toggles the Classic shortcode block under.
+	 *
+	 * @var string
+	 */
+	const CLASSIC_SLUG = 'classic-shortcode';
+
+	/**
+	 * Block name of the Classic shortcode block.
+	 *
+	 * @var string
+	 */
+	const CLASSIC_BLOCK = 'sp-wp-carousel-pro/shortcode'; // isolation-ignore.
+
+	/**
+	 * Hook the frontend gate for the Classic shortcode block.
+	 *
+	 * @return void
+	 */
+	public static function init() {
+		add_filter( 'pre_render_block', array( __CLASS__, 'gate_classic_block' ), 10, 2 );
+	}
+
+	/**
+	 * Render nothing for the Classic shortcode block while it is switched off.
+	 *
+	 * @param string|null $pre_render Short-circuit value.
+	 * @param array       $parsed_block Parsed block.
+	 * @return string|null
+	 */
+	public static function gate_classic_block( $pre_render, $parsed_block ) {
+		if ( self::CLASSIC_BLOCK !== ( $parsed_block['blockName'] ?? '' ) || is_admin() ) {
+			return $pre_render;
+		}
+
+		return self::is_enabled( self::CLASSIC_SLUG ) ? $pre_render : '';
+	}
+
+	/**
 	 * Saved visibility map.
 	 *
 	 * @return array<string, bool> Slug to enabled.
@@ -65,7 +103,9 @@ class BlockVisibility {
 			if ( ! empty( $enabled ) ) {
 				continue;
 			}
-			$disabled[] = BlockTypesController::NAMESPACE_PREFIX . '/' . sanitize_key( $slug );
+			$disabled[] = self::CLASSIC_SLUG === $slug
+				? self::CLASSIC_BLOCK
+				: BlockTypesController::NAMESPACE_PREFIX . '/' . sanitize_key( $slug );
 		}
 
 		return $disabled;

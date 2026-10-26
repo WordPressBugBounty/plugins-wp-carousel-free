@@ -369,7 +369,9 @@ class ProductSource implements SourceInterface {
 		// Get product short description.
 		$description = '';
 		$short_desc  = $product ? $product->get_short_description() : '';
-		if ( empty( $short_desc ) ) {
+		if ( post_password_required( $post ) ) {
+			$short_desc = get_the_excerpt( $post->ID );
+		} elseif ( empty( $short_desc ) ) {
 			$short_desc = $product ? $product->get_description() : '';
 		}
 		if ( ! empty( $short_desc ) ) {

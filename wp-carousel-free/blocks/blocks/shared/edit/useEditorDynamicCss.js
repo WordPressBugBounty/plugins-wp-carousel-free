@@ -9,6 +9,7 @@ import dynamicCss from '../styles/carouselDynamicCss';
 import paginationDotsDynamicCss from '../styles/paginationDotsDynamicCss';
 import navigationDynamicCss from '../styles/navigationDynamicCss';
 import ajaxPaginationDynamicCss from '../styles/ajaxPaginationDynamicCss';
+import { isGridLayoutBlock } from '../constants/blockCapabilities';
 
 /**
  * @param {Object} attributes Block attributes.
@@ -44,7 +45,7 @@ export default function useEditorDynamicCss(attributes, name) {
 	}, [attributes.uniqueId, attributes.navigationOptions, uniqueId, isTicker]);
 
 	const tilesPaginationCssString = useMemo(() => {
-		if (!uniqueId || name !== 'wp-carousel-pro/tiles') {
+		if (!uniqueId || !isGridLayoutBlock(name)) {
 			return '';
 		}
 		if (attributes.layoutOptions?.pagination !== true) {

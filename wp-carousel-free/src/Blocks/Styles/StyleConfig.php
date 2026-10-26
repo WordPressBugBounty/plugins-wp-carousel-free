@@ -576,6 +576,8 @@ final class StyleConfig {
 					'value' => array(
 						'tiles',
 						'wp-carousel-pro/tiles',
+						'grid',
+						'wp-carousel-pro/grid',
 					),
 				),
 			),
@@ -595,6 +597,23 @@ final class StyleConfig {
 					'value' => array(
 						'tiles',
 						'wp-carousel-pro/tiles',
+						'grid',
+						'wp-carousel-pro/grid',
+					),
+				),
+			),
+			array(
+				'id'        => 'grid-align-items',
+				'attr'      => 'layoutOptions.alignItems',
+				'var'       => '--wpcp-grid-align-items',
+				'transform' => 'raw',
+				'default'   => 'stretch',
+				'when'      => array(
+					'attr'  => 'blockName',
+					'op'    => 'in',
+					'value' => array(
+						'grid',
+						'wp-carousel-pro/grid',
 					),
 				),
 			),

@@ -216,6 +216,12 @@
 	}
 }
 
+/* Round the media box too, so its hover tint and overlay layer stay inside the video's corners. */
+.wpcp-item-inner .wpcp-item-media:has(.wpcp-video-thumbnail-wrapper),
+.wpcp-item-inner.wpcp-has-overlay:has(.wpcp-video-thumbnail-wrapper) {
+	border-radius: var(--wpcp-video-border-radius, 0);
+}
+
 .wpcp-item-media .wpcp-video-thumbnail-wrapper {
 	box-sizing: border-box;
 	border-style: var(--wpcp-video-border-style, none);

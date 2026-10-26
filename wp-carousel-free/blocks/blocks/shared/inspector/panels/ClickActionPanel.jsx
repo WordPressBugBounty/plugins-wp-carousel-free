@@ -92,11 +92,7 @@ function ClickActionPanel({ attributes, setAttributes, panelOpen, onPanelToggle 
 				</>
 			)}
 
-			<SpProNotice
-				className="is-upsell"
-				message={PRO_CLICK_ACTIONS.message}
-				linkText={PRO_CLICK_ACTIONS.linkText}
-			/>
+			<SpProNotice {...PRO_CLICK_ACTIONS} />
 		</PanelBody>
 	);
 }

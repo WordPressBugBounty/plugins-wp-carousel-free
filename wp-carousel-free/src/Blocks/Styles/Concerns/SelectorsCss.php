@@ -167,13 +167,6 @@ trait SelectorsCss {
 	private $image_overlay_hover_selector;
 
 	/**
-	 * Image overlay share selector.
-	 *
-	 * @var string
-	 */
-	private $image_overlay_share_selector;
-
-	/**
 	 * Image media item hover selector.
 	 *
 	 * @var string
@@ -441,7 +434,6 @@ trait SelectorsCss {
 		// Item-scoped hover so Overlay orientation (content on image) keeps the
 		// tint when the cursor is over the caption, not only empty media.
 		$this->image_overlay_hover_selector      = $this->unique_id . ' .wpcp-item:hover .wpcp-image-overlay.wpcp-item-media::before';
-		$this->image_overlay_share_selector      = $this->unique_id . ' .wpcp-item:has(.wpcp-social-share-link:hover) .wpcp-image-overlay.wpcp-item-media::before';
 		$this->image_media_item_hover_selector   = $this->unique_id . ' .wpcp-item:hover .wpcp-item-media';
 		$this->image_filter_scope_selector       = $this->unique_id . ' .wpcp-item-img, ' . $this->unique_id . ' .wpcp-item-placeholder';
 		$this->image_filter_hover_scope_selector = $this->unique_id . ' .wpcp-item:hover .wpcp-item-img, ' . $this->unique_id . ' .wpcp-item:hover .wpcp-item-placeholder';

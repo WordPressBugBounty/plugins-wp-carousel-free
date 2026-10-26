@@ -1,0 +1,165 @@
+/* 3D CAROUSEL — the stage Coverflow is staged on.
+ *
+ * Placement itself is inline, written per slide by the Swiper effect in
+ * `shared/utils/carousel3dEffectModule.js`; what is left here is the 3D context
+ * that makes those transforms render — a perspective, a preserved-3d chain down
+ * to the slides, and room for slides that sit well outside the row Swiper laid
+ * them out in. The effect publishes `--wpcp-carousel-3d-perspective`; the
+ * fallback below is the schema default (Sides Perspective 80) so the stage still
+ * reads as 3D before the first paint.
+ */
+
+.wpcp-style-carousel-3d {
+	/* Everything between the block and the slides has to let the staged slides
+	 * through, while the block itself clips so a wide stage cannot widen the
+	 * page. */
+	overflow: hidden;
+
+	.wpcp-carousel-stage,
+	.wpcp-swiper,
+	.swiper-wrapper {
+		overflow: visible;
+	}
+
+	.wpcp-swiper {
+		perspective: var(--wpcp-carousel-3d-perspective, 2000px);
+		/* Room above and below the cards before the effect measures its own. */
+		padding: 24px 0;
+	}
+
+	/* The side arrows lift the block's clip, so the swiper clips the staged
+	 * flanks sideways instead — `clip`, not `hidden`, so it is no scroll container. */
+	.wpcp-swiper {
+		overflow-x: clip;
+	}
+
+	.swiper-wrapper {
+		transform-style: preserve-3d;
+		/* The staged slides sit off the wrapper's flat Z=0 plane, so that plane
+		 * would win 3D hit-testing and swallow hover and clicks on every one of
+		 * them. Swiper drag is bound to the container instead
+		 * (`touchEventsTarget: 'container'`), the same as panorama. */
+		pointer-events: none;
+	}
+
+	.swiper-slide {
+		transform-style: preserve-3d;
+		text-align: center;
+		pointer-events: none;
+		/* The effect drives the placement; a transition on the transform is what
+		 * makes a slide change travel rather than jump. Swiper sets the duration
+		 * per slide on `setTransition`. */
+		transition-property: transform, opacity;
+	}
+
+	.swiper-slide > .wpcp-item-inner {
+		pointer-events: auto;
+	}
+
+	/* Only the centered card carries the item's own actions. Every card is on
+	 * stage at once, so a flanking one is a way to center itself and nothing
+	 * else — an icon on it would offer to open a card the viewer has not
+	 * brought to the front yet, and the click routing in
+	 * `frontend/carousel/sideSlideClicks.js` would not honour it. Outranks both
+	 * the hover reveal and the Global Lightbox "always" class on its own
+	 * specificity. */
+	.swiper-slide:not(.swiper-slide-active) .wpcp-overlay-icons {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.wpcp-item,
+	.wpcp-item-inner {
+		width: 100%;
+		max-width: 100%;
+	}
+
+	.wpcp-item-content {
+		position: relative;
+		z-index: 2;
+	}
+}
+
+/* The card is sized from the stage rather than from the block's Columns row:
+ * capped, then giving way to a share of the stage so the staging stays on
+ * screen as the viewport narrows. Swiper is on `slidesPerView: 'auto'` so it
+ * reads the width from here, and the placement scales with what it measures.
+ * The floor keeps a phone from shrinking the card to a stamp. */
+.wpcp-carousel-3d-style-one {
+	.swiper-slide.wpcp-item {
+		position: relative;
+		width: max(
+			var(--wpcp-carousel-3d-card-min, 200px),
+			min(var(--wpcp-carousel-3d-card-width, 530px), var(--wpcp-carousel-3d-card-share, 33%))
+		);
+		/* A quartic ease-out; the duration and per-card delay are the effect's. */
+		transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+	}
+
+	/* Room above and below the cards, published by the effect as a share of the measured card. */
+	.wpcp-swiper {
+		padding: var(--wpcp-carousel-3d-stage-room, 24px) 0;
+	}
+}
+
+/* Only the centered card keeps its content; the cards behind would otherwise
+ * read as stray text over the flanks. It fades rather than collapses, because
+ * the stage is measured off the card. */
+.wpcp-style-carousel-3d {
+	.wpcp-item-inner .wpcp-item-content {
+		transition: opacity 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
+	}
+
+	.swiper-slide:not(.swiper-slide-active) .wpcp-item-inner .wpcp-item-content {
+		opacity: 0;
+		/* Out of the accessibility tree and out of reach of the pointer once it
+		 * has faded. The delay holds it visible for the length of the fade. */
+		visibility: hidden;
+		pointer-events: none;
+		transition:
+			opacity 0.7s cubic-bezier(0.165, 0.84, 0.44, 1),
+			visibility 0s linear 0.7s;
+	}
+}
+
+.wpcp-carousel-3d-style-one {
+	/* Each card is one flat plane, ordered by its z-index; left in preserve-3d,
+	 * turned neighbours cut through each other and hover flickers between them. */
+	.swiper-slide {
+		transform-style: flat;
+	}
+}
+
+/* The directional wash that makes the cards behind recede rather than merely
+ * shrink or lean. It is drawn dark on the left and mirrored for whichever side
+ * a card sits on; how far it has come on is the effect's `wash`, which ramps
+ * over the first step so a drag darkens a card as it leaves the front. */
+.wpcp-carousel-3d-style-one {
+	.wpcp-carousel-3d-wash {
+		position: absolute;
+		top: 0;
+		right: 0;
+		left: 0;
+		height: 100%;
+		z-index: 3;
+		pointer-events: none;
+		opacity: var(--wpcp-carousel-3d-wash-progress, 0);
+		transform: scaleX(var(--wpcp-carousel-3d-wash-flip, 1));
+		/* 270deg is "to left". The stage is pinned to LTR in both contexts
+		 * (`dir="ltr"` on the Swiper) and which edge a card's wash runs toward
+		 * is the placement's own screen side, so the RTL build must not mirror
+		 * the gradient underneath it — the angle rides in a custom property,
+		 * which the RTL pass leaves alone where a `to left` keyword is flipped. */
+		background-image: linear-gradient(
+			var(--wpcp-carousel-3d-wash-angle, 270deg),
+			var(--wpcp-carousel-3d-wash-color, rgba(16, 16, 20, 0.7)),
+			rgba(16, 16, 20, 0) 62%
+		);
+		transition: opacity 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
+	}
+
+	/* A hovered card steps out of the deck, so it sheds its wash with it. */
+	.wpcp-item-inner:hover ~ .wpcp-carousel-3d-wash {
+		opacity: 0;
+	}
+}

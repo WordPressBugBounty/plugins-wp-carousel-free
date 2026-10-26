@@ -109,7 +109,7 @@ export default function ImageContentSettings({ attributes, setAttributes }) {
 		<>
 			{vis('title') && (
 				<>
-					{attributes.sourceType !== 'audio' && (
+					{'image' === sourceType && (
 						<SelectField
 							label={__('Title Source', 'wp-carousel-free')}
 							attributes={co.titleSource ?? 'image_caption'}

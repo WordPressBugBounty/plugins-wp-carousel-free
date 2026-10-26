@@ -42,10 +42,11 @@ class VideoSource implements SourceInterface {
 			}
 
 			$attachment_id = (int) ( isset( $raw['id'] ) ? $raw['id'] : 0 );
+			$attachment    = AttachmentAccess::get_readable( $attachment_id );
 
 			$extra = array();
 
-			if ( $attachment_id > 0 ) {
+			if ( null !== $attachment ) {
 				$src = wp_get_attachment_image_src( $attachment_id );
 				$url = ( $src && isset( $src[0] ) ) ? $src[0] : ( isset( $raw['url'] ) ? (string) $raw['url'] : '' );
 				$alt = (string) get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
@@ -56,7 +57,7 @@ class VideoSource implements SourceInterface {
 				if ( ! $title ) {
 					$title = isset( $raw['title'] ) ? (string) $raw['title'] : '';
 				}
-				$post     = get_post( $attachment_id );
+				$post     = $attachment;
 				$caption  = $post ? wp_strip_all_tags( $post->post_excerpt ) : ( isset( $raw['caption'] ) ? (string) $raw['caption'] : '' );
 				$desc     = $post ? wp_strip_all_tags( $post->post_content ) : ( isset( $raw['description'] ) ? (string) $raw['description'] : '' );
 				$link_url = (string) wp_get_attachment_url( $attachment_id );
@@ -136,7 +137,7 @@ class VideoSource implements SourceInterface {
 		// break the pagination contract (visitors would see duplicates/gaps as
 		// they page through). For every other consumer (carousel, slider, tiles
 		// without pagination) we keep the historic non-deterministic shuffle.
-		$is_paginated_tiles = isset( $attributes['blockName'] ) && 'tiles' === $attributes['blockName']
+		$is_paginated_tiles = isset( $attributes['blockName'] ) && AllowedValues::is_grid_layout_block( $attributes['blockName'] )
 			&& ! empty( $layout_options['pagination'] );
 		if ( ! empty( $layout_options['randomOrder'] ) && ! $is_paginated_tiles ) {
 			shuffle( $items );

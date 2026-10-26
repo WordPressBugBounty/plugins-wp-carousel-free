@@ -35,7 +35,7 @@ const BP = { mobile: 0, tablet: 600, desktop: 1024 };
  * @param {string}  autoPlayDirection
  * @return {false|{ delay: number, disableOnInteraction: boolean, pauseOnMouseEnter: boolean }} Swiper autoplay config or disabled.
  */
-function autoplayParams(autoplay, delay, pauseHover, autoPlayDirection = 'rtl') {
+export function autoplayParams(autoplay, delay, pauseHover, autoPlayDirection = 'rtl') {
 	return autoplay
 		? {
 				delay,

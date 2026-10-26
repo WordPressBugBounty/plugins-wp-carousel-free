@@ -196,7 +196,6 @@ export default function LightboxSettingsPanel({ draft, patchDraft, disabled, upg
 				<ModuleDrawerSection title={__('Lightbox Image and Thumbnails', 'wp-carousel-free')}>
 					<ModuleDrawerProToggleRow
 						title={__('Image Content', 'wp-carousel-free')}
-						upgradeUrl={upgradeUrl}
 					/>
 					<ModuleDrawerRow
 						title={__('Item Counter', 'wp-carousel-free')}
@@ -221,7 +220,6 @@ export default function LightboxSettingsPanel({ draft, patchDraft, disabled, upg
 					</ModuleDrawerRow>
 					<ModuleDrawerProToggleRow
 						title={__('Transformation Controls', 'wp-carousel-free')}
-						upgradeUrl={upgradeUrl}
 					/>
 					<ModuleDrawerProPopupRow
 						title={__('Lightbox Toolbar', 'wp-carousel-free')}

@@ -103,7 +103,14 @@ export const generateAdvancedSpacingRules = (
 	if (advancedMargin && hasResponsiveSpacing(advancedMargin)) {
 		const marginCss = spacingGenerate(advancedMargin, device);
 		if (marginCss && !isZeroSpacingValue(marginCss)) {
-			pushStylePropertyRuleIfDiffers(rules, selectors.wrapper, 'margin', marginCss);
+			// The editor's `#uniqueId` sits inside the block wrapper, so margin goes on the
+			// wrapper — the element the theme's layout rules size, as `#uniqueId` is on the frontend.
+			pushStylePropertyRuleIfDiffers(
+				rules,
+				`.wpcp-block-editor-wrap:has(> ${selectors.wrapper})`,
+				'margin',
+				marginCss
+			);
 		}
 	}
 	if (advancedPadding && hasResponsiveSpacing(advancedPadding)) {

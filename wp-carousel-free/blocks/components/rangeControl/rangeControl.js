@@ -10,7 +10,6 @@ import ResetButton from './resetBtn';
 import { BorderIcon } from '../../icons/icons';
 import { sideAxisIcons } from '../../controls/constants';
 import { getRangeNumericValue, isRangeValueChanged } from './rangeValueUtils';
-import { getPricingUrl } from '../pro/proLinks';
 
 const noop = () => {};
 
@@ -188,14 +187,7 @@ const SPRangeControl = ({
 						{label}
 					</span>
 					{onlyPro && (
-						<a
-							className="wpcp-pro-inline-tag"
-							href={getPricingUrl()}
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							{__('(Pro)', 'wp-carousel-free')}
-						</a>
+						<span className="wpcp-pro-inline-tag">{__('(Pro)', 'wp-carousel-free')}</span>
 					)}
 					{showResponsiveIcon && attributes?.device && <Responsive />}
 				</div>

@@ -1,0 +1,23 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wp-carousel-pro/grid",
+	"title": "Grid",
+	"description": "Display images, videos, posts or products in a responsive column grid.",
+	"category": "wp-carousel-pro",
+	"keywords": ["grid", "gallery", "columns"],
+	"textdomain": "wp-carousel-free",
+	"editorScript": "wpcpf-blocks-editor",
+	"example": { "viewportWidth": 320 },
+	"providesContext": {
+		"wp-carousel-pro/uniqueId": "uniqueId",
+		"wp-carousel-pro/sourceType": "sourceType",
+		"wp-carousel-pro/items": "items"
+	},
+	"supports": {
+		"align": ["wide", "full"],
+		"html": false,
+		"customClassName": false,
+		"customCSS": false
+	}
+}

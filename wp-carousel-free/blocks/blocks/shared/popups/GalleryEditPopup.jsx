@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { useState, useCallback, useRef, createPortal } from '@wordpress/element';
 import { Button } from '@wordpress/components';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import { SpProCardBadge, openPricingPage } from '@wp-carousel-pro/components';
+import { SpProCardBadge } from '@wp-carousel-pro/components';
 import { DndContext, useSensor, useSensors, PointerSensor } from '@dnd-kit/core';
 import {
 	SortableContext,
@@ -289,9 +289,9 @@ function SortableVideoPanel({ blockName, item, isExpanded, onToggle, onDelete, o
 								return null;
 							}
 							// Pro providers keep their catalogue position; the card is a badged
-							// teaser that opens the pricing page rather than selecting a source.
+							// teaser that selects nothing.
 							const selectSource = () =>
-								meta.pro ? openPricingPage() : updateField('videoSource', meta.value);
+								!meta.pro && updateField('videoSource', meta.value);
 							return (
 								<div
 									key={meta.value}
@@ -429,11 +429,7 @@ function SortableVideoPanel({ blockName, item, isExpanded, onToggle, onDelete, o
 								</span>
 								<SocialMediaSelectLocked />
 							</div>
-							<SpProNotice
-								className="is-upsell"
-								message={PRO_ITEM_SOCIAL_SHARE.message}
-								linkText={PRO_ITEM_SOCIAL_SHARE.linkText}
-							/>
+							<SpProNotice {...PRO_ITEM_SOCIAL_SHARE} />
 						</div>
 					)}
 				</div>

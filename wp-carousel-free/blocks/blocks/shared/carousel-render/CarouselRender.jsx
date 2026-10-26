@@ -21,6 +21,8 @@ import StandardCenterLayouts from './layouts/StandardCenterLayouts';
 import ThumbnailsSliderLayout from './layouts/ThumbnailsSliderLayout';
 import TickerCarousel from './layouts/TickerCarousel';
 import PanoramaCarousel from './layouts/PanoramaCarousel';
+import Carousel3dCarousel from './layouts/Carousel3dCarousel';
+import { isCarousel3dBlock } from '../constants/carousel3d';
 import SliderPreview from '../../slider/sliderPreview';
 
 const VERTICAL_FALLBACK_ITEM_PX = 320;
@@ -174,6 +176,7 @@ export default function CarouselRender({
 
 	useEditorPreviewLightbox({
 		isEditor,
+		activeSlideOnly: isCarousel3dBlock(attributes.blockName),
 		isTiles,
 		style,
 		loop,
@@ -272,6 +275,34 @@ export default function CarouselRender({
 				showNav={showNav}
 				showPagin={showPagin}
 				slidesScrollGroup={slidesScrollGroup}
+				navigationPosition={navigationPosition}
+				navigationOptions={navigationOptions}
+				activeDevice={activeDevice}
+				swiperKey={swiperKey}
+				onEditorPaginationClick={isEditor ? onEditorPaginationClick : undefined}
+				autoPlayDirection={slideDirection}
+				socialIcons={socialIcons}
+			/>
+		);
+	}
+
+	/* ── 3D Carousel: dispatched by block, its `carouselStyle` stays standard ── */
+	if (isCarousel3dBlock(attributes.blockName)) {
+		return (
+			<Carousel3dCarousel
+				containerRef={containerRef}
+				swiperRef={swiperRef}
+				items={items}
+				attributes={attributes}
+				isEditor={isEditor}
+				onItemEdit={onItemEdit}
+				speed={speed}
+				loop={loop}
+				autoplay={autoplay}
+				delay={delay}
+				pauseHover={pauseHover}
+				showNav={showNav}
+				showPagin={showPagin}
 				navigationPosition={navigationPosition}
 				navigationOptions={navigationOptions}
 				activeDevice={activeDevice}

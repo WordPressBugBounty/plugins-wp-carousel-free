@@ -317,18 +317,10 @@ function SocialSharePanel({
 				onTabChange={onTabChange}
 			/>
 			{'image' === attributes.sourceType && (
-				<SpProNotice
-					className="is-upsell"
-					message={PRO_SOCIAL_SHARE.message}
-					linkText={PRO_SOCIAL_SHARE.linkText}
-				/>
+				<SpProNotice {...PRO_SOCIAL_SHARE} />
 			)}
 			{'video' === attributes.sourceType && (
-				<SpProNotice
-					className="is-upsell"
-					message={PRO_SOCIAL_SHARE_VIDEO.message}
-					linkText={PRO_SOCIAL_SHARE_VIDEO.linkText}
-				/>
+				<SpProNotice {...PRO_SOCIAL_SHARE_VIDEO} />
 			)}
 		</PanelBody>
 	);

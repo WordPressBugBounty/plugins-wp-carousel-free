@@ -289,7 +289,7 @@ class CarouselDynamicCss {
 		$video_options = $this->attributes['videoOptions'] ?? array();
 		$base_styles   = array_merge( $base_styles, $this->video_base_styles( $video_options ) );
 
-		if ( $this->is_tiles_block() ) {
+		if ( $this->is_grid_layout_block() ) {
 			$base_styles = array_merge( $base_styles, $this->tiles_base_styles() );
 		}
 		if ( $this->is_thumbnails_slider_block() ) {
@@ -328,7 +328,7 @@ class CarouselDynamicCss {
 		$video_options = $this->attributes['videoOptions'] ?? array();
 		$rules         = array_merge( $rules, $this->video_responsive_rules( $video_options, $device_type ) );
 
-		if ( $this->is_tiles_block() ) {
+		if ( $this->is_grid_layout_block() ) {
 			$rules = array_merge( $rules, $this->tiles_responsive_rules( $device_type ) );
 		}
 		if ( $this->is_thumbnails_slider_block() ) {

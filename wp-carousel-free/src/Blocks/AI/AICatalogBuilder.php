@@ -13,7 +13,9 @@ namespace ShapedPlugin\WPCarouselFree\Blocks\AI;
 
 use ShapedPlugin\WPCarouselFree\Blocks\Schema\AllowedValues;
 use ShapedPlugin\WPCarouselFree\Blocks\Schema\AttributeSchema;
+use ShapedPlugin\WPCarouselFree\Blocks\Schema\Carousel3DSchema;
 use ShapedPlugin\WPCarouselFree\Blocks\Schema\CarouselSchema;
+use ShapedPlugin\WPCarouselFree\Blocks\Schema\GridSchema;
 use ShapedPlugin\WPCarouselFree\Blocks\Schema\SliderSchema;
 use ShapedPlugin\WPCarouselFree\Blocks\Schema\ThumbnailsSliderSchema;
 use ShapedPlugin\WPCarouselFree\Blocks\Schema\TilesSchema;
@@ -38,8 +40,10 @@ class AICatalogBuilder {
 	const SCHEMA_MAP = array(
 		'carousel'          => CarouselSchema::class,
 		'slider'            => SliderSchema::class,
+		'carousel-3d'       => Carousel3DSchema::class,
 		'thumbnails-slider' => ThumbnailsSliderSchema::class,
 		'tiles'             => TilesSchema::class,
+		'grid'              => GridSchema::class,
 	);
 
 	/**
@@ -77,7 +81,7 @@ class AICatalogBuilder {
 	/**
 	 * Arrow and pagination-dot styling. Tiles has neither attribute.
 	 */
-	const NAV_PAGINATION_CATALOG = '- "navigationOptions": { "colorNormal": "hex/rgba", "colorHover": "hex/rgba", "bgNormal": "hex/rgba", "bgHover": "hex/rgba", "position": {navPositions} } — prev/next arrow styling
+	const NAV_PAGINATION_CATALOG = '- "navigationOptions": { "arrowStyle": {arrowStyles}, "colorNormal": "hex/rgba", "colorHover": "hex/rgba", "bgNormal": "hex/rgba", "bgHover": "hex/rgba", "position": {navPositions} } — prev/next arrow styling
 	- "paginationDotsOptions": { "paginationStyle": {paginationStyles}, "colorNormal": "hex/rgba", "colorHover": "hex/rgba", "bgNormal": "hex/rgba", "bgHover": "hex/rgba", "alignment": "left"|"center"|"right" } — bullet/pagination-dot styling, not layoutOptions.pagination which only toggles it on/off';
 
 	/**
@@ -85,7 +89,7 @@ class AICatalogBuilder {
 	 *
 	 * @var string[]
 	 */
-	const NAV_PAGINATION_BLOCKS = array( 'carousel', 'slider', 'thumbnails-slider' );
+	const NAV_PAGINATION_BLOCKS = array( 'carousel', 'slider', 'carousel-3d', 'thumbnails-slider' );
 
 	/**
 	 * Per-block deltas on top of BASE_CATALOG.
@@ -98,6 +102,12 @@ class AICatalogBuilder {
 	- "layoutOptions.tileLayout": {tileLayouts} (bento span presets)
 	- "paginationOptions": { "imageItemsPerPage": int } — numbered AJAX pages, not slider navigation
 	- Tiles has no single "layoutOptions.gap" — ignore that BASE_CATALOG line for this block. Use split-axis "layoutOptions.gapHorizontal"/"gapHorizontalTablet"/"gapHorizontalMobile" and "layoutOptions.gapVertical"/"gapVerticalTablet"/"gapVerticalMobile" (int, 0-200) instead',
+		'grid'              => '- "layoutOptions.carouselStyle" is always "grid" — this block is a uniform-column grid, not a slider, and has no other style
+	- "paginationOptions": { "imageItemsPerPage": int } — numbered AJAX pages, not slider navigation
+	- Grid has no single "layoutOptions.gap" — ignore that BASE_CATALOG line for this block. Use split-axis "layoutOptions.gapHorizontal"/"gapHorizontalTablet"/"gapHorizontalMobile" and "layoutOptions.gapVertical"/"gapVerticalTablet"/"gapVerticalMobile" (int, 0-200) instead
+	- Grid has no tile layout presets or row height; cards in a row stretch to a shared height',
+		'carousel-3d'       => '- "layoutOptions.sideItems": {sideItems}, "sideItemsTablet", "sideItemsMobile" — slides shown either side of the centred one; "all" flanks it with every item
+	- "sliderOptions.effect" is ignored on this block — the 3D look comes from the block itself',
 		'slider'            => '- "layoutOptions.sliderLayout": {sliderLayouts} — the slide transition; this is the Slider block\'s defining choice, so set it whenever the request describes one
 	- "layoutOptions.sliderHeight": { "device": { "Desktop": int, "Tablet": int, "Mobile": int }, "unit": { "Desktop": "px", "Tablet": "px", "Mobile": "px" } }',
 		'thumbnails-slider' => '- "layoutOptions.thumbsPerView": int, "thumbsPerViewTablet": int, "thumbsPerViewMobile": int (thumbnails shown in the strip below the main image)',
@@ -162,12 +172,14 @@ class AICatalogBuilder {
 			array(
 				'{orientations}'     => self::quoted_list( self::content_orientations( $slug ) ),
 				'{effects}'          => self::quoted_list( AllowedValues::EFFECTS ),
+				'{arrowStyles}'      => self::quoted_list( AllowedValues::ARROW_STYLES ),
 				'{aspectRatios}'     => self::quoted_list( AllowedValues::IMAGE_ASPECT_RATIOS ),
 				'{navPositions}'     => self::quoted_list( AllowedValues::NAV_POSITIONS ),
 				'{paginationStyles}' => self::quoted_list( AllowedValues::PAGINATION_STYLES ),
 				'{carouselStyles}'   => self::quoted_list( self::selectable_carousel_styles( $slug ) ),
 				'{tileLayouts}'      => self::quoted_list( AllowedValues::TILE_LAYOUTS ),
 				'{sliderLayouts}'    => self::quoted_list( AllowedValues::SLIDER_LAYOUTS ),
+				'{sideItems}'        => self::quoted_list( AllowedValues::CAROUSEL_3D_SIDE_ITEMS ),
 			)
 		);
 	}

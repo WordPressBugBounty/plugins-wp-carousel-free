@@ -36,6 +36,7 @@
 		"test:php:allowed-values": "bash scripts/test-php.sh tests/php/allowed-values.php",
 		"test:php:previews": "bash scripts/test-php.sh tests/php/editor-preview-blocks.php",
 		"test:php:social-gate": "bash scripts/test-php.sh tests/php/social-share-source-gate.php",
+		"test:php:lightbox-gate": "bash scripts/test-php.sh tests/php/lightbox-module-gate.php",
 		"test:php:patterns": "bash scripts/test-php.sh tests/php/ready-patterns-tier-gate.php",
 		"test:php:pattern-markup": "bash scripts/test-php.sh tests/php/ready-patterns-markup-validation.php",
 		"test:php:builder-assets": "bash scripts/test-php.sh tests/php/builder-frontend-assets.php",
@@ -45,6 +46,8 @@
 		"test:php:content-runs": "bash scripts/test-php.sh tests/php/content-runs.php",
 		"test:php:item-text": "bash scripts/test-php.sh tests/php/item-text-sanitizers.php",
 		"test:php:image-sizes": "bash scripts/test-php.sh tests/php/image-source-sizes.php",
+		"test:php:source-access": "bash scripts/test-php.sh tests/php/source-read-access.php",
+		"test:php:image-meta": "bash scripts/test-php.sh tests/php/image-meta-object-check.php",
 		"test:php:nav-arrow-size": "bash scripts/test-php.sh tests/php/nav-arrow-size-css.php",
 		"test:php:pagination-dots": "bash scripts/test-php.sh tests/php/pagination-dots-css.php",
 		"test:php:baseline": "bash scripts/test-php.sh tests/php/render-baseline.php diff",
@@ -62,6 +65,7 @@
 		"test:e2e:free": "bash scripts/e2e-with-env.sh --project=free",
 		"test:e2e:boundary": "bash scripts/e2e-with-env.sh --project=boundary",
 		"test:e2e:smoke": "bash scripts/e2e-with-env.sh --project=smoke",
+		"test:e2e:classic": "bash scripts/e2e-with-env.sh --project=classic",
 		"package": "bash scripts/package.sh",
 		"release": "rm -rf assets && npm run build && npm run package"
 	},
@@ -97,6 +101,6 @@
 		"classnames": "^2.5.1",
 		"react-hot-toast": "^2.6.0",
 		"react-select": "^5.10.2",
-		"swiper": "^12.1.2"
+		"swiper": "12.2.0"
 	}
 }

@@ -10,25 +10,30 @@ import {
 	GridIcon,
 	MasonryIcon,
 	JustifiedIcon,
+	ClassicShortcodeIcon,
 } from './icons';
 
 // Announced but unreleased on both Free and Pro. Listed so the page can show
 // what is coming; they are client-side only — the server never sends them and
 // its slug allow-list would reject them, so a card here can never be toggled
 // or persisted.
-export const upcomingBlocks = ['carousel-3d', 'grid', 'masonry', 'justified'];
+export const upcomingBlocks = [];
 
 // Upcoming blocks that will ship in Pro only, so their cards carry the PRO badge.
-export const upcomingProBlocks = ['masonry', 'justified'];
+export const upcomingProBlocks = [];
 
 // Blocks whose Demo link opens the Ready Patterns Library filtered to that block.
 // Mirrors BLOCK_NAME_TO_CATEGORY — a slug with no library category has nothing to
 // filter by, so its card shows no Demo link at all.
 export const showcaseBlocks = [
 	'carousel',
+	'carousel-3d',
 	'slider',
 	'thumbnails-slider',
 	'tiles',
+	'grid',
+	'masonry',
+	'justified',
 	'marquee',
 	'carousel-panorama',
 ];
@@ -99,13 +104,22 @@ export const carouselBlocksInfo = {
 		icon: <GridIcon />,
 		title: __('Grid', 'wp-carousel-free'),
 		description: __('Display content in a responsive grid layout.', 'wp-carousel-free'),
-		docLink: 'https://docs.wpcarousel.io/guide/blocks/tiles',
+		docLink: 'https://docs.wpcarousel.io/guide/blocks/grid',
 	},
 	masonry: {
 		icon: <MasonryIcon />,
 		title: __('Masonry', 'wp-carousel-free'),
 		description: __('Create masonry-style layouts with varying item sizes.', 'wp-carousel-free'),
-		docLink: 'https://docs.wpcarousel.io/guide/blocks/tiles',
+		docLink: 'https://docs.wpcarousel.io/guide/blocks/masonry',
+	},
+	'classic-shortcode': {
+		icon: <ClassicShortcodeIcon />,
+		title: __('Classic Shortcode', 'wp-carousel-free'),
+		description: __(
+			'Insert a carousel built with the Classic editor using its shortcode.',
+			'wp-carousel-free'
+		),
+		docLink: 'https://docs.wpcarousel.io/guide/blocks/carousel',
 	},
 	justified: {
 		icon: <JustifiedIcon />,
@@ -114,6 +128,6 @@ export const carouselBlocksInfo = {
 			'Create justified image galleries with consistent row heights.',
 			'wp-carousel-free'
 		),
-		docLink: 'https://docs.wpcarousel.io/guide/blocks/tiles',
+		docLink: 'https://docs.wpcarousel.io/guide/blocks/justified',
 	},
 };

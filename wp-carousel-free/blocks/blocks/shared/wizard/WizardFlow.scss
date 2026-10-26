@@ -129,9 +129,12 @@
 /* Orientation grid*/
 .wpcp-wizard-orientation-grid {
 	display: flex;
+	flex: 1;
+	align-self: stretch;
 	padding: 12px 0;
 	justify-content: center;
-	align-items: flex-start;
+	align-items: center;
+	align-content: center;
 	gap: 18px;
 	flex-wrap: wrap;
 }
@@ -394,12 +397,26 @@
 		}
 	}
 
-	.wpcp-wizard-continue {
-		color: #19949E;
+	.wpcp-wizard-continue.components-button.is-primary {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		height: auto;
+		padding: 10px 20px;
+		border: none;
+		border-radius: 2px;
+		background: #19949E;
+		color: #fff;
+		font-size: 13px;
 		font-weight: 600;
+		line-height: 20px;
+		box-shadow: none;
+		text-decoration: none;
 
-		&:hover {
-			color: #157a82;
+		&:hover:not(:disabled),
+		&:focus:not(:disabled) {
+			background: #157a82;
+			color: #fff;
 		}
 	}
 }
@@ -473,7 +490,7 @@
 		padding: 18px 24px;
 		font-size: 14px;
 		line-height: 1;
-		font-weight: 600;
+		font-weight: 500;
 		color: #FFF;
 		height: auto;
 

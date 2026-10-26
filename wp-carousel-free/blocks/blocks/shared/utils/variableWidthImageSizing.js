@@ -7,6 +7,7 @@
  */
 
 import { VARIABLE_WIDTH_EXCLUDED_STYLES } from '../carousel-render/constants';
+import { isGridLayoutBlock } from '../constants/blockCapabilities';
 
 /**
  * Shared Variable Width gating: on, horizontal, and not an excluded source.
@@ -55,7 +56,7 @@ export function isVariableWidthImageSizing(attributes = {}) {
 		return false;
 	}
 	const { blockName, style } = resolveVariableWidthStyle(attributes);
-	if (blockName === 'tiles' || style === 'grid' || style === 'ticker') {
+	if (isGridLayoutBlock(blockName) || style === 'grid' || style === 'ticker') {
 		return false;
 	}
 	return !VARIABLE_WIDTH_EXCLUDED_STYLES.has(style);
@@ -77,7 +78,7 @@ export function needsOriginalAspectForVariableWidth(attributes = {}) {
 		return false;
 	}
 	const { blockName, style } = resolveVariableWidthStyle(attributes);
-	if (blockName === 'tiles' || style === 'grid') {
+	if (isGridLayoutBlock(blockName) || style === 'grid') {
 		return false;
 	}
 	return !VARIABLE_WIDTH_EXCLUDED_STYLES.has(style);

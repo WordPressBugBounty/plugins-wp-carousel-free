@@ -2137,6 +2137,10 @@ $content-gutter: 32px;
 		justify-content: flex-start;
 		box-sizing: border-box;
 	}
+
+	th {
+		text-align: left;
+	}
 }
 
 .wpcpf-saved-template-table-checkBox {
@@ -2175,6 +2179,19 @@ $content-gutter: 32px;
 		&:hover span {
 			color: #0165b7;
 		}
+	}
+}
+
+.wpcpf-saved-template-table-editor_type {
+	flex: 0 0 200px;
+	width: 200px;
+	padding-right: 16px;
+	box-sizing: border-box;
+
+	.wpcpf-editor-type-badge {
+		display: inline-flex;
+		align-items: center;
+		text-transform: capitalize;
 	}
 }
 

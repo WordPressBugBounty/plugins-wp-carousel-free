@@ -2,7 +2,7 @@
  * Active thumbnail indicator picker — 6-tile visual chooser.
  *
  * Free writes only `none`; Frame, Indicator, Grayscale, Overlay and Countdown
- * are locked cards that open the pricing page instead of writing the attribute.
+ * are locked cards that never write the attribute.
  * (Option three is grayscale dimming, not a polygon-pointer.) The picker only
  * writes the enum value; runtime markup mirrors a `wpcp-active-style-{value}`
  * class on the active thumb so visual differences are CSS-driven.

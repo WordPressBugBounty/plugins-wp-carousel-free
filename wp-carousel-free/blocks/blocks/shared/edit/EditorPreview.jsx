@@ -22,6 +22,7 @@ import {
 	buildAudioPreviewItems,
 	buildFallbackPreviewItems,
 } from './previewItems';
+import { isGridLayoutBlock } from '../constants/blockCapabilities';
 
 // Stable empty result for the mediaById selector — returning a fresh `{}`
 // from useSelect would fail its reference equality check on every store
@@ -53,7 +54,7 @@ export default function EditorPreview({
 	onEditorPaginationClick,
 }) {
 	const { sourceType, items = [] } = attributes;
-	const isTilesBlock = name === 'wp-carousel-pro/tiles';
+	const isTilesBlock = isGridLayoutBlock(name);
 	const isThumbnailsSlider = attributes?.blockName === 'thumbnails-slider';
 
 	// Post/product source: fetch via REST API.

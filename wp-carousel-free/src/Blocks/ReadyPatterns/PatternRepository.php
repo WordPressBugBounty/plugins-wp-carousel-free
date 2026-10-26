@@ -509,11 +509,15 @@ class PatternRepository {
 		$path = $this->get_cache_file_path();
 		$dir  = dirname( $path );
 
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_is_writable -- Guards the direct write below.
-		if ( wp_mkdir_p( $dir ) && is_writable( $dir ) ) {
-			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
-			$written = file_put_contents( $path, wp_json_encode( $payload ) );
-			if ( false !== $written ) {
+		global $wp_filesystem;
+		if ( empty( $wp_filesystem ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+		}
+
+		if ( wp_mkdir_p( $dir ) && $wp_filesystem && $wp_filesystem->is_writable( $dir ) ) {
+			$written = $wp_filesystem->put_contents( $path, wp_json_encode( $payload ), FS_CHMOD_FILE );
+			if ( $written ) {
 				return;
 			}
 		}

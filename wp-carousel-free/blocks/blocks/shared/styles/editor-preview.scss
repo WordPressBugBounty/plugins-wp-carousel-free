@@ -281,6 +281,11 @@
 
 }
 
+// Only the centred card of the 3D stage is editable.
+.wpcp-style-carousel-3d .swiper-slide:not(.swiper-slide-active) .wpcp-item-edit-btn {
+	display: none;
+}
+
 .wpcp-style-slider {
 	.wpcp-editor-notice--hint {
 		z-index: 1;

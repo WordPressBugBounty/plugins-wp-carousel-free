@@ -8,6 +8,7 @@
  * chrome with no PHP mirror.
  */
 
+import { googleFonts } from '../../../hooks/googleFontsData';
 import { SOURCE_TYPES } from './constants';
 import { firstTypographyValue, getAudioReadMoreButtonStyle } from './sourceConfigHelpers';
 
@@ -17,6 +18,31 @@ const isDefaultOrEmptyFontFamily = (name) => {
 	}
 	const s = String(name).trim();
 	return s === '' || /^default$/i.test(s);
+};
+
+const FONT_VARIANTS_BY_FAMILY = new Map(googleFonts.map(({ value, font }) => [value, font.variants]));
+
+// css2 rejects the whole import when an italic face is requested that the family lacks.
+const hasItalicFace = (family, fontWeight) => {
+	const variants = FONT_VARIANTS_BY_FAMILY.get(String(family).trim());
+	if (!variants) {
+		return false;
+	}
+	return variants.includes(`${fontWeight}italic`) || ('400' === String(fontWeight) && variants.includes('italic'));
+};
+
+// css2 also rejects the whole import for a weight the family lacks, so snap to the nearest one it has.
+const resolveAvailableWeight = (family, fontWeight) => {
+	const variants = FONT_VARIANTS_BY_FAMILY.get(String(family).trim());
+	const uprightWeights = (variants || []).filter((variant) => /^\d+$/.test(variant)).map(Number);
+	if (!uprightWeights.length || uprightWeights.includes(Number(fontWeight))) {
+		return String(fontWeight);
+	}
+	const target = Number(fontWeight) || 400;
+	const nearest = uprightWeights.reduce((best, weight) =>
+		Math.abs(weight - target) < Math.abs(best - target) ? weight : best
+	);
+	return String(nearest);
 };
 
 const normalizeFamilyForGoogleCss2 = (family) => String(family).trim().replace(/\s+/g, '+');
@@ -114,9 +140,13 @@ const collectFontRequestsFromTypographies = (typographyNodes) => {
 			fontWeightOverride !== null &&
 			fontWeightOverride !== undefined &&
 			String(fontWeightOverride).trim() !== '';
-		const fontWeight = hasOverride ? String(fontWeightOverride) : typographyAttr?.fontWeight || '400';
+		const fontWeight = resolveAvailableWeight(
+			family,
+			hasOverride ? String(fontWeightOverride) : typographyAttr?.fontWeight || '400'
+		);
 
-		const isItalic = String(styleRaw).toLowerCase().includes('italic');
+		const isItalic =
+			String(styleRaw).toLowerCase().includes('italic') && hasItalicFace(family, fontWeight);
 
 		const familyPlus = normalizeFamilyForGoogleCss2(family);
 		requests.add(`${familyPlus}|${fontWeight}|${isItalic ? 'italic' : 'normal'}`);

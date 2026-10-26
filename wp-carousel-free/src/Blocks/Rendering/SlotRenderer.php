@@ -17,6 +17,11 @@ defined( 'ABSPATH' ) || exit;
 class SlotRenderer {
 
 	/**
+	 * Default title source for the image source — the attachment caption.
+	 */
+	public const DEFAULT_IMAGE_TITLE_SOURCE = 'image_caption';
+
+	/**
 	 * Normalised block attributes.
 	 *
 	 * @var array
@@ -167,6 +172,21 @@ class SlotRenderer {
 	}
 
 	/**
+	 * Resolve the effective title source: only the image source chooses one, every other source titles from the item.
+	 *
+	 * @param string $source_type  Block sourceType attribute.
+	 * @param mixed  $title_source Stored contentOptions.titleSource.
+	 * @return string
+	 */
+	public static function resolve_title_source( string $source_type, $title_source ): string {
+		if ( 'image' !== $source_type ) {
+			return 'image_title';
+		}
+
+		return is_string( $title_source ) && '' !== $title_source ? $title_source : self::DEFAULT_IMAGE_TITLE_SOURCE;
+	}
+
+	/**
 	 * Apply source-specific title word limit options.
 	 *
 	 * Title Length Limit is Pro for the post/video family, so only the
@@ -274,7 +294,8 @@ class SlotRenderer {
 			return '';
 		}
 
-		$title = $this->get_content_field( $item, $content_options['titleSource'] ?? 'image_caption', 'title' );
+		$source_type = (string) ( $context['source_type'] ?? $this->attrs['sourceType'] ?? 'image' );
+		$title       = $this->get_content_field( $item, self::resolve_title_source( $source_type, $content_options['titleSource'] ?? '' ), 'title' );
 		if ( empty( $title ) ) {
 			return '';
 		}
@@ -688,8 +709,10 @@ class SlotRenderer {
 		// render_slot_taxonomy suppresses itself in beside-meta mode). Mirrors the
 		// editor preview gate in CarouselItem.jsx renderMeta — without it the
 		// frontend printed the category both here and in the taxonomy block.
-		$taxonomy_position = $context['taxonomyOptions']['position'] ?? '';
-		$is_beside_meta    = 'beside-meta' === $taxonomy_position;
+		$taxonomy_options  = $context['taxonomyOptions'] ?? array();
+		$taxonomy_position = $taxonomy_options['position'] ?? '';
+		$taxonomy_enabled  = $this->is_slot_visible( 'taxonomy' ) && ! ( isset( $taxonomy_options['enabled'] ) && false === $taxonomy_options['enabled'] );
+		$is_beside_meta    = $taxonomy_enabled && 'beside-meta' === $taxonomy_position;
 
 		$link_to_archive = 'post' === $source_type;
 

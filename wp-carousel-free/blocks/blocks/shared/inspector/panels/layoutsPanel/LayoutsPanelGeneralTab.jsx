@@ -10,7 +10,12 @@
  * renders the bento-layout controls (Layout Style preset picker, Custom
  * Layout toggle, split horizontal/vertical gap rows, info-iconed toggles)
  * and hides the rows the bento layout owns (single `gap`, Align Items,
- * Navigation Arrows, Carousel Style).
+ * Navigation Arrows, Carousel Style). Grid shares the grid rows without the
+ * bento ones, and keeps Align Items.
+ *
+ * 3D Carousel branch: the style picker (Coverflow Free, the rest locked),
+ * Side Items and a locked 3D Settings row; Columns, Gap and Align Items have
+ * nothing to size on its staged cards.
  */
 
 import { __ } from '@wordpress/i18n';
@@ -24,6 +29,7 @@ import {
 	InfoIcon,
 	PanelNotice,
 	SpProNotice,
+	Popup,
 } from '@wp-carousel-pro/components';
 import {
 	FlexAlignStart,
@@ -33,6 +39,9 @@ import {
 } from '@wp-carousel-pro/icons/icons';
 
 import {
+	PRO_CAROUSEL_3D_LAYOUT,
+	PRO_CAROUSEL_LAYOUT,
+	PRO_GRID_LAYOUT,
 	PRO_SLIDER_LAYOUT,
 	PRO_THUMBNAILS_SLIDER_LAYOUT,
 	PRO_TILES_LAYOUT,
@@ -44,6 +53,13 @@ import ContentOrientations, {
 	getContentOrientationFallback,
 } from '../../fragments/contentOrientations';
 import CarouselStyles from '../../fragments/carouselStyles';
+import Carousel3dStyles from '../../fragments/carousel3dStyles';
+import {
+	CAROUSEL_3D_SIDE_ITEMS,
+	CAROUSEL_3D_SIDE_ITEMS_ALL,
+	carousel3dSideItemChoices,
+	resolveCarousel3dSideItems,
+} from '../../../constants/carousel3d';
 import { isCarouselStylePickerBlock } from '../../../constants/carouselStyles';
 import PanoramaLayouts from '../../fragments/panoramaLayouts';
 import TileLayouts from '../../fragments/tileLayouts';
@@ -51,6 +67,7 @@ import ThumbsLayouts from '../../fragments/thumbsLayouts';
 import { LAYOUT_RANGES, CONTENT_ANIMATIONS } from '../../constants';
 import SliderLayouts from '../../fragments/SliderLayouts';
 import {
+	resolveCarousel3dStyle,
 	resolveSliderLayout,
 	resolveThumbsLayout,
 	resolveTileLayout,
@@ -73,6 +90,15 @@ const ALIGN_ITEMS = [
 const CAROUSEL_STYLE_STANDARD = 'standard';
 const CAROUSEL_STYLE_CENTER = 'center';
 const TILES_BLOCK = 'wp-carousel-pro/tiles';
+const GRID_BLOCK = 'wp-carousel-pro/grid';
+const CAROUSEL_3D_BLOCK = 'wp-carousel-pro/carousel-3d';
+
+/** Side Items choices: two-digit counts, then "All". */
+const SIDE_ITEM_OPTIONS = carousel3dSideItemChoices().map((choice) =>
+	CAROUSEL_3D_SIDE_ITEMS_ALL === choice
+		? { label: __('All', 'wp-carousel-free'), value: CAROUSEL_3D_SIDE_ITEMS_ALL }
+		: { label: String(choice).padStart(2, '0'), value: String(choice) }
+);
 const THUMBNAILS_SLIDER_BLOCK = 'wp-carousel-pro/thumbnails-slider';
 const SLIDER_BLOCK = 'wp-carousel-pro/slider';
 const PANORAMA_BLOCK = 'wp-carousel-pro/carousel-panorama';
@@ -122,6 +148,10 @@ function LayoutsPanelGeneralTab({ attributes, setAttributes, layoutType }) {
 	const so = attributes.sliderOptions || {};
 	const setSliderOption = useOptionSetter(attributes, setAttributes, 'sliderOptions');
 	const isTilesBlock = layoutType === TILES_BLOCK;
+	const isGridBlock = layoutType === GRID_BLOCK;
+	// Tiles and Grid share the grid engine's rows; the bento rows stay Tiles-only.
+	const isGridLayout = isTilesBlock || isGridBlock;
+	const isCarousel3dBlock = layoutType === CAROUSEL_3D_BLOCK;
 	const isThumbnailsSliderBlock = layoutType === THUMBNAILS_SLIDER_BLOCK;
 	const isSliderBlock = layoutType === SLIDER_BLOCK;
 	const isPanoramaBlock = layoutType === PANORAMA_BLOCK;
@@ -129,26 +159,29 @@ function LayoutsPanelGeneralTab({ attributes, setAttributes, layoutType }) {
 	// Both engines are pinned, so neither shows the Carousel Style picker.
 	const isPreviewBlock = isPanoramaBlock || isMarqueeBlock;
 	const sourceType = attributes.sourceType || 'image';
-	const layoutsProNoticeMessage = (() => {
+	const layoutsProNotice = (() => {
 		if (isSliderBlock) {
-			return PRO_SLIDER_LAYOUT.message;
+			return PRO_SLIDER_LAYOUT;
 		}
 		if (isThumbnailsSliderBlock) {
-			return PRO_THUMBNAILS_SLIDER_LAYOUT.message;
+			return PRO_THUMBNAILS_SLIDER_LAYOUT;
+		}
+		if (isCarousel3dBlock) {
+			return PRO_CAROUSEL_3D_LAYOUT;
+		}
+		if (isGridBlock) {
+			return PRO_GRID_LAYOUT;
 		}
 		if (isTilesBlock) {
 			if (sourceType === 'post' || sourceType === 'product') {
-				return PRO_TILES_LAYOUT_POST_PRODUCT.message;
+				return PRO_TILES_LAYOUT_POST_PRODUCT;
 			}
 			if (sourceType === 'video') {
-				return PRO_TILES_LAYOUT_VIDEO.message;
+				return PRO_TILES_LAYOUT_VIDEO;
 			}
-			return PRO_TILES_LAYOUT.message;
+			return PRO_TILES_LAYOUT;
 		}
-		return __(
-			'Unlock exclusive layouts and advanced display controls to create more dynamic,engaging carousels.',
-			'wp-carousel-free'
-		);
+		return PRO_CAROUSEL_LAYOUT;
 	})();
 	// Slider Stage Aspect Ratio: a preset ratio (not Original/Custom) wins over
 	// the fixed Height, so the Height control is a no-op then — the note below
@@ -218,6 +251,23 @@ function LayoutsPanelGeneralTab({ attributes, setAttributes, layoutType }) {
 	const showRowHeightControl = isTilesBlock && !usesAutoRowHeight(tileLayout);
 
 	const diagonalStyle = ['left', 'right'].includes(lo.diagonalStyle) ? lo.diagonalStyle : 'left';
+
+	const carousel3dStyle = resolveCarousel3dStyle(lo.carousel3dStyle);
+	const sideItemsValue = {
+		device: {
+			Desktop: resolveCarousel3dSideItems(lo.sideItems, CAROUSEL_3D_SIDE_ITEMS.default.Desktop),
+			Tablet: resolveCarousel3dSideItems(lo.sideItemsTablet, CAROUSEL_3D_SIDE_ITEMS.default.Tablet),
+			Mobile: resolveCarousel3dSideItems(lo.sideItemsMobile, CAROUSEL_3D_SIDE_ITEMS.default.Mobile),
+		},
+	};
+	// The trio lives in flat keys, so the previewed device decides which one is written.
+	const setSideItemsForDevice = (value) => {
+		const map = { Desktop: 'sideItems', Tablet: 'sideItemsTablet', Mobile: 'sideItemsMobile' };
+		set({
+			[map[previewDeviceType] ?? 'sideItems']:
+				CAROUSEL_3D_SIDE_ITEMS_ALL === value ? value : Number(value),
+		});
+	};
 
 	const resetColumnsForDevice = () => {
 		const map = {
@@ -499,6 +549,27 @@ function LayoutsPanelGeneralTab({ attributes, setAttributes, layoutType }) {
 				</>
 			)}
 
+			{isCarousel3dBlock && (
+				<>
+					<Carousel3dStyles
+						label={__('3D Carousel Style', 'wp-carousel-free')}
+						attributes={carousel3dStyle}
+						setAttributes={set}
+						attributesKey="carousel3dStyle"
+					/>
+					<SelectField
+						label={__('Side Items', 'wp-carousel-free')}
+						attributes={sideItemsValue}
+						attributesKey="sideItems"
+						setAttributes={set}
+						onChange={setSideItemsForDevice}
+						items={SIDE_ITEM_OPTIONS}
+						flexStyle={true}
+					/>
+					<Popup label={__('3D Settings', 'wp-carousel-free')} onlyPro />
+				</>
+			)}
+
 			{isThumbnailsSliderBlock && (
 				<ThumbsLayouts
 					label={__('Thumbnails Style', 'wp-carousel-free')}
@@ -521,7 +592,11 @@ function LayoutsPanelGeneralTab({ attributes, setAttributes, layoutType }) {
 			)}
 
 			<ContentOrientations
-				label={__('Select Content Style', 'wp-carousel-free')}
+				label={
+					isCarousel3dBlock
+						? __('Content Orientation', 'wp-carousel-free')
+						: __('Select Content Style', 'wp-carousel-free')
+				}
 				attributes={currentOrientation}
 				setAttributes={setContentOrientation}
 				attributesKey="contentOrientation"
@@ -553,7 +628,8 @@ function LayoutsPanelGeneralTab({ attributes, setAttributes, layoutType }) {
 				/>
 			)}
 			{!isSliderBlock &&
-				!isTilesBlock &&
+				!isGridLayout &&
+				!isCarousel3dBlock &&
 				!isThumbnailsSliderBlock &&
 				!isPreviewBlock &&
 				!isLayoutVertical &&
@@ -561,7 +637,7 @@ function LayoutsPanelGeneralTab({ attributes, setAttributes, layoutType }) {
 					<Toggle label={__('Variable Width', 'wp-carousel-free')} attributes={false} onlyPro />
 				)}
 			{/* Columns also drives Tiles: uniform mode, plus overflow tiles in bento mode. */}
-			{!isSliderBlock && !isThumbnailsSliderBlock && (
+			{!isSliderBlock && !isThumbnailsSliderBlock && !isCarousel3dBlock && (
 				<SPRangeControl
 					label={isLayoutVertical ? __('Row', 'wp-carousel-free') : __('Columns', 'wp-carousel-free')}
 					attributes={columnValue}
@@ -599,7 +675,7 @@ function LayoutsPanelGeneralTab({ attributes, setAttributes, layoutType }) {
 				/>
 			)}
 
-			{!isSliderBlock && !isTilesBlock && !isThumbnailsSliderBlock && (
+			{!isSliderBlock && !isGridLayout && !isThumbnailsSliderBlock && !isCarousel3dBlock && (
 				<SPRangeControl
 					label={__('Gap Between Items', 'wp-carousel-free')}
 					attributes={gapValue}
@@ -628,7 +704,7 @@ function LayoutsPanelGeneralTab({ attributes, setAttributes, layoutType }) {
 				/>
 			)}
 
-			{isTilesBlock && (
+			{isGridLayout && (
 				<>
 					<SPRangeControl
 						label={__('Horizontal Gap', 'wp-carousel-free')}
@@ -725,16 +801,20 @@ function LayoutsPanelGeneralTab({ attributes, setAttributes, layoutType }) {
 				</>
 			)}
 
-			{!isLayoutVertical && !isSliderBlock && !isTilesBlock && !isThumbnailsSliderBlock && (
-				<SPToggleGroupControl
-					label={__('Align Items', 'wp-carousel-free')}
-					attributes={lo.alignItems ?? 'flex-start'}
-					attributesKey="alignItems"
-					setAttributes={set}
-					items={ALIGN_ITEMS}
-					extraClass="wpcp-svg-rotate-90"
-				/>
-			)}
+			{!isLayoutVertical &&
+				!isSliderBlock &&
+				!isTilesBlock &&
+				!isThumbnailsSliderBlock &&
+				!isCarousel3dBlock && (
+					<SPToggleGroupControl
+						label={__('Align Items', 'wp-carousel-free')}
+						attributes={lo.alignItems ?? (isGridBlock ? 'stretch' : 'flex-start')}
+						attributesKey="alignItems"
+						setAttributes={set}
+						items={ALIGN_ITEMS}
+						extraClass="wpcp-svg-rotate-90"
+					/>
+				)}
 			{isSliderBlock && (
 				<SPRangeControl
 					label={__('Height', 'wp-carousel-free')}
@@ -770,13 +850,17 @@ function LayoutsPanelGeneralTab({ attributes, setAttributes, layoutType }) {
 				/>
 			)}
 
-			{isTilesBlock ? (
+			{isTilesBlock || isCarousel3dBlock ? (
 				<ToggleWithInfo
 					label={__('Random Order', 'wp-carousel-free')}
-					tooltip={__(
-						'Shuffle the saved tile order on render. Custom span edits travel with each item.',
-						'wp-carousel-free'
-					)}
+					tooltip={
+						isCarousel3dBlock
+							? __('Shuffle the item order on render.', 'wp-carousel-free')
+							: __(
+									'Shuffle the saved tile order on render. Custom span edits travel with each item.',
+									'wp-carousel-free'
+							  )
+					}
 					attributes={lo.randomOrder ?? false}
 					attributesKey="randomOrder"
 					setAttributes={set}
@@ -790,7 +874,7 @@ function LayoutsPanelGeneralTab({ attributes, setAttributes, layoutType }) {
 				/>
 			)}
 
-			{isTilesBlock && ['image', 'post', 'product'].includes(sourceType) && (
+			{isGridLayout && ['image', 'post', 'product'].includes(sourceType) && (
 				<Toggle
 					label={
 						sourceType === 'post' || sourceType === 'product'
@@ -801,12 +885,12 @@ function LayoutsPanelGeneralTab({ attributes, setAttributes, layoutType }) {
 				/>
 			)}
 
-			{isTilesBlock && sourceType === 'image' && (
+			{isGridLayout && sourceType === 'image' && (
 				<Toggle label={__('Ajax Search', 'wp-carousel-free')} onlyPro />
 			)}
 
 			<>
-				{!isTilesBlock && !isMarqueeBlock && (
+				{!isGridLayout && !isMarqueeBlock && (
 					<Toggle
 						label={__('Navigation Arrow', 'wp-carousel-free')}
 						attributes={lo.navigation ?? true}
@@ -822,10 +906,10 @@ function LayoutsPanelGeneralTab({ attributes, setAttributes, layoutType }) {
 							sourceType === 'product' ||
 							sourceType === 'image' ||
 							sourceType === 'video';
-						if (isTilesBlock && !tilesSourceSupportsAjax) {
+						if (isGridLayout && !tilesSourceSupportsAjax) {
 							return null;
 						}
-						const paginationLabel = isTilesBlock
+						const paginationLabel = isGridLayout
 							? __('Ajax Pagination', 'wp-carousel-free')
 							: __('Pagination Dots', 'wp-carousel-free');
 						return (
@@ -839,11 +923,7 @@ function LayoutsPanelGeneralTab({ attributes, setAttributes, layoutType }) {
 					})()}
 			</>
 
-			<SpProNotice
-				className="is-upsell"
-				message={layoutsProNoticeMessage}
-				linkText={__('Upgrade to Pro!', 'wp-carousel-free')}
-			/>
+			<SpProNotice {...layoutsProNotice} />
 		</>
 	);
 }

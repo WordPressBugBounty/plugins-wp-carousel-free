@@ -443,7 +443,7 @@ export default function Placements({ createUrl = '', onReport }) {
 		<section className="wpcpf-placements" aria-busy={loading || syncing}>
 			<div className="wpcpf-placements__head">
 				<div>
-					<h2 className="wpcpf-placements__heading">{__('Carousel Placements', 'wp-carousel-free')}</h2>
+					<h2 className="wpcpf-placements__heading">{__('Carousel Placements and Gallery Placements', 'wp-carousel-free')}</h2>
 					<p className="wpcpf-placements__intro">
 						{__('Track every block, shortcode, and saved template across your site.', 'wp-carousel-free')}
 					</p>

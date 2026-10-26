@@ -4,8 +4,7 @@
  * Free ships Thumb Bottom (`strip`) — the strip's top / bottom / left / right
  * position comes from Thumbnails Area → position. Thumb Overlay (`overlay`),
  * Slidable Menu (`list`) and Spotlight Thumb (`centered`) are Pro, drawn in
- * place as badged cards that open the pricing page instead of writing
- * `layoutOptions.thumbsLayout`.
+ * place as badged cards that never write `layoutOptions.thumbsLayout`.
  *
  * The picker is wired in `LayoutsPanel.jsx` only when the active block is
  * `wp-carousel-pro/thumbnails-slider`.

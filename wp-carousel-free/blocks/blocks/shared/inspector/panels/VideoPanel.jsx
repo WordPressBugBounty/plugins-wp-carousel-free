@@ -19,7 +19,6 @@ import {
 	Background,
 	Border,
 	SpProNotice,
-	getPricingUrl,
 } from '@wp-carousel-pro/components';
 import { BorderIcon } from '@wp-carousel-pro/icons/icons';
 import ToggleGroupControl from '@wp-carousel-pro/components/toggleGroupControl/toggleGroupControl';
@@ -172,14 +171,7 @@ function GeneralTab({ attributes, setAttributes }) {
 					<span className="wpcp-component-title wpcp-pro-inline-title">
 						{__('Icon Position', 'wp-carousel-free')}
 					</span>
-					<a
-						className="wpcp-pro-inline-tag"
-						href={getPricingUrl()}
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						{__('(Pro)', 'wp-carousel-free')}
-					</a>
+					<span className="wpcp-pro-inline-tag">{__('(Pro)', 'wp-carousel-free')}</span>
 				</div>
 				<div className="wpcp-header-right">
 					<span className="wpcp-pro-static-icon" aria-hidden="true">
@@ -342,11 +334,7 @@ function GeneralTab({ attributes, setAttributes }) {
 				setAttributes={set}
 				items={THUMBNAIL_SIZES}
 			/>
-			<SpProNotice
-				className="is-upsell"
-				message={PRO_CLICK_ACTIONS.message}
-				linkText={PRO_CLICK_ACTIONS.linkText}
-			/>
+			<SpProNotice {...PRO_CLICK_ACTIONS} />
 		</>
 	);
 }

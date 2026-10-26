@@ -70,6 +70,9 @@ const SLIDER_ITEMS = [OVERLAY_ITEM, DIAGONAL_ITEM, OVERLAY_BOX_ITEM];
 /** Thumbnails Slider: Diagonal in place of Classic — one full-bleed stage has nowhere to stack content. */
 const THUMBNAIL_ITEMS = [OVERLAY_ITEM, DIAGONAL_ITEM];
 
+/** 3D Carousel: only the centered card shows its content, so Classic (caption below the card) is not offered. */
+const CAROUSEL_3D_ITEMS = [OVERLAY_ITEM, DIAGONAL_ITEM];
+
 /** A Thumbnails Slider carrying a Classic or Pro orientation lands on Diagonal. */
 const THUMBNAIL_FALLBACK = 'diagonal';
 
@@ -78,6 +81,10 @@ const isSliderContext = (context = {}) => {
 	return (
 		blockName === 'slider' || blockName === 'wp-carousel-pro/slider' || blockName.endsWith('/slider')
 	);
+};
+const isCarousel3dContext = (context = {}) => {
+	const blockName = String(context?.blockName || context?.layoutType || '');
+	return blockName === 'carousel-3d' || blockName === 'wp-carousel-pro/carousel-3d';
 };
 const isThumbnailContext = (context = {}) => {
 	const blockName = String(context?.blockName || context?.layoutType || '');
@@ -93,6 +100,9 @@ export function getContentOrientationItems(sourceType = 'image', context = {}) {
 	}
 	if (isThumbnailContext(context)) {
 		return THUMBNAIL_ITEMS;
+	}
+	if (isCarousel3dContext(context)) {
+		return CAROUSEL_3D_ITEMS;
 	}
 	return DEFAULT_ITEMS;
 }

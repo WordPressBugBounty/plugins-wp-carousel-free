@@ -6,14 +6,18 @@
 import {
 	updateCategory,
 	getBlockType,
+	getBlockVariations,
+	registerBlockType,
 	unregisterBlockType,
 	registerBlockVariation,
 } from '@wordpress/blocks';
-import { WPCarouselCategoryIcon, WPCarouselProCategoryIcon } from '@wp-carousel-pro/icons/icons';
+import domReady from '@wordpress/dom-ready';
+import { WPCarouselCategoryIcon } from '@wp-carousel-pro/icons/icons';
 
 import manifest from './block-manifest.json';
 import { registerReadyPatternsLauncher } from './shared/ready-patterns/toolbarButton';
 import { registerAIBuilderLauncher } from './shared/ai-builder';
+import { registerProUpgradeDialog } from './shared/pro-upgrade/host';
 // Opens the block inserter when the editor is reached from a dashboard
 // "Add New" link (?wpcpblock_inserter), and the Ready Patterns library when
 // reached with ?wpcp_pattern_library.
@@ -31,8 +35,10 @@ registerReadyPatternsLauncher();
 // a no-op when the module is off or the site disallows AI.
 registerAIBuilderLauncher();
 
+// Mounts the dialog a Pro block opens when it is picked in the inserter.
+registerProUpgradeDialog();
+
 const MAIN_CATEGORY = 'wp-carousel-pro';
-const PRO_CATEGORY = 'wp-carousel-pro-blocks';
 
 // eslint-disable-next-line no-undef
 const blockModules = require.context('./', true, /^\.\/[^/]+\/index\.jsx$/);
@@ -64,15 +70,44 @@ function registerBlockBySlug(slug) {
 // block managers. The block stays registered in PHP, so a post that already
 // contains one still resolves its block type instead of breaking.
 const disabledBlocks = window.wpcpBlockLocalize?.disabledBlocks || [];
-disabledBlocks.forEach((blockName) => {
-	if (getBlockType(blockName)) {
-		unregisterBlockType(blockName);
-	}
-});
+const unregisterDisabledBlocks = () =>
+	disabledBlocks.forEach((blockName) => {
+		if (getBlockType(blockName)) {
+			unregisterBlockType(blockName);
+		}
+	});
+unregisterDisabledBlocks();
+// A block another script registers (the Classic shortcode block) may load after this one.
+domReady(unregisterDisabledBlocks);
+
+// Re-register the Pro blocks after every editor script so they follow the Classic shortcode block in the inserter.
+const moveProBlocksLast = () =>
+	[...(manifest.proTeasers ?? []), ...(manifest.proPreviews ?? [])]
+		.map((slug) => `${MAIN_CATEGORY}/${slug}`)
+		.forEach((blockName) => {
+			const blockType = getBlockType(blockName);
+
+			if (!blockType) {
+				return;
+			}
+
+			const variations = getBlockVariations(blockName) ?? [];
+			unregisterBlockType(blockName);
+			registerBlockType(blockName, blockType);
+
+			const restoredNames = (getBlockVariations(blockName) ?? []).map(
+				({ name }) => name
+			);
+			variations
+				.filter(({ name }) => !restoredNames.includes(name))
+				.forEach((variation) =>
+					registerBlockVariation(blockName, variation)
+				);
+		});
+domReady(moveProBlocksLast);
 
 // Categories are registered in PHP; only a dashicon slug can cross that filter, so the SVG is attached here.
 updateCategory(MAIN_CATEGORY, { icon: WPCarouselCategoryIcon });
-updateCategory(PRO_CATEGORY, { icon: WPCarouselProCategoryIcon });
 
 /**
  * Top-level blocks that support wide alignment open at "Wide width" in the
@@ -80,11 +115,15 @@ updateCategory(PRO_CATEGORY, { icon: WPCarouselProCategoryIcon });
  */
 const WIDE_ALIGN_TOP_LEVEL_BLOCKS = [
 	'carousel',
+	'carousel-3d',
 	'slider',
 	'thumbnails-slider',
 	'tiles',
+	'grid',
 	'marquee',
 	'carousel-panorama',
+	'masonry',
+	'justified',
 ].map((slug) => `${MAIN_CATEGORY}/${slug}`);
 
 WIDE_ALIGN_TOP_LEVEL_BLOCKS.forEach((blockName) => {

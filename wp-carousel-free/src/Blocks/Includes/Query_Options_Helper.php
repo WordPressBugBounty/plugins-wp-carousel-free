@@ -7,6 +7,8 @@
 
 namespace ShapedPlugin\WPCarouselFree\Blocks\Includes;
 
+use ShapedPlugin\WPCarouselFree\Blocks\Schema\AllowedValues;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -201,7 +203,7 @@ class Query_Options_Helper {
 	 */
 	public static function is_tiles_ajax_request( array $attributes ): bool {
 		$layout_options = isset( $attributes['layoutOptions'] ) && is_array( $attributes['layoutOptions'] ) ? $attributes['layoutOptions'] : array();
-		return 'tiles' === ( $attributes['blockName'] ?? '' ) && ! empty( $layout_options['pagination'] );
+		return AllowedValues::is_grid_layout_block( $attributes['blockName'] ?? '' ) && ! empty( $layout_options['pagination'] );
 	}
 
 	/**

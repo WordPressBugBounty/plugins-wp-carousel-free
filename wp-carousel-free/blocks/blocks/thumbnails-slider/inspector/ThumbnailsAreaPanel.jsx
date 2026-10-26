@@ -30,6 +30,7 @@ import {
 	Toggle,
 	Border,
 } from '@wp-carousel-pro/components';
+import { PRO_THUMBNAILS_AREA } from '../../shared/constants/proFeatures';
 
 const POSITION_OPTIONS = [
 	{ label: __('Bottom', 'wp-carousel-free'), value: 'bottom' },
@@ -94,14 +95,7 @@ function SettingsTab({ attributes, setAttributes }) {
 				units={['px', '%', 'em']}
 			/>
 
-			<SpProNotice
-				className="is-upsell"
-				message={__(
-					'Customize thumbnail position and width for more flexible, professional layout.',
-					'wp-carousel-free'
-				)}
-				linkText={__('Upgrade to Pro!', 'wp-carousel-free')}
-			/>
+			<SpProNotice {...PRO_THUMBNAILS_AREA} />
 		</>
 	);
 }

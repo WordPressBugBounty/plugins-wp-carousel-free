@@ -416,7 +416,7 @@ class BlockRenderer {
 			&& in_array( $carousel_style, array( 'standard', 'center' ), true )
 		);
 
-		$is_tiles_layout                = ( 'tiles' === $this->slug || 'grid' === $carousel_style );
+		$is_tiles_layout                = ( AllowedValues::is_grid_layout_block( $this->slug ) || 'grid' === $carousel_style );
 		$this->effective_variable_width = $this->is_variable_width_effective( $layout_options, $carousel_style, $is_tiles_layout );
 
 		$classes = $this->build_root_classes( $carousel_style );
@@ -673,12 +673,14 @@ class BlockRenderer {
 	private function build_root_classes( string $carousel_style ): array {
 		$layout_options   = $this->attrs['layoutOptions'] ?? array();
 		$advanced_options = $this->attrs['advancedOptions'] ?? array();
-		$classes          = array(
+		// The 3D Carousel keeps `carouselStyle` at `standard` but is staged by its own engine.
+		$style_class = ( 'carousel-3d' === $this->slug ) ? 'carousel-3d' : $carousel_style;
+		$classes     = array(
 			'wpcp-block',
 			'wpcp-block-' . sanitize_html_class( $this->slug ),
 			'wpcp-carousel-render',
 			'wpcp-carousel-render-frontend',
-			'wpcp-style-' . $carousel_style,
+			'wpcp-style-' . $style_class,
 			'wpcp-source-' . sanitize_html_class( $this->attrs['sourceType'] ?? 'image' ),
 		);
 
@@ -691,6 +693,9 @@ class BlockRenderer {
 		$navigation_position_class = $this->get_navigation_builder()->get_navigation_position_class();
 		if ( '' !== $navigation_position_class ) {
 			$classes[] = $navigation_position_class;
+		}
+		if ( 'carousel-3d' === $this->slug ) {
+			$classes[] = 'wpcp-carousel-3d-' . AllowedValues::carousel_3d_style( $layout_options['carousel3dStyle'] ?? 'style-one' );
 		}
 		if ( 'slider' === $this->slug ) {
 			$slider_layout = isset( $layout_options['sliderLayout'] ) ? sanitize_html_class( (string) $layout_options['sliderLayout'] ) : '';

@@ -6,13 +6,12 @@
  * attributes and calls no setter, so opening it cannot change the block.
  */
 
-import { __ } from '@wordpress/i18n';
 import { PanelBody } from '@wordpress/components';
 import { memo } from '@wordpress/element';
 import { SpProNotice } from '@wp-carousel-pro/components';
-import { PRO_PANELS } from '../../constants/proFeatures';
+import { PRO_PANELS, getProPanelBlockName } from '../../constants/proFeatures';
 
-const ProPanel = ({ panelId, panelOpen, onPanelToggle }) => {
+const ProPanel = ({ panelId, blockName, panelOpen, onPanelToggle }) => {
 	const info = PRO_PANELS[panelId];
 
 	if (!info) {
@@ -28,12 +27,10 @@ const ProPanel = ({ panelId, panelOpen, onPanelToggle }) => {
 		>
 			{panelOpen && (
 				<SpProNotice
-					title={__('Unlock Pro Features!', 'wp-carousel-free')}
+					title={info.noticeTitle(getProPanelBlockName(blockName))}
 					subtitle={info.subtitle}
 					features={info.features}
-					icon={false}
-					linkButton
-					className="is-upsell"
+					className="is-standalone"
 				/>
 			)}
 		</PanelBody>

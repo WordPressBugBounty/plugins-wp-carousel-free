@@ -82,12 +82,16 @@ class ConfigBuilder {
 		$motion_devices = array( 'Desktop', 'Tablet', 'Mobile' );
 
 		$carousel_style = $layout_options['carouselStyle'] ?? 'standard';
-		$is_tiles       = ( 'tiles' === $this->slug || 'grid' === $carousel_style );
+		$is_tiles       = ( AllowedValues::is_grid_layout_block( $this->slug ) || 'grid' === $carousel_style );
+
+		// The 3D Carousel stages its slides in depth, so Swiper transitions,
+		// momentum scroll, adaptive height and multi-slide steps never apply.
+		$is_carousel_3d = ( 'carousel-3d' === $this->slug );
 
 		$effect_raw = isset( $slider_options['effect'] ) ? (string) $slider_options['effect'] : 'slide';
-		// The Center style only supports the default 'slide' transition, so any
-		// saved effect resolves to 'slide'.
-		if ( 'center' === $carousel_style ) {
+		// The Center style and the 3D Carousel only support the default 'slide'
+		// transition, so any saved effect resolves to 'slide'.
+		if ( 'center' === $carousel_style || $is_carousel_3d ) {
 			$effect_raw = 'slide';
 		}
 		$single_slide_stack_effect = in_array( $effect_raw, array( 'flip', 'cube' ), true );
@@ -113,6 +117,7 @@ class ConfigBuilder {
 			'sourceType'          => $this->attrs['sourceType'] ?? 'image',
 			'totalItems'          => $total_items,
 			'style'               => $slider_styles,
+			'carousel3d'          => $is_carousel_3d ? $this->build_carousel_3d_config( $layout_options, $total_items ) : null,
 			'variableWidth'       => ! empty( $layout_options['variableWidth'] ),
 			'displayStyle'        => $layout_options['displayStyle'] ?? 'horizontal',
 			'contentOrientation'  => $layout_options['contentOrientation'] ?? 'overlay',
@@ -144,16 +149,20 @@ class ConfigBuilder {
 			'speed'               => (int) ( $slider_options['speed'] ?? 500 ),
 			'pauseOnHover'        => ! empty( $slider_options['pauseOnHover'] ),
 			'loop'                => ! empty( $slider_options['infiniteLoop'] ),
-			'slidesToScroll'      => array(
+			'slidesToScroll'      => $is_carousel_3d ? array(
+				'desktop' => 1,
+				'tablet'  => 1,
+				'mobile'  => 1,
+			) : array(
 				'desktop' => (int) ( $slider_options['slidesToScroll'] ?? 1 ),
 				'tablet'  => (int) ( $slider_options['slidesToScrollTablet'] ?? $slider_options['slidesToScroll'] ?? 1 ),
 				'mobile'  => (int) ( $slider_options['slidesToScrollMobile'] ?? $slider_options['slidesToScroll'] ?? 1 ),
 			),
 			'direction'           => $slider_options['direction'] ?? 'ltr',
-			'adaptiveHeight'      => ! empty( $slider_options['adaptiveHeight'] ),
+			'adaptiveHeight'      => ! empty( $slider_options['adaptiveHeight'] ) && ! $is_carousel_3d,
 			'keyboard'            => ! empty( $slider_options['keyboardNav'] ),
 			'mousewheel'          => ! empty( $slider_options['mousewheel'] ),
-			'freeMode'            => ! empty( $slider_options['freeScroll'] ),
+			'freeMode'            => ! empty( $slider_options['freeScroll'] ) && ! $is_carousel_3d,
 			'effect'              => $effect_raw,
 			'navigation'          => $navigation_enabled,
 			'pagination'          => $pagination_enabled,
@@ -214,5 +223,61 @@ class ConfigBuilder {
 			'activeStyle'   => sanitize_html_class( $active_style ),
 			'autoplayDelay' => (int) ( $slider_options['autoplayDelay'] ?? 3000 ),
 		);
+	}
+
+	/**
+	 * The 3D Carousel's staging numbers. The 3D Settings rows are Pro, so Free
+	 * stages Style One at Pro's defaults and never reads them from attributes.
+	 */
+	private const CAROUSEL_3D_STAGING = array(
+		'centerItemDistance' => 164,
+		'sideSlidesSpacing'  => 82,
+		'slidesDepth'        => 59,
+		'slidesDepthSpacing' => 19,
+		'sidesPerspective'   => 80,
+		'sidesYRotation'     => 70,
+	);
+
+	/**
+	 * Side Items defaults per device.
+	 */
+	private const CAROUSEL_3D_SIDE_ITEMS = array(
+		'Desktop' => 4,
+		'Tablet'  => 3,
+		'Mobile'  => 2,
+	);
+
+	/**
+	 * The 3D Carousel's staging config for `data-wpcp`; mirrors `carousel3dParamsFor()`.
+	 *
+	 * @param array $layout_options Block layoutOptions.
+	 * @param int   $total_items    Items the block renders.
+	 * @return array<string,mixed>
+	 */
+	private function build_carousel_3d_config( array $layout_options, int $total_items ): array {
+		return array(
+			'style'      => 'style-one',
+			'slideCount' => $total_items,
+			'desktop'    => $this->carousel_3d_device_params( $layout_options, 'Desktop' ),
+			'tablet'     => $this->carousel_3d_device_params( $layout_options, 'Tablet' ),
+			'mobile'     => $this->carousel_3d_device_params( $layout_options, 'Mobile' ),
+		);
+	}
+
+	/**
+	 * One device's staging numbers.
+	 *
+	 * @param array  $layout_options Block layoutOptions.
+	 * @param string $device         Desktop, Tablet or Mobile.
+	 * @return array<string,mixed>
+	 */
+	private function carousel_3d_device_params( array $layout_options, string $device ): array {
+		$params              = array_map( 'floatval', self::CAROUSEL_3D_STAGING );
+		$params['sideItems'] = AllowedValues::carousel_3d_side_items(
+			$layout_options[ 'Desktop' === $device ? 'sideItems' : 'sideItems' . $device ] ?? null,
+			self::CAROUSEL_3D_SIDE_ITEMS[ $device ]
+		);
+
+		return $params;
 	}
 }

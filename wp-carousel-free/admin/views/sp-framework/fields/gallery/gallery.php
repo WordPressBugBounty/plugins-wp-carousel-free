@@ -44,13 +44,17 @@ if ( ! class_exists( 'SP_WPCF_Field_gallery' ) ) {
 		private function getting_image_metadata( $image_id ) {
 			$image_metadata_array                          = array();
 			$image_linking_meta                            = wp_get_attachment_metadata( $image_id );
+			// Missing or corrupt attachment metadata returns false.
+			if ( ! is_array( $image_linking_meta ) ) {
+				$image_linking_meta = array();
+			}
 			$image_linking_urls                            = isset( $image_linking_meta['image_meta'] ) ? $image_linking_meta['image_meta'] : '';
 			$image_linking_url                             = get_post_meta( $image_id, 'wpcplinking', true );
 			$image_metadata_array['status']                = 'active';
 			$image_metadata_array['id']                    = $image_id;
 			$image_metadata_array['url']                   = esc_url( wp_get_attachment_url( $image_id ) );
-			$image_metadata_array['height']                = esc_attr( $image_linking_meta['height'] ) ?? '';
-			$image_metadata_array['width']                 = esc_attr( $image_linking_meta['width'] ) ?? '';
+			$image_metadata_array['height']                = esc_attr( $image_linking_meta['height'] ?? '' );
+			$image_metadata_array['width']                 = esc_attr( $image_linking_meta['width'] ?? '' );
 			$image_metadata_array['alt']                   = trim( esc_html( get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ) ) ?? '';
 			$image_metadata_array['caption']               = trim( esc_html( get_post_field( 'post_excerpt', $image_id ) ) ) ?? '';
 			$image_metadata_array['title']                 = trim( esc_html( get_post_field( 'post_title', $image_id ) ) ) ?? '';

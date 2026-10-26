@@ -184,7 +184,7 @@ export function bootAjaxPagination() {
 	}
 
 	function initAll() {
-		const tilesBlocks = document.querySelectorAll('.wpcp-block-tiles');
+		const tilesBlocks = document.querySelectorAll('.wpcp-block-tiles, .wpcp-block-grid');
 		for (let i = 0; i < tilesBlocks.length; i++) {
 			const blockRoot = tilesBlocks[i];
 			const wrappers = blockRoot.querySelectorAll('.wpcp-ajax-pagination');

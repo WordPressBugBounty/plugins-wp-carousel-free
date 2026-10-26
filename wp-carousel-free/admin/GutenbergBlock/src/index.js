@@ -27,7 +27,7 @@ registerBlockType("sp-wp-carousel-pro/shortcode", {
   // Block API v3 marks the block as compatible with the iframed editor canvas,
   // which WordPress 7.1 uses for every editor.
   apiVersion: 3,
-  title: escapeHTML( __("WP Carousel Shortcode", "wp-carousel-free") ),
+  title: escapeHTML( __("Classic Shortcode", "wp-carousel-free") ),
   description: escapeHTML( __(
     "Use WP Carousel to insert a carousel or gallery in your page.",
     "wp-carousel-free"
@@ -109,7 +109,7 @@ registerBlockType("sp-wp-carousel-pro/shortcode", {
         // The canvas scripts are parsed while the blocks mount, so make sure they
         // all arrived before initializing. Stop waiting after five seconds and run
         // whatever is available in case a site filtered one of the handles out.
-        const scriptsReady = view.Swiper
+        const scriptsReady = (view.WPCPSwiper || view.Swiper)
           && 'function' === typeof view.spWPCarouselFreeInit
           && 'function' === typeof view.spWPCarouselFreePreloader;
 
@@ -159,7 +159,7 @@ registerBlockType("sp-wp-carousel-pro/shortcode", {
           el('div', {className: 'components-placeholder components-placeholder is-large'},
             el('div', {className: 'components-placeholder__label'},
               el('img', {className: 'block-editor-block-icon', src: escapeAttribute( sp_wp_carousel_free.url + 'admin/GutenbergBlock/assets/wp-carousel-icon.svg' )}),
-              escapeHTML( __("WP Carousel Shortcode", "wp-carousel-free") )
+              escapeHTML( __("Classic Shortcode", "wp-carousel-free") )
             ),
             el('div', {className: 'components-placeholder__instructions'},
               escapeHTML( __("No shortcode found. ", "wp-carousel-free") ),
@@ -189,7 +189,7 @@ registerBlockType("sp-wp-carousel-pro/shortcode", {
           el('div', {className: 'components-placeholder components-placeholder is-large'},
             el('div', {className: 'components-placeholder__label'},
               el('img', { className: 'block-editor-block-icon', src: escapeAttribute( sp_wp_carousel_free.url + "admin/GutenbergBlock/assets/wp-carousel-icon.svg" )}),
-              escapeHTML( __("WP Carousel Shortcode", "wp-carousel-free") )
+              escapeHTML( __("Classic Shortcode", "wp-carousel-free") )
             ),
             el('div', {className: 'components-placeholder__instructions'}, escapeHTML( __("Select a shortcode", "wp-carousel-free") ) ),
             <DynamicShortcodeInput

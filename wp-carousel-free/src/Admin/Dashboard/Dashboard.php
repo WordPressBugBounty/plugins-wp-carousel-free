@@ -13,6 +13,7 @@ use ShapedPlugin\WPCarouselFree\Blocks\AI\AIFeature;
 use ShapedPlugin\WPCarouselFree\Blocks\AI\AIKeyManager;
 use ShapedPlugin\WPCarouselFree\Blocks\AI\ConnectorBridge;
 use ShapedPlugin\WPCarouselFree\Blocks\Cache;
+use ShapedPlugin\WPCarouselFree\Blocks\Includes\Utils\Block_Dynamic_Style;
 use ShapedPlugin\WPCarouselFree\Blocks\Lightbox\Lightbox_Icon_Helper;
 
 defined( 'ABSPATH' ) || exit;
@@ -108,9 +109,12 @@ class Dashboard {
 	private function get_block_visibility_list() {
 		$titles = array(
 			'carousel'          => __( 'Carousel', 'wp-carousel-free' ),
+			'carousel-3d'       => __( '3D Carousel', 'wp-carousel-free' ),
 			'slider'            => __( 'Slider', 'wp-carousel-free' ),
 			'thumbnails-slider' => __( 'Thumbnails Slider', 'wp-carousel-free' ),
 			'tiles'             => __( 'Tiles', 'wp-carousel-free' ),
+			'grid'              => __( 'Grid', 'wp-carousel-free' ),
+			'classic-shortcode' => __( 'Classic Shortcode', 'wp-carousel-free' ),
 		);
 
 		// Registered as teasers: listed so the page can advertise them, but they
@@ -118,6 +122,8 @@ class Dashboard {
 		$pro_teasers = array(
 			'marquee'           => __( 'Marquee', 'wp-carousel-free' ),
 			'carousel-panorama' => __( 'Panorama Carousel', 'wp-carousel-free' ),
+			'masonry'           => __( 'Masonry', 'wp-carousel-free' ),
+			'justified'         => __( 'Justified', 'wp-carousel-free' ),
 		);
 
 		$list = array();
@@ -393,12 +399,12 @@ class Dashboard {
 				box-sizing: border-box;
 				margin: 6px;
 				padding: 8px 20px;
-				background: #4ab866;
+				background: #1d8958;
 				border-radius: 4px;
 			}
 			#adminmenu .wp-submenu li > a[href="%2$s"]:hover,
 			#adminmenu .wp-submenu li > a[href="%2$s"]:focus {
-				background: #429e58;
+				background: #176d46;
 				border-radius: 4px;
 				box-shadow: none;
 				color: #fff;
@@ -935,7 +941,7 @@ class Dashboard {
 		// accepting arbitrary keys would let a caller grow this option without
 		// bound. Pro teasers carry no toggle and are rejected here too.
 		if ( isset( $data['blockVisibility'] ) && is_array( $data['blockVisibility'] ) ) {
-			$known   = array( 'carousel', 'slider', 'thumbnails-slider', 'tiles' );
+			$known   = array( 'carousel', 'carousel-3d', 'slider', 'thumbnails-slider', 'tiles', 'grid', 'classic-shortcode' );
 			$by_name = array();
 			foreach ( $data['blockVisibility'] as $item ) {
 				if ( empty( $item['name'] ) ) {
@@ -1071,7 +1077,7 @@ class Dashboard {
 	}
 
 	/**
-	 * AJAX: drop every cached carousel item list.
+	 * AJAX: drop every cached carousel item list and generated block stylesheet.
 	 */
 	public function ajax_flush_cache() {
 		if ( ! current_user_can( apply_filters( 'wpcpf_ui_permission', 'manage_options' ) ) ) {
@@ -1082,6 +1088,7 @@ class Dashboard {
 		}
 
 		Cache::flush();
+		Block_Dynamic_Style::instance()->purge_all_generated_css();
 
 		wp_send_json_success();
 	}

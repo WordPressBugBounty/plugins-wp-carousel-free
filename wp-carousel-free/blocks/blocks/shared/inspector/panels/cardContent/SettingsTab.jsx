@@ -14,7 +14,7 @@
 
 import { __ } from '@wordpress/i18n';
 import { useCallback, useMemo } from '@wordpress/element';
-import { Toggle, getPricingUrl, SpProNotice } from '@wp-carousel-pro/components';
+import { Toggle, SpProNotice } from '@wp-carousel-pro/components';
 import ToggleGroupControl from '@wp-carousel-pro/components/toggleGroupControl/toggleGroupControl';
 import { BorderIcon } from '@wp-carousel-pro/icons/icons';
 import { PRO_CARD_CONTENT_SETTINGS } from '../../../constants/proFeatures';
@@ -117,14 +117,7 @@ export default function SettingsTab({ attributes, setAttributes }) {
 								<span className="wpcp-component-title wpcp-pro-inline-title">
 									{__('Content Position', 'wp-carousel-free')}
 								</span>
-								<a
-									className="wpcp-pro-inline-tag"
-									href={getPricingUrl()}
-									target="_blank"
-									rel="noopener noreferrer"
-								>
-									{__('(Pro)', 'wp-carousel-free')}
-								</a>
+								<span className="wpcp-pro-inline-tag">{__('(Pro)', 'wp-carousel-free')}</span>
 							</div>
 							<div className="wpcp-header-control-right">
 								<span className="wpcp-pro-static-icon" aria-hidden="true">
@@ -150,14 +143,7 @@ export default function SettingsTab({ attributes, setAttributes }) {
 				)}
 			</div>
 
-			<SpProNotice
-				title={PRO_CARD_CONTENT_SETTINGS.title}
-				subtitle={PRO_CARD_CONTENT_SETTINGS.subtitle}
-				features={PRO_CARD_CONTENT_SETTINGS.features}
-				icon={false}
-				linkButton
-				className="is-upsell"
-			/>
+			<SpProNotice {...PRO_CARD_CONTENT_SETTINGS} />
 		</>
 	);
 }

@@ -12,6 +12,10 @@
  * for Fancybox to read, and an unhandled click navigates the canvas iframe
  * to that URL — which wipes the editor. Opening the lightbox is the second,
  * module-gated job.
+ *
+ * `activeSlideOnly` adds a third reading in front of both: on a layout that
+ * stages its whole gallery at once, a click on a card other than the centered
+ * one centers that card instead of opening it, matching the frontend.
  */
 
 import { useEffect } from '@wordpress/element';
@@ -22,10 +26,12 @@ import {
 	resolveTriggerStartIndex,
 } from '../lightbox/lightboxTriggers';
 import { isLightboxModuleActive } from '../lightbox/useLightboxModuleSettings';
+import { activateSideSlide, findSideSlide } from '../utils/sideSlideActivation';
 
 /**
  * @param {Object}  options
  * @param {boolean} options.isEditor
+ * @param {boolean} options.activeSlideOnly   Only the centered card opens (3D Carousel).
  * @param {boolean} options.isTiles
  * @param {string}  options.style             Carousel style (tiles never syncs Swiper).
  * @param {boolean} options.loop              Swiper loop mode (sync uses `slideToLoop`).
@@ -38,6 +44,7 @@ import { isLightboxModuleActive } from '../lightbox/useLightboxModuleSettings';
  */
 export default function useEditorPreviewLightbox({
 	isEditor,
+	activeSlideOnly = false,
 	isTiles,
 	style,
 	loop,
@@ -120,6 +127,15 @@ export default function useEditorPreviewLightbox({
 		};
 
 		const handleClick = (event) => {
+			const sideSlide = activeSlideOnly ? findSideSlide(event.target) : null;
+			if (sideSlide) {
+				// The trigger's live `href` would navigate the canvas iframe; propagation
+				// is left alone so clicking a card still selects the block.
+				event.preventDefault();
+				activateSideSlide(swiperRef.current, sideSlide);
+				return;
+			}
+
 			const trigger = event.target.closest('[data-fancybox]');
 			if (!trigger || !isOwnPreviewTrigger(trigger)) {
 				return;
@@ -195,5 +211,5 @@ export default function useEditorPreviewLightbox({
 		// (swiperKey/items) or the sync mode changes — matches the original
 		// effect in CarouselRender.
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isEditor, isTiles, style, loop, swiperKey, itemsLength]);
+	}, [isEditor, activeSlideOnly, isTiles, style, loop, swiperKey, itemsLength]);
 }

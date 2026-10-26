@@ -9,7 +9,7 @@ import { flipImageSupported } from '../constants/blockCapabilities';
 import useDialogBehavior from '../hooks/useDialogBehavior';
 import SpProNotice from '../../../components/pro/proNotice';
 import SocialMediaSelectLocked from './SocialMediaSelectLocked';
-import { openPricingPage } from '../../../components/pro/proLinks';
+import { PRO_ITEM_IMAGE } from '../constants/proFeatures';
 import './ItemEditPopup.scss';
 
 const SCALE_OPTIONS = [
@@ -278,9 +278,9 @@ export default function ItemEditPopup({
 							{flipSupported && (
 								<div className="wpcp-item-popup-tab is-pro-locked">
 									<span>{__('Flipping Image', 'wp-carousel-free')}</span>
-									<button type="button" className="wpcp-item-popup-tab-pro-tag" onClick={openPricingPage}>
+									<span className="wpcp-item-popup-tab-pro-tag">
 										{__('(Pro)', 'wp-carousel-free')}
-									</button>
+									</span>
 								</div>
 							)}
 						</div>
@@ -425,14 +425,7 @@ export default function ItemEditPopup({
 							</span>
 							<SocialMediaSelectLocked />
 						</div>
-						<SpProNotice
-							className="is-upsell"
-							message={__(
-								'Customize each image individually with image flipping and sharing options.',
-								'wp-carousel-free'
-							)}
-							linkText={__('Upgrade to Pro!', 'wp-carousel-free')}
-						/>
+						<SpProNotice {...PRO_ITEM_IMAGE} />
 					</div>
 				</div>
 

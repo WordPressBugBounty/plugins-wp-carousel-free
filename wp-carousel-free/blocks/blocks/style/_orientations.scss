@@ -102,6 +102,30 @@
 	}
 }
 
+/* Overlay/Diagonal content sits over the media's border, so the image border is
+ * redrawn on a frame above the content and the media's own border goes transparent. */
+.wpcp-item-inner.wpcp-has-overlay {
+	.wpcp-item-media {
+		border-color: transparent;
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 3;
+		pointer-events: none;
+		border-radius: inherit;
+		border-style: var(--wpcp-img-border-style, none);
+		border-color: var(--wpcp-img-border-color, currentcolor);
+		border-width: var(--wpcp-img-border-width, medium);
+	}
+}
+
+.wpcp-item:hover .wpcp-item-inner.wpcp-has-overlay::after {
+	border-color: var(--wpcp-img-border-color-hover, var(--wpcp-img-border-color, currentcolor));
+}
+
 /* Overlay orientation. The darkening tint is gated on `.wpcp-image-overlay`
  * so the Image > Overlay toggle controls it — orientation alone must not
  * force a tint the user turned off. */

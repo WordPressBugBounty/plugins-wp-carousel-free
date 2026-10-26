@@ -15,6 +15,7 @@ import {
 	resolveNavPosition,
 	resolvePaginationStyle,
 } from '../constants/freeValues';
+import { isGridLayoutBlock } from '../constants/blockCapabilities';
 
 /**
  * @param {Object} attributes   Block attributes.
@@ -48,7 +49,10 @@ export default function buildPreviewConfig(attributes, activeDevice) {
 	);
 	const orientationClass = ORIENTATION_CLASSES[contentOrientation] || '';
 	const displayStyle = layoutOptions.displayStyle || 'horizontal';
-	const isVertical = displayStyle === 'vertical' && ['standard', 'center'].includes(style);
+	// The 3D Carousel stages its own transition one card at a time.
+	const isCarousel3dBlock = blockName === 'carousel-3d';
+	const isVertical =
+		displayStyle === 'vertical' && !isCarousel3dBlock && ['standard', 'center'].includes(style);
 	// The vertical marquee is a separate component, not a Swiper axis flip.
 	const isTickerVertical = 'ticker' === style && 'vertical' === displayStyle;
 	const columns = {
@@ -74,7 +78,7 @@ export default function buildPreviewConfig(attributes, activeDevice) {
 		navigationOptions.position,
 		defaultNavPosition(blockName)
 	);
-	const isTiles = blockName === 'tiles' || style === 'grid';
+	const isTiles = isGridLayoutBlock(blockName) || style === 'grid';
 	const effectiveVariableWidth =
 		!!layoutOptions.variableWidth &&
 		displayStyle !== 'vertical' &&
@@ -91,17 +95,23 @@ export default function buildPreviewConfig(attributes, activeDevice) {
 	// transition, so any saved effect resolves to 'slide'.
 	// Mirrored by swiperCarousel.js (frontend), BlockRenderer + ConfigBuilder.
 	let effect = rawEffect;
-	if (isVertical || (style === 'center' && SWIPER_SINGLE_SLIDE_EFFECTS.has(rawEffect))) {
+	if (
+		isVertical ||
+		isCarousel3dBlock ||
+		(style === 'center' && SWIPER_SINGLE_SLIDE_EFFECTS.has(rawEffect))
+	) {
 		effect = 'slide';
 	}
 	const singleSlideStackEffect = SWIPER_SINGLE_SLIDE_EFFECTS.has(effect);
-	const freeMode = sliderOptions.freeScroll === true;
-	const adaptive = sliderOptions.adaptiveHeight === true;
-	const slidesScrollGroup = {
-		Desktop: Number(sliderOptions.slidesToScroll ?? 1),
-		Tablet: Number(sliderOptions.slidesToScrollTablet ?? sliderOptions.slidesToScroll ?? 1),
-		Mobile: Number(sliderOptions.slidesToScrollMobile ?? sliderOptions.slidesToScroll ?? 1),
-	};
+	const freeMode = sliderOptions.freeScroll === true && !isCarousel3dBlock;
+	const adaptive = sliderOptions.adaptiveHeight === true && !isCarousel3dBlock;
+	const slidesScrollGroup = isCarousel3dBlock
+		? { Desktop: 1, Tablet: 1, Mobile: 1 }
+		: {
+				Desktop: Number(sliderOptions.slidesToScroll ?? 1),
+				Tablet: Number(sliderOptions.slidesToScrollTablet ?? sliderOptions.slidesToScroll ?? 1),
+				Mobile: Number(sliderOptions.slidesToScrollMobile ?? sliderOptions.slidesToScroll ?? 1),
+		  };
 
 	const slidesPerViewAt = (nCols) => nCols;
 	const centeredSlides = style === 'center';

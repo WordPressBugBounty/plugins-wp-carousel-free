@@ -615,7 +615,11 @@ const styleConfig = [
 		device: true,
 		always: true,
 		wholeAttr: true,
-		when: { attr: 'blockName', op: 'in', value: ['tiles', 'wp-carousel-pro/tiles'] },
+		when: {
+			attr: 'blockName',
+			op: 'in',
+			value: ['tiles', 'wp-carousel-pro/tiles', 'grid', 'wp-carousel-pro/grid'],
+		},
 	},
 	{
 		id: 'tile-row-gap',
@@ -627,7 +631,19 @@ const styleConfig = [
 		device: true,
 		always: true,
 		wholeAttr: true,
-		when: { attr: 'blockName', op: 'in', value: ['tiles', 'wp-carousel-pro/tiles'] },
+		when: {
+			attr: 'blockName',
+			op: 'in',
+			value: ['tiles', 'wp-carousel-pro/tiles', 'grid', 'wp-carousel-pro/grid'],
+		},
+	},
+	{
+		id: 'grid-align-items',
+		attr: 'layoutOptions.alignItems',
+		var: '--wpcp-grid-align-items',
+		transform: 'raw',
+		default: 'stretch',
+		when: { attr: 'blockName', op: 'in', value: ['grid', 'wp-carousel-pro/grid'] },
 	},
 	{
 		id: 'tile-row-height',

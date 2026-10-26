@@ -4,7 +4,7 @@
 	"name": "wp-carousel-pro/carousel-panorama",
 	"title": "Panorama Carousel",
 	"description": "Showcase ultra-wide images and videos in a smooth panoramic carousel. Available in WP Carousel Pro.",
-	"category": "wp-carousel-pro-blocks",
+	"category": "wp-carousel-pro",
 	"keywords": ["panorama", "carousel", "wide"],
 	"textdomain": "wp-carousel-free",
 	"example": {

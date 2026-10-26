@@ -239,11 +239,7 @@ function SettingsTab({ attributes, setAttributes }) {
 				btnType={'color'}
 			/>
 
-			<SpProNotice
-				className="is-upsell"
-				message={PRO_THUMBNAIL.message}
-				linkText={PRO_THUMBNAIL.linkText}
-			/>
+			<SpProNotice {...PRO_THUMBNAIL} />
 		</>
 	);
 }

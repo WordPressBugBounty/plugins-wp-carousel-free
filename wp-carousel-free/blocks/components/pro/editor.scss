@@ -1,52 +1,41 @@
 // Pro teaser UI: the locked-card badge, the inspector notice, and the panel
 // crown. Every value the Figma frames own is a variable here so the visual
 // pass is a one-line change per token.
-$wpcp-pro-accent: #19949e;
-$wpcp-pro-accent-hover: #147a82;
-$wpcp-pro-surface: #f1fafb;
-$wpcp-pro-border: #a8dde2;
-$wpcp-pro-locked-opacity: 0.35;
 $wpcp-pro-green: #11a10c;
 $wpcp-pro-green-hover: #0f910b;
 $wpcp-pro-green-border: #6cc37c;
 
-// Crown chip — matches the dashboard's block and module card badge.
+// Crown chip — a 20px circle, the block inserter's Pro crown.
 $wpcp-pro-chip-icon: #4ab866;
-$wpcp-pro-chip-surface: #effff5;
-$wpcp-pro-chip-border: #93dcac;
+$wpcp-pro-chip-surface: #e3f5e8;
 
-// Figma "Pro notes" upsell card — https://www.figma.com/design/jSLI4lZNWowWPHate1tBQP node 7890:210313
-$wpcp-pro-note-border: #b2eaee;
-$wpcp-pro-note-glow: #e0f7f8;
-$wpcp-pro-note-text: #0f290e;
-
-$wpcp-pro-upsell-title: #19949e;
-$wpcp-pro-upsell-subtitle: #1d2327;
-$wpcp-pro-upsell-text: #2f2f2f;
-$wpcp-pro-upsell-border: rgba(21, 158, 46, 0.7);
-$wpcp-pro-upsell-button: #159e2e;
-$wpcp-pro-upsell-button-hover: #128627;
-
+// Sidebar upsell card — Claude Design "WP Carousel Gutenberg Block Page".
+$wpcp-pro-note-border: #dcefe4;
+$wpcp-pro-note-glow: #eaf8f0;
+$wpcp-pro-note-text: #1e1e1e;
+$wpcp-pro-note-subtitle: #50575e;
+$wpcp-pro-note-marker: #7cc9a0;
+$wpcp-pro-note-button: #1a7f45;
+$wpcp-pro-note-button-border: #bfe3cd;
+$wpcp-pro-note-button-hover: #146c3a;
+$wpcp-pro-note-button-hover-border: #1e9e5a;
+$wpcp-pro-note-button-hover-surface: #f1faf4;
 
 /* ── Locked preset card ─────────────────────────────────────────────────── */
 
 .wpcp-pro-locked {
   position: relative;
   overflow: visible;
+  cursor: default;
 
   .sp-smart-layout-img,
   svg {
     opacity: 0.6;
-    transition: opacity 0.2s ease;
   }
 
+  // Hover changes nothing but the tooltip; the centred pill is the one exception.
   &:hover,
   &:focus-visible {
-    .sp-smart-layout-img,
-    svg {
-      opacity: $wpcp-pro-locked-opacity;
-    }
-
     .wpcp-pro-badge {
       opacity: 1;
       visibility: visible;
@@ -54,10 +43,7 @@ $wpcp-pro-upsell-button-hover: #128627;
     }
   }
 
-  // The glyph dimming above is a descendant selector, so it also reaches the
-  // crown inside the Pro pill — and hardest at hover, which is when the pill is
-  // visible. Keep the crown at full strength so it reads as the same white as
-  // the "PRO" label beside it.
+  // Keep the badge's crown out of the glyph dimming above.
   .wpcp-pro-badge .wpcp-pro-badge-link svg {
     opacity: 1;
   }
@@ -161,9 +147,8 @@ $wpcp-pro-upsell-button-hover: #128627;
   line-height: 0;
 
   .wpcp-pro-badge-link {
-    padding: 3px;
-    border: 0.8px solid $wpcp-pro-chip-border;
-    border-radius: 4px;
+    padding: 4px;
+    border-radius: 50%;
     background: $wpcp-pro-chip-surface;
     color: $wpcp-pro-chip-icon;
   }
@@ -216,7 +201,7 @@ $wpcp-pro-upsell-button-hover: #128627;
   // .wpcp-pro-locked rule reaching this element.
   position: relative;
   overflow: visible;
-  cursor: pointer;
+  cursor: default;
 
   // Border stays put on hover — a colour shift reads as "selectable".
   &:hover,
@@ -228,12 +213,6 @@ $wpcp-pro-upsell-button-hover: #128627;
   // badge.
   > svg {
     opacity: 0.6;
-    transition: opacity 0.2s ease-in-out;
-  }
-
-  &:hover > svg,
-  &:focus-visible > svg {
-    opacity: 0.25;
   }
 }
 
@@ -250,113 +229,123 @@ $wpcp-pro-upsell-button-hover: #128627;
 /* ── Inspector notice ───────────────────────────────────────────────────── */
 
 .wpcp-pro-notice {
-  padding: 16px 12px;
-  border: 1px solid $wpcp-pro-border;
-  border-radius: 8px;
-  background: $wpcp-pro-surface;
-  font-size: 13px;
-  line-height: 20px;
-  color: #1e1e1e;
-
-  &.is-inline {
-    padding: 0;
-    border: 0;
-    background: none;
-  }
-
-  .wpcp-pro-notice-header {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .wpcp-pro-notice-icon {
-    display: inline-flex;
-    color: $wpcp-pro-accent;
-  }
+  margin-top: 22px;
+  padding: 16px;
+  border: 1px solid $wpcp-pro-note-border;
+  border-radius: 6px;
+  background: linear-gradient(225deg, $wpcp-pro-note-glow 0%, #f7fcf9 50%, #fff 100%);
+  color: $wpcp-pro-note-text;
 
   .wpcp-pro-notice-title {
-    margin: 0;
-    font-size: 13px;
+    margin: 0 0 6px;
+    font-size: 14px;
     font-weight: 600;
-    line-height: 20px;
+    line-height: 1.4;
+    color: $wpcp-pro-note-text;
   }
 
-  .wpcp-pro-notice-subtitle,
-  .wpcp-pro-notice-message {
-    margin: 8px 0 0;
-    font-size: 12px;
-    line-height: 18px;
-    color: #4a5257;
+  .wpcp-pro-notice-subtitle {
+    margin: 0 0 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: $wpcp-pro-note-subtitle;
+    text-wrap: pretty;
   }
 
   .wpcp-pro-notice-list {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin: 10px 0 0;
-    padding-left: 0;
+    gap: 5px;
+    margin: 0 0 14px;
+    padding: 0;
     list-style: none;
 
     li {
       display: flex;
-      align-items: center;
-      gap: 7px;
+      align-items: baseline;
+      gap: 8px;
       margin: 0;
-      font-size: 12px;
-      line-height: 18px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: $wpcp-pro-note-text;
 
       svg {
-        flex-shrink: 0;
-        color: $wpcp-pro-accent;
+        flex: 0 0 auto;
+        align-self: center;
+        color: $wpcp-pro-note-marker;
       }
     }
   }
 
   .wpcp-pro-notice-button {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
-    margin-top: 14px;
-    padding: 9px 15px;
-    border-radius: 5px;
-    background: $wpcp-pro-accent;
-    color: #fff;
-    font-size: 12px;
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid $wpcp-pro-note-button-border;
+    border-radius: 4px;
+    background: #fff;
+    color: $wpcp-pro-note-button;
+    font-size: 13px;
     font-weight: 500;
-    text-decoration: none !important;
+    text-decoration: none;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
 
     &:hover,
     &:focus {
-      background: $wpcp-pro-accent-hover;
-      color: #fff;
+      border-color: $wpcp-pro-note-button-hover-border;
+      background: $wpcp-pro-note-button-hover-surface;
+      color: $wpcp-pro-note-button-hover;
       box-shadow: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $wpcp-pro-note-button-hover-border;
+      outline-offset: 1px;
     }
   }
 
-  &.is-panel-notice {
-    text-align: center;
+  // A locked panel's whole body — nothing sits above it.
+  &.is-standalone {
+    margin-top: 0;
+  }
+}
 
-    .wpcp-pro-notice-header {
-      flex-direction: column;
-      justify-content: center;
-    }
+/* ── Pro blocks in the inserter ─────────────────────────────────────────── */
+
+// A crown in the top-right corner of every Pro block's inserter tile; the
+// block's icon carries the marker class, as core adds no per-block class.
+.block-editor-block-types-list__item:has(.wpcp-pro-block-icon) {
+  position: relative;
+
+  // ::before, because core paints its hover highlight on ::after.
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    top: 4px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: $wpcp-pro-chip-surface url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' viewBox='0 0 16 16'%3E%3Cpath stroke='%234ab866' stroke-width='1.185' d='M10.384 5.882c.18.329.478.572.842.648.322.068.652-.007.922-.203l.112-.092 1.396-1.279 1.159-1.062-.81 6.437H2.124l-.812-6.437 2.556 2.341c.288.264.666.373 1.035.295.364-.076.662-.32.841-.648l2.32-4.254 2.32 4.254Z'/%3E%3Cpath fill='%234ab866' d='M13.851 14.873H2.274c-.373 0-.674-.369-.674-.824V12.24h12.925v1.81c0 .454-.301.823-.674.823Z'/%3E%3C/svg%3E")
+      center / 12px no-repeat;
   }
 }
 
 /* ── Locked panel ───────────────────────────────────────────────────────── */
 
-// The crown sits inline, directly after the panel title.
+// The crown chip sits inline, directly after the panel title.
 .components-panel__body.wpcp-panel-pro > .components-panel__body-title button::after {
   content: '';
   display: inline-block;
   flex-shrink: 0;
-  width: 12px;
-  height: 12px;
+  width: 20px;
+  height: 20px;
   margin-left: 6px;
   vertical-align: middle;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' viewBox='0 0 16 16'%3E%3Cpath stroke='%234ab866' stroke-width='1.185' d='M10.384 5.882c.18.329.478.572.842.648.322.068.652-.007.922-.203l.112-.092 1.396-1.279 1.159-1.062-.81 6.437H2.124l-.812-6.437 2.556 2.341c.288.264.666.373 1.035.295.364-.076.662-.32.841-.648l2.32-4.254 2.32 4.254Z'/%3E%3Cpath fill='%234ab866' d='M13.851 14.873H2.274c-.373 0-.674-.369-.674-.824V12.24h12.925v1.81c0 .454-.301.823-.674.823Z'/%3E%3C/svg%3E")
+  border-radius: 50%;
+  background: $wpcp-pro-chip-surface url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' viewBox='0 0 16 16'%3E%3Cpath stroke='%234ab866' stroke-width='1.185' d='M10.384 5.882c.18.329.478.572.842.648.322.068.652-.007.922-.203l.112-.092 1.396-1.279 1.159-1.062-.81 6.437H2.124l-.812-6.437 2.556 2.341c.288.264.666.373 1.035.295.364-.076.662-.32.841-.648l2.32-4.254 2.32 4.254Z'/%3E%3Cpath fill='%234ab866' d='M13.851 14.873H2.274c-.373 0-.674-.369-.674-.824V12.24h12.925v1.81c0 .454-.301.823-.674.823Z'/%3E%3C/svg%3E")
     center / 12px no-repeat;
 }
 
@@ -437,6 +426,40 @@ $wpcp-pro-upsell-button-hover: #128627;
   // reads as a second, paler outline on top of it.
   .components-form-toggle.is-disabled .components-form-toggle__track {
     border-color: #1e1e1e;
+  }
+}
+
+/* ── Locked popup row ──────────────────────────────────────────────────── */
+
+.wpcp-button.is-pro {
+  .wpcp-toggle-pro-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+
+    .wpcp-component-title {
+      opacity: 0.6;
+    }
+
+    .wpcp-toggle-pro-tag {
+      color: $wpcp-pro-green;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1;
+      text-decoration: none;
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: $wpcp-pro-green-hover;
+        box-shadow: none;
+      }
+    }
+  }
+
+  .wpcp-header-right {
+    opacity: 0.6;
+    pointer-events: none;
   }
 }
 
@@ -521,102 +544,4 @@ $wpcp-pro-upsell-button-hover: #128627;
   align-items: center;
   justify-content: center;
   opacity: 0.6;
-}
-
-/* ── Inline panel upsell ────────────────────────────────────────────────── */
-
-.wpcp-pro-notice.is-inline.is-upsell {
-  margin-top: 16px;
-  padding: 14px 16px;
-  border: 0.75px solid $wpcp-pro-note-border;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  background: radial-gradient(
-      circle at 118% -17%,
-      $wpcp-pro-note-glow 0%,
-      rgba($wpcp-pro-note-glow, 0) 64%
-    ),
-    #fff;
-  font-size: 13px;
-  line-height: 20px;
-  color: $wpcp-pro-note-text;
-
-  a {
-    color: $wpcp-pro-green;
-    font-weight: 600;
-    text-decoration: none;
-    white-space: nowrap;
-
-    &:hover,
-    &:focus,
-    &:active {
-      color: $wpcp-pro-green-hover;
-      box-shadow: none;
-    }
-  }
-}
-
-/* ── Feature-list panel upsell (Figma "Pro notes" card) ──────────────────── */
-
-.wpcp-pro-notice.is-upsell:not(.is-inline) {
-  margin-top: 16px;
-  padding: 20px 16px 16px;
-  border-width: 0.75px;
-  border-color: $wpcp-pro-note-border;
-  background: radial-gradient(
-      circle at 118% -17%,
-      $wpcp-pro-note-glow 0%,
-      rgba($wpcp-pro-note-glow, 0) 64%
-    ),
-    #fff;
-
-  .wpcp-pro-notice-icon,
-  .wpcp-pro-notice-title {
-    color: $wpcp-pro-upsell-title;
-  }
-
-  .wpcp-pro-notice-title {
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.2;
-  }
-
-  .wpcp-pro-notice-subtitle {
-    margin-top: 10px;
-    line-height: 1.5;
-    color: $wpcp-pro-upsell-subtitle;
-  }
-
-  .wpcp-pro-notice-list li {
-    color: $wpcp-pro-upsell-text;
-
-    svg {
-      color: $wpcp-pro-upsell-title;
-    }
-  }
-
-  .wpcp-pro-notice-button {
-    margin-top: 16px;
-    padding: 8px 10px;
-    border: 1px solid $wpcp-pro-upsell-border;
-    background: linear-gradient(90deg, rgba($wpcp-pro-upsell-button, 0.1) 0%, rgba($wpcp-pro-upsell-button, 0.1) 100%), #fff;
-    color: $wpcp-pro-upsell-button;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 20px;
-
-    svg {
-      color: $wpcp-pro-upsell-button;
-    }
-
-    &:hover,
-    &:focus {
-      background: linear-gradient(90deg, rgba($wpcp-pro-upsell-button, 0.18) 0%, rgba($wpcp-pro-upsell-button, 0.18) 100%), #fff;
-      color: $wpcp-pro-upsell-button-hover;
-
-      svg {
-        color: $wpcp-pro-upsell-button-hover;
-      }
-    }
-  }
 }

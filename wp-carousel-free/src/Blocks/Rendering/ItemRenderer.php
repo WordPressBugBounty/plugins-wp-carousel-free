@@ -18,6 +18,7 @@
 namespace ShapedPlugin\WPCarouselFree\Blocks\Rendering;
 
 use ShapedPlugin\WPCarouselFree\Blocks\Includes\Utils\Item_Text;
+use ShapedPlugin\WPCarouselFree\Blocks\Lightbox\Lightbox_Frontend;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -203,12 +204,18 @@ class ItemRenderer {
 			$item_body_markup
 		);
 
+		// The 3D Carousel's side-item wash comes last so a hovered card can clear its own.
+		$wash_markup = ( 'carousel-3d' === $this->slug )
+			? '<span class="wpcp-carousel-3d-wash" aria-hidden="true"></span>'
+			: '';
+
 		return sprintf(
-			'<div class="%1$s"%4$s>%2$s%3$s</div>',
+			'<div class="%1$s"%4$s>%2$s%3$s%5$s</div>',
 			esc_attr( implode( ' ', $item_classes ) ),
 			$item_inner_markup,
 			$interaction_html,
-			$slide_outer_attr
+			$slide_outer_attr,
+			$wash_markup
 		);
 	}
 
@@ -257,6 +264,9 @@ class ItemRenderer {
 		$source_links_to_permalink = in_array( $source_type, array( 'post', 'product' ), true );
 		$link_url                  = $source_links_to_permalink ? (string) ( $item['url'] ?? '' ) : '';
 		if ( $source_links_to_permalink ) {
+			$is_lightbox = false;
+		}
+		if ( $is_lightbox && ! Lightbox_Frontend::is_lightbox_active() ) {
 			$is_lightbox = false;
 		}
 
@@ -423,7 +433,7 @@ class ItemRenderer {
 			// title for posts/products) rather than always preferring the caption.
 			$lightbox_caption = $this->get_content_field(
 				$item,
-				(string) ( $this->attrs['contentOptions']['titleSource'] ?? 'image_caption' ),
+				SlotRenderer::resolve_title_source( $source_type, $this->attrs['contentOptions']['titleSource'] ?? '' ),
 				'title'
 			);
 			// Fancybox writes the caption into `.f-caption` with innerHTML, so

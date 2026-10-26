@@ -8,6 +8,10 @@ import { bindWpcpPaginationLayoutCleanup } from './paginationCleanup';
 import { getSwiperLoopMinimumSlides } from '../../shared/utils/swiperLoop';
 import { bindCubeFaceClicks } from './cubeFaceClicks';
 import { SWIPER_SINGLE_SLIDE_EFFECTS } from '../../shared/carousel-render/constants';
+import { CAROUSEL_3D_EFFECT_ID } from '../../shared/utils/carousel3dEffectModule';
+import { carousel3dEffectForDevice, ensureCarousel3dEffect } from './carousel3dEffect';
+import { bindSideSlideClicks } from './sideSlideClicks';
+import { getSwiperConstructor } from './swiperConstructor';
 
 /**
  * @param {HTMLElement} blockRoot Block root element.
@@ -25,9 +29,13 @@ export function initSwiperCarousel(blockRoot, cfg) {
 		return true;
 	}
 
-	const SwiperCtor = window.Swiper;
+	const SwiperCtor = getSwiperConstructor();
 	if (typeof SwiperCtor !== 'function') {
 		return false;
+	}
+	const isCarousel3d = 'carousel-3d' === cfg.slug;
+	if (isCarousel3d) {
+		ensureCarousel3dEffect(SwiperCtor);
 	}
 	const swiperEl = blockRoot.querySelector('.wpcp-carousel-container.swiper');
 	if (!swiperEl) {
@@ -43,6 +51,9 @@ export function initSwiperCarousel(blockRoot, cfg) {
 		// The Center style only supports the default 'slide' transition; force
 		// any saved effect to 'slide'. Mirrors the editor preview resolution.
 		effectId = 'slide';
+	} else if (isCarousel3d) {
+		// The 3D Carousel stages its slides in depth with its own effect.
+		effectId = CAROUSEL_3D_EFFECT_ID;
 	}
 	const col = cfg.columns || {};
 	const gap = cfg.gap || {};
@@ -67,7 +78,7 @@ export function initSwiperCarousel(blockRoot, cfg) {
 	// Coverflow shows neighbouring slides; every other slider style is single-slide.
 	const sliderAutoSpv = isSlider && sliderEffect.slidesPerView === 'auto';
 	const stackSingleSpv = (isSlider && !sliderAutoSpv) || SWIPER_SINGLE_SLIDE_EFFECTS.has(effectId);
-	const variableWidth = isVariableWidthEffective(cfg) && !stackSingleSpv;
+	const variableWidth = isVariableWidthEffective(cfg) && !stackSingleSpv && !isCarousel3d;
 
 	const loopBothDirections = cfg.centeredSlides === true || cfg.style === 'center';
 	const loopMinimumItems = variableWidth
@@ -85,7 +96,8 @@ export function initSwiperCarousel(blockRoot, cfg) {
 					})
 				)
 		  );
-	const loopRequiredItems = loopMinimumItems;
+	// The 3D Carousel shows one card in Swiper's own flow, so its loop only needs a slide either side.
+	const loopRequiredItems = isCarousel3d ? 4 : loopMinimumItems;
 	const loop = !!cfg.loop && Number(cfg.totalItems || 0) >= loopRequiredItems;
 
 	const slideDir = cfg.direction === 'rtl' ? 'rtl' : 'ltr';
@@ -124,6 +136,14 @@ export function initSwiperCarousel(blockRoot, cfg) {
 		if (sliderEffect.centeredSlides) {
 			base.centeredSlides = sliderEffect.centeredSlides;
 		}
+	}
+	if (isCarousel3d) {
+		base.carousel3dEffect = {
+			...carousel3dEffectForDevice(cfg.carousel3d, 'Desktop'),
+			slideCount: Number(cfg.totalItems || 0),
+		};
+		// The staged slides sit off the wrapper's flat plane, so drag binds to the container.
+		base.touchEventsTarget = 'container';
 	}
 	if (effectId === 'cube') {
 		// Cube rotates each face by a multiple of 90deg, and a face that is edge-on
@@ -237,6 +257,25 @@ export function initSwiperCarousel(blockRoot, cfg) {
 		};
 	}
 
+	if (isCarousel3d && base.breakpoints) {
+		[
+			['0', 'Mobile'],
+			['601', 'Tablet'],
+			['1025', 'Desktop'],
+		].forEach(function ([bpKey, device]) {
+			Object.assign(base.breakpoints[bpKey], {
+				// The staging cancels each slide's own offset, so flow spacing would only eat into the card.
+				slidesPerView: 'auto',
+				spaceBetween: 0,
+				slidesPerGroup: 1,
+				carousel3dEffect: {
+					...carousel3dEffectForDevice(cfg.carousel3d, device),
+					slideCount: Number(cfg.totalItems || 0),
+				},
+			});
+		});
+	}
+
 	if (stackSingleSpv && base.breakpoints) {
 		Object.keys(base.breakpoints).forEach(function (bpKey) {
 			const bp = base.breakpoints[bpKey];
@@ -253,6 +292,11 @@ export function initSwiperCarousel(blockRoot, cfg) {
 
 	if ('cube' === effectId) {
 		bindCubeFaceClicks(swiperEl);
+	}
+
+	// Only the centered card carries the item's own actions; the rest center themselves.
+	if (isCarousel3d) {
+		bindSideSlideClicks(swiperEl, swiperInstance);
 	}
 
 	if (swiperInstance && typeof swiperInstance.changeLanguageDirection === 'function') {

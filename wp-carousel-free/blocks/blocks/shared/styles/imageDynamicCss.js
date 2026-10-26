@@ -177,7 +177,6 @@ export const generateImageBaseStyles = (selectors, imageOptions, attributes = {}
 	const {
 		imageOverlayBefore,
 		imageOverlayBeforeHover,
-		imageOverlayBeforeSocialHover,
 		audioStyle1Overlay,
 		wrapper,
 	} = selectors;
@@ -251,27 +250,17 @@ export const generateImageBaseStyles = (selectors, imageOptions, attributes = {}
 		const overlayColorChanged = hoverBg.css !== normalBg.css || hoverBg.prop !== normalBg.prop;
 		const overlayOpacityChanged = overlayOpacityHover !== imageOverlayOpacity;
 		if ((overlayColorChanged || overlayOpacityChanged) && !isSliderBlock(attributes)) {
+			// A gradient on either side needs the `background` shorthand so it resets the other's image.
+			const overlayMixesGradient = 'gradient' === normalBg.style || 'gradient' === hoverBg.style;
 			const hoverStyles = {};
 			if (overlayColorChanged && hoverBg.css) {
-				hoverStyles[hoverBg.prop] = hoverBg.css;
+				hoverStyles[overlayMixesGradient ? 'background' : hoverBg.prop] = hoverBg.css;
 			}
 			if (overlayOpacityChanged) {
 				hoverStyles.opacity = overlayOpacityHover;
 			}
 			if (Object.keys(hoverStyles).length) {
 				rules.push({ class: imageOverlayBeforeHover, styles: hoverStyles });
-			}
-
-			// Social-share items restore the NORMAL tint while their parent hovers.
-			const socialHoverStyles = {};
-			if (overlayColorChanged && normalBg.css) {
-				socialHoverStyles[normalBg.prop] = normalBg.css;
-			}
-			if (overlayOpacityChanged) {
-				socialHoverStyles.opacity = imageOverlayOpacity;
-			}
-			if (Object.keys(socialHoverStyles).length) {
-				rules.push({ class: imageOverlayBeforeSocialHover, styles: socialHoverStyles });
 			}
 		}
 	}
@@ -312,6 +301,13 @@ export const generateImageResponsiveRules = (selectors, imageOptions, device) =>
 		if (brCss && !isZeroSpacingValue(brCss)) {
 			pushStylePropertyRuleIfDiffers(rules, media, 'border-radius', brCss);
 			pushStylePropertyRuleIfDiffers(rules, media, 'overflow', 'hidden');
+			// Overlay/Diagonal content sits beside the media, so clip it to the same corners.
+			pushStylePropertyRuleIfDiffers(
+				rules,
+				`${selectors.wrapper} .wpcp-item-inner.wpcp-has-overlay`,
+				'border-radius',
+				brCss
+			);
 		}
 	}
 

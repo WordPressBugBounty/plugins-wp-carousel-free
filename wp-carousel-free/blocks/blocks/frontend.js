@@ -2,7 +2,7 @@
  * Frontend runtime entry point.
  *
  * The only JavaScript shipped to the front of site. Depends on
- * `wpcpf-blocks-swiper` (the vendored copy) for `window.Swiper`.
+ * `wpcpf-blocks-swiper` (the vendored copy), captured as `window.wpcpfSwiper`.
  */
 
 import { bootSocialShare, bootAjaxPagination } from './frontend/index';

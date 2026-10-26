@@ -18,13 +18,3 @@ export function getPricingUrl() {
 	}
 	return window.wpcpfBlocks?.upgradeUrl || FALLBACK_PRICING_URL;
 }
-
-/**
- * Open the pricing page in a new tab.
- */
-export function openPricingPage() {
-	if ('undefined' === typeof window) {
-		return;
-	}
-	window.open(getPricingUrl(), '_blank', 'noopener,noreferrer');
-}

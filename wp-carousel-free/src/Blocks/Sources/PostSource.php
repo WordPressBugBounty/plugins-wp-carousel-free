@@ -332,7 +332,7 @@ class PostSource implements SourceInterface {
 			'image_url'   => $image_url,
 			'image_alt'   => $image_alt,
 			'title'       => get_the_title( $post->ID ),
-			'description' => has_excerpt( $post->ID )
+			'description' => post_password_required( $post ) || has_excerpt( $post->ID )
 				? get_the_excerpt( $post->ID )
 				: wp_strip_all_tags( $post->post_content ),
 			'url'         => get_permalink( $post->ID ),

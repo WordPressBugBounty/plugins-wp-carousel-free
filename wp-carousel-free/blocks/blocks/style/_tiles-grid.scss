@@ -13,6 +13,15 @@
 }
 
 /*
+ * Grid block "Align Items" — consumes `--wpcp-grid-align-items`, emitted only when
+ * it differs from the `stretch` default. Scoped to the Grid root so Tiles keeps
+ * the grid's own initial alignment.
+ */
+.wpcp-block-grid .wpcp-tiles-grid {
+	align-items: var(--wpcp-grid-align-items, stretch);
+}
+
+/*
  * Tiles — Custom Layout (Modula-style bin-pack), shared frontend + editor
  * structural rules. Tiles are `position: absolute` with pixel coordinates
  * (or CSS calc() on the frontend) emitted inline. The image must FILL the

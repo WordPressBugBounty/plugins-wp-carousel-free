@@ -213,7 +213,7 @@ final class AssetManager {
 				'disabledBlocks'    => BlockVisibility::get_disabled_block_names(),
 				// Ready Patterns hides every entry point when `enabled` is false.
 				'readyPatterns'     => array(
-					'enabled'       => ReadyPatterns\PatternRepository::is_enabled(),
+					'enabled'       => ReadyPatterns\PatternRepository::is_enabled() && current_user_can( ReadyPatterns\Controller::CAPABILITY ),
 					'restBase'      => ReadyPatterns\PatternRepository::rest_base(),
 					'pluginVersion' => WPCAROUSELF_VERSION,
 					'modulesUrl'    => admin_url(
@@ -256,6 +256,9 @@ final class AssetManager {
 			WPCAROUSELF_VERSION,
 			true
 		);
+		// Keep this Swiper for the blocks and hand back any earlier window.Swiper, unless an optimizer reordered these.
+		wp_add_inline_script( self::SWIPER, 'window.wpcpfSwiperPrevious=window.Swiper;', 'before' );
+		wp_add_inline_script( self::SWIPER, 'if(window.Swiper!==window.wpcpfSwiperPrevious){window.wpcpfSwiper=window.Swiper;if(window.wpcpfSwiperPrevious){window.Swiper=window.wpcpfSwiperPrevious;}}', 'after' );
 
 		$asset = $this->asset_manifest( 'assets/js/frontend.asset.php' );
 

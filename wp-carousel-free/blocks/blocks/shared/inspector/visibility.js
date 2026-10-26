@@ -4,6 +4,8 @@
  * Maps panel names to the source types they are shown for.
  * true = shown for all source types.
  */
+
+import { isGridLayoutBlock } from '../constants/blockCapabilities';
 const RULES = {
 	layouts: true,
 	queryBuilder: ['post', 'product'],
@@ -189,7 +191,6 @@ export function buildSlotToggleUpdates(attributes, slotId, next) {
  * @return {boolean} True if panel should be shown
  */
 export function shouldShowInspectorPanel(panelName, sourceType, attributes) {
-	const isTilesBlock = attributes?.blockName === 'tiles';
 	const isThumbnailsSliderBlock = attributes?.blockName === 'thumbnails-slider';
 	const isSliderBlock = attributes?.blockName === 'slider';
 	const isMarqueeBlock = attributes?.blockName === 'marquee';
@@ -207,6 +208,8 @@ export function shouldShowInspectorPanel(panelName, sourceType, attributes) {
 	if ((isThumbnailsSliderBlock || isSliderBlock || isMarqueeBlock) && panelName === 'effects') {
 		return false;
 	}
+
+	const isTilesBlock = isGridLayoutBlock(attributes?.blockName);
 
 	switch (panelName) {
 		case 'paginationDots':

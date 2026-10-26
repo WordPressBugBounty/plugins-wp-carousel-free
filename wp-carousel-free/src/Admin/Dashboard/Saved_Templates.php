@@ -29,12 +29,81 @@ class Saved_Templates {
 
 		// Early enough for REST: the block editor saves through it.
 		add_action( 'init', array( $instance, 'register_post_type' ) );
+		add_action( 'rest_api_init', array( $instance, 'register_rest_fields' ) );
 		add_filter( 'use_block_editor_for_post_type', array( $instance, 'force_block_editor' ), 100, 2 );
 		add_shortcode( self::POST_TYPE, array( $instance, 'render_shortcode' ) );
 
 		if ( is_admin() ) {
 			add_action( 'admin_init', array( $instance, 'redirect_list_table' ) );
 		}
+	}
+
+	/**
+	 * Expose the template's carousel block title on its REST record.
+	 */
+	public function register_rest_fields() {
+		register_rest_field(
+			self::POST_TYPE,
+			'wpcp_block_title',
+			array(
+				'get_callback' => array( $this, 'get_template_block_title' ),
+				'schema'       => array(
+					'description' => __( 'Title of the WP Carousel block used by this template.', 'wp-carousel-free' ),
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit' ),
+					'readonly'    => true,
+				),
+			)
+		);
+	}
+
+	/**
+	 * Display title of the carousel block a template is built from.
+	 *
+	 * @param array $post Post data from the REST response.
+	 * @return string Block title, or an empty string when none is found.
+	 */
+	public function get_template_block_title( $post ) {
+		$post_id = isset( $post['id'] ) ? absint( $post['id'] ) : 0;
+		$content = $post_id ? get_post_field( 'post_content', $post_id ) : '';
+		if ( empty( $content ) ) {
+			return '';
+		}
+
+		$block_name = $this->find_carousel_block_name( parse_blocks( $content ) );
+		if ( '' === $block_name ) {
+			return '';
+		}
+
+		$block_type = \WP_Block_Type_Registry::get_instance()->get_registered( $block_name );
+		if ( $block_type && ! empty( $block_type->title ) ) {
+			return $block_type->title;
+		}
+
+		return ucwords( str_replace( '-', ' ', substr( $block_name, strlen( 'wp-carousel-pro/' ) ) ) );
+	}
+
+	/**
+	 * First WP Carousel block name in a parsed block tree, nested blocks included.
+	 *
+	 * @param array $blocks Parsed blocks.
+	 * @return string Block name, or an empty string when none is found.
+	 */
+	private function find_carousel_block_name( $blocks ) {
+		foreach ( $blocks as $block ) {
+			if ( ! empty( $block['blockName'] ) && 0 === strpos( $block['blockName'], 'wp-carousel-pro/' ) ) {
+				return $block['blockName'];
+			}
+
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$nested = $this->find_carousel_block_name( $block['innerBlocks'] );
+				if ( '' !== $nested ) {
+					return $nested;
+				}
+			}
+		}
+
+		return '';
 	}
 
 	/**

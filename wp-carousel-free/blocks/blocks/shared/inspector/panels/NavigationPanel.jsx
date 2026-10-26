@@ -18,6 +18,7 @@ import { TabControls } from '@wp-carousel-pro/components';
 import GeneralTabContent from './navigation/tabs/generalTabContent';
 import StyleTabContent from './navigation/tabs/styleTabContent';
 import { useOptionSetter } from '../../hooks/useOptionSetter';
+import { isGridLayoutBlock } from '../../constants/blockCapabilities';
 
 const EMPTY_OBJECT = {};
 
@@ -49,7 +50,7 @@ function NavigationPanel({
 	activeTab,
 	onTabChange,
 }) {
-	const isTilesBlock = attributes.blockName === 'tiles';
+	const isTilesBlock = isGridLayoutBlock(attributes.blockName);
 	// Omitted key inherits the schema default (on) — same convention as
 	// shouldShowInspectorPanel, so a saved block predating the toggle behaves
 	// the same in both gates.

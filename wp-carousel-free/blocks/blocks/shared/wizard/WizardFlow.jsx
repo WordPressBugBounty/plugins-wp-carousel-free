@@ -19,7 +19,7 @@ import { __ } from '@wordpress/i18n';
 import { useState, useCallback, useEffect, useRef } from '@wordpress/element';
 import { Button, FormFileUpload, Spinner } from '@wordpress/components';
 import BrandMarkIcon from '../ai-builder/BrandMarkIcon';
-import { SpProCardBadge, openPricingPage } from '@wp-carousel-pro/components';
+import { SpProCardBadge } from '@wp-carousel-pro/components';
 import { MediaUploadCheck, store as blockEditorStore } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import { DndContext, useSensor, useSensors, PointerSensor } from '@dnd-kit/core';
@@ -38,6 +38,8 @@ import VideoUrlFieldFeedback, { isVideoUrlFieldValid } from '../ui/VideoUrlField
 import { SliderBlockIcon } from '../../slider/icon';
 import { ThumbSliderBlockIcon } from '../../thumbnails-slider/icon';
 import { TilesBlockIcon } from '../../tiles/icon';
+import { Carousel3DBlockIcon } from '../../carousel-3d/icon';
+import { GridBlockIcon } from '../../grid/icon';
 import {
 	getAllowedTopLevelSources,
 	getAllowedSubSources,
@@ -81,6 +83,10 @@ const BLOCK_WIZARD_META = {
 		title: __('Carousel', 'wp-carousel-free'),
 		Icon: carouselIcon,
 	},
+	'carousel-3d': {
+		title: __('3D Carousel', 'wp-carousel-free'),
+		Icon: Carousel3DBlockIcon,
+	},
 	slider: {
 		title: __('Slider', 'wp-carousel-free'),
 		Icon: SliderBlockIcon,
@@ -92,6 +98,10 @@ const BLOCK_WIZARD_META = {
 	tiles: {
 		title: __('Tiles', 'wp-carousel-free'),
 		Icon: TilesBlockIcon,
+	},
+	grid: {
+		title: __('Grid', 'wp-carousel-free'),
+		Icon: GridBlockIcon,
 	},
 };
 
@@ -221,7 +231,7 @@ function StepSource({
 		...getProTopLevelSources(blockName),
 	]);
 	// Pro sources keep their catalogue position; the card is a badged teaser that
-	// opens the pricing page rather than selecting the source.
+	// selects nothing.
 	const visibleSources = SOURCES.filter((src) => allowedSet.has(src.value));
 	const { title, Icon } = getWizardBlockMeta(blockName);
 
@@ -245,8 +255,8 @@ function StepSource({
 						}`}
 						role="button"
 						tabIndex={0}
-						onClick={() => (src.pro ? openPricingPage() : onSelect(src.value))}
-						onKeyDown={(e) => e.key === 'Enter' && (src.pro ? openPricingPage() : onSelect(src.value))}
+						onClick={() => !src.pro && onSelect(src.value)}
+						onKeyDown={(e) => e.key === 'Enter' && !src.pro && onSelect(src.value)}
 					>
 						<span className="wpcp-wizard-card-icon">{src.icon}</span>
 						<span className="wpcp-wizard-card-label">{src.label}</span>
@@ -284,8 +294,6 @@ function StepOrientation({
 	onSelect,
 	onPrev,
 	onSkip,
-	onOpenReadyPatterns,
-	readyPatternsEnabled,
 }) {
 	const orientationItems = getContentOrientationItems(sourceType, { blockName }).map(
 		({ value, icon, onlyPro }) => ({
@@ -312,20 +320,13 @@ function StepOrientation({
 						}`}
 						role="button"
 						tabIndex={0}
-						onClick={() => (onlyPro ? openPricingPage() : onSelect(value))}
-						onKeyDown={(e) => e.key === 'Enter' && (onlyPro ? openPricingPage() : onSelect(value))}
+						onClick={() => !onlyPro && onSelect(value)}
+						onKeyDown={(e) => e.key === 'Enter' && !onlyPro && onSelect(value)}
 					>
 						<Icon value={null} />
 						{onlyPro && <SpProCardBadge />}
 					</div>
 				))}
-			</div>
-			<div className="wpcp-wizard-footer-actions">
-				{readyPatternsEnabled && (
-					<Button isPrimary onClick={onOpenReadyPatterns}>
-						{__('Start with Ready Patterns', 'wp-carousel-free')}
-					</Button>
-				)}
 			</div>
 			<div className="wpcp-wizard-nav">
 				<Button isLink className="wpcp-wizard-nav-btn" onClick={onPrev}>
@@ -522,11 +523,7 @@ function SortableVideoPanel({ blockName, item, isExpanded, onToggle, onDelete, o
 				</span>
 				<SocialMediaSelectLocked />
 			</div>
-			<SpProNotice
-				className="is-upsell"
-				message={PRO_ITEM_SOCIAL_SHARE.message}
-				linkText={PRO_ITEM_SOCIAL_SHARE.linkText}
-			/>
+			<SpProNotice {...PRO_ITEM_SOCIAL_SHARE} />
 		</>
 	);
 
@@ -614,9 +611,9 @@ function SortableVideoPanel({ blockName, item, isExpanded, onToggle, onDelete, o
 								return null;
 							}
 							// Pro providers keep their catalogue position; the card is a badged
-							// teaser that opens the pricing page rather than selecting a source.
+							// teaser that selects nothing.
 							const selectSource = () =>
-								meta.pro ? openPricingPage() : updateField('videoSource', meta.value);
+								!meta.pro && updateField('videoSource', meta.value);
 							return (
 								<div
 									key={meta.value}
@@ -1101,8 +1098,8 @@ function StepReview({
 				<Button isLink className="wpcp-wizard-nav-btn" onClick={onPrev}>
 					{__('Previous', 'wp-carousel-free')}
 				</Button>
-				<Button isLink className="wpcp-wizard-nav-btn wpcp-wizard-continue" onClick={onContinue}>
-					{__('Continue', 'wp-carousel-free')}
+				<Button isPrimary className="wpcp-wizard-continue" onClick={onContinue}>
+					{__('Continue', 'wp-carousel-free')} <span aria-hidden="true">→</span>
 				</Button>
 			</div>
 		</>
@@ -1345,8 +1342,6 @@ export default function WizardFlow({
 					onSelect={handleOrientationSelect}
 					onPrev={() => setStep('source')}
 					onSkip={() => goToMediaStep(localOrientation)}
-					onOpenReadyPatterns={onOpenReadyPatterns}
-					readyPatternsEnabled={readyPatternsEnabled}
 				/>
 			)}
 

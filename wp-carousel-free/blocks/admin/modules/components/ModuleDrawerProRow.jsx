@@ -3,7 +3,7 @@
  * Nothing here holds state, writes a draft key, or reaches a save path.
  *
  * Presentation follows the inspector's Content Position row: dimmed title, a
- * green "(Pro)" link to pricing, and either a static BorderIcon or a popup that
+ * green "(Pro)" tag, and either a static BorderIcon or a popup that
  * holds an inert picture of the Pro sub-panel.
  */
 import { __ } from '@wordpress/i18n';
@@ -14,11 +14,10 @@ import ModuleDrawerProNote from './ModuleDrawerProNote';
 /**
  * @param {Object}                    props
  * @param {string}                    props.title
- * @param {string}                    [props.upgradeUrl]
- * @param {string}                    [props.className]  Extra row modifier class.
- * @param {import('react').ReactNode} props.children     Inert stand-in for the Pro control.
+ * @param {string}                    [props.className] Extra row modifier class.
+ * @param {import('react').ReactNode} props.children    Inert stand-in for the Pro control.
  */
-function ModuleDrawerProRow({ title, upgradeUrl = '', className = '', children }) {
+function ModuleDrawerProRow({ title, className = '', children }) {
 	const tag = __('(Pro)', 'wp-carousel-free');
 
 	return (
@@ -30,18 +29,7 @@ function ModuleDrawerProRow({ title, upgradeUrl = '', className = '', children }
 			<div className="wpcp-module-drawer-row-text">
 				<h4 className="wpcp-module-drawer-row-title">
 					<span className="wpcp-module-drawer-pro-title">{title}</span>
-					{upgradeUrl ? (
-						<a
-							className="wpcp-module-drawer-pro-tag"
-							href={upgradeUrl}
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							{tag}
-						</a>
-					) : (
-						<span className="wpcp-module-drawer-pro-tag">{tag}</span>
-					)}
+					<span className="wpcp-module-drawer-pro-tag">{tag}</span>
 				</h4>
 			</div>
 			<div className="wpcp-module-drawer-row-control">{children}</div>
@@ -54,11 +42,10 @@ function ModuleDrawerProRow({ title, upgradeUrl = '', className = '', children }
  *
  * @param {Object} props
  * @param {string} props.title
- * @param {string} [props.upgradeUrl]
  */
-export function ModuleDrawerProToggleRow({ title, upgradeUrl }) {
+export function ModuleDrawerProToggleRow({ title }) {
 	return (
-		<ModuleDrawerProRow title={title} upgradeUrl={upgradeUrl}>
+		<ModuleDrawerProRow title={title}>
 			<span className="wpcpf-module-toggle wpcp-module-drawer-pro-toggle" aria-hidden="true">
 				<span className="wpcpf-module-toggle-slider" />
 			</span>
@@ -101,7 +88,6 @@ export function ModuleDrawerProPopupRow({ title, upgradeUrl, children }) {
 		return (
 			<ModuleDrawerProRow
 				title={title}
-				upgradeUrl={upgradeUrl}
 				className="wpcp-module-drawer-row--pro-popup"
 			>
 				<Popup label="" divClassName="wpcp-module-drawer-popup">
@@ -112,7 +98,7 @@ export function ModuleDrawerProPopupRow({ title, upgradeUrl, children }) {
 	}
 
 	return (
-		<ModuleDrawerProRow title={title} upgradeUrl={upgradeUrl}>
+		<ModuleDrawerProRow title={title}>
 			<span className="wpcp-module-drawer-pro-static-icon" aria-hidden="true">
 				<BorderIcon />
 			</span>

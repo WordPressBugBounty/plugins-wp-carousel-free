@@ -151,13 +151,16 @@ class Block_Dynamic_Style {
 	 */
 	public function __construct( $block_names = array() ) {
 		// Every block with a PHP render path. Marquee and Panorama are editor
-		// previews only, and leaving them out is what keeps a page holding one
-		// free of generated CSS, base styles, style chunks and dynamic fonts.
+		// previews and Masonry and Justified Pro teasers; leaving them out keeps
+		// a page holding one free of generated CSS, base styles, style chunks
+		// and dynamic fonts.
 		$wpcp_blocks = array(
 			'wp-carousel-pro/carousel',
+			'wp-carousel-pro/carousel-3d',
 			'wp-carousel-pro/slider',
 			'wp-carousel-pro/thumbnails-slider',
 			'wp-carousel-pro/tiles',
+			'wp-carousel-pro/grid',
 		);
 
 		$this->our_blocks = $block_names ? $block_names : $wpcp_blocks;
@@ -805,7 +808,7 @@ class Block_Dynamic_Style {
 			$css        .= $nav_builder->navigation_css( $dom_id );
 		}
 
-		if ( 'tiles' === $block_name_short ) {
+		if ( AllowedValues::is_grid_layout_block( $block_name_short ) ) {
 			$layout_options = isset( $attributes['layoutOptions'] ) && is_array( $attributes['layoutOptions'] )
 				? $attributes['layoutOptions']
 				: array();

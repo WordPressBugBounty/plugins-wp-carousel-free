@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { Button, Popover } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 import './editor.scss';
 import { BorderIcon } from '../../icons/icons';
 import { getEditorDocuments, jsonParse } from '../../blocks/shared/utils/dom';
+import '../pro/editor.scss';
 
 const SelectField = ({ popupRef, childElement, onClose, anchor = '', divClassName = '' }) => {
 	return (
@@ -39,6 +41,7 @@ const Popup = (props) => {
 		divClassName = '',
 		popupClose = true,
 		setPopupClose = () => {},
+		onlyPro = false,
 	} = props;
 	const [isContentsVisible, setIsContentsVisible] = useState(false);
 	const [popoverAnchor, setPopoverAnchor] = useState(null);
@@ -68,6 +71,8 @@ const Popup = (props) => {
 			const popupElement = target.closest('.wpcp-popup-content');
 			const colorPopupElement = target.closest('.wpcp-picker-pallet-wrapper');
 			const drawerColorPopover = target.closest('.wpcp-drawer-wp-color-popover');
+			// Core Dropdown content, e.g. the gradient stop's color picker, portals outside this popup.
+			const nestedDropdown = target.closest('.components-dropdown__content');
 
 			if (
 				popupRef.current &&
@@ -76,7 +81,8 @@ const Popup = (props) => {
 				!typographyElement &&
 				!popupElement &&
 				!colorPopupElement &&
-				!drawerColorPopover
+				!drawerColorPopover &&
+				!nestedDropdown
 			) {
 				setIsContentsVisible(false);
 				setPopupClose(false);
@@ -92,6 +98,28 @@ const Popup = (props) => {
 
 	const value = toggleButton?.props?.attributes || null;
 	const isActivePopUpButton = value ? jsonParse(value) : true;
+
+	// A Pro row shows the button so the inspector matches Pro, but it never opens.
+	if (onlyPro) {
+		return (
+			<div className="wpcp-button wpcp-component-mb is-pro">
+				<div className="wpcp-header-left">
+					<span className="wpcp-toggle-pro-label">
+						<span className="wpcp-component-title">{label}</span>
+						<span className="wpcp-toggle-pro-tag">{__('(Pro)', 'wp-carousel-free')}</span>
+					</span>
+				</div>
+				<div className="wpcp-header-right">
+					<Button
+						disabled
+						className="wpcp-border-icon-button"
+						icon={<BorderIcon isActive={false} />}
+						label={label}
+					/>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<>

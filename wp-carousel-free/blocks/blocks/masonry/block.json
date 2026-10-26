@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wp-carousel-pro/masonry",
+	"title": "Masonry",
+	"description": "Display images, videos, posts or products in staggered masonry columns. Available in WP Carousel Pro.",
+	"category": "wp-carousel-pro",
+	"keywords": ["masonry", "gallery", "columns", "pinterest"],
+	"textdomain": "wp-carousel-free",
+	"example": {
+		"viewportWidth": 320
+	},
+	"supports": {
+		"align": ["wide", "full"],
+		"html": false,
+		"customClassName": false,
+		"customCSS": false
+	}
+}

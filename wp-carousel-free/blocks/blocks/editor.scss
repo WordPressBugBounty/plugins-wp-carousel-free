@@ -41,9 +41,11 @@
 }
 
 .wp-block-wp-carousel-pro-carousel,
+.wp-block-wp-carousel-pro-carousel-3d,
 .wp-block-wp-carousel-pro-slider,
 .wp-block-wp-carousel-pro-thumbnails-slider,
-.wp-block-wp-carousel-pro-tiles {
+.wp-block-wp-carousel-pro-tiles,
+.wp-block-wp-carousel-pro-grid {
 	.wpcp-block-placeholder {
 		padding: 24px;
 		text-align: center;
@@ -194,10 +196,9 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	padding: 3px;
-	border: 0.8px solid #93dcac;
+	padding: 4px;
 	border-radius: 50%;
-	background: #effff5;
+	background: #e3f5e8;
 	line-height: 0;
 }
 

@@ -21,7 +21,9 @@ namespace ShapedPlugin\WPCarouselFree\Blocks\Rest;
 use ShapedPlugin\WPCarouselFree\Blocks\BlockRenderer;
 use ShapedPlugin\WPCarouselFree\Blocks\Cache;
 use ShapedPlugin\WPCarouselFree\Blocks\Includes\Query_Options_Helper;
+use ShapedPlugin\WPCarouselFree\Blocks\Schema\AllowedValues;
 use ShapedPlugin\WPCarouselFree\Blocks\Schema\AttributeProjector;
+use ShapedPlugin\WPCarouselFree\Blocks\Schema\GridSchema;
 use ShapedPlugin\WPCarouselFree\Blocks\Schema\TilesSchema;
 use ShapedPlugin\WPCarouselFree\Blocks\Sources\SourceRegistry;
 
@@ -116,11 +118,17 @@ class AjaxPaginationController {
 			);
 		}
 
+		// The endpoint serves the grid-layout blocks only. A payload naming one
+		// keeps its slug so the page renders like the first one; anything else
+		// is treated as Tiles.
+		$block_name = isset( $params['blockName'] ) && is_string( $params['blockName'] ) ? strtolower( $params['blockName'] ) : '';
+		$block_name = AllowedValues::is_grid_layout_block( $block_name ) ? str_replace( 'wp-carousel-pro/', '', $block_name ) : 'tiles';
+
 		// The payload is an untrusted copy of the block's own attributes.
 		// `prepare_attributes_for_render()` never runs for a custom route, so
-		// project it onto the Tiles schema first — that projection is what stops
-		// a crafted request from injecting the Pro keys the schema omits.
-		$attributes = AttributeProjector::apply( $params, new TilesSchema() );
+		// project it onto the block's schema first — that projection is what
+		// stops a crafted request from injecting the Pro keys the schema omits.
+		$attributes = AttributeProjector::apply( $params, 'grid' === $block_name ? new GridSchema() : new TilesSchema() );
 
 		$source_type = isset( $attributes['sourceType'] ) ? sanitize_key( (string) $attributes['sourceType'] ) : '';
 		if ( ! in_array( $source_type, SourceRegistry::ids(), true ) ) {
@@ -150,8 +158,7 @@ class AjaxPaginationController {
 		$layout_options['pagination'] = true;
 		$attributes['layoutOptions']  = $layout_options;
 
-		// The endpoint is Tiles-only.
-		$attributes['blockName'] = 'tiles';
+		$attributes['blockName'] = $block_name;
 
 		// Clamp the image-source page size the same way the Query Builder's
 		// Limit field is clamped.
@@ -198,7 +205,7 @@ class AjaxPaginationController {
 			Cache::set_read_only( $was_read_only );
 		}
 
-		$renderer = new BlockRenderer( $attributes, 'tiles' );
+		$renderer = new BlockRenderer( $attributes, $block_name );
 
 		return rest_ensure_response( $renderer->render_tiles_ajax_page( $items, $page, $shuffle_seed ) );
 	}

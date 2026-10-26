@@ -268,11 +268,11 @@ const FEATURES = [
 	},
 	{
 		title: __(
-			'Gutenberg Blocks (Carousel, Slider, Thumbnails Slider, Tiles, Marquee, Panorama, Gallery Filter, Ajax Search)',
+			'Gutenberg Blocks (Carousel, 3D Carousel, Slider, Thumbnails Slider, Tiles, Grid, Masonry, Justified, Marquee, Panorama, Gallery Filter, Ajax Search)',
 			'wp-carousel-free'
 		),
-		free: 4,
-		pro: 9,
+		free: 6,
+		pro: 12,
 		new: true,
 		hot: true,
 	},
@@ -344,9 +344,21 @@ const FEATURES = [
 		pro: 4,
 	},
 	{
+		title: __('3D Carousel Styles (Coverflow, Ring, Deck, Flip Stack)', 'wp-carousel-free'),
+		free: 1,
+		pro: 4,
+		new: true,
+	},
+	{
 		title: __('Tiles Layout Presets', 'wp-carousel-free'),
 		free: 3,
 		pro: 9,
+	},
+	{
+		title: __('Grid Layout', 'wp-carousel-free'),
+		free: 'yes',
+		pro: 'yes',
+		new: true,
 	},
 	{
 		title: __('Masonry & Justified Gallery Layouts', 'wp-carousel-free'),

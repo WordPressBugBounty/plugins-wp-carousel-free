@@ -25,7 +25,6 @@ import {
 	InputControl,
 	SPRangeControl,
 	SpProNotice,
-	getPricingUrl,
 } from '@wp-carousel-pro/components';
 import { BorderIcon } from '@wp-carousel-pro/icons/icons';
 import { PRO_IMAGE_SIZE_PROTECTION, PRO_IMAGE_POST_PRODUCT } from '../../constants/proFeatures';
@@ -442,15 +441,7 @@ function GeneralTab({ attributes, setAttributes }) {
 					<Toggle label={__('Right Click Protection', 'wp-carousel-free')} onlyPro />
 				</>
 			)}
-			<SpProNotice
-				className="is-upsell"
-				title={imagePanelProNotice.title}
-				subtitle={imagePanelProNotice.subtitle}
-				features={imagePanelProNotice.features}
-				linkText={imagePanelProNotice.linkText}
-				icon={false}
-				linkButton
-			/>
+			<SpProNotice {...imagePanelProNotice} />
 		</>
 	);
 }
@@ -492,14 +483,7 @@ function StyleTab({ attributes, setAttributes }) {
 					<span className="wpcp-component-title wpcp-pro-inline-title">
 						{__('Image Filter', 'wp-carousel-free')}
 					</span>
-					<a
-						className="wpcp-pro-inline-tag"
-						href={getPricingUrl()}
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						{__('(Pro)', 'wp-carousel-free')}
-					</a>
+					<span className="wpcp-pro-inline-tag">{__('(Pro)', 'wp-carousel-free')}</span>
 				</div>
 				<div className="wpcp-header-right">
 					<span className="wpcp-pro-static-icon" aria-hidden="true">

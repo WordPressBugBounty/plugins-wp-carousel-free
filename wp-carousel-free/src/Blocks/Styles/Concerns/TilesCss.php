@@ -22,13 +22,22 @@ defined( 'ABSPATH' ) || exit;
 trait TilesCss {
 
 	/**
-	 * Whether the block is the tiles layout (gates tiles_* generators).
+	 * Whether the block is the Tiles block (gates the bento collapse queries).
 	 *
 	 * @return bool True when blockName matches.
 	 */
 	private function is_tiles_block() {
 		$block_name = isset( $this->attributes['blockName'] ) ? strtolower( (string) $this->attributes['blockName'] ) : '';
 		return 'tiles' === $block_name || 'wp-carousel-pro/tiles' === $block_name;
+	}
+
+	/**
+	 * Whether the block renders through the Tiles grid engine (gates the grid column rules).
+	 *
+	 * @return bool True for a grid-layout block.
+	 */
+	private function is_grid_layout_block() {
+		return AllowedValues::is_grid_layout_block( (string) ( $this->attributes['blockName'] ?? '' ) );
 	}
 
 	/**

@@ -17,9 +17,11 @@ export const TOP_LEVEL_SOURCES = ['image', 'video', 'post', 'product'];
  */
 export const BLOCK_PRO_TOP_LEVEL_SOURCES = {
 	carousel: ['audio', 'external'],
+	'carousel-3d': [],
 	slider: [],
 	'thumbnails-slider': [],
 	tiles: ['audio', 'external'],
+	grid: ['audio', 'external'],
 };
 
 export const VIDEO_SUB_SOURCES = ['youtube', 'vimeo'];
@@ -65,6 +67,18 @@ export const BLOCK_ALLOWED_SOURCES = {
 		product: true,
 	},
 	tiles: {
+		image: true,
+		video: true,
+		post: true,
+		product: true,
+	},
+	grid: {
+		image: true,
+		video: true,
+		post: true,
+		product: true,
+	},
+	'carousel-3d': {
 		image: true,
 		video: true,
 		post: true,

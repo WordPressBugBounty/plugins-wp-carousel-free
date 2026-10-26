@@ -20,6 +20,11 @@ class Controller {
 	const MODULE = 'ready-patterns';
 
 	/**
+	 * Capability for every library route, as in Testimonial Pro: a refresh is a blocking remote fetch.
+	 */
+	const CAPABILITY = 'edit_others_posts';
+
+	/**
 	 * Pattern repository.
 	 *
 	 * @var PatternRepository
@@ -44,7 +49,7 @@ class Controller {
 			array(
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'get_patterns' ),
-				'permission_callback' => array( $this, 'can_edit_posts' ),
+				'permission_callback' => array( $this, 'can_use_library' ),
 				'args'                => array(
 					'force' => array(
 						'default'           => false,
@@ -62,7 +67,7 @@ class Controller {
 			array(
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'get_pattern' ),
-				'permission_callback' => array( $this, 'can_edit_posts' ),
+				'permission_callback' => array( $this, 'can_use_library' ),
 				'args'                => array(
 					'id' => array(
 						'required'          => true,
@@ -80,12 +85,12 @@ class Controller {
 				array(
 					'methods'             => 'GET',
 					'callback'            => array( $this, 'get_favorites' ),
-					'permission_callback' => array( $this, 'can_edit_posts' ),
+					'permission_callback' => array( $this, 'can_use_library' ),
 				),
 				array(
 					'methods'             => 'POST',
 					'callback'            => array( $this, 'update_favorites' ),
-					'permission_callback' => array( $this, 'can_edit_posts' ),
+					'permission_callback' => array( $this, 'can_use_library' ),
 					'args'                => array(
 						'id'     => array(
 							'required'          => true,
@@ -108,7 +113,7 @@ class Controller {
 	}
 
 	/**
-	 * Permission check for editor users.
+	 * Permission check for the library routes.
 	 *
 	 * The module toggle hides the library's editor entry points; it does not
 	 * take the library away. A deep link that asks for it explicitly — the
@@ -116,8 +121,8 @@ class Controller {
 	 *
 	 * @return bool True when allowed.
 	 */
-	public function can_edit_posts() {
-		return current_user_can( 'edit_posts' );
+	public function can_use_library() {
+		return current_user_can( self::CAPABILITY );
 	}
 
 	/**

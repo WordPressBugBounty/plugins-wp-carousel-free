@@ -4,7 +4,6 @@ import '../pro/editor.scss';
 import { memo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { DndTitleIcon } from '../../icons/icons';
-import { getPricingUrl } from '../pro/proLinks';
 
 const Toggle = ({
 	label = '',
@@ -45,14 +44,7 @@ const Toggle = ({
 				{onlyPro && (
 					<span className="wpcp-toggle-pro-label">
 						<span className="wpcp-component-title">{label}</span>
-						<a
-							className="wpcp-toggle-pro-tag"
-							href={getPricingUrl()}
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							{__('(Pro)', 'wp-carousel-free')}
-						</a>
+						<span className="wpcp-toggle-pro-tag">{__('(Pro)', 'wp-carousel-free')}</span>
 					</span>
 				)}
 				<ToggleControl

@@ -2,11 +2,10 @@ import { memo } from '@wordpress/element';
 import { Tooltip } from '@wordpress/components';
 import { RightSymbolIcon } from '../../icons/icons';
 import ProBadge from '../pro/proBadge';
-import { openPricingPage } from '../pro/proLinks';
 import './editor.scss';
 
 const Layout = ({ layout, handleActive, activeLayout, displayActive }) => {
-	const { icon, value, label, tooltip, onlyPro, demoLink } = layout;
+	const { icon, value, label, tooltip, onlyPro } = layout;
 	const tooltipText = tooltip || label;
 	const isActive = value === activeLayout;
 
@@ -17,7 +16,7 @@ const Layout = ({ layout, handleActive, activeLayout, displayActive }) => {
 	const layoutCard = (
 		<button
 			type="button"
-			onClick={() => (onlyPro ? openPricingPage() : handleActive(value))}
+			onClick={() => !onlyPro && handleActive(value)}
 			className={`wpcp-layout-card ${isActive ? 'active' : 'inactive'}${
 				onlyPro ? ' wpcp-pro-locked' : ''
 			}`}
@@ -30,7 +29,7 @@ const Layout = ({ layout, handleActive, activeLayout, displayActive }) => {
 				</span>
 			)}
 			<div className="sp-smart-layout-img">{icon}</div>
-			{onlyPro && <ProBadge demoLink={demoLink} />}
+			{onlyPro && <ProBadge iconOnly className="wpcp-pro-badge--corner" />}
 		</button>
 	);
 

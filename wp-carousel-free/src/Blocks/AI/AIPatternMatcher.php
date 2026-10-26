@@ -260,7 +260,9 @@ class AIPatternMatcher {
 		'bold'              => array( 'bold', 'striking', 'dramatic', 'punchy', 'loud' ),
 
 		// Blocks and engines (CategoryMap::BLOCK_MAP).
-		'tiles'             => array( 'tiles', 'tile', 'grid', 'wall', 'masonry' ),
+		'tiles'             => array( 'tiles', 'tile', 'wall', 'masonry', 'bento' ),
+		'grid'              => array( 'grid', 'uniform grid', 'equal columns', 'even grid' ),
+		'carousel-3d'       => array( '3d', 'coverflow', 'cover flow', 'perspective', 'depth' ),
 		'thumbnails-slider' => array( 'thumbnail', 'thumbnails', 'thumb', 'thumbs', 'film strip' ),
 
 		// Recurring catalog keywords that no taxonomy term covers.

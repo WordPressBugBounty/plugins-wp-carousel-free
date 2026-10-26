@@ -2,6 +2,8 @@
  * Thumbnails-slider runtime — thumb strip + main stage Swiper wiring.
  */
 
+import { getSwiperConstructor } from './swiperConstructor';
+
 /**
  * Thumbnails-slider runtime: build the thumb-strip Swiper first, then build
  * the main slide Swiper with `thumbs: { swiper: thumbsSwiper }` so Swiper's
@@ -17,7 +19,7 @@ export function initThumbnailsSliderCarousel(blockRoot, cfg) {
 	if (!blockRoot || blockRoot.dataset.wpcpThumbnailsInit === '1') {
 		return;
 	}
-	const SwiperCtor = window.Swiper;
+	const SwiperCtor = getSwiperConstructor();
 	if (typeof SwiperCtor !== 'function') {
 		return;
 	}

@@ -252,11 +252,7 @@ function EffectsPanel({ attributes, setAttributes, panelOpen, onPanelToggle }) {
 				</>
 			)}
 
-			<SpProNotice
-				className="is-upsell"
-				message={PRO_HOVER_ANIMATION.message}
-				linkText={PRO_HOVER_ANIMATION.linkText}
-			/>
+			<SpProNotice {...PRO_HOVER_ANIMATION} />
 		</PanelBody>
 	);
 }

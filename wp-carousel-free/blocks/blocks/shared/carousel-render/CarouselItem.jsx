@@ -12,7 +12,7 @@
 import { Fragment, useMemo, useRef, RawHTML } from '@wordpress/element';
 import classNames from 'classnames';
 import { isSlotVisible } from '../inspector/visibility';
-import { getContentField } from './carouselItem/contentFields';
+import { getContentField, resolveTitleSource } from './carouselItem/contentFields';
 import { resolveContentOrder } from './carouselItem/defaultContentOrder';
 import { splitContentRuns, runsRequireDomOrder } from './carouselItem/contentRuns';
 import { getSourceSlotFlags, getSocialNetworks } from './carouselItem/sourceDerived';
@@ -186,7 +186,7 @@ export default function CarouselItem({
 		isSliderBlock || superFlow || needsOriginalAspectForVariableWidth(attributes)
 			? 'original'
 			: resolveOuterMediaAspect(sourceType, imageOptions);
-	const titleSource = contentOptions.titleSource || 'image_caption';
+	const titleSource = resolveTitleSource(sourceType, contentOptions.titleSource);
 	const descriptionSource = contentOptions.descriptionSource || '';
 
 	const slotOn = (slotId) => isSlotVisible(attributes, slotId);
@@ -459,7 +459,9 @@ export default function CarouselItem({
 		const visibleMeta = getVisibleMetaParts(
 			item,
 			metaItems,
-			taxPosition === 'beside-meta',
+			taxPosition === 'beside-meta' &&
+				slotOn('taxonomy') &&
+				taxonomyOptions.enabled !== false,
 			sourceType === 'post'
 		);
 		if (!visibleMeta.length) {

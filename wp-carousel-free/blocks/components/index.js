@@ -34,4 +34,4 @@ export { default as PriceRange } from './priceRange/priceRange.js';
 export { default as SpProNotice } from './pro/proNotice.jsx';
 export { default as SpProBadge } from './pro/proBadge.jsx';
 export { default as SpProCardBadge } from './pro/proCardBadge.jsx';
-export { getPricingUrl, openPricingPage } from './pro/proLinks.js';
+export { getPricingUrl } from './pro/proLinks.js';

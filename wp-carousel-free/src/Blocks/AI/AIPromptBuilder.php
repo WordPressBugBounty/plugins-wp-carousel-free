@@ -9,6 +9,8 @@
 
 namespace ShapedPlugin\WPCarouselFree\Blocks\AI;
 
+use ShapedPlugin\WPCarouselFree\Blocks\Schema\AllowedValues;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -100,7 +102,7 @@ Worked Examples (these show the expected shape and level of finish — adapt the
 
 		// Tiles drops the inherited single-axis `gap` for a split horizontal/vertical
 		// pair, so the example has to name whichever one that block actually has.
-		$card_gap = 'tiles' === $slug
+		$card_gap = in_array( $slug, AllowedValues::GRID_LAYOUT_BLOCKS, true )
 			? array(
 				'gapHorizontal' => 28,
 				'gapVertical'   => 28,

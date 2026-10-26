@@ -155,11 +155,15 @@ class Placements {
 	public static function layout_block_titles() {
 		return array(
 			'wp-carousel-pro/carousel'          => __( 'Carousel', 'wp-carousel-free' ),
+			'wp-carousel-pro/carousel-3d'       => __( '3D Carousel', 'wp-carousel-free' ),
 			'wp-carousel-pro/slider'            => __( 'Slider', 'wp-carousel-free' ),
 			'wp-carousel-pro/thumbnails-slider' => __( 'Thumbnails Slider', 'wp-carousel-free' ),
 			'wp-carousel-pro/tiles'             => __( 'Tiles', 'wp-carousel-free' ),
+			'wp-carousel-pro/grid'              => __( 'Grid', 'wp-carousel-free' ),
 			'wp-carousel-pro/marquee'           => __( 'Marquee', 'wp-carousel-free' ),
 			'wp-carousel-pro/carousel-panorama' => __( 'Panorama Carousel', 'wp-carousel-free' ),
+			'wp-carousel-pro/masonry'           => __( 'Masonry', 'wp-carousel-free' ),
+			'wp-carousel-pro/justified'         => __( 'Justified', 'wp-carousel-free' ),
 		);
 	}
 
