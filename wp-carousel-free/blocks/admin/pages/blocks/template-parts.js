@@ -8,6 +8,9 @@ import { blockPreviewPanelLink } from '../../../controls/constants';
 
 const READY_PATTERNS_URL = 'https://wpcarousel.io/ready-patterns/';
 
+// Blocks the product site files under a different category slug.
+const READY_PATTERNS_SLUGS = { 'carousel-panorama': 'panorama-carousel' };
+
 /**
  * Accessible name for a block's switch, which also has to explain why it is off.
  *
@@ -50,7 +53,7 @@ export function BlockCard({ item, saveOptions, blockVisibility }) {
 	let demoHref = null;
 	if (!comingSoon) {
 		demoHref = showcaseBlocks.includes(item.name)
-			? `${READY_PATTERNS_URL}?wpc_block=${encodeURIComponent(item.name)}`
+			? `${READY_PATTERNS_URL}?wpc_block=${encodeURIComponent(READY_PATTERNS_SLUGS[item.name] || item.name)}`
 			: blockPreviewPanelLink[item.name] || null;
 	}
 

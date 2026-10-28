@@ -40,8 +40,10 @@ export const CATEGORY_LABELS = {
 	justified: 'Justified',
 };
 
-/** Source category slugs that are an alias of another row; none today. */
-export const CATEGORY_ALIASES = {};
+/** Source category slugs that are an alias of another row. */
+export const CATEGORY_ALIASES = {
+	'panorama-carousel': 'carousel-panorama',
+};
 
 /** Map block name → default sidebar category slug. */
 export const BLOCK_NAME_TO_CATEGORY = {

@@ -27,8 +27,7 @@ import { sanitizeItemTextFields } from '../utils/sanitizeItemText';
 import { VIDEO_SOURCE_LABELS } from '../constants/sourceMeta';
 import VideoUrlFieldFeedback from '../ui/VideoUrlFieldFeedback';
 import SocialMediaSelectLocked from './SocialMediaSelectLocked';
-import SpProNotice from '../../../components/pro/proNotice';
-import { PRO_ITEM_SOCIAL_SHARE } from '../constants/proFeatures';
+import PopupCloseButton from './PopupCloseButton';
 import './VideoItemEditPopup.scss';
 import { DeleteIcon } from '../../../admin/pages/saved-templates/icons';
 
@@ -182,6 +181,7 @@ export default function VideoItemEditPopup({
 	return createPortal(
 		<div className="wpcp-item-popup-backdrop" onMouseDown={handleBackdropClick}>
 			<div className="wpcp-video-item-popup" ref={panelRef}>
+				<PopupCloseButton onClose={onBack} />
 				<div className="wpcp-video-item-popup-body">
 					<div className="wpcp-video-item-popup-left">
 						<div className="wpcp-video-item-popup-field">
@@ -293,7 +293,6 @@ export default function VideoItemEditPopup({
 							</span>
 							<SocialMediaSelectLocked />
 						</div>
-						<SpProNotice {...PRO_ITEM_SOCIAL_SHARE} />
 					</div>
 				</div>
 

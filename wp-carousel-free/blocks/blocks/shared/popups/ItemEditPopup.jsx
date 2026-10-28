@@ -7,9 +7,8 @@ import { extractMediaSizeUrls } from '../utils/media';
 import { sanitizeItemPlainText, sanitizeItemTextFields } from '../utils/sanitizeItemText';
 import { flipImageSupported } from '../constants/blockCapabilities';
 import useDialogBehavior from '../hooks/useDialogBehavior';
-import SpProNotice from '../../../components/pro/proNotice';
 import SocialMediaSelectLocked from './SocialMediaSelectLocked';
-import { PRO_ITEM_IMAGE } from '../constants/proFeatures';
+import PopupCloseButton from './PopupCloseButton';
 import './ItemEditPopup.scss';
 
 const SCALE_OPTIONS = [
@@ -266,6 +265,7 @@ export default function ItemEditPopup({
 				aria-label={__('Edit item', 'wp-carousel-free')}
 				id={dialogId}
 			>
+				<PopupCloseButton onClose={onBack} />
 				{/* Body – two columns */}
 				<div className="wpcp-item-popup-body">
 					{/* Left column */}
@@ -425,7 +425,6 @@ export default function ItemEditPopup({
 							</span>
 							<SocialMediaSelectLocked />
 						</div>
-						<SpProNotice {...PRO_ITEM_IMAGE} />
 					</div>
 				</div>
 

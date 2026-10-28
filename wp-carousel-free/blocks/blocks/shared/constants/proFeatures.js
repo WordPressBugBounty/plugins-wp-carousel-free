@@ -264,16 +264,6 @@ export const PRO_HOVER_ANIMATION = {
 	],
 };
 
-/** Item popup upsell — image flipping and per-image sharing. */
-export const PRO_ITEM_IMAGE = {
-	title: __('Personalize Every Image', 'wp-carousel-free'),
-	subtitle: __('Fine-tune each image on its own.', 'wp-carousel-free'),
-	features: [
-		__('Image flipping', 'wp-carousel-free'),
-		__('Choose share networks per image', 'wp-carousel-free'),
-	],
-};
-
 /** Item popup upsell — per-item sharing override. */
 export const PRO_ITEM_SOCIAL_SHARE = {
 	title: __('Personalize Every Item', 'wp-carousel-free'),

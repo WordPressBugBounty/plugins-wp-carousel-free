@@ -279,7 +279,11 @@ if ( $wpcp_hide_on_mobile ) {
 			padding: 0;
 			margin:0;
 		}
-		#sp-wp-carousel-free-id-' . $post_id . '.nav-vertical-center .wpcp-next-button,#sp-wp-carousel-free-id-' . $post_id . '.nav-vertical-center .wpcp-prev-button {
+		#sp-wp-carousel-free-id-' . $post_id . '.nav-top-right {
+			padding-top: 0;
+		}
+		#sp-wp-carousel-free-id-' . $post_id . '.nav-vertical-center .wpcp-next-button,#sp-wp-carousel-free-id-' . $post_id . '.nav-vertical-center .wpcp-prev-button,
+		#sp-wp-carousel-free-id-' . $post_id . '.nav-top-right .wpcp-next-button,#sp-wp-carousel-free-id-' . $post_id . '.nav-top-right .wpcp-prev-button {
 			display: none;
 		}
 	}';

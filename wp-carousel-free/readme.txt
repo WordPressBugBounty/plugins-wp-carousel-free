@@ -4,7 +4,7 @@ Tags: slider, carousel, slideshow, gallery, video slider
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 5.0.0
+Stable tag: 5.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -236,20 +236,27 @@ Yes, WP Carousel works across a WordPress multisite network.
 
 == Changelog ==
 
+= Version 5.0.1 – Oct 28, 2026 =
+* Improved: The image and video item edit popups now have a close button.
+* Fixed: The navigation Hide on Mobile option now works with the Top Right arrow position.
+* Fixed: The pagination settings now show for the Slider layout.
+* Fixed: The Ready Patterns sidebar now shows icons for the 3D Carousel, Grid, Masonry, and Justified blocks.
+* Fixed: The Panorama Carousel patterns and View Demo link now open the correct category.
+
 = Version 5.0.0 – Oct 26, 2026 =
-- New: The 3D Carousel block with the Coverflow style, featuring images, videos, posts, or products.
-- New: The Grid block to display images, videos, posts, or products in a responsive column grid.
-- New: All twelve navigation arrow icon styles are now available in the carousel blocks.
-- New: The Classic Shortcode block can be turned on or off from the Blocks page.
-- Improved: The Saved Templates list now shows which carousel block each template uses.
-- Improved: The Clear Cached option now also clears the generated block stylesheets.
-- Improved: The Ready Patterns library is now available to Editors and Administrators only.
-- Fixed: Blocks no longer add lightbox links while the Lightbox module is turned off.
-- Fixed: A PHP warning in the gallery field for images with missing metadata.
-- Fixed: Image details can now be edited only for media files the user is allowed to edit.
-- Fixed: Plugin settings can now be saved only by users with the required permission.
-- Fixed: Carousel blocks no longer show details of private or password-protected media and posts.
-- Updated: The Swiper library in shortcode carousels to version 12.1.2.
+* New: The 3D Carousel block with the Coverflow style, featuring images, videos, posts, or products.
+* New: The Grid block to display images, videos, posts, or products in a responsive column grid.
+* New: All twelve navigation arrow icon styles are now available in the carousel blocks.
+* New: The Classic Shortcode block can be turned on or off from the Blocks page.
+* Improved: The Saved Templates list now shows which carousel block each template uses.
+* Improved: The Clear Cached option now also clears the generated block stylesheets.
+* Improved: The Ready Patterns library is now available to Editors and Administrators only.
+* Fixed: Blocks no longer add lightbox links while the Lightbox module is turned off.
+* Fixed: A PHP warning in the gallery field for images with missing metadata.
+* Fixed: Image details can now be edited only for media files the user is allowed to edit.
+* Fixed: Plugin settings can now be saved only by users with the required permission.
+* Fixed: Carousel blocks no longer show details of private or password-protected media and posts.
+* Updated: The Swiper library in shortcode carousels to version 12.1.2.
 
 = Version 4.0.1 – Oct 13, 2026 =
 * New: Added the "Contribute to WP Carousel" option in Settings → Advanced Controls to let you opt in to sharing anonymous usage data and help improve the plugin.

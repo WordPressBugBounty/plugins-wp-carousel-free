@@ -1270,7 +1270,7 @@ class Lightbox_Icon_Helper {
 				continue;
 			}
 			// The position class has to follow every selector in the list, not just the last one.
-			$scoped = array_map(
+			$scoped  = array_map(
 				static function ( string $selector ) use ( $position ): string {
 					return $selector . '.wpcp-position-' . $position;
 				},

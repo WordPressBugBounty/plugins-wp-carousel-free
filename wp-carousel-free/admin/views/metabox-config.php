@@ -2637,7 +2637,7 @@ SP_WPCF::createSection(
 										'text_on'    => __( 'Show', 'wp-carousel-free' ),
 										'text_off'   => __( 'Hide', 'wp-carousel-free' ),
 										'text_width' => 80,
-										'dependency' => array( 'wpcp_carousel_mode|wpcp_layout', '!=|==', 'ticker|carousel', true ),
+										'dependency' => array( 'wpcp_carousel_mode|wpcp_layout', '!=|any', 'ticker|carousel,slider', true ),
 									),
 									array(
 										'id'         => 'wpcp_pagination_hide_on_mobile',
@@ -2645,7 +2645,7 @@ SP_WPCF::createSection(
 										'class'      => 'wpcp_hide_on_mobile',
 										'title'      => __( 'Hide on Mobile', 'wp-carousel-free' ),
 										'default'    => false,
-										'dependency' => array( 'wpcp_carousel_mode|wpcp_layout|wpcp_pagination', '!=|==|==', 'ticker|carousel|true', true ),
+										'dependency' => array( 'wpcp_carousel_mode|wpcp_layout|wpcp_pagination', '!=|any|==', 'ticker|carousel,slider|true', true ),
 									),
 								),
 							),
@@ -2685,7 +2685,7 @@ SP_WPCF::createSection(
 								),
 								'radio'      => true,
 								'default'    => 'dots',
-								'dependency' => array( 'wpcp_pagination|wpcp_carousel_mode|wpcp_layout', '!=|!=|==', 'false|ticker|carousel', true ),
+								'dependency' => array( 'wpcp_pagination|wpcp_carousel_mode|wpcp_layout', '!=|!=|any', 'false|ticker|carousel,slider', true ),
 							),
 							array(
 								'id'          => 'wpcp_pagination_margin',
@@ -2703,7 +2703,7 @@ SP_WPCF::createSection(
 									'left'   => '0',
 									'unit'   => 'px',
 								),
-								'dependency'  => array( 'wpcp_pagination|wpcp_carousel_mode|wpcp_layout', '!=|!=|==', 'false|ticker|carousel', true ),
+								'dependency'  => array( 'wpcp_pagination|wpcp_carousel_mode|wpcp_layout', '!=|!=|any', 'false|ticker|carousel,slider', true ),
 							),
 							array(
 								'id'         => 'wpcp_pagination_color',
