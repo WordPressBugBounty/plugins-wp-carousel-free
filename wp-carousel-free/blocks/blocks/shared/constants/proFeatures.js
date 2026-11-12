@@ -125,12 +125,11 @@ export const PRO_TILES_LAYOUT_VIDEO = {
 	],
 };
 
-/** Navigation Arrow upsell — locked arrow styles, Show on Hover and the extra positions. */
+/** Navigation Arrow upsell — Show on Hover and the extra positions. */
 export const PRO_NAVIGATION = {
 	title: __('Guide Every Slide in Style', 'wp-carousel-free'),
 	subtitle: __('Navigation that matches your design.', 'wp-carousel-free'),
 	features: [
-		__('All arrow styles', 'wp-carousel-free'),
 		__('Show arrows on hover', 'wp-carousel-free'),
 		__('6 more arrow positions', 'wp-carousel-free'),
 	],

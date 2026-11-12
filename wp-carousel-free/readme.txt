@@ -4,7 +4,7 @@ Tags: slider, carousel, slideshow, gallery, video slider
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 5.0.1
+Stable tag: 5.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -235,6 +235,11 @@ Yes, WP Carousel works across a WordPress multisite network.
 
 
 == Changelog ==
+
+= Version 5.0.2 – Nov 12, 2026 =
+* Fixed: The 3D Carousel View Demo link on the Blocks page now opens the correct Ready Patterns category.
+* Fixed: The Navigation upgrade notice no longer lists arrow styles, which are all available in the free version.
+* Tested: WooCommerce 11.3.0 compatibility.
 
 = Version 5.0.1 – Oct 28, 2026 =
 * Improved: The image and video item edit popups now have a close button.

@@ -99,6 +99,7 @@ function sp_wpcf_delete_plugin_data() {
 	// Delete offer banner related option keys.
 	delete_option( 'shapedplugin_offer_banner_dismissed_black_friday_2025' );
 	delete_option( 'shapedplugin_offer_banner_dismissed_new_year_2026' );
+	delete_option( 'shapedplugin_bfcm_2026_dismissed' );
 
 	// Generated block CSS and the shared Ready Patterns manifest cache. Reached only
 	// past the sp_wpcf_pro_is_installed() guard above, so Pro is gone and nothing is

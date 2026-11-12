@@ -9,7 +9,10 @@ import { blockPreviewPanelLink } from '../../../controls/constants';
 const READY_PATTERNS_URL = 'https://wpcarousel.io/ready-patterns/';
 
 // Blocks the product site files under a different category slug.
-const READY_PATTERNS_SLUGS = { 'carousel-panorama': 'panorama-carousel' };
+const READY_PATTERNS_SLUGS = {
+	'carousel-panorama': 'panorama-carousel',
+	'carousel-3d': '3d-carousel',
+};
 
 /**
  * Accessible name for a block's switch, which also has to explain why it is off.

@@ -9,7 +9,7 @@
  * Plugin Name:       WP Carousel
  * Plugin URI:        https://wpcarousel.io/
  * Description:       Create beautiful image carousels, sliders, video sliders, video galleries, and photo galleries with built-in Lightbox. Easily showcase images, videos, posts, and WooCommerce products with responsive layouts, grids, and fast performance—no code required.
- * Version:           5.0.1
+ * Version:           5.0.2
  * Author:            ShapedPlugin LLC
  * Author URI:        https://shapedplugin.com/
  * License:           GPL-2.0+
@@ -18,7 +18,7 @@
  * Domain Path:       /languages
  * Requires PHP: 7.4
  * WC requires at least: 6.4
- * WC tested up to:   11.2.1
+ * WC tested up to:   11.3.0
  */
 
 // If this file is called directly, abort.
@@ -227,7 +227,7 @@ class SP_WP_Carousel_Free {
 	 */
 	public function setup() {
 		$this->plugin_name = 'wp-carousel-free';
-		$this->version     = '5.0.1';
+		$this->version     = '5.0.2';
 		$this->define_constants();
 		$this->includes();
 		$this->load_dependencies();
@@ -485,13 +485,19 @@ function sp_wpcf() {
 	$plugin = SP_WP_Carousel_Free::init();
 	$plugin->loader->run();
 
-	if ( ! defined( 'SHAPEDPLIUGIN_OFFER_BANNER_LOADED' ) ) {
-		define( 'SHAPEDPLIUGIN_OFFER_BANNER_LOADED', true );
+	if ( is_admin() ) {
+		// Shared ShapedPlugin BFCM notice: one notice across all active ShapedPlugin free plugins.
+		require_once WPCAROUSELF_PATH . 'admin/views/notices/shapedplugin-bfcm-notice.php';
 
-		/**
-		 * The file is responsible for generating admin offer banner.
-		 */
-		include_once plugin_dir_path( __FILE__ ) . '/admin/views/notices/offer-banner.php';
+		ShapedPlugin_BFCM_Notice_2026::register(
+			array(
+				'slug'       => 'wp-carousel-free',
+				'name'       => 'WP Carousel Pro',
+				'image'      => WPCAROUSELF_URL . 'admin/img/offer-banner/bfcm-notice-2026.webp',
+				'link'       => 'https://wpcarousel.io/pricing/?utm_source=dashboard&utm_medium=wpc_dealbutton&utm_campaign=bfcm26',
+				'post_types' => array( 'sp_wp_carousel', 'sp_wpcp_template' ),
+			)
+		);
 	}
 }
 
